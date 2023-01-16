@@ -4,36 +4,36 @@ import { useSelector } from "react-redux";
 import { FaAngleRight } from "react-icons/fa";
 import { controller } from "../../../../src/state/StateController";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface Props {
   menu: any;
   open: boolean;
   idx: number;
   menuOpen: number | null;
-  setMenuOpen: Function;
+  // setMenuOpen: Function;
+  handleMenuClick: Function;
 }
 
 const MenuItem: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const router = useRouter();
 
-  const { menu, open, idx, menuOpen, setMenuOpen } = props;
-
-  const handleClick = () => {
-    if (menuOpen === idx) {
-      setMenuOpen(null);
-    } else {
-      setMenuOpen(idx);
-    }
-  };
+  const { menu, open, idx, menuOpen, handleMenuClick } = props;
 
   return (
     <li
+      onClick={() => {
+        if (menu.link) {
+          router.push(menu.link)
+        }
+      }}
       className={`grid cursor-pointer text-sm ${
         menuOpen === idx ? "bg-[#f8fafb]" : ""
       }`}
     >
       <div
-        onClick={handleClick}
+        onClick={() => handleMenuClick(menuOpen, idx)}
         className={`${
           !open ? "min-h-[65px]" : "min-h-[50px]"
         } duration-300 relative px-5 hover:bg-[#f8fafb] ${
@@ -79,16 +79,16 @@ const MenuItem: React.FC<Props> = (props) => {
           } overflow-hidden duration-300`}
         >
           <ul>
-            {menu.nestedRoutes.map((menu: any, idx: number) => (
+            {menu.nestedRoutes.map((nestedMenu: any, idx: number) => (
               <li
                 key={idx}
                 className={` ${
                   !open ? "px-12" : "pl-[65px]"
                 } h-[35px] flex items-center`}
               >
-                <Link href={menu?.link}>
+                <Link href={nestedMenu?.link}>
                   <span className="flex-1 text-[13px] hover:text-[#6777ef]">
-                    {menu?.title}
+                    {nestedMenu?.title}
                   </span>
                 </Link>
               </li>

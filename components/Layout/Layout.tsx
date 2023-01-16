@@ -15,15 +15,26 @@ const Layout: React.FC<Props> = ({ children }) => {
   const [open, setOpen] = useState(true);
   const [responsiveOpen, setResponsiveOpen] = useState(false);
   const [show, setShow] = useState(false);
+  const [menuOpen, setMenuOpen] = useState<null|number>(null);
+
+  const handleMenuClick = (menuOpen: number, idx: number) => {
+    if (menuOpen === idx) {
+      setMenuOpen(null);
+    } else {
+      setMenuOpen(idx);
+    }
+  };
 
   return (
     <div className="flex h-screen overflow-y-hidden bg-[#f4f6f9]">
       {/* left side bar */}
-      <Sidebar open={open} responsiveOpen={responsiveOpen} />
+      <Sidebar open={open} responsiveOpen={responsiveOpen} menuOpen={menuOpen} handleMenuClick={handleMenuClick} />
+
       {
         responsiveOpen && <div onClick={() => {
           setOpen(!open);
           setResponsiveOpen(false);
+          setMenuOpen(0);
         }} className="fixed z-10 opacity-40 bg-black top-0 left-0 right-0 bottom-0"></div>
       }
 

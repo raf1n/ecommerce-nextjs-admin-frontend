@@ -782,7 +782,7 @@ export class Jsondata {
   ];
 
   static menus = [
-    { title: "Dashboard", icon: FaHome, gap: false },
+    { title: "Dashboard", icon: FaHome, gap: false, link: "/" },
     {
       title: "Orders",
       icon: FaShoppingCart,
