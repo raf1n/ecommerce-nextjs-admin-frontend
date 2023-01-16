@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 import { FaAngleRight } from "react-icons/fa";
 import { controller } from "../../../../src/state/StateController";
+import Link from "next/link";
 
 interface Props {
   menu: any;
@@ -85,9 +86,11 @@ const MenuItem: React.FC<Props> = (props) => {
                   !open ? "px-12" : "pl-[65px]"
                 } h-[35px] flex items-center`}
               >
-                <span className="flex-1 text-[13px] hover:text-[#6777ef]">
-                  {menu.title}
-                </span>
+                <Link href="/all_orders">
+                  <span className="flex-1 text-[13px] hover:text-[#6777ef]">
+                    {menu.title}
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>

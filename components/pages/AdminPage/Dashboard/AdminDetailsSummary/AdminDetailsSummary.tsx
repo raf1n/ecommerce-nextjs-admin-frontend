@@ -9,12 +9,17 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
   return (
-    <div style={{ padding: "25px" }} className={`${Styles["section"]} mt-12`}>
-      <div className={`${Styles["section-header"]}`}>
-        <h1>Dashboard</h1>
+    <div>
+      <div
+        className="flex justify-between  bg-white my-12 rounded-[3px]"
+        style={{ margin: "25px", padding: "20px", height: "72px" }}
+      >
+        <div>
+          <h1 className="text-2xl font-semibold">Dashboard</h1>
+        </div>
       </div>
-      <div className="section-body">
-        <div className="p-4 w-full">
+      <div className="section-body mx-2">
+        <div className="px-4 w-full">
           <div className="grid grid-cols-12 gap-4">
             {Jsondata.dashboardSummaryData.map((data) => (
               <div className="col-span-12 sm:col-span-6 md:col-span-3">
