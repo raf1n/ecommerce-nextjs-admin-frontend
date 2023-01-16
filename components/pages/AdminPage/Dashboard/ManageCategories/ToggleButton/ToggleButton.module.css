@@ -1,0 +1,8 @@
+.shadow-active {
+  box-shadow: 0 2px 6px #81d694;
+  border-color: #47c363;
+}
+.shadow-inactive {
+  box-shadow: 0 2px 6px #fd9b96;
+  border-color: #fd9b96;
+}
