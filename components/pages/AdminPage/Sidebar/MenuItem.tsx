@@ -19,6 +19,8 @@ const MenuItem: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const router = useRouter();
 
+  const { asPath } = router;
+
   const { menu, open, idx, menuOpen, handleMenuClick } = props;
 
   return (
@@ -71,7 +73,7 @@ const MenuItem: React.FC<Props> = (props) => {
       {menu.nestedRoutes && (
         <div
           className={`${
-            menuOpen === idx ? `h-[${menu.height}]` : "h-0 invisible opacity-0"
+            menuOpen === idx ? `h-[${menu.height}] visible opacity-100` : "h-0 invisible opacity-0"
           } ${
             !open
               ? "absolute left-[65px] bg-white w-max shadow-lg py-2 rounded-tr-md rounded-br-md"
@@ -86,7 +88,7 @@ const MenuItem: React.FC<Props> = (props) => {
                   !open ? "px-12" : "pl-[65px]"
                 } h-[35px] flex items-center`}
               >
-                <Link href={nestedMenu?.link}>
+                <Link href={nestedMenu?.link} className={`${asPath === nestedMenu?.link ? "text-[#6777ef]" : ""}`}>
                   <span className="flex-1 text-[13px] hover:text-[#6777ef]">
                     {nestedMenu?.title}
                   </span>

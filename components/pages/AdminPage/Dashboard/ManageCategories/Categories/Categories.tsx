@@ -28,18 +28,8 @@ const Categories: React.FC<Props> = (props) => {
         link="/Product Category"
       ></DashboardBreadcrumb>
       <div className="m-10">
-        {/* <div className={`${styles["section-header"]}  justify-between`}>
-          <h1 className={`${styles["title"]} `}>Product Category</h1>
-          <div className={`${styles["section-header-breadcrumb"]} `}> */}
-
-        {/* </div>
-        </div> */}
         <div className="section-body">
           <a href="">
-            {/* <button className=" flex items-center justify-center bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-3 rounded">
-              <BiPlus className=" h-6 w-6" />
-              <span>Add New</span>
-            </button> */}
             <SharedAddNewButton></SharedAddNewButton>
           </a>
           <div>
