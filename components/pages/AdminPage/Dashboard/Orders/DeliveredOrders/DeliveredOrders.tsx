@@ -2,9 +2,9 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 import Table from "../../../../../shared/SharedTable/Table";
-import DashboardBreadcrumb from "../../../../AdminProfile/DashboardBreadcrumb";
+import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 
-interface Props { }
+interface Props {}
 
 const DeliveredOrders: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);

@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../src/state/StateController";
 
-interface Props { }
+interface Props {}
 
 const AdminLogin: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
@@ -13,7 +13,7 @@ const AdminLogin: React.FC<Props> = (props) => {
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0  ">
           <a
             href="#"
-            className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+            className="flex items-center mb-6 text-2xl font-semibold text-gray-900"
           >
             <img
               className="mr-2"
@@ -23,19 +23,17 @@ const AdminLogin: React.FC<Props> = (props) => {
             {/* ShopO */}
           </a>
           <div
-            className="w-full bg-white rounded shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+            className="w-full bg-white rounded shadow  md:mt-0 sm:max-w-md xl:p-0"
             style={{ borderTop: "2px solid blue" }}
           >
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 className="text-sm text-blue-600   md:text-2xl">
-                Login
-              </h1>
+              <h1 className="text-sm text-blue-600   md:text-2xl">Login</h1>
               <hr />
               <form className="space-y-4 md:space-y-6" action="#">
                 <div>
                   <label
                     htmlFor="email"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-sm font-medium text-gray-900 "
                   >
                     Email
                   </label>
@@ -51,7 +49,7 @@ const AdminLogin: React.FC<Props> = (props) => {
                 <div>
                   <label
                     htmlFor="password"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-sm font-medium text-gray-900"
                   >
                     Password
                   </label>
@@ -76,10 +74,7 @@ const AdminLogin: React.FC<Props> = (props) => {
                       />
                     </div>
                     <div className="ml-3 text-sm">
-                      <label
-                        htmlFor="remember"
-                        className="text-gray-500 dark:text-gray-300"
-                      >
+                      <label htmlFor="remember" className="text-gray-500">
                         Remember me
                       </label>
                     </div>

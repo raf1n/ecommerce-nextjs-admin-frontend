@@ -20,9 +20,10 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
               <div className="col-span-12 sm:col-span-6 md:col-span-3">
                 <div className="flex flex-row bg-white shadow-sm rounded p-2 justify-center items-center">
                   <div
-                    className={`flex items-center justify-center flex-shrink-0 h-14 w-14 p-2 ${data?.bgColor}  border`}
+                    className={`flex items-center justify-center flex-shrink-0 h-14 w-14 p-2   border`}
+                    style={{ backgroundColor: data.bgColor }}
                   >
-                    <data.icons className="w-8 h-8 text-white"></data.icons>
+                    <data.icons className="w-6 h-6 text-white"></data.icons>
                   </div>
                   <div className="flex flex-col flex-grow ml-4">
                     <div className="text-sm text-gray-500">{data?.title}</div>
