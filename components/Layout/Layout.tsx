@@ -5,7 +5,7 @@ import Sidebar from "../pages/AdminPage/Sidebar/Sidebar";
 import { FaBars, FaHome, FaSignOutAlt } from "react-icons/fa";
 import { MdArrowDropDown } from "react-icons/md";
 import { HiOutlineUser } from "react-icons/hi";
-import styles from "../components/pages/AdminPage/Dashboard/Dashboard.module.css";
+import styles from "../pages/AdminPage/Dashboard/Dashboard.module.css";
 interface Props {
   children: any;
 }
@@ -20,14 +20,20 @@ const Layout: React.FC<Props> = ({ children }) => {
     <div className="flex h-screen overflow-y-hidden bg-[#f4f6f9]">
       {/* left side bar */}
       <Sidebar open={open} responsiveOpen={responsiveOpen} />
+      {
+        responsiveOpen && <div onClick={() => {
+          setOpen(!open);
+          setResponsiveOpen(false);
+        }} className="fixed z-10 opacity-40 bg-black top-0 left-0 right-0 bottom-0"></div>
+      }
 
       {/* right side dashboard */}
-      <div className="flex-1 overflow-y-auto relative">
-        <div className="flex flex-row justify-between h-[115px] relative bg-[#6777ef]">
-          <div className="relative">
+      <div className="flex-1 overflow-y-auto">
+        <div className="flex flex-row justify-between h-[115px] bg-[#6777ef]">
+          <div className="flex-1 flex items-center pl-[24px]">
             {/* for big screen: hamberger */}
             <FaBars
-              className={`absolute cursor-pointer hidden lg:block top- w-16 rounded-full duration-300 text-white`}
+              className={` cursor-pointer hidden w-5 h-5 lg:block duration-300 text-white`}
               onClick={() => {
                 setOpen(!open);
                 setResponsiveOpen(false);
@@ -35,7 +41,7 @@ const Layout: React.FC<Props> = ({ children }) => {
             />
             {/* for small screen: hamberger */}
             <FaBars
-              className={`left-[270px] absolute cursor-pointer block lg:hidden  top-6 w-7 rounded-full duration-300 text-white`}
+              className={` cursor-pointer w-5 h-5 block lg:hidden duration-300 ease-in text-white`}
               onClick={() => {
                 setResponsiveOpen(!responsiveOpen);
                 setOpen(true);

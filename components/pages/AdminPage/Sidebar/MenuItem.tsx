@@ -86,9 +86,9 @@ const MenuItem: React.FC<Props> = (props) => {
                   !open ? "px-12" : "pl-[65px]"
                 } h-[35px] flex items-center`}
               >
-                <Link href="/all_orders">
+                <Link href={menu?.link}>
                   <span className="flex-1 text-[13px] hover:text-[#6777ef]">
-                    {menu.title}
+                    {menu?.title}
                   </span>
                 </Link>
               </li>
