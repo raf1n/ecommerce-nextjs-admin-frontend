@@ -10,13 +10,15 @@ import Link from "next/link";
 interface Props {
   open: boolean;
   responsiveOpen: boolean;
+  menuOpen: number | null;
+  handleMenuClick: Function;
 }
 
 const Sidebar: React.FC<Props> = (props) => {
-  const { open, responsiveOpen } = props;
+  const { open, responsiveOpen, menuOpen, handleMenuClick } = props;
   const states = useSelector(() => controller.states);
 
-  const [menuOpen, setMenuOpen] = useState(0);
+  // const [menuOpen, setMenuOpen] = useState(0);
 
   return (
     <div
@@ -38,7 +40,8 @@ const Sidebar: React.FC<Props> = (props) => {
             open={open}
             idx={index}
             menuOpen={menuOpen}
-            setMenuOpen={setMenuOpen}
+            // setMenuOpen={setMenuOpen}
+            handleMenuClick={handleMenuClick}
           />
         ))}
       </ul>
