@@ -782,7 +782,7 @@ export class Jsondata {
   ];
 
   static menus = [
-    { title: "Dashboard", icon: FaHome, gap: false },
+    { title: "Dashboard", icon: FaHome, gap: false, link: "/" },
     {
       title: "Orders",
       icon: FaShoppingCart,
@@ -790,31 +790,31 @@ export class Jsondata {
       nestedRoutes: [
         {
           title: "All Orders",
-          link: "/all-orders",
+          link: "/all_orders",
         },
         {
           title: "Pending Orders",
-          link: "/pending-orders",
+          link: "/pending_orders",
         },
         {
           title: "Progress Orders",
-          link: "/progress-orders",
+          link: "/progress_orders",
         },
         {
           title: "Delivered Orders",
-          link: "/delivered-orders",
+          link: "/delivered_orders",
         },
         {
           title: "Completed Orders",
-          link: "/completed-orders",
+          link: "/completed_orders",
         },
         {
           title: "Declined Orders",
-          link: "/declined-orders",
+          link: "/declined_orders",
         },
         {
           title: "Cash On Delivery",
-          link: "/cash-on-delivery",
+          link: "/cash_on_delivery",
         },
       ],
     },
@@ -825,27 +825,27 @@ export class Jsondata {
       nestedRoutes: [
         {
           title: "Categories",
-          link: "/categories",
+          link: "/product_categories",
         },
         {
           title: "Sub Categories",
-          link: "/sub-categories",
+          link: "/product_sub_categories",
         },
         {
           title: "Child Categories",
-          link: "/child-categories",
+          link: "/product_child_categories",
         },
         {
           title: "Mega Menu Category",
-          link: "/mega-menu-category",
+          link: "/mega_menu_category",
         },
         {
           title: "Popular Category",
-          link: "/popular-category",
+          link: "/popular_category",
         },
         {
           title: "Featured Category",
-          link: "/featured-category",
+          link: "/featured_category",
         },
       ],
     },
@@ -856,11 +856,11 @@ export class Jsondata {
       nestedRoutes: [
         {
           title: "Brands",
-          link: "/brands",
+          link: "/product_brands",
         },
         {
           title: "Create Product",
-          link: "/create-product",
+          link: "/create_product",
         },
         {
           title: "Products",
@@ -868,27 +868,27 @@ export class Jsondata {
         },
         {
           title: "Stock Out",
-          link: "/stock-out",
+          link: "/stock_out",
         },
         {
           title: "Seller Products",
-          link: "/seller-products",
+          link: "/seller_products",
         },
         {
           title: "Seller Pending Products",
-          link: "/seller-pending-products",
+          link: "/seller_pending_products",
         },
         {
           title: "Specification Key",
-          link: "/specification-key",
+          link: "/specification_key",
         },
         {
           title: "Product Reviews",
-          link: "/product-reviews",
+          link: "/product_reviews",
         },
         {
           title: "Product Report",
-          link: "/product-report",
+          link: "/product_report",
         },
       ],
     },

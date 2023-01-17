@@ -24,7 +24,7 @@ const ToggleButton: React.FC<Props> = (props) => {
         <span className="bg-green-500 text-xs text-white grid place-items-center">
           Active
         </span>
-        <span className=" border-blue-500 inline-block w-[15px] h-8 rounded bg-white"></span>
+        <span className="w-[15px] h-8 bg-white hover:bg-slate-200"></span>
         <span className="bg-red-500  text-white grid place-items-center text-xs">
           Inactive
         </span>
