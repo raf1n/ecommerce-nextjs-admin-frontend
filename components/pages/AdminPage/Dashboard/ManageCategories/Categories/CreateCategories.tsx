@@ -11,7 +11,7 @@ const CreateCategories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
   return (
-    <div className="w-full mt-10">
+    <div className="w-full">
       <DashboardBreadcrumb
         headline="Create Product Category"
         link="create-product-category"
@@ -61,7 +61,7 @@ const CreateCategories: React.FC<Props> = (props) => {
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
-                      name="name"
+                      name="icon"
                       id=""
                     />
                   </div>
@@ -77,7 +77,7 @@ const CreateCategories: React.FC<Props> = (props) => {
                     </div>
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      type="email"
+                      type="text"
                       name="name"
                       id=""
                     />
@@ -95,7 +95,7 @@ const CreateCategories: React.FC<Props> = (props) => {
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
-                      name=""
+                      name="slug"
                       id=""
                     />
                   </div>
@@ -119,7 +119,10 @@ const CreateCategories: React.FC<Props> = (props) => {
                     </select>
                   </div>
                   <div className="mt-4">
-                    <button className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
+                    <button
+                      type="submit"
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
+                    >
                       Update
                     </button>
                   </div>

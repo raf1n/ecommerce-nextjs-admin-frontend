@@ -13,7 +13,7 @@ const SharedGoBackButton: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
   return (
-    <Link href={props.link}>
+    <Link href={props.link} className="inline-block">
       <button className=" flex items-center justify-center bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-3 rounded">
         <FaList className="h-4 w-4 mr-2" />
         <span>{props.title}</span>
