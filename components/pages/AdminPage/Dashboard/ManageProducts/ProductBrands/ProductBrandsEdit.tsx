@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { useSelector } from "react-redux";
 import { controller } from "./../../../../../../src/utils/StateController";
@@ -6,15 +7,15 @@ import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/Share
 
 interface Props {}
 
-const ProductBrandsCreate: React.FC<Props> = (props) => {
+const ProductBrandsEdit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
   return (
     <div className="w-full ">
       <DashboardBreadcrumb
-        headline="Create Product Brand"
-        link="/product_brands/create"
-        slug="Create Product Brand"
+        headline="Edit Product Brand"
+        link="/product_brands/edit"
+        slug="Edit Product Brand"
       ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
@@ -28,9 +29,22 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
         <div className="mt-4">
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6">
+              <div>
+                <label className="text-sm tracking-[.5px] text-[#34395e] font-semibold">Existing Logo</label>
+                <div>
+                  <Image
+                    className="mt-4"
+                    loader={() => "https://api.websolutionus.com/shopo/uploads/custom-images/mircrosoft-2022-09-25-04-16-10-7094.png"}
+                    src="https://api.websolutionus.com/shopo/uploads/custom-images/mircrosoft-2022-09-25-04-16-10-7094.png"
+                    width={100}
+                    height={100}
+                    alt=""
+                  />
+                </div>
+              </div>
               <form action="">
                 <div>
-                  <div className="form-group grid text-sm">
+                  <div className="form-group grid text-sm mt-4">
                     <label
                       className="text-sm tracking-[.5px] text-[#34395e] font-semibold"
                       htmlFor=""
@@ -61,6 +75,7 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
                       name="name"
+                      defaultValue="Mircrosoft"
                       id=""
                       required
                     />
@@ -78,6 +93,7 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
                       name="slug"
+                      defaultValue="mircrosoft"
                       id=""
                     />
                   </div>
@@ -96,7 +112,9 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
                       id=""
                       required
                     >
-                      <option value="active">Active</option>
+                      <option value="active" selected>
+                        Active
+                      </option>
                       <option value="inactive">InActive</option>
                     </select>
                   </div>
@@ -118,4 +136,4 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
   );
 };
 
-export default ProductBrandsCreate;
+export default ProductBrandsEdit;

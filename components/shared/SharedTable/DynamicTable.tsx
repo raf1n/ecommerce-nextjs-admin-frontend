@@ -4,6 +4,7 @@ import { controller } from "../../../src/state/StateController";
 import { FaEdit, FaEye, FaTrash, FaTruck } from "react-icons/fa";
 import ToggleButton from "../../pages/AdminPage/Dashboard/ManageCategories/ToggleButton/ToggleButton";
 import Image from "next/image";
+import { useRouter } from 'next/router';
 interface Props {
   tableHeaders: Array<string>;
   actions: {
@@ -17,6 +18,9 @@ interface Props {
 
 const DynamicTable: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+
+  const router = useRouter();
+  const { asPath } = router;
 
   const { tableHeaders, actions, testDynamicTableData } = props;
 
@@ -173,7 +177,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                           )}
                           {actions.isEditable && (
                             <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
-                              <span className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center">
+                              <span onClick={() => router.push(`${asPath}/${row.id}/edit`)} className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center">
                                 <FaEdit />
                               </span>
                             </span>
