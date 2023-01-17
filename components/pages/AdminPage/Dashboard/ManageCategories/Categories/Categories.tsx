@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 import ToggleButton from "../ToggleButton/ToggleButton";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import Link from "next/link";
 
 interface Props {}
 
@@ -29,9 +30,9 @@ const Categories: React.FC<Props> = (props) => {
       ></DashboardBreadcrumb>
       <div className="m-10">
         <div className="section-body">
-          <a href="">
+          <Link href="product_categories/create">
             <SharedAddNewButton></SharedAddNewButton>
-          </a>
+          </Link>
           <div>
             <div style={{ marginTop: "25px", backgroundColor: "white" }}>
               <div className="p-4 rounded w-full">

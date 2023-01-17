@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import { controller } from "../../../src/state/StateController";
 
 import { useState } from "react";
-import Sidebar from "./Sidebar/Sidebar";
+// import Sidebar from "./Sidebar/Sidebar";
 import Dashboard from "./Dashboard/Dashboard";
+import Sidebar from "./Sidebar/Sidebar";
 interface Props {}
 
 const AdminPage: React.FC<Props> = (props) => {
@@ -14,13 +15,13 @@ const AdminPage: React.FC<Props> = (props) => {
 
   return (
     <div className="flex h-screen overflow-y-hidden bg-[#f4f6f9]">
-      <Sidebar open={open} responsiveOpen={responsiveOpen} />
-      <Dashboard
+      {/* <Sidebar open={open} responsiveOpen={responsiveOpen} /> */}
+      {/* <Dashboard
         open={open}
         setOpen={setOpen}
         responsiveOpen={responsiveOpen}
         setResponsiveOpen={setResponsiveOpen}
-      />
+      /> */}
     </div>
   );
 };

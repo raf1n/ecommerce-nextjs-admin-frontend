@@ -2,8 +2,11 @@ import React from "react";
 import { BiPlus } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { controller } from "../../../src/state/StateController";
+import Link from "next/link";
 
-interface Props {}
+interface Props {
+  // link: string;
+}
 
 const SharedAddNewButton: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
