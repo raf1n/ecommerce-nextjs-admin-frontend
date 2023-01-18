@@ -860,7 +860,7 @@ export class Jsondata {
         },
         {
           title: "Create Product",
-          link: "/create_product",
+          link: "/products/create",
         },
         {
           title: "Products",
@@ -1228,4 +1228,51 @@ export class Jsondata {
         "https://shopo-ecom.vercel.app/_next/image?url=https%3A%2F%2Fapi.websolutionus.com%2Fshopo%2Fuploads%2Fcustom-images%2Fjbl-clip-4-orange-portable-speaker-2022-09-27-03-24-27-9922.png&w=1920&q=75",
     },
   ];
+
+  static productBrandsData = [
+    {
+      id: 1,
+      name: "LG",
+      slug: "lg",
+      logo: "https://api.websolutionus.com/shopo/uploads/custom-images/oneplus-2022-09-25-04-15-53-8330.png",
+      status: "active"
+    },
+    {
+      id: 2,
+      name: "LG",
+      slug: "lg",
+      logo: "https://api.websolutionus.com/shopo/uploads/custom-images/oneplus-2022-09-25-04-15-53-8330.png",
+      status: "inactive"
+    },
+    {
+      id: 3,
+      name: "LG",
+      slug: "lg",
+      logo: "https://api.websolutionus.com/shopo/uploads/custom-images/oneplus-2022-09-25-04-15-53-8330.png",
+      status: "active"
+    },
+  ]
+
+  static adminProductsData = [
+    {
+      id: 1,
+      name: "Mi Laptop Pro",
+      currentPrice: 45000,
+      slug: "mi-laptop-pro",
+      image:
+        "https://shopo-ecom.vercel.app/_next/image?url=https%3A%2F%2Fapi.websolutionus.com%2Fshopo%2Fuploads%2Fcustom-images%2Fmi-laptop-pro-2022-09-26-01-22-47-3531.png&w=1920&q=75",
+      type: ["New", "Featured", "Best"],
+      status: "active",
+    },
+    {
+      id: 2,
+      name: "Mi Laptop Pro",
+      currentPrice: 45000,
+      slug: "mi-laptop-pro",
+      image:
+        "https://shopo-ecom.vercel.app/_next/image?url=https%3A%2F%2Fapi.websolutionus.com%2Fshopo%2Fuploads%2Fcustom-images%2Fmi-laptop-pro-2022-09-26-01-22-47-3531.png&w=1920&q=75",
+      type: ["New", "Featured", "Best"],
+      status: "inactive",
+    },
+  ]
 }
