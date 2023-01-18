@@ -1258,7 +1258,7 @@ export class Jsondata {
       id: 1,
       name: "Mi Laptop Pro",
       currentPrice: 45000,
-      slug: "mi-laptop-pro",
+      link: "mi-laptop-pro",
       image:
         "https://shopo-ecom.vercel.app/_next/image?url=https%3A%2F%2Fapi.websolutionus.com%2Fshopo%2Fuploads%2Fcustom-images%2Fmi-laptop-pro-2022-09-26-01-22-47-3531.png&w=1920&q=75",
       type: ["New", "Featured", "Best"],
@@ -1268,7 +1268,7 @@ export class Jsondata {
       id: 2,
       name: "Mi Laptop Pro",
       currentPrice: 45000,
-      slug: "mi-laptop-pro",
+      link: "mi-laptop-pro",
       image:
         "https://shopo-ecom.vercel.app/_next/image?url=https%3A%2F%2Fapi.websolutionus.com%2Fshopo%2Fuploads%2Fcustom-images%2Fmi-laptop-pro-2022-09-26-01-22-47-3531.png&w=1920&q=75",
       type: ["New", "Featured", "Best"],

@@ -97,7 +97,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                     return (
                       <tr>
                         {Object.keys(row).map((key: any, idx) => {
-                          if (key === "slug") {
+                          if (key === "link") {
                             return null
                           }
                           else if (key === "status") {
@@ -144,7 +144,6 @@ const DynamicTable: React.FC<Props> = (props) => {
                             return (
                               <td className=" px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <span className="flex gap-2">
-
                                 {
                                   row[key].map((type: any) => <span className="bg-green-500 rounded-xl py-1 px-2 text-white">{type}</span>)
                                 }
