@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../src/state/StateController";
 import { FaEdit, FaEye, FaTrash, FaTruck } from "react-icons/fa";
 import ToggleButton from "../../pages/AdminPage/Dashboard/ManageCategories/ToggleButton/ToggleButton";
 import Image from "next/image";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
+import SharedDeleteModal from "./../SharedDeleteModal/SharedDeleteModal";
 interface Props {
   tableHeaders: Array<string>;
   actions: {
@@ -18,6 +19,7 @@ interface Props {
 
 const DynamicTable: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [showModal, setShowModal] = useState(false);
 
   const router = useRouter();
   const { asPath } = router;
@@ -177,14 +179,22 @@ const DynamicTable: React.FC<Props> = (props) => {
                           )}
                           {actions.isEditable && (
                             <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
-                              <span onClick={() => router.push(`${asPath}/${row.id}/edit`)} className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center">
+                              <span
+                                onClick={() =>
+                                  router.push(`${asPath}/${row.id}/edit`)
+                                }
+                                className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center"
+                              >
                                 <FaEdit />
                               </span>
                             </span>
                           )}
                           {actions.isDeletable && (
                             <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
-                              <span className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-red-500 rounded relative text-white flex justify-center items-center">
+                              <span
+                                onClick={() => setShowModal(true)}
+                                className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-red-500 rounded relative text-white flex justify-center items-center"
+                              >
                                 <FaTrash />
                               </span>
                             </span>
@@ -202,6 +212,10 @@ const DynamicTable: React.FC<Props> = (props) => {
                   })}
                 </tbody>
               </table>
+              <SharedDeleteModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+              ></SharedDeleteModal>
               {/* -------------- */}
               <div className="px-5 py-5 bg-white border-t flex justify-between">
                 <span className="text-xs xs:text-sm text-gray-900">

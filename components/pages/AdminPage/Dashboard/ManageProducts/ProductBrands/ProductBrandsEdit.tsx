@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { useSelector } from "react-redux";
-import { controller } from "./../../../../../../src/utils/StateController";
+import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
 

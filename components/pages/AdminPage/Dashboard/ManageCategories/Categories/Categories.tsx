@@ -15,7 +15,7 @@ import {
 import ToggleButton from "../ToggleButton/ToggleButton";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import Link from "next/link";
-import Modal from "./Modal";
+import SharedDeleteModal from './../../../../../shared/SharedDeleteModal/SharedDeleteModal';
 
 interface Props {}
 
@@ -186,7 +186,7 @@ const Categories: React.FC<Props> = (props) => {
                                   </span>
                                 </span>
                               </button>
-                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                              {/* <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight"> */}
                                 {/* <button>
                                       <span
                                         style={{
@@ -197,17 +197,18 @@ const Categories: React.FC<Props> = (props) => {
                                         <FaTruck />
                                       </span>
                                     </button> */}
-                                <Modal
-                                  showModal={showModal}
-                                  setShowModal={setShowModal}
-                                ></Modal>
-                              </span>
+                                
+                              {/* </span> */}
                             </td>
                           </tr>
                         )
                       )}
                     </tbody>
                   </table>
+                  <SharedDeleteModal
+                                  showModal={showModal}
+                                  setShowModal={setShowModal}
+                                ></SharedDeleteModal>
                   {/* -------------- */}
                   <div className="px-5 py-5  border-t flex justify-end">
                     <div className="inline-flex mt-2 xs:mt-0">
