@@ -1,11 +1,23 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
+import { Jsondata } from "../../../../../../src/utils/Jsondata";
+import DynamicTable from "../../../../../shared/SharedTable/DynamicTable";
 
 interface Props {}
-
+const tableHeaders = [
+  "#",
+  "Product",
+  "Variant",
+  "Shop Name",
+  "Unit Price",
+  "Quantity",
+  "Total",
+];
+// const actions: {};
 const OrderInformation: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const { orderSummaryData } = Jsondata;
 
   return (
     <div>
@@ -88,7 +100,14 @@ const OrderInformation: React.FC<Props> = (props) => {
                 </div>
               </div>
             </div>
-            <div className="row "></div>
+            <div className="row ">
+              <div>
+                <DynamicTable
+                  tableHeaders={tableHeaders}
+                  testDynamicTableData={orderSummaryData}
+                />
+              </div>
+            </div>
           </div>
           <div className="text-md-right print-area"></div>
         </div>

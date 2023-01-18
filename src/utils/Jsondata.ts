@@ -1235,23 +1235,23 @@ export class Jsondata {
       name: "LG",
       slug: "lg",
       logo: "https://api.websolutionus.com/shopo/uploads/custom-images/oneplus-2022-09-25-04-15-53-8330.png",
-      status: "active"
+      status: "active",
     },
     {
       id: 2,
       name: "LG",
       slug: "lg",
       logo: "https://api.websolutionus.com/shopo/uploads/custom-images/oneplus-2022-09-25-04-15-53-8330.png",
-      status: "inactive"
+      status: "inactive",
     },
     {
       id: 3,
       name: "LG",
       slug: "lg",
       logo: "https://api.websolutionus.com/shopo/uploads/custom-images/oneplus-2022-09-25-04-15-53-8330.png",
-      status: "active"
+      status: "active",
     },
-  ]
+  ];
 
   static adminProductsData = [
     {
@@ -1274,5 +1274,36 @@ export class Jsondata {
       type: ["New", "Featured", "Best"],
       status: "inactive",
     },
-  ]
+  ];
+
+  //for Order Summary
+  static orderSummaryData = [
+    {
+      id: 1,
+      name: "Xbox Wireless Game Controller",
+      variant: "",
+      shop_name: "",
+      unit_price: 150,
+      quantity: 20,
+      total: 1245,
+    },
+    {
+      id: 2,
+      name: "Mi Laptop Pro",
+      variant: "",
+      shop_name: "",
+      unit_price: 150,
+      quantity: 20,
+      total: 1245,
+    },
+    {
+      id: 3,
+      name: "JBL Clip 4 Orange Portable Speaker",
+      variant: "",
+      shop_name: "",
+      unit_price: 150,
+      quantity: 20,
+      total: 1245,
+    },
+  ];
 }

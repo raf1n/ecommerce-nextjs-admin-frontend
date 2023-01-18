@@ -14,8 +14,7 @@ const DashboardBreadcrumb: React.FC<Props> = (props) => {
   return (
     <div
       className="flex justify-between  bg-white my-12 rounded-[3px]"
-      style={{ margin: "25px", padding: "20px", height: "72px" }}
-    >
+      style={{ margin: "25px", padding: "20px", height: "72px" }}>
       <div>
         <h1 className="text-2xl font-semibold">{props.headline}</h1>
       </div>
@@ -32,7 +31,6 @@ const DashboardBreadcrumb: React.FC<Props> = (props) => {
           <a href={props.link}>
             <span className="mx-1 capitalize text-xs ">{props.slug}</span>
           </a>
-          {/* <span className="separator">/</span> */}
         </span>
       </div>
     </div>

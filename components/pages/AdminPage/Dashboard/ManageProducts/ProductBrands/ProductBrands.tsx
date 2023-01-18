@@ -26,13 +26,13 @@ const ProductBrands: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Product Brands"
         slug="Product Brands"
-        link="/product_brands"
-      ></DashboardBreadcrumb>
+        link="/product_brands"></DashboardBreadcrumb>
       <div className="mx-[25px]">
         <div className="section-body">
           <Link className="inline-block" href="/product_brands/create">
             <SharedAddNewButton></SharedAddNewButton>
           </Link>
+
           <div className="mt-10">
             <DynamicTable
               tableHeaders={tableHeaders}
