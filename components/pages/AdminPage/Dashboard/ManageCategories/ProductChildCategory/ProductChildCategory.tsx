@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaEdit,
   FaLongArrowAltDown,
@@ -13,12 +13,18 @@ import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedA
 import ToggleButton from "../ToggleButton/ToggleButton";
 
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface Props {}
 
 const ProductChildCategory: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-
+  const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
+  const { asPath } = router;
+  // const [id, setId] = useState(0);
   return (
     <div className="w-full mt-10">
       <DashboardBreadcrumb
@@ -26,17 +32,11 @@ const ProductChildCategory: React.FC<Props> = (props) => {
         slug="Product Category"
         link="/Product Category"
       ></DashboardBreadcrumb>
-      <div className="m-10">
-        {/* <div className={`${styles["section-header"]}  justify-between`}>
-          <h1 className={`${styles["title"]} `}>Product Child Category</h1>
-          <div className={`${styles["section-header-breadcrumb"]} `}> */}
-
-        {/* </div>
-        </div> */}
+      <div className="m-6">
         <div className="section-body">
-          <a href="">
+          <Link className="inline-block" href="product_child_categories/create">
             <SharedAddNewButton></SharedAddNewButton>
-          </a>
+          </Link>
           <div>
             <div style={{ marginTop: "25px", backgroundColor: "white" }}>
               <div className="p-4 rounded w-full">
@@ -138,7 +138,10 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                         <tbody>
                           {Jsondata.childCategoriesTableData.map(
                             (childCategoryTableData, index) => (
-                              <tr className="even:bg-gray-50 odd:bg-white">
+                              <tr
+                                key={index}
+                                className="even:bg-gray-50 odd:bg-white"
+                              >
                                 <td className="px-3 py-3    text-sm">
                                   <p className="text-gray-900 whitespace-no-wrap">
                                     {index + 1}
@@ -165,15 +168,19 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                                   </p>
                                 </td>
                                 <td className="px-3 py-3 text-sm">
-                                  <ToggleButton />
-                                  {/* <span className="text-gray-900 whitespace-no-wrap">
-                                  
-                                    <ToggleButton />
-                                  </span> */}
+                                  <ToggleButton
+                                    status={childCategoryTableData.status}
+                                  />
                                 </td>
 
                                 <td className="px-2 py-3  text-sm">
-                                  <button>
+                                  <button
+                                    onClick={() =>
+                                      router.push(
+                                        `${asPath}/${childCategoryTableData.id}/edit`
+                                      )
+                                    }
+                                  >
                                     <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                       <span
                                         style={{
@@ -185,8 +192,13 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                                       </span>
                                     </span>
                                   </button>
-                                  <button>
-                                    <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                                  <button onClick={() => setShowModal(true)}>
+                                    <span
+                                      // onClick={() =>
+                                      //   setId(childCategoryTableData.id)
+                                      // }
+                                      className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight"
+                                    >
                                       <span
                                         style={{
                                           boxShadow: "0 2px 6px #fd9b96",
@@ -215,6 +227,10 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                           )}
                         </tbody>
                       </table>
+                      <SharedDeleteModal
+                        showModal={showModal}
+                        setShowModal={setShowModal}
+                      ></SharedDeleteModal>
                       {/* -------------- */}
                       <div className="px-5 py-5  border-t flex justify-end">
                         <div className="inline-flex mt-2 xs:mt-0">
