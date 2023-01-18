@@ -42,15 +42,13 @@ const Layout: React.FC<Props> = ({ children }) => {
             setResponsiveOpen(false);
             setMenuOpen(0);
           }}
-          className="fixed z-10 opacity-40 bg-black top-0 left-0 right-0 bottom-0"
-        ></div>
+          className="fixed z-10 opacity-40 bg-black top-0 left-0 right-0 bottom-0"></div>
       )}
 
       {/* right side dashboard */}
       <div className="flex-1 overflow-y-auto">
         <div className="flex flex-row justify-between h-[115px] bg-[#6777ef]">
           <div className="flex-1 flex items-center pl-[24px]">
-            {/* for big screen: hamberger */}
             <FaBars
               className={` cursor-pointer hidden w-5 h-5 lg:block duration-300 text-white`}
               onClick={() => {
@@ -58,7 +56,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                 setResponsiveOpen(false);
               }}
             />
-            {/* for small screen: hamberger */}
+
             <FaBars
               className={` cursor-pointer w-5 h-5 block lg:hidden duration-300 ease-in text-white`}
               onClick={() => {
@@ -77,16 +75,15 @@ const Layout: React.FC<Props> = ({ children }) => {
             <button
               onClick={() => {
                 setShow(!show);
-              }}
-            >
+              }}>
               <div className={`flex text-white  pl-6`}>
                 <img
                   src={`https://api.websolutionus.com/shopo/uploads/website-images/ibrahim-khalil-2022-01-30-02-48-50-5743.jpg`}
                   alt="pic"
                   className={`${styles["img-style"]}`}
                 />
-                <span className="text-sm  pt-1 pl-2">Admin</span>
-                <span className="text-xl  pt-1">
+                <span className="text-sm pt-1 pl-2 hidden lg:block">Admin</span>
+                <span className="text-xl pt-1">
                   <MdArrowDropDown />
                 </span>
               </div>
@@ -95,7 +92,7 @@ const Layout: React.FC<Props> = ({ children }) => {
         </div>
 
         <div className={` ${show ? "block" : "hidden"} `}>
-          <div className={`${styles["dropdown-menu"]}  mt-3`}>
+          <div className={`${styles["dropdown-menu"]}  mt-3  mr-6`}>
             <div>
               <a href="/profile" className="flex text-xs">
                 <span className="pr-2">
@@ -114,7 +111,7 @@ const Layout: React.FC<Props> = ({ children }) => {
             </div>
           </div>
         </div>
-        <div className="mt-[-50px] w-full">{children}</div>
+        <div className="mt-[-55px] w-full">{children}</div>
       </div>
     </div>
   );

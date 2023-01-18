@@ -97,8 +97,7 @@ const Dashboard: React.FC<Props> = (props) => {
           <button
             onClick={() => {
               setShow(!show);
-            }}
-          >
+            }}>
             <div className={`flex text-white  pl-6`}>
               <img
                 src={`https://api.websolutionus.com/shopo/uploads/website-images/ibrahim-khalil-2022-01-30-02-48-50-5743.jpg`}
@@ -114,7 +113,7 @@ const Dashboard: React.FC<Props> = (props) => {
         </div>
       </div>
 
-      <div className={` ${show ? "block" : "hidden"} `}>
+      <div className={` ${show ? "block" : "hidden"}   `}>
         <div className={`${styles["dropdown-menu"]}  mt-3`}>
           <div>
             <a href="/profile" className="flex text-xs">

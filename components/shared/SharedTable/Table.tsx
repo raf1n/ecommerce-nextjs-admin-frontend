@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { controller } from "../../../src/state/StateController";
 import { FaEye, FaTrash, FaTruck } from "react-icons/fa";
 import Styles from "./Table.module.css";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import { Jsondata } from "../../../src/utils/Jsondata";
-interface Props { }
+import { controller } from "../../../src/state/StateController";
+interface Props {}
 
 const Table: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
@@ -158,10 +158,11 @@ const Table: React.FC<Props> = (props) => {
                         <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight ">
                           <span
                             aria-hidden
-                            className={`absolute inset-0 ${tabledata.OrderStatus == "pending"
+                            className={`absolute inset-0 ${
+                              tabledata.OrderStatus == "pending"
                                 ? "bg-red-500"
                                 : "bg-green-500"
-                              }  rounded-full`}></span>
+                            }  rounded-full`}></span>
                           <span className="relative text-white text-xs capitalize break-words">
                             {tabledata.OrderStatus}
                           </span>
@@ -173,10 +174,11 @@ const Table: React.FC<Props> = (props) => {
                           <span
                             aria-hidden
                             className={`absolute inset-0  rounded-full
-                            ${tabledata.Payment == "success"
+                            ${
+                              tabledata.Payment == "success"
                                 ? " bg-green-500 "
                                 : "bg-red-500 "
-                              }`}></span>
+                            }`}></span>
                           <span className="relative text-white text-xs capitalize">
                             {tabledata.Payment}
                           </span>
@@ -216,7 +218,7 @@ const Table: React.FC<Props> = (props) => {
                   ))}
                 </tbody>
               </table>
-              {/* -------------- */}
+              {/* ----------------------------------------- */}
               <div className="px-5 py-5  border-t flex justify-end">
                 <div className="inline-flex mt-2 xs:mt-0">
                   <button className="text-sm text-indigo-500 transition duration-150    font-semibold py-2 px-4 rounded-l">
