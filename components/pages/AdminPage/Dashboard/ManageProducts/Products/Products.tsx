@@ -34,7 +34,7 @@ const Products: React.FC<Props> = (props) => {
           <Link className="inline-block" href="/products/create">
             <SharedAddNewButton></SharedAddNewButton>
           </Link>
-          <div className="mt-10">
+          <div className="mt-7">
             <DynamicTable
               tableHeaders={tableHeaders}
               actions={actions}
