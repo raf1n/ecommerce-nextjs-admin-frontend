@@ -860,7 +860,7 @@ export class Jsondata {
         },
         {
           title: "Create Product",
-          link: "/create_product",
+          link: "/products/create",
         },
         {
           title: "Products",
@@ -1250,6 +1250,29 @@ export class Jsondata {
       slug: "lg",
       logo: "https://api.websolutionus.com/shopo/uploads/custom-images/oneplus-2022-09-25-04-15-53-8330.png",
       status: "active"
+    },
+  ]
+
+  static adminProductsData = [
+    {
+      id: 1,
+      name: "Mi Laptop Pro",
+      currentPrice: 45000,
+      slug: "mi-laptop-pro",
+      image:
+        "https://shopo-ecom.vercel.app/_next/image?url=https%3A%2F%2Fapi.websolutionus.com%2Fshopo%2Fuploads%2Fcustom-images%2Fmi-laptop-pro-2022-09-26-01-22-47-3531.png&w=1920&q=75",
+      type: ["New", "Featured", "Best"],
+      status: "active",
+    },
+    {
+      id: 2,
+      name: "Mi Laptop Pro",
+      currentPrice: 45000,
+      slug: "mi-laptop-pro",
+      image:
+        "https://shopo-ecom.vercel.app/_next/image?url=https%3A%2F%2Fapi.websolutionus.com%2Fshopo%2Fuploads%2Fcustom-images%2Fmi-laptop-pro-2022-09-26-01-22-47-3531.png&w=1920&q=75",
+      type: ["New", "Featured", "Best"],
+      status: "inactive",
     },
   ]
 }

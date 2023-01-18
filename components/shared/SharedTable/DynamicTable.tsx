@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../src/state/StateController";
-import { FaEdit, FaEye, FaTrash, FaTruck } from "react-icons/fa";
+import {
+  FaEdit,
+  FaEye,
+  FaTrash,
+  FaTruck,
+  FaLongArrowAltUp,
+  FaLongArrowAltDown,
+} from "react-icons/fa";
 import ToggleButton from "../../pages/AdminPage/Dashboard/ManageCategories/ToggleButton/ToggleButton";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -75,8 +82,11 @@ const DynamicTable: React.FC<Props> = (props) => {
                 <thead>
                   <tr>
                     {tableHeaders.map((header, idx) => (
-                      <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        {header}
+                      <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <span className="flex">
+                          {header}
+                          <FaLongArrowAltUp  className="w-2 ml-2 cursor-pointer" /> <FaLongArrowAltDown className="w-2 ml-1 cursor-pointer" />
+                        </span>
                       </th>
                     ))}
                   </tr>
@@ -87,9 +97,12 @@ const DynamicTable: React.FC<Props> = (props) => {
                     return (
                       <tr>
                         {Object.keys(row).map((key: any, idx) => {
-                          if (key === "status") {
+                          if (key === "slug") {
+                            return null
+                          }
+                          else if (key === "status") {
                             return (
-                              <td className="px-3 py-3 text-sm">
+                              <td className="px-3 py-3 text-sm border-b border-gray-200">
                                 <ToggleButton status={row[key]} />
                               </td>
                             );
@@ -127,9 +140,20 @@ const DynamicTable: React.FC<Props> = (props) => {
                                 </span>
                               </td>
                             );
+                          } else if (key === "type") {
+                            return (
+                              <td className=" px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <span className="flex gap-2">
+
+                                {
+                                  row[key].map((type: any) => <span className="bg-green-500 rounded-xl py-1 px-2 text-white">{type}</span>)
+                                }
+                                </span>
+                              </td>
+                            );
                           } else if (key === "image") {
                             return (
-                              <td className="px-3 py-3    ">
+                              <td className="px-3 py-3 border-b border-gray-200">
                                 <img
                                   width="150px"
                                   src={row[key]}
@@ -172,7 +196,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           {actions.isViewable && (
                             <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
-                              <span className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center">
+                              <span className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center">
                                 <FaEye />
                               </span>
                             </span>
@@ -183,7 +207,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                                 onClick={() =>
                                   router.push(`${asPath}/${row.id}/edit`)
                                 }
-                                className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center"
+                                className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center"
                               >
                                 <FaEdit />
                               </span>
@@ -201,7 +225,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                           )}
                           {actions.isShipping && (
                             <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
-                              <span className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-orange-400 rounded relative text-white flex justify-center items-center">
+                              <span className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-orange-400 rounded relative text-white flex justify-center items-center">
                                 <FaTruck />
                               </span>
                             </span>
