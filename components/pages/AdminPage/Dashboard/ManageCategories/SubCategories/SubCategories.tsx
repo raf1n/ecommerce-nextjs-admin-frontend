@@ -10,11 +10,16 @@ import ToggleButton from "./ToggleButton";
 
 import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 interface Props {}
 
 const SubCategories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-
+  const router = useRouter();
+  const { asPath } = router;
+  const [showModal, setShowModal] = useState(false);
   return (
     <div className="w-full mt-10">
       <DashboardBreadcrumb
@@ -22,14 +27,10 @@ const SubCategories: React.FC<Props> = (props) => {
         slug="Product Sub Categories"
         link="/product_sub_categories"
       ></DashboardBreadcrumb>
-      <div className="m-10">
-        <a href="">
-          {/* <button className=" flex items-center justify-center bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-3 rounded">
-              <BiPlus className=" h-6 w-6" />
-              <span>Add New</span>
-            </button> */}
+      <div className="m-6">
+        <Link className="inline-block" href="product_sub_categories/create">
           <SharedAddNewButton></SharedAddNewButton>
-        </a>
+        </Link>
         <div style={{ margin: "25px 0", backgroundColor: "white" }}>
           <div className="p-4 rounded w-full">
             <div className="flex items-center justify-between pb-6">
@@ -163,7 +164,11 @@ const SubCategories: React.FC<Props> = (props) => {
                             </td>
 
                             <td className="px-2 py-3  text-sm">
-                              <button>
+                              <button
+                                onClick={() =>
+                                  router.push(`${asPath}/${tabledata.id}/edit`)
+                                }
+                              >
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     style={{ boxShadow: "0 2px 6px #acb5f6" }}
@@ -173,7 +178,7 @@ const SubCategories: React.FC<Props> = (props) => {
                                   </span>
                                 </span>
                               </button>
-                              <button>
+                              <button onClick={() => setShowModal(true)}>
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     style={{ boxShadow: "0 2px 6px #fd9b96" }}
@@ -188,6 +193,10 @@ const SubCategories: React.FC<Props> = (props) => {
                         )
                       )}
                     </tbody>
+                    <SharedDeleteModal
+                      showModal={showModal}
+                      setShowModal={setShowModal}
+                    ></SharedDeleteModal>
                   </table>
                   <div className="px-5 py-5  border-t flex justify-end">
                     <div className="inline-flex mt-2 xs:mt-0">

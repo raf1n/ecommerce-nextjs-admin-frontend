@@ -15,9 +15,10 @@ import {
 
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import Link from "next/link";
-import Modal from "./Modal";
+
 import ToggleButton from "../ToggleButton/ToggleButton";
 import { useRouter } from "next/router";
+import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 
 interface Props {}
 
@@ -207,16 +208,16 @@ const Categories: React.FC<Props> = (props) => {
                                         <FaTruck />
                                       </span>
                                     </button> */}
-                                <Modal
-                                  showModal={showModal}
-                                  setShowModal={setShowModal}
-                                ></Modal>
                               </span>
                             </td>
                           </tr>
                         )
                       )}
                     </tbody>
+                    <SharedDeleteModal
+                      showModal={showModal}
+                      setShowModal={setShowModal}
+                    ></SharedDeleteModal>
                   </table>
                   {/* -------------- */}
                   <div className="px-5 py-5  border-t flex justify-end">

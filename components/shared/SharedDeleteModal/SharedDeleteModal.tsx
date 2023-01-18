@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { controller } from "../../../../../../src/state/StateController";
+import { controller } from "../../../src/state/StateController";
 
 interface Props {
   showModal: boolean;
   setShowModal: any;
 }
 
-const Modal: React.FC<Props> = (props) => {
+const SharedDeleteModal: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const { setShowModal, showModal } = props;
   return (
     <>
       {showModal ? (
-        <>
-          <div className="flex justify-center fixed inset-0 z-50 backdrop-blur-[0.5px]">
+        <div className="relative">
+          <div className="flex justify-center fixed inset-0 z-50 bg-black bg-opacity-10 backdrop-blur-[1px]">
             <div className="bg-white px-16 py-14 rounded-md text-center mt-10 shadow h-1/3 lg:h-1/4">
               <h1 className="text-xl mb-4 font-bold text-slate-500">
                 Do you Want to Delete?
@@ -33,10 +33,10 @@ const Modal: React.FC<Props> = (props) => {
               </button>
             </div>
           </div>
-        </>
+        </div>
       ) : null}
     </>
   );
 };
 
-export default Modal;
+export default SharedDeleteModal;
