@@ -49,7 +49,7 @@ const Layout: React.FC<Props> = ({ children }) => {
       {/* right side dashboard */}
       <div className="flex-1 overflow-y-auto">
         <div className="flex flex-row justify-between h-[115px] bg-[#6777ef]">
-          <div className="flex-1 flex items-center pl-[24px]">
+          <div className="flex-1 flex items-center pl-[24px]"> 
             {/* for big screen: hamberger */}
             <FaBars
               className={` cursor-pointer hidden w-5 h-5 lg:block duration-300 text-white`}
@@ -94,8 +94,8 @@ const Layout: React.FC<Props> = ({ children }) => {
           </div>
         </div>
 
-        <div className={` ${show ? "block" : "hidden"} `}>
-          <div className={`${styles["dropdown-menu"]}  mt-3`}>
+        <div className={` ${show ? "block" : "hidden"} relative`}>
+          <div className={`${styles["dropdown-menu"]} -mt-9 mr-2`}>
             <div>
               <a href="/profile" className="flex text-xs">
                 <span className="pr-2">

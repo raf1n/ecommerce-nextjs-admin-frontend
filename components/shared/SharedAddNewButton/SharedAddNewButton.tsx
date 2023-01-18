@@ -12,7 +12,7 @@ const SharedAddNewButton: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
   return (
-    <button className=" flex items-center justify-center bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-3 rounded">
+    <button className=" flex items-center justify-center bg-blue-700 hover:bg-blue-600 text-white text-sm tracking-[.5px] shadow-[0_2px_6px_#acb5f6] py-2 px-3 rounded">
       <BiPlus className=" h-6 w-6" />
       <span>Add New</span>
     </button>
