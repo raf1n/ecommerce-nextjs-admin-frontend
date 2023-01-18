@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 
@@ -15,12 +15,14 @@ import {
 import ToggleButton from "../ToggleButton/ToggleButton";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import Link from "next/link";
+import Modal from "./Modal";
 
 interface Props {}
 
 const Categories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
+  const [showModal, setShowModal] = useState(false);
   return (
     <div className="w-full">
       <DashboardBreadcrumb
@@ -173,6 +175,8 @@ const Categories: React.FC<Props> = (props) => {
                               <button>
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
+                                    onClick={() => setShowModal(true)}
+                                    // onClick={() => openModal()}
                                     style={{
                                       boxShadow: "0 2px 6px #fd9b96",
                                     }}
@@ -193,6 +197,10 @@ const Categories: React.FC<Props> = (props) => {
                                         <FaTruck />
                                       </span>
                                     </button> */}
+                                <Modal
+                                  showModal={showModal}
+                                  setShowModal={setShowModal}
+                                ></Modal>
                               </span>
                             </td>
                           </tr>
