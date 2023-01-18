@@ -14,8 +14,8 @@ const CreateCategories: React.FC<Props> = (props) => {
     <div className="w-full">
       <DashboardBreadcrumb
         headline="Create Product Category"
-        link="create-product-category"
-        slug="create-product-category"
+        link="create"
+        slug="Create Product Category"
       ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">

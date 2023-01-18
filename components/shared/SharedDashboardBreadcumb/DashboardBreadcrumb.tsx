@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../src/state/StateController";
+import Link from "next/link";
 
 interface Props {
   slug: string;
@@ -21,17 +22,17 @@ const DashboardBreadcrumb: React.FC<Props> = (props) => {
       </div>
       <div className="font-normal text-[13px] text-qblack mb-[23px] content-center ">
         <span>
-          <a href="/">
+          <Link href="/">
             <span className="mx-1 capitalize text-xs text-[#6777EF] ">
               Dashboard
             </span>
-          </a>
+          </Link>
           <span className="separator">/</span>
         </span>
         <span>
-          <a href={props.link}>
+          <Link href={props.link}>
             <span className="mx-1 capitalize text-xs ">{props.slug}</span>
-          </a>
+          </Link>
           {/* <span className="separator">/</span> */}
         </span>
       </div>

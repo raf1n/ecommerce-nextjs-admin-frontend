@@ -1,9 +1,10 @@
 import Image from "next/image";
 import React from "react";
-import { useSelector } from "react-redux";
-import { controller } from "./../../../../../../src/utils/StateController";
+
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { controller } from "../../../../../../src/state/StateController";
+import { useSelector } from "react-redux";
 
 interface Props {}
 
@@ -30,11 +31,15 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6">
               <div>
-                <label className="text-sm tracking-[.5px] text-[#34395e] font-semibold">Existing Logo</label>
+                <label className="text-sm tracking-[.5px] text-[#34395e] font-semibold">
+                  Existing Logo
+                </label>
                 <div>
                   <Image
                     className="mt-4"
-                    loader={() => "https://api.websolutionus.com/shopo/uploads/custom-images/mircrosoft-2022-09-25-04-16-10-7094.png"}
+                    loader={() =>
+                      "https://api.websolutionus.com/shopo/uploads/custom-images/mircrosoft-2022-09-25-04-16-10-7094.png"
+                    }
                     src="https://api.websolutionus.com/shopo/uploads/custom-images/mircrosoft-2022-09-25-04-16-10-7094.png"
                     width={100}
                     height={100}

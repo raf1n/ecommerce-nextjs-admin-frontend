@@ -12,23 +12,27 @@ import {
   FaTrash,
   FaTruck,
 } from "react-icons/fa";
-import ToggleButton from "../ToggleButton/ToggleButton";
+
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import Link from "next/link";
 import Modal from "./Modal";
+import ToggleButton from "../ToggleButton/ToggleButton";
+import { useRouter } from "next/router";
 
 interface Props {}
 
 const Categories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const router = useRouter();
+  const { asPath } = router;
 
   const [showModal, setShowModal] = useState(false);
   return (
     <div className="w-full">
       <DashboardBreadcrumb
         headline="Product Category"
-        slug="Product Category"
-        link="/Product Category"
+        slug="Product Categories"
+        link="/product_categories"
       ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
@@ -152,7 +156,7 @@ const Categories: React.FC<Props> = (props) => {
                               </p>
                             </td>
                             <td className="px-3 py-3 text-sm">
-                              <ToggleButton />
+                              <ToggleButton status={categoryTableData.status} />
                               {/* <span className="text-gray-900 whitespace-no-wrap">
                                    
                                    
@@ -160,7 +164,13 @@ const Categories: React.FC<Props> = (props) => {
                             </td>
 
                             <td className="px-2 py-3  text-sm">
-                              <button>
+                              <button
+                                onClick={() =>
+                                  router.push(
+                                    `${asPath}/${categoryTableData.id}/edit`
+                                  )
+                                }
+                              >
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     style={{

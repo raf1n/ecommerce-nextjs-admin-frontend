@@ -19,8 +19,8 @@ const SubCategories: React.FC<Props> = (props) => {
     <div className="w-full mt-10">
       <DashboardBreadcrumb
         headline="Product Sub Category"
-        slug="Product Category"
-        link="/Product Category"
+        slug="Product Sub Categories"
+        link="/product_sub_categories"
       ></DashboardBreadcrumb>
       <div className="m-10">
         <a href="">

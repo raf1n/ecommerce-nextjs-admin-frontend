@@ -1,11 +1,11 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { controller } from "./../../../../../../src/utils/StateController";
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedAddNewButton from "./../../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DynamicTable from "../../../../../shared/SharedTable/DynamicTable";
 import { Jsondata } from "../../../../../../src/utils/Jsondata";
 import Link from "next/link";
+import { controller } from "../../../../../../src/state/StateController";
+import { useSelector } from "react-redux";
 
 interface Props {}
 

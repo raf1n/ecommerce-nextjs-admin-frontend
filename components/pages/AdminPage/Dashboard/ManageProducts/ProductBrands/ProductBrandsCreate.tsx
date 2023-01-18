@@ -1,8 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { controller } from "./../../../../../../src/utils/StateController";
+
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { controller } from "../../../../../../src/state/StateController";
 
 interface Props {}
 
