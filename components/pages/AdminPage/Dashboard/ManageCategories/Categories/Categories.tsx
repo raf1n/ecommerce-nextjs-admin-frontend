@@ -21,7 +21,7 @@ const Categories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
   return (
-    <div className="w-full mt-10">
+    <div className="w-full">
       <DashboardBreadcrumb
         headline="Product Category"
         slug="Product Category"

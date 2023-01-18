@@ -24,7 +24,7 @@ const ProductBrands: React.FC<Props> = (props) => {
   return (
     <div className="w-full">
       <DashboardBreadcrumb
-        headline="Product Category"
+        headline="Product Brands"
         slug="Product Brands"
         link="/product_brands"
       ></DashboardBreadcrumb>

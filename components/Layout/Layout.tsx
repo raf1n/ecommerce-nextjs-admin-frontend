@@ -48,7 +48,7 @@ const Layout: React.FC<Props> = ({ children }) => {
 
       {/* right side dashboard */}
       <div className="flex-1 overflow-y-auto">
-        <div className="flex flex-row justify-between h-[115px] bg-[#6777ef]">
+        <div className="flex flex-row pb-9 justify-between h-[115px] bg-[#6777ef]">
           <div className="flex-1 flex items-center pl-[24px]"> 
             {/* for big screen: hamberger */}
             <FaBars
@@ -95,7 +95,7 @@ const Layout: React.FC<Props> = ({ children }) => {
         </div>
 
         <div className={` ${show ? "block" : "hidden"} relative`}>
-          <div className={`${styles["dropdown-menu"]} -mt-9 mr-2`}>
+          <div className={`${styles["dropdown-menu"]} -mt-14 mr-2`}>
             <div>
               <a href="/profile" className="flex text-xs">
                 <span className="pr-2">
@@ -114,7 +114,7 @@ const Layout: React.FC<Props> = ({ children }) => {
             </div>
           </div>
         </div>
-        <div className="mt-[-50px] w-full">{children}</div>
+        <div className="mt-[-60px] w-full">{children}</div>
       </div>
     </div>
   );
