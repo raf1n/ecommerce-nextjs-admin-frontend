@@ -1277,33 +1277,33 @@ export class Jsondata {
   ];
 
   //for Order Summary
-  static orderSummaryData = [
+  static orderSummaryDatas = [
     {
       id: 1,
       name: "Xbox Wireless Game Controller",
       variant: "",
       shop_name: "",
-      unit_price: 150,
-      quantity: 20,
-      total: 1245,
+      unit_price: 15.49,
+      quantity: 5,
+      total: 6745,
     },
     {
       id: 2,
       name: "Mi Laptop Pro",
       variant: "",
       shop_name: "",
-      unit_price: 150,
-      quantity: 20,
-      total: 1245,
+      unit_price: 85.276,
+      quantity: 4,
+      total: 51245,
     },
     {
       id: 3,
       name: "JBL Clip 4 Orange Portable Speaker",
       variant: "",
       shop_name: "",
-      unit_price: 150,
-      quantity: 20,
-      total: 1245,
+      unit_price: 4.915,
+      quantity: 920,
+      total: 661245,
     },
   ];
 }

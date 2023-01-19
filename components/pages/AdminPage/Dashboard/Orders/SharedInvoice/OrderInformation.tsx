@@ -1,29 +1,24 @@
 import React from "react";
+import { HiPrinter } from "react-icons/hi";
+import { ImCross } from "react-icons/im";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 import { Jsondata } from "../../../../../../src/utils/Jsondata";
 import DynamicTable from "../../../../../shared/SharedTable/DynamicTable";
+import OrderInvoiceTable from "./OrderInvoiceTable";
 
-interface Props {}
-const tableHeaders = [
-  "#",
-  "Product",
-  "Variant",
-  "Shop Name",
-  "Unit Price",
-  "Quantity",
-  "Total",
-];
-// const actions: {};
+interface Props {
+  orderSummaryData: any;
+}
+
 const OrderInformation: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const { orderSummaryData } = Jsondata;
 
   return (
     <div>
       <div
-        className="section-body bg-white my-12 rounded-[3px] "
-        style={{ margin: "25px", padding: "20px" }}>
+        className="section-body bg-white my-12  rounded-[3px] "
+        style={{ margin: "25px", padding: "40px" }}>
         <div className="invoice ">
           <div className="invoice-print  ">
             <div className="row ">
@@ -100,16 +95,71 @@ const OrderInformation: React.FC<Props> = (props) => {
                 </div>
               </div>
             </div>
-            <div className="row ">
-              <div>
-                <DynamicTable
-                  tableHeaders={tableHeaders}
-                  testDynamicTableData={orderSummaryData}
-                />
+            {/* ------------- Table  ------------------------ */}
+
+            <div className="overflow-x-auto">
+              <OrderInvoiceTable />
+            </div>
+
+            {/* ---------------  Order Status ----------------- */}
+            <div className="flex flex-col-reverse lg:flex-row justify-between">
+              <div className="mt-[70px] text-[#33383b] lg:w-1/2 ">
+                <div className="flex ">
+                  <div className="w-[30px] h-[8px] rounded-md bg-[#6777ef] mt-[6px] mr-[15px]   "></div>
+                  <h2 className="font-semibold">Order Status</h2>
+                </div>
+                <div className="mt-[40px]">
+                  <p className="my-2">Payment</p>
+                  <select
+                    name=""
+                    id=""
+                    className="border w-full h-[42px] bg-[#fdfdff] py-15 px-4 text-sm rounded focus:border-blue-500 ">
+                    <option value="">Success</option>
+                    <option value="">Pending</option>
+                  </select>
+                </div>
+                <div className="my-[15px]">
+                  <p className="my-2">Order</p>
+                  <select
+                    name=""
+                    id=""
+                    className="border w-full h-[42px] py-15 px-4 text-sm">
+                    <option value="">Pending</option>
+                    <option value="">In success</option>
+                    <option value="">Delivered</option>
+                    <option value="">Completed</option>
+                    <option value="">Declined</option>
+                  </select>
+                </div>
+                <button
+                  type="submit"
+                  className="bg-blue-700 shadow-[0_4px_6px_#acb5f6] px-[14px] py-[8px] text-white text-sm rounded mt-1">
+                  Update Status
+                </button>
+              </div>
+              <div className="text-right mt-[40px] opacity-60 text-sm lg:w-1/2 ">
+                <div>
+                  <p className="leading-7">Subtotal : $89.99</p>
+                  <p className="leading-7">Discount(-) : $0</p>
+                  <p className="leading-7"> Shipping : $0</p>
+                </div>
+                <div className="my-10 border-t w-full border-gray-50"></div>
+                <h1 className="font-bold text-2xl opacity-100">
+                  Total : $89.99
+                </h1>
               </div>
             </div>
           </div>
-          <div className="text-md-right print-area"></div>
+          <div className="text-md-right print-area  flex justify-end">
+            <button className="bg-green-500 shadow-[0_4px_6px_#acb5f6] px-[14px] py-[8px] text-white text-sm rounded mt-1 flex  items-center  gap-1 ">
+              <HiPrinter className="w-4 h-4" />
+              Print
+            </button>
+            <button className="bg-[#fb160a] ml-[3px] shadow-[0_4px_6px_#acb5f6] px-[14px] py-[8px] text-white text-sm rounded mt-1 flex  items-center  gap-1 ">
+              <ImCross className="w-[10px] h-[10px]" />
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>
