@@ -19,7 +19,7 @@ const PopularCategoryAdmin: React.FC<Props> = (props) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   return (
-    <div className="w-full mt-10">
+    <div className="w-full">
       <DashboardBreadcrumb
         headline="Popular Category"
         slug="Popular Category"
