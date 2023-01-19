@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
@@ -7,11 +7,16 @@ import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedA
 
 import styles from "./PopularCategoryAdmin.module.css";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import SharedAddNewModal from "../../../../../shared/SharedAddNewModal/SharedAddNewModal";
+import { useRouter } from "next/router";
+import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 
 interface Props {}
 
 const PopularCategoryAdmin: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   return (
     <div className="w-full mt-10">
@@ -20,7 +25,7 @@ const PopularCategoryAdmin: React.FC<Props> = (props) => {
         slug="Popular Category"
         link="/Popular Category"
       ></DashboardBreadcrumb>
-      <div className="m-10">
+      <div className="m-6">
         {/* <div className={`${styles["section-header"]}  justify-between`}>
           <h1 className={`${styles["title"]} `}>Popular Category</h1>
           <div className={`${styles["section-header-breadcrumb"]} `}> */}
@@ -61,7 +66,12 @@ const PopularCategoryAdmin: React.FC<Props> = (props) => {
             </div>
           </div>
         </div>
-        <div className="my-5">
+        <SharedAddNewModal
+          title="Popular"
+          setShowModal={setShowAddModal}
+          showModal={showAddModal}
+        ></SharedAddNewModal>
+        <div onClick={() => setShowAddModal(true)} className="my-5">
           <SharedAddNewButton />
         </div>
 
@@ -102,7 +112,7 @@ const PopularCategoryAdmin: React.FC<Props> = (props) => {
                         </td>
 
                         <td className="px-2 py-3  text-sm">
-                          <button>
+                          <button onClick={() => setShowDeleteModal(true)}>
                             <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                               <span
                                 style={{
@@ -114,6 +124,10 @@ const PopularCategoryAdmin: React.FC<Props> = (props) => {
                               </span>
                             </span>
                           </button>
+                          <SharedDeleteModal
+                            setShowModal={setShowDeleteModal}
+                            showModal={showDeleteModal}
+                          ></SharedDeleteModal>
                           <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                             {/* <button>
                                       <span

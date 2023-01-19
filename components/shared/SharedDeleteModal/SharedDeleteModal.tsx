@@ -15,7 +15,7 @@ const SharedDeleteModal: React.FC<Props> = (props) => {
       {showModal ? (
         <div className="relative">
           <div className="flex justify-center fixed inset-0 z-50 bg-black bg-opacity-10 backdrop-blur-[1px]">
-            <div className="bg-white px-16 py-14 rounded-md text-center mt-10 shadow h-1/3 lg:h-1/4">
+            <div className="bg-white px-16 py-14 rounded-md text-center mt-10 shadow h-fit min-w-fit md:w-1/3">
               <h1 className="text-xl mb-4 font-bold text-slate-500">
                 Do you Want to Delete?
               </h1>
