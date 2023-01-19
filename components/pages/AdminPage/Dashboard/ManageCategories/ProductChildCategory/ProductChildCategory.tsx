@@ -26,7 +26,7 @@ const ProductChildCategory: React.FC<Props> = (props) => {
   const { asPath } = router;
   // const [id, setId] = useState(0);
   return (
-    <div className="w-full mt-10">
+    <div className="w-full">
       <DashboardBreadcrumb
         headline="Product Child Category"
         slug="Product Category"

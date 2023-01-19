@@ -17,7 +17,7 @@ const FeaturedCaategoryAdmin: React.FC<Props> = (props) => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   return (
-    <div className="w-full mt-10">
+    <div className="w-full">
       <DashboardBreadcrumb
         headline="Featured Category"
         slug="Featured Category"

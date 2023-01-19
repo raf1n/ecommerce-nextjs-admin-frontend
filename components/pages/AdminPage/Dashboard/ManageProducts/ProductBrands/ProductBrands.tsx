@@ -1,11 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedAddNewButton from "./../../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DynamicTable from "../../../../../shared/SharedTable/DynamicTable";
 import { Jsondata } from "../../../../../../src/utils/Jsondata";
 import Link from "next/link";
-import { controller } from "../../../../../../src/state/StateController";
-import { useSelector } from "react-redux";
 
 interface Props {}
 
@@ -24,7 +24,7 @@ const ProductBrands: React.FC<Props> = (props) => {
   return (
     <div className="w-full">
       <DashboardBreadcrumb
-        headline="Product Category"
+        headline="Product Brands"
         slug="Product Brands"
         link="/product_brands"
       ></DashboardBreadcrumb>
@@ -33,7 +33,7 @@ const ProductBrands: React.FC<Props> = (props) => {
           <Link className="inline-block" href="/product_brands/create">
             <SharedAddNewButton></SharedAddNewButton>
           </Link>
-          <div className="mt-10">
+          <div className="mt-7">
             <DynamicTable
               tableHeaders={tableHeaders}
               actions={actions}

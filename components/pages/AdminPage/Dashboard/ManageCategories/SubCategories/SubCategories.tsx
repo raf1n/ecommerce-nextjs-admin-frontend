@@ -21,7 +21,7 @@ const SubCategories: React.FC<Props> = (props) => {
   const { asPath } = router;
   const [showModal, setShowModal] = useState(false);
   return (
-    <div className="w-full mt-10">
+    <div className="w-full">
       <DashboardBreadcrumb
         headline="Product Sub Category"
         slug="Product Sub Categories"

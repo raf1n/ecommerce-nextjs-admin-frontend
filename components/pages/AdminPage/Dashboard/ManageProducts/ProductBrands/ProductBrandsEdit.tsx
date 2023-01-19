@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React from "react";
-
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import { controller } from "../../../../../../src/state/StateController";

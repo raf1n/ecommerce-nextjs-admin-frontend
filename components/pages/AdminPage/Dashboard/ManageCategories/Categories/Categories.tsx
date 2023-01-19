@@ -197,8 +197,8 @@ const Categories: React.FC<Props> = (props) => {
                                   </span>
                                 </span>
                               </button>
-                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                {/* <button>
+                              {/* <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight"> */}
+                              {/* <button>
                                       <span
                                         style={{
                                           boxShadow: "0 2px 6px #ffc473",
@@ -208,17 +208,17 @@ const Categories: React.FC<Props> = (props) => {
                                         <FaTruck />
                                       </span>
                                     </button> */}
-                              </span>
+                              {/* </span> */}
                             </td>
                           </tr>
                         )
                       )}
                     </tbody>
-                    <SharedDeleteModal
-                      showModal={showModal}
-                      setShowModal={setShowModal}
-                    ></SharedDeleteModal>
                   </table>
+                  <SharedDeleteModal
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                  ></SharedDeleteModal>
                   {/* -------------- */}
                   <div className="px-5 py-5  border-t flex justify-end">
                     <div className="inline-flex mt-2 xs:mt-0">
