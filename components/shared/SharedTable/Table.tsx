@@ -5,6 +5,7 @@ import Styles from "./Table.module.css";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import { Jsondata } from "../../../src/utils/Jsondata";
 import { controller } from "../../../src/state/StateController";
+import Link from "next/link";
 interface Props {}
 
 const Table: React.FC<Props> = (props) => {
@@ -191,7 +192,9 @@ const Table: React.FC<Props> = (props) => {
                             <span
                               style={{ boxShadow: "0 2px 6px #acb5f6" }}
                               className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center">
-                              <FaEye />
+                              <Link href={`/show_order/${tabledata.id}`}>
+                                <FaEye />
+                              </Link>
                             </span>
                           </span>
                         </button>

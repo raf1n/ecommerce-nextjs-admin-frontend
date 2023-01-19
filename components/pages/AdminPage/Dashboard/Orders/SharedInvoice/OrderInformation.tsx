@@ -7,9 +7,7 @@ import { Jsondata } from "../../../../../../src/utils/Jsondata";
 import DynamicTable from "../../../../../shared/SharedTable/DynamicTable";
 import OrderInvoiceTable from "./OrderInvoiceTable";
 
-interface Props {
-  orderSummaryData: any;
-}
+interface Props {}
 
 const OrderInformation: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);

@@ -11,8 +11,7 @@ const all_orders: React.FC<Props> = (props) => {
 
   return (
     <div>
-      {/* <AllOrders></AllOrders> */}
-      <SharedInvoice />
+      <AllOrders></AllOrders>
     </div>
   );
 };
