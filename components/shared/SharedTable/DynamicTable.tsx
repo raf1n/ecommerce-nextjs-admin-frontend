@@ -90,13 +90,13 @@ const DynamicTable: React.FC<Props> = (props) => {
                 <tbody>
                   {testDynamicTableData.map((row: any, idx) => {
                     return (
-                      <tr>
+                      <tr className="border-b border-gray-200">
                         {Object.keys(row).map((key: any, idx) => {
                           if (key === "link") {
                             return null;
                           } else if (key === "status") {
                             return (
-                              <td className="px-3 py-3 text-sm border-b border-gray-200">
+                              <td className="px-3 py-3 text-sm ">
                                 <ToggleButton status={row[key]} />
                               </td>
                             );
@@ -105,7 +105,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                             row[key] === "pending"
                           ) {
                             return (
-                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <td className="px-5 py-5  bg-white text-sm">
                                 <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     aria-hidden
@@ -121,7 +121,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                             row[key] === "success"
                           ) {
                             return (
-                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <td className="px-5 py-5  bg-white text-sm">
                                 <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     aria-hidden
@@ -134,7 +134,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                             );
                           } else if (key === "type") {
                             return (
-                              <td className=" px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <td className=" px-5 py-5  bg-white text-sm">
                                 <span className="flex gap-2">
                                   {row[key].map((type: any) => (
                                     <span className="bg-green-500 rounded-xl py-1 px-2 text-white">
@@ -146,11 +146,11 @@ const DynamicTable: React.FC<Props> = (props) => {
                             );
                           } else if (key === "image") {
                             return (
-                              <td className="px-3 py-3 border-b border-gray-200">
+                              <td className="px-3 py-3 ">
                                 <img
-                                  width="150px"
                                   src={row[key]}
-                                  className=""></img>
+                                  className="w-[100px] h-[100px] object-cover"
+                                  />
                               </td>
                             );
                           } else if (key === "icon") {
@@ -163,7 +163,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                             );
                           } else if (key === "logo") {
                             return (
-                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <td className="px-5 py-5  bg-white text-sm">
                                 <Image
                                   width={80}
                                   height={80}
@@ -176,7 +176,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                             );
                           } else {
                             return (
-                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <td className="px-5 py-5 bg-white text-sm">
                                 <p className="text-gray-900 whitespace-no-wrap">
                                   {row[key]}
                                 </p>
@@ -185,7 +185,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                           }
                         })}
                         {actions && (
-                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <td className="px-5 py-5  bg-white text-sm">
                             {actions?.isViewable && (
                               <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
                                 <span className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center">

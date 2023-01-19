@@ -339,7 +339,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                 </div>
 
                 <div className="col-12">
-                  <button className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]">Save</button>
+                  <button className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]">Update</button>
                 </div>
               </form>
             </div>
