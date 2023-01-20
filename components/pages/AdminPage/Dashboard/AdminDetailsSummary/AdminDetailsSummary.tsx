@@ -12,8 +12,7 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
     <div>
       <div
         className="flex justify-between  bg-white my-12 rounded-[3px]"
-        style={{ margin: "25px", padding: "20px", height: "72px" }}
-      >
+        style={{ margin: "25px", padding: "20px", height: "72px" }}>
         <div>
           <h1 className="text-2xl font-semibold">Dashboard</h1>
         </div>
@@ -26,8 +25,7 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
                 <div className="flex flex-row bg-white shadow-sm rounded p-2 justify-center items-center">
                   <div
                     className={`flex items-center justify-center flex-shrink-0 h-14 w-14 p-2   border`}
-                    style={{ backgroundColor: data.bgColor }}
-                  >
+                    style={{ backgroundColor: data.bgColor }}>
                     <data.icons className="w-6 h-6 text-white"></data.icons>
                   </div>
                   <div className="flex flex-col flex-grow ml-4">
