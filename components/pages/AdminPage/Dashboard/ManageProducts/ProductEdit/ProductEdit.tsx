@@ -1,16 +1,14 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { Jsondata } from '../../../../../../src/utils/Jsondata';
-import { controller } from './../../../../../../src/state/StateController';
-import DashboardBreadcrumb from './../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb';
-import SharedGoBackButton from './../../../../../shared/SharedGoBackButton/SharedGoBackButton';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Jsondata } from "../../../../../../src/utils/Jsondata";
+import { controller } from "./../../../../../../src/state/StateController";
+import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
 
-interface Props {
-}
+interface Props {}
 
 const ProductEdit: React.FC<Props> = (props) => {
-
-  const states = useSelector(() => controller.states)
+  const states = useSelector(() => controller.states);
 
   const { itemDetail } = Jsondata;
 
@@ -36,9 +34,9 @@ const ProductEdit: React.FC<Props> = (props) => {
     status,
     SEO_title,
     SEO_description,
-    images
+    images,
   } = itemDetail;
-  
+
   return (
     <div className="w-full ">
       <DashboardBreadcrumb
@@ -270,7 +268,6 @@ const ProductEdit: React.FC<Props> = (props) => {
                       name="new_arrival"
                       id="new_arrival"
                       checked={highlight.includes("New Arrival")}
-
                     />{" "}
                     <label htmlFor="new_arrival" className="mr-3">
                       New Arrival
@@ -280,7 +277,6 @@ const ProductEdit: React.FC<Props> = (props) => {
                       name="best_product"
                       id="best_product"
                       checked={highlight.includes("Best Product")}
-
                     />{" "}
                     <label htmlFor="best_product" className="mr-3">
                       Best Product
@@ -290,15 +286,46 @@ const ProductEdit: React.FC<Props> = (props) => {
                       name="is_featured"
                       id="is_featured"
                       checked={highlight.includes("Featured Product")}
-
                     />{" "}
                     <label htmlFor="is_featured" className="mr-3">
                       Featured Product
                     </label>
                   </div>
                 </div>
+                {offerPrice ? (
+                  <div className="form-group col-12 flex flex-col mb-[25px]">
+                    <label className="inline-block text-sm tracking-wide mb-2">
+                      Products Request from seller
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
+                      name="status"
+                      id=""
+                      required
+                    >
+                      <option value="active">Approved</option>
+                      <option value="inactive">Pending</option>
+                    </select>
+                  </div>
+                ) : (
+                  <div className="form-group col-12 flex flex-col mb-[25px]">
+                    <label className="inline-block text-sm tracking-wide mb-2">
+                      Status <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
+                      name="status"
+                      id=""
+                      required
+                    >
+                      <option value="active">Active</option>
+                      <option value="inactive">InActive</option>
+                    </select>
+                  </div>
+                )}
 
-                <div className="form-group col-12 flex flex-col mb-[25px]">
+                {/* <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Status <span className="text-red-500">*</span>
                   </label>
@@ -311,7 +338,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                     <option value="active">Active</option>
                     <option value="inactive">InActive</option>
                   </select>
-                </div>
+                </div> */}
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
@@ -339,7 +366,9 @@ const ProductEdit: React.FC<Props> = (props) => {
                 </div>
 
                 <div className="col-12">
-                  <button className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]">Update</button>
+                  <button className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]">
+                    Update
+                  </button>
                 </div>
               </form>
             </div>
@@ -347,7 +376,7 @@ const ProductEdit: React.FC<Props> = (props) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductEdit
+export default ProductEdit;
