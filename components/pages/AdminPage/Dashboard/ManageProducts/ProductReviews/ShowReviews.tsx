@@ -1,63 +1,66 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { controller } from "../../../../../../src/state/StateController";
 import { Jsondata } from "../../../../../../src/utils/Jsondata";
-import { controller } from "./../../../../../../src/state/StateController";
-import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
-import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import ToggleButton from "../../ManageCategories/ToggleButton/ToggleButton";
 
-interface Props {
-  actions: {
-    isSeller?: boolean;
-  };
-}
+interface Props {}
 
-const ProductEdit: React.FC<Props> = (props) => {
+const ShowReviews: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const { actions } = props;
-
-  const { itemDetail } = Jsondata;
-
-  const {
-    short_name,
-    name,
-    slug,
-    category,
-    sub_category,
-    brand,
-    sku,
-    rating,
-    reviews,
-    price,
-    offerPrice,
-    formerPrice,
-    currentPrice,
-    availability,
-    weight,
-    description,
-    long_description,
-    highlight,
-    status,
-    SEO_title,
-    SEO_description,
-    images,
-  } = itemDetail;
+  const { productReviews } = Jsondata;
 
   return (
     <div className="w-full ">
       <DashboardBreadcrumb
-        headline="Edit Product"
-        link="/product_brands/edit"
-        slug="Edit Product"
+        headline="Product Review"
+        link="/product_reviews/review"
+        slug="Product Review"
       ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
-            title="Products"
-            link="/products"
+            title="Product Review"
+            link="/product_reviews"
           ></SharedGoBackButton>
         </div>
       </div>
-      <div className="px-[25px] w-full relative">
+      <div className="ml-[45px] mt-10 text-qgray">
+        <table className="ml-10">
+          <tbody>
+            {productReviews.map((productReview, index) => (
+              <>
+                <tr>
+                  <td className="px-[25px] h-16">User Name</td>
+                  <td className="px-[25px] pl-96 h-16">{productReview.name}</td>
+                </tr>
+                <tr>
+                  <td className="px-[25px] h-16">User Email</td>
+                  <td className="px-[25px] pl-96 h-16">{productReview.name}</td>
+                </tr>
+              </>
+            ))}
+
+            {/* <tr>
+              <td className="px-[25px] h-16">Rating</td>
+              <td className="px-[25px] pl-96 h-16">sadab</td>
+            </tr>
+            <tr>
+              <td className="px-[25px] h-16">Review</td>
+              <td className="px-[25px] pl-96 h-16">sadab</td>
+            </tr>
+            <tr>
+              <td className="px-[25px] h-16">Status</td>
+              <td className="px-[25px] pl-96 h-16">
+                <ToggleButton status={productReviews.status} />
+              </td>
+            </tr> */}
+          </tbody>
+        </table>
+      </div>
+      {/* <div className="px-[25px] w-full relative">
         <div className="mt-4">
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6 mt-7">
@@ -364,9 +367,9 @@ const ProductEdit: React.FC<Props> = (props) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
 
-export default ProductEdit;
+export default ShowReviews;

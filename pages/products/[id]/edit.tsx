@@ -1,16 +1,16 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import ProductEdit from '../../../components/pages/AdminPage/Dashboard/ManageProducts/ProductEdit/ProductEdit';
-import { controller } from './../../../src/state/StateController';
+import React from "react";
+import { useSelector } from "react-redux";
+import ProductEdit from "../../../components/pages/AdminPage/Dashboard/ManageProducts/ProductEdit/ProductEdit";
+import { controller } from "./../../../src/state/StateController";
 
-interface Props {
-}
-
+interface Props {}
+const actions = {
+  isSeller: false,
+};
 const edit: React.FC<Props> = (props) => {
+  const states = useSelector(() => controller.states);
 
-  const states = useSelector(() => controller.states)
-  
-  return <ProductEdit />
-}
+  return <ProductEdit actions={actions} />;
+};
 
-export default edit
+export default edit;

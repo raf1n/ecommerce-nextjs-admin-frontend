@@ -507,28 +507,32 @@ export class Jsondata {
       product: "Apple watch pro",
       rating: "5",
       status: "active",
+      // email: "aa@gmail.com",
     },
-    {
-      id: 2,
-      name: "Amaya Hendrix",
-      product: "Apple watch pro",
-      rating: "5",
-      status: "active",
-    },
-    {
-      id: 3,
-      name: "Amaya Hendrix",
-      product: "Apple watch pro",
-      rating: "5",
-      status: "active",
-    },
-    {
-      id: 4,
-      name: "Amaya Hendrix",
-      product: "Apple watch pro",
-      rating: "5",
-      status: "active",
-    },
+    // {
+    //   id: 2,
+    //   name: "Amaya Hendrix",
+    //   product: "Apple watch pro",
+    //   rating: "5",
+    //   status: "active",
+    //   // email: "aa@gmail.com",
+    // },
+    // {
+    //   id: 3,
+    //   name: "Amaya Hendrix",
+    //   product: "Apple watch pro",
+    //   rating: "5",
+    //   status: "active",
+    //   // email: "aa@gmail.com",
+    // },
+    // {
+    //   id: 4,
+    //   name: "Amaya Hendrix",
+    //   product: "Apple watch pro",
+    //   rating: "5",
+    //   status: "active",
+    //   // email: "aa@gmail.com",
+    // },
   ];
 
   static dashboardSummaryData = [

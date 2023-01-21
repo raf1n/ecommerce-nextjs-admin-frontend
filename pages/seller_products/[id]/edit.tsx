@@ -4,11 +4,13 @@ import ProductEdit from "../../../components/pages/AdminPage/Dashboard/ManagePro
 import { controller } from "../../../src/state/StateController";
 
 interface Props {}
-
+const actions = {
+  isSeller: true,
+};
 const edit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
-  return <ProductEdit />;
+  return <ProductEdit actions={actions} />;
 };
 
 export default edit;

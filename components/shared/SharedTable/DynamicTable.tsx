@@ -20,6 +20,7 @@ interface Props {
     isDeletable?: boolean;
     isShipping?: boolean;
     isViewable?: boolean;
+    isSeller?: boolean;
   };
   testDynamicTableData: Array<object>;
 }
@@ -192,7 +193,12 @@ const DynamicTable: React.FC<Props> = (props) => {
                           <td className="px-5 py-5  bg-white text-sm">
                             {actions?.isViewable && (
                               <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
-                                <span className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center">
+                                <span
+                                  onClick={() =>
+                                    router.push(`${asPath}/${row.id}/review`)
+                                  }
+                                  className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center"
+                                >
                                   <FaEye />
                                 </span>
                               </span>

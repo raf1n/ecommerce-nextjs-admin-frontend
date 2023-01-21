@@ -8,24 +8,31 @@ import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/
 import DynamicTable from "../../../../../shared/SharedTable/DynamicTable";
 
 interface Props {}
-const tableHeaders = ["SN", "Name", "Product", "Rating", "Status", "Action"];
+const tableHeaders = [
+  "SN",
+  "Name",
+  "Price",
+  "Photo",
+  "Type",
+  "Status",
+  "Action",
+];
 const actions = {
-  // isEditable: true,
+  isEditable: true,
   isDeletable: true,
-  isViewable: true,
   isSeller: true,
 };
 
-const ProductReview: React.FC<Props> = (props) => {
+const ProductReport: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const { productReviews } = Jsondata;
+  const { adminProductsData } = Jsondata;
 
   return (
     <div className="w-full">
       <DashboardBreadcrumb
-        headline="Product Reviews"
-        slug="Product Reviews"
-        link="/product_reviews"
+        headline="Product Report"
+        slug="Product Report"
+        link="/product_report"
       ></DashboardBreadcrumb>
       <div className="mx-[25px]">
         <div className="section-body">
@@ -36,7 +43,7 @@ const ProductReview: React.FC<Props> = (props) => {
             <DynamicTable
               tableHeaders={tableHeaders}
               actions={actions}
-              testDynamicTableData={productReviews}
+              testDynamicTableData={adminProductsData}
             />
           </div>
         </div>
@@ -45,4 +52,4 @@ const ProductReview: React.FC<Props> = (props) => {
   );
 };
 
-export default ProductReview;
+export default ProductReport;

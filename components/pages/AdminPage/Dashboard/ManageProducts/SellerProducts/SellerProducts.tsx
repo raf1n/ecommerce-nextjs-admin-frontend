@@ -20,6 +20,7 @@ const tableHeaders = [
 const actions = {
   isEditable: true,
   isDeletable: true,
+  isSeller: true,
 };
 const SellerProducts: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
