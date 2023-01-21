@@ -40,6 +40,26 @@ const ShowReviews: React.FC<Props> = (props) => {
                   <td className="px-[25px] h-16">User Email</td>
                   <td className="px-[25px] pl-96 h-16">{productReview.name}</td>
                 </tr>
+                <tr>
+                  <td className="px-[25px] h-16">Product</td>
+                  <td className="px-[25px] pl-96 h-16">
+                    {productReview.product}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-[25px] h-16">Rating</td>
+                  <td className="px-[25px] pl-96 h-16">5</td>
+                </tr>
+                <tr>
+                  <td className="px-[25px] h-16">Review</td>
+                  <td className="px-[25px] pl-96 h-16">...</td>
+                </tr>
+                <tr>
+                  <td className="px-[25px] h-16">Status</td>
+                  <td className="px-[25px] pl-96 h-16">
+                    <ToggleButton status={productReview.status} />
+                  </td>
+                </tr>
               </>
             ))}
 
