@@ -30,7 +30,7 @@ const ShowReviews: React.FC<Props> = (props) => {
       <div className="mx-[40px] mt-10 text-qgray bg-white">
         <div className="p-10">
           <table className="w-full">
-            <tbody className={Styles["tbody"]}>
+            <tbody>
               {productReviews.map((productReview, index) => (
                 <>
                   <tr className="bg-gray-200">
