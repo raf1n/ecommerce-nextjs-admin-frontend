@@ -62,14 +62,17 @@ const OrderInformation: React.FC<Props> = (props) => {
                     </div>
                   </div>
                   {/* ---------------------------- */}
-                  <div className="row flex justify-between bg-white">
+                  <div className="row flex justify-between bg-white mt-4">
                     <div className="col-md-6">
                       <div className="text-left">
                         <strong>Payment Information:</strong>
                         <br />
                         Method: Razorpay
                         <br />
-                        Status : Success
+                        Status :
+                        <span className="bg-[#47c363] rounded-full px-2 py-1 text-white text-xs">
+                          Success
+                        </span>
                         <br />
                         Transaction:
                         <br />
@@ -77,7 +80,7 @@ const OrderInformation: React.FC<Props> = (props) => {
                         <br />
                       </div>
                     </div>
-                    <div className="col-md-6 right">
+                    <div className="col-md-6 right  mt-3">
                       <div className="text-right">
                         <strong>Order Information:</strong>
                         <br />
@@ -85,7 +88,10 @@ const OrderInformation: React.FC<Props> = (props) => {
                         <br />
                         Shipping: free shipping
                         <br />
-                        Status : Pending
+                        Status :
+                        <span className="bg-[#fc544b] rounded-full px-2 py-1 text-white text-xs">
+                          Pending
+                        </span>
                         <br />
                       </div>
                     </div>
@@ -94,7 +100,10 @@ const OrderInformation: React.FC<Props> = (props) => {
               </div>
             </div>
             {/* ------------- Table  ------------------------ */}
-
+            <div className="flex mb-[40px]">
+              <div className="w-[30px] h-[8px] rounded-md bg-[#6777ef] mt-[6px] mr-[15px]   "></div>
+              <h2 className="font-semibold">Order Summary</h2>
+            </div>
             <div className="overflow-x-auto">
               <OrderInvoiceTable />
             </div>
@@ -135,6 +144,7 @@ const OrderInformation: React.FC<Props> = (props) => {
                   Update Status
                 </button>
               </div>
+              {/* -------------- Only hr  ------------------- */}
               <div className="text-right mt-[40px] opacity-60 text-sm lg:w-1/2 ">
                 <div>
                   <p className="leading-7">Subtotal : $89.99</p>
@@ -148,12 +158,13 @@ const OrderInformation: React.FC<Props> = (props) => {
               </div>
             </div>
           </div>
+          <div className="my-10 border-t border-gray-50"></div>
           <div className="text-md-right print-area  flex justify-end">
-            <button className="bg-green-500 shadow-[0_4px_6px_#acb5f6] px-[14px] py-[8px] text-white text-sm rounded mt-1 flex  items-center  gap-1 ">
+            <button className="bg-green-500 shadow-[0_4px_4px_#acb5f6] px-[14px] py-[8px] text-white text-sm rounded mt-1 flex  items-center  gap-1 ">
               <HiPrinter className="w-4 h-4" />
               Print
             </button>
-            <button className="bg-[#fb160a] ml-[3px] shadow-[0_4px_6px_#acb5f6] px-[14px] py-[8px] text-white text-sm rounded mt-1 flex  items-center  gap-1 ">
+            <button className="bg-[#fb160a] ml-[3px] shadow-[0_4px_4px_#acb5f6] px-[14px] py-[8px] text-white text-sm rounded mt-1 flex  items-center  gap-1 ">
               <ImCross className="w-[10px] h-[10px]" />
               Delete
             </button>

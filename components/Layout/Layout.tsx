@@ -6,6 +6,7 @@ import { FaBars, FaHome, FaSignOutAlt } from "react-icons/fa";
 import { MdArrowDropDown } from "react-icons/md";
 import { HiOutlineUser } from "react-icons/hi";
 import styles from "../pages/AdminPage/Dashboard/Dashboard.module.css";
+import Link from "next/link";
 interface Props {
   children: any;
 }
@@ -95,12 +96,12 @@ const Layout: React.FC<Props> = ({ children }) => {
         <div className={` ${show ? "block" : "hidden"} relative`}>
           <div className={`${styles["dropdown-menu"]} -mt-14 mr-2`}>
             <div>
-              <a href="/profile" className="flex text-xs">
+              <Link href="/profile" className="flex text-xs">
                 <span className="pr-2">
                   <HiOutlineUser />
                 </span>
                 Profile
-              </a>
+              </Link>
 
               <div className="border-t"></div>
               <a href="/logout" className="flex text-xs font-medium">
