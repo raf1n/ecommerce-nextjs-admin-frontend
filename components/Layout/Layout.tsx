@@ -6,6 +6,7 @@ import { FaBars, FaHome, FaSignOutAlt } from "react-icons/fa";
 import { MdArrowDropDown } from "react-icons/md";
 import { HiOutlineUser } from "react-icons/hi";
 import styles from "../pages/AdminPage/Dashboard/Dashboard.module.css";
+import Link from "next/link";
 interface Props {
   children: any;
 }
@@ -26,7 +27,7 @@ const Layout: React.FC<Props> = ({ children }) => {
   };
 
   return (
-    <div className="flex h-screen overflow-y-hidden bg-[#f4f6f9]">
+    <div className="font-nunito flex h-screen overflow-y-hidden bg-[#f4f6f9]">
       {/* left side bar */}
       <Sidebar
         open={open}
@@ -48,7 +49,7 @@ const Layout: React.FC<Props> = ({ children }) => {
 
       {/* right side dashboard */}
       <div className="flex-1 overflow-y-auto">
-        <div className="flex flex-row justify-between h-[115px] bg-[#6777ef]">
+        <div className="flex flex-row pb-9 justify-between h-[115px] bg-[#6777ef]">
           <div className="flex-1 flex items-center pl-[24px]">
             {/* for big screen: hamberger */}
             <FaBars
@@ -58,7 +59,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                 setResponsiveOpen(false);
               }}
             />
-            {/* for small screen: hamberger */}
+
             <FaBars
               className={` cursor-pointer w-5 h-5 block lg:hidden duration-300 ease-in text-white`}
               onClick={() => {
@@ -85,8 +86,8 @@ const Layout: React.FC<Props> = ({ children }) => {
                   alt="pic"
                   className={`${styles["img-style"]}`}
                 />
-                <span className="text-sm  pt-1 pl-2">Admin</span>
-                <span className="text-xl  pt-1">
+                <span className="text-sm pt-1 pl-2 hidden lg:block">Admin</span>
+                <span className="text-xl pt-1">
                   <MdArrowDropDown />
                 </span>
               </div>
@@ -94,15 +95,15 @@ const Layout: React.FC<Props> = ({ children }) => {
           </div>
         </div>
 
-        <div className={` ${show ? "block" : "hidden"} `}>
-          <div className={`${styles["dropdown-menu"]}  mt-3`}>
+        <div className={` ${show ? "block" : "hidden"} relative`}>
+          <div className={`${styles["dropdown-menu"]} -mt-14 mr-2`}>
             <div>
-              <a href="/profile" className="flex text-xs">
+              <Link href="/profile" className="flex text-xs">
                 <span className="pr-2">
                   <HiOutlineUser />
                 </span>
                 Profile
-              </a>
+              </Link>
 
               <div className="border-t"></div>
               <a href="/logout" className="flex text-xs font-medium">
@@ -114,7 +115,7 @@ const Layout: React.FC<Props> = ({ children }) => {
             </div>
           </div>
         </div>
-        <div className="mt-[-50px] w-full">{children}</div>
+        <div className="mt-[-55px] w-full">{children}</div>
       </div>
     </div>
   );

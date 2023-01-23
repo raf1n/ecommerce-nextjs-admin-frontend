@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaEdit,
   FaLongArrowAltDown,
@@ -13,30 +13,30 @@ import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedA
 
 import ToggleButton from "../ToggleButton/ToggleButton";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 
 interface Props {}
 
 const MegaMenuCategory: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
+  const { asPath } = router;
 
   return (
-    <div className="w-full mt-10">
+    <div className="w-full">
       <DashboardBreadcrumb
         headline="Mega Menu Category"
         slug="Product Category"
         link="/Product Category"
       ></DashboardBreadcrumb>
-      <div className="m-10">
-        {/* <div className={`${styles["section-header"]}  justify-between`}>
-          <h1 className={`${styles["title"]} `}>Mega Menu Category</h1>
-          <div className={`${styles["section-header-breadcrumb"]} `}> */}
-
-        {/* </div>
-        </div> */}
+      <div className="m-6">
         <div className="section-body">
-          <a href="">
+          <Link className="inline-block" href="mega_menu_category/create">
             <SharedAddNewButton></SharedAddNewButton>
-          </a>
+          </Link>
           <div>
             <div style={{ marginTop: "25px", backgroundColor: "white" }}>
               <div className="p-4 rounded w-full">
@@ -121,11 +121,14 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
                         <tbody>
                           {Jsondata.categoriesTableData
                             .slice(0, 3)
-                            .map((categoryTableData, index) => (
-                              <tr className="even:bg-gray-50 odd:bg-white">
+                            .map((categoryTableData, indx) => (
+                              <tr
+                                key={indx}
+                                className="even:bg-gray-50 odd:bg-white"
+                              >
                                 <td className="px-3 py-3    text-sm">
                                   <p className="text-gray-900 whitespace-no-wrap">
-                                    {index + 1}
+                                    {indx + 1}
                                   </p>
                                 </td>
                                 <td className="px-3 py-3  text-sm">
@@ -135,17 +138,25 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
                                 </td>
                                 <td className="px-3 py-3    text-sm">
                                   <p className="text-gray-900 whitespace-no-wrap">
-                                    {index + 1}
+                                    {indx + 1}
                                   </p>
                                 </td>
                                 <td className="px-3 py-3  text-sm">
                                   <span className="text-gray-900 whitespace-no-wrap">
-                                    <ToggleButton />
+                                    <ToggleButton
+                                      status={categoryTableData.status}
+                                    />
                                   </span>
                                 </td>
 
                                 <td className="px-2 py-3  text-sm">
-                                  <button>
+                                  <button
+                                    onClick={() =>
+                                      router.push(
+                                        `${asPath}/${categoryTableData.id}/edit`
+                                      )
+                                    }
+                                  >
                                     <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                       <span
                                         style={{
@@ -169,7 +180,7 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
                                       </span>
                                     </span>
                                   </button>
-                                  <button>
+                                  <button onClick={() => setShowModal(true)}>
                                     <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                       <span
                                         style={{
@@ -198,6 +209,10 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
                             ))}
                         </tbody>
                       </table>
+                      <SharedDeleteModal
+                        setShowModal={setShowModal}
+                        showModal={showModal}
+                      ></SharedDeleteModal>
                       {/* -------------- */}
                       <div className="px-5 py-5  border-t flex justify-end">
                         <div className="inline-flex mt-2 xs:mt-0">

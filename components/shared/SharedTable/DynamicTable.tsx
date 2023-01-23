@@ -1,23 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../src/state/StateController";
-import { FaEdit, FaEye, FaTrash, FaTruck } from "react-icons/fa";
+import {
+  FaEdit,
+  FaEye,
+  FaTrash,
+  FaTruck,
+  FaLongArrowAltUp,
+  FaLongArrowAltDown,
+} from "react-icons/fa";
+import ToggleButton from "../../pages/AdminPage/Dashboard/ManageCategories/ToggleButton/ToggleButton";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import SharedDeleteModal from "./../SharedDeleteModal/SharedDeleteModal";
 interface Props {
   tableHeaders: Array<string>;
-  actions: {
+  actions?: {
     isEditable?: boolean;
     isDeletable?: boolean;
     isShipping?: boolean;
     isViewable?: boolean;
+    isSeller?: boolean;
   };
   testDynamicTableData: Array<object>;
 }
-
 const DynamicTable: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-
+  const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
+  const { asPath } = router;
   const { tableHeaders, actions, testDynamicTableData } = props;
-
   return (
     <div>
       <div className="bg-white p-8 rounded-md w-full">
@@ -67,8 +79,12 @@ const DynamicTable: React.FC<Props> = (props) => {
                 <thead>
                   <tr>
                     {tableHeaders.map((header, idx) => (
-                      <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        {header}
+                      <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <span className="flex">
+                          {header}
+                          <FaLongArrowAltUp className="w-2 ml-2 cursor-pointer" />{" "}
+                          <FaLongArrowAltDown className="w-2 ml-1 cursor-pointer" />
+                        </span>
                       </th>
                     ))}
                   </tr>
@@ -77,11 +93,22 @@ const DynamicTable: React.FC<Props> = (props) => {
                 <tbody>
                   {testDynamicTableData.map((row: any, idx) => {
                     return (
-                      <tr>
+                      <tr className="border-b border-gray-200">
                         {Object.keys(row).map((key: any, idx) => {
-                          if (key === "status" && row[key] === "pending") {
+                          if (key === "link") {
+                            return null;
+                          } else if (key === "status") {
                             return (
-                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <td className="px-3 py-3 text-sm ">
+                                <ToggleButton status={row[key]} />
+                              </td>
+                            );
+                          } else if (
+                            key === "orderStatus" &&
+                            row[key] === "pending"
+                          ) {
+                            return (
+                              <td className="px-5 py-5  bg-white text-sm">
                                 <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     aria-hidden
@@ -98,7 +125,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                             row[key] === "success"
                           ) {
                             return (
-                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <td className="px-5 py-5  bg-white text-sm">
                                 <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     aria-hidden
@@ -110,14 +137,25 @@ const DynamicTable: React.FC<Props> = (props) => {
                                 </span>
                               </td>
                             );
+                          } else if (key === "type") {
+                            return (
+                              <td className=" px-5 py-5  bg-white text-sm">
+                                <span className="flex gap-2">
+                                  {row[key].map((type: any) => (
+                                    <span className="bg-green-500 rounded-xl py-1 px-2 text-white">
+                                      {type}
+                                    </span>
+                                  ))}
+                                </span>
+                              </td>
+                            );
                           } else if (key === "image") {
                             return (
-                              <td className="px-3 py-3    ">
+                              <td className="px-3 py-3 ">
                                 <img
-                                  width="150px"
                                   src={row[key]}
-                                  className=""
-                                ></img>
+                                  className="w-[100px] h-[100px] object-cover"
+                                />
                               </td>
                             );
                           } else if (key === "icon") {
@@ -128,9 +166,22 @@ const DynamicTable: React.FC<Props> = (props) => {
                                 </p>
                               </td>
                             );
+                          } else if (key === "logo") {
+                            return (
+                              <td className="px-5 py-5  bg-white text-sm">
+                                <Image
+                                  width={80}
+                                  height={80}
+                                  loader={() => row[key]}
+                                  className="w-20 h-20 rounded-full object-cover"
+                                  src={row[key]}
+                                  alt="logo"
+                                />
+                              </td>
+                            );
                           } else {
                             return (
-                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <td className="px-5 py-5 bg-white text-sm">
                                 <p className="text-gray-900 whitespace-no-wrap">
                                   {row[key]}
                                 </p>
@@ -138,42 +189,60 @@ const DynamicTable: React.FC<Props> = (props) => {
                             );
                           }
                         })}
-
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          {actions.isViewable && (
-                            <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
-                              <span className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center">
-                                <FaEye />
+                        {actions && (
+                          <td className="px-5 py-5  bg-white text-sm">
+                            {actions?.isViewable && (
+                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
+                                <span
+                                  onClick={() =>
+                                    router.push(`${asPath}/${row.id}/review`)
+                                  }
+                                  className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center"
+                                >
+                                  <FaEye />
+                                </span>
                               </span>
-                            </span>
-                          )}
-                          {actions.isEditable && (
-                            <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
-                              <span className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center">
-                              <FaEdit />
+                            )}
+                            {actions?.isEditable && (
+                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
+                                <span
+                                  onClick={() =>
+                                    router.push(`${asPath}/${row.id}/edit`)
+                                  }
+                                  className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center"
+                                >
+                                  <FaEdit />
+                                </span>
                               </span>
-                            </span>
-                          )}
-                          {actions.isDeletable && (
-                            <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
-                              <span className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-red-500 rounded relative text-white flex justify-center items-center">
-                                <FaTrash />
+                            )}
+                            {actions?.isDeletable && (
+                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
+                                <span
+                                  onClick={() => setShowModal(true)}
+                                  className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-red-500 rounded relative text-white flex justify-center items-center"
+                                >
+                                  <FaTrash />
+                                </span>
                               </span>
-                            </span>
-                          )}
-                          {actions.isShipping && (
-                            <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
-                              <span className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-orange-400 rounded relative text-white flex justify-center items-center">
-                                <FaTruck />
+                            )}
+                            {actions?.isShipping && (
+                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
+                                <span className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-orange-400 rounded relative text-white flex justify-center items-center">
+                                  <FaTruck />
+                                </span>
                               </span>
-                            </span>
-                          )}
-                        </td>
+                            )}
+                          </td>
+                        )}
                       </tr>
                     );
                   })}
                 </tbody>
               </table>
+              <SharedDeleteModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+              ></SharedDeleteModal>
               {/* -------------- */}
               <div className="px-5 py-5 bg-white border-t flex justify-between">
                 <span className="text-xs xs:text-sm text-gray-900">
@@ -189,7 +258,6 @@ const DynamicTable: React.FC<Props> = (props) => {
                   </button>
                 </div>
               </div>
-
               {/* ----------------- */}
             </div>
           </div>
@@ -198,5 +266,4 @@ const DynamicTable: React.FC<Props> = (props) => {
     </div>
   );
 };
-
 export default DynamicTable;
