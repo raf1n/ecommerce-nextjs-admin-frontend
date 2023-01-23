@@ -69,7 +69,7 @@ const AdminProfile: React.FC<Props> = (props) => {
                             <span className="text-red-500 ml-2">*</span>
                           </div>
                           <input
-                            className="w-full p-2 border border-cyan-200 rounded-md text-sm"
+                            className="w-full px-3 py-3 focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc] rounded-md text-sm text-qgray"
                             type="text"
                             value="Admin"
                             name="name"
@@ -87,7 +87,7 @@ const AdminProfile: React.FC<Props> = (props) => {
                             <span className="text-red-500 ml-2">*</span>
                           </div>
                           <input
-                            className="w-full p-2 border border-cyan-200 rounded-md text-sm"
+                            className="w-full px-3 py-3 focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc] rounded-md text-sm text-qgray"
                             type="email"
                             value="admin@gmail.com"
                             name="name"
@@ -105,7 +105,7 @@ const AdminProfile: React.FC<Props> = (props) => {
                             {/* <span className='text-red-500 ml-2'>*</span> */}
                           </div>
                           <input
-                            className="w-full p-2 border border-cyan-200 rounded-md text-sm"
+                            className="w-full px-3 py-3 focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]  rounded-md text-sm"
                             type="password"
                             name=""
                             id=""
@@ -122,7 +122,7 @@ const AdminProfile: React.FC<Props> = (props) => {
                             {/* <span className='text-red-500 ml-2'>*</span> */}
                           </div>
                           <input
-                            className="w-full p-2 border border-cyan-200 rounded-md text-sm"
+                            className="w-full px-3 py-3 focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc] rounded-md text-sm"
                             type="password"
                             name=""
                             id=""

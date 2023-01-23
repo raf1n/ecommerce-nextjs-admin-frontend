@@ -5,7 +5,7 @@ import { Jsondata } from "../../../../../../src/utils/Jsondata";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import ToggleButton from "../../ManageCategories/ToggleButton/ToggleButton";
-
+import Styles from "./showReviews.module.css";
 interface Props {}
 
 const ShowReviews: React.FC<Props> = (props) => {
@@ -27,43 +27,48 @@ const ShowReviews: React.FC<Props> = (props) => {
           ></SharedGoBackButton>
         </div>
       </div>
-      <div className="ml-[45px] mt-10 text-qgray">
-        <table className="ml-10">
-          <tbody>
-            {productReviews.map((productReview, index) => (
-              <>
-                <tr>
-                  <td className="px-[25px] h-16">User Name</td>
-                  <td className="px-[25px] pl-96 h-16">{productReview.name}</td>
-                </tr>
-                <tr>
-                  <td className="px-[25px] h-16">User Email</td>
-                  <td className="px-[25px] pl-96 h-16">{productReview.name}</td>
-                </tr>
-                <tr>
-                  <td className="px-[25px] h-16">Product</td>
-                  <td className="px-[25px] pl-96 h-16">
-                    {productReview.product}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-[25px] h-16">Rating</td>
-                  <td className="px-[25px] pl-96 h-16">5</td>
-                </tr>
-                <tr>
-                  <td className="px-[25px] h-16">Review</td>
-                  <td className="px-[25px] pl-96 h-16">...</td>
-                </tr>
-                <tr>
-                  <td className="px-[25px] h-16">Status</td>
-                  <td className="px-[25px] pl-96 h-16">
-                    <ToggleButton status={productReview.status} />
-                  </td>
-                </tr>
-              </>
-            ))}
+      <div className="mx-[40px] mt-10 text-qgray bg-white">
+        <div className="p-10">
+          <table className="w-full">
+            <tbody className={Styles["tbody"]}>
+              {productReviews.map((productReview, index) => (
+                <>
+                  <tr className="bg-gray-200">
+                    <td className="px-[25px] h-16">User Name</td>
+                    <td className="px-[25px] pl-96 h-16">
+                      {productReview.name}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="px-[25px] h-16">User Email</td>
+                    <td className="px-[25px] pl-96 h-16">
+                      {productReview.name}
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-200">
+                    <td className="px-[25px] h-16">Product</td>
+                    <td className="px-[25px] pl-96 h-16">
+                      {productReview.product}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="px-[25px] h-16">Rating</td>
+                    <td className="px-[25px] pl-96 h-16">5</td>
+                  </tr>
+                  <tr className="bg-gray-200">
+                    <td className="px-[25px] h-16">Review</td>
+                    <td className="px-[25px] pl-96 h-16">...</td>
+                  </tr>
+                  <tr>
+                    <td className="px-[25px] h-16">Status</td>
+                    <td className="px-[25px] pl-96 h-16">
+                      <ToggleButton status={productReview.status} />
+                    </td>
+                  </tr>
+                </>
+              ))}
 
-            {/* <tr>
+              {/* <tr>
               <td className="px-[25px] h-16">Rating</td>
               <td className="px-[25px] pl-96 h-16">sadab</td>
             </tr>
@@ -77,8 +82,9 @@ const ShowReviews: React.FC<Props> = (props) => {
                 <ToggleButton status={productReviews.status} />
               </td>
             </tr> */}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
       {/* <div className="px-[25px] w-full relative">
         <div className="mt-4">
