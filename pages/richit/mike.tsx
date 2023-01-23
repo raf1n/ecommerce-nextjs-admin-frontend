@@ -1,20 +1,18 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { controller } from '../../src/state/StateController'
+import React from "react";
+import { useSelector } from "react-redux";
+import ShowReviews from "../../components/pages/AdminPage/Dashboard/ManageProducts/ProductReviews/ShowReviews";
+import { controller } from "../../src/state/StateController";
 
-
-interface Props {
-}
+interface Props {}
 
 const sadab: React.FC<Props> = (props) => {
+  const states = useSelector(() => controller.states);
 
-    const states = useSelector(() => controller.states)
+  return (
+    <>
+      <ShowReviews />
+    </>
+  );
+};
 
-    return (
-        <>
-
-        </>
-    )
-}
-
-export default sadab
+export default sadab;

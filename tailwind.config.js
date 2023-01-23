@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'nunito': ['Nunito'],
+      },
       colors: {
         'qblack': 'rgb(34 34 34/1)',
         'qblacktext': 'rgb(29 29 29/1)',
