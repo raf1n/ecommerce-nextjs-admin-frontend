@@ -10,6 +10,26 @@ interface Props {}
 const CreateCategories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
+  const handleSave = (e: any) => {
+    e.preventDefault();
+    const categories = {
+      cat_image: e.target.image.value,
+      cat_icon: e.target.icon.value,
+      cat_name: e.target.name.value,
+      // slug: e.target.slug.value,
+      cat_status: e.target.status.value,
+    };
+    fetch("http://localhost:8000/categories", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(categories),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data), e.target.reset());
+  };
+
   return (
     <div className="w-full">
       <DashboardBreadcrumb
@@ -29,7 +49,7 @@ const CreateCategories: React.FC<Props> = (props) => {
         <div className="mt-4">
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6">
-              <form action="">
+              <form onSubmit={handleSave} action="">
                 <div>
                   <div className="form-group grid text-sm">
                     <label
@@ -111,7 +131,7 @@ const CreateCategories: React.FC<Props> = (props) => {
                     </div>
                     <select
                       className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name=""
+                      name="status"
                       id=""
                     >
                       <option value="active">Active</option>

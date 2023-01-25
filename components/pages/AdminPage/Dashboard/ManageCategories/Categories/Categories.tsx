@@ -27,6 +27,12 @@ const Categories: React.FC<Props> = (props) => {
   const router = useRouter();
   const { asPath } = router;
 
+  fetch("http://localhost:8000/categories", {
+    method: "GET",
+  })
+    .then((res) => res.json())
+    .then((data) => console.log(data));
+
   const [showModal, setShowModal] = useState(false);
   return (
     <div className="w-full">
