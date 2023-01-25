@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "./../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
@@ -8,7 +8,66 @@ interface Props {}
 
 const ProductCreate: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [isCheckedTop, setIsCheckedTop] = useState(false);
+  const [isCheckedNew, setIsCheckedNew] = useState(false);
+  const [isCheckedBest, setIsCheckedBest] = useState(false);
+  const [isCheckedFeatured, setIsCheckedFeatured] = useState(false);
+  const [imageLink, setImageLink] = useState("");
+  console.log(imageLink);
+  const handleProductAdd = (e: any) => {
+    e.preventDefault();
 
+    // console.log(productData);
+    const image = e.target.imageURL.files[0];
+    const formData = new FormData();
+    formData.append("image", image);
+    fetch(
+      `https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setImageLink(data.data.url);
+        const productData = {
+          productName: e.target.productName.value,
+          price: parseFloat(e.target.productPrice.value),
+          offerPrice: parseFloat(e.target.offer_price.value),
+          catSlug: e.target.category.value,
+          subCatSlug: e.target.sub_category.value,
+          brandSlug: e.target.brand.value,
+          description: e.target.short_description.value,
+          status: e.target.productStatus.value,
+          imageURL: [imageLink],
+          stock: parseFloat(e.target.stock_quantity.value),
+          weight: parseFloat(e.target.weight.value),
+          seoTitle: e.target.seo_title.value,
+          seoDescription: e.target.seo_description.value,
+          isTopProduct: isCheckedTop,
+          isNewArrival: isCheckedNew,
+          isBestProduct: isCheckedBest,
+          isFeatured: isCheckedFeatured,
+        };
+        fetch("http://localhost:8000/products", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(productData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data.message);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      });
+
+    // console.log(productData);
+  };
   return (
     <div className="w-full ">
       <DashboardBreadcrumb
@@ -28,7 +87,7 @@ const ProductCreate: React.FC<Props> = (props) => {
         <div className="mt-4">
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6 mt-7">
-              <form action="">
+              <form onSubmit={handleProductAdd}>
                 <div className="form-group col-12 mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Thumbnail Image Preview
@@ -50,24 +109,11 @@ const ProductCreate: React.FC<Props> = (props) => {
                     Thumbnail Image <span className="text-red-500">*</span>
                   </label>
                   <input
+                    name="imageURL"
                     type="file"
                     className="form-control-file"
-                    name="thumb_image"
                   />
                 </div>
-
-                <div className="form-group col-12 flex flex-col mb-[25px]">
-                  <label className="inline-block text-sm tracking-wide mb-2">
-                    Short Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="short_name"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                    name="short_name"
-                  />
-                </div>
-
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Name <span className="text-red-500">*</span>
@@ -76,22 +122,9 @@ const ProductCreate: React.FC<Props> = (props) => {
                     type="text"
                     id="name"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                    name="name"
+                    name="productName"
                   />
                 </div>
-
-                <div className="form-group col-12 flex flex-col mb-[25px]">
-                  <label className="inline-block text-sm tracking-wide mb-2">
-                    Slug <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="slug"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                    name="slug"
-                  />
-                </div>
-
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Category <span className="text-red-500">*</span>
@@ -101,10 +134,10 @@ const ProductCreate: React.FC<Props> = (props) => {
                     id="category"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                   >
-                    <option value="electronics">Electronics</option>
-                    <option value="game">Game</option>
-                    <option value="mobile">Mobile</option>
-                    <option value="television">Television</option>
+                    <option value="electronics_slug">Electronics</option>
+                    <option value="game_slug">Game</option>
+                    <option value="mobile_slug">Mobile</option>
+                    <option value="television_slug">Television</option>
                   </select>
                 </div>
 
@@ -117,10 +150,10 @@ const ProductCreate: React.FC<Props> = (props) => {
                     id="sub_category"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                   >
-                    <option value="electronics">Electronics</option>
-                    <option value="game">Game</option>
-                    <option value="mobile">Mobile</option>
-                    <option value="television">Television</option>
+                    <option value="electronics_slug">Electronics</option>
+                    <option value="game_slug">Game</option>
+                    <option value="mobile_slug">Mobile</option>
+                    <option value="television_slug">Television</option>
                   </select>
                 </div>
 
@@ -133,25 +166,12 @@ const ProductCreate: React.FC<Props> = (props) => {
                     id="brand"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                   >
-                    <option value="electronics">Electronics</option>
-                    <option value="game">Game</option>
-                    <option value="mobile">Mobile</option>
-                    <option value="television">Television</option>
+                    <option value="electronics_slug">Electronics</option>
+                    <option value="game_slug">Game</option>
+                    <option value="mobile_slug">Mobile</option>
+                    <option value="television_slug">Television</option>
                   </select>
                 </div>
-
-                <div className="form-group col-12 flex flex-col mb-[25px]">
-                  <label className="inline-block text-sm tracking-wide mb-2">
-                    SKU
-                  </label>
-                  <input
-                    type="text"
-                    id="sku"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                    name="sku"
-                  />
-                </div>
-
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Price <span className="text-red-500">*</span>
@@ -160,13 +180,13 @@ const ProductCreate: React.FC<Props> = (props) => {
                     type="number"
                     id="price"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                    name="price"
+                    name="productPrice"
                   />
                 </div>
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
-                    Offer Price <span className="text-red-500">*</span>
+                    Offer Price
                   </label>
                   <input
                     type="number"
@@ -220,7 +240,8 @@ const ProductCreate: React.FC<Props> = (props) => {
                       type="checkbox"
                       name="top_product"
                       id="top_product"
-                    />{" "}
+                      onChange={() => setIsCheckedTop(!isCheckedTop)}
+                    />
                     <label htmlFor="top_product" className="mr-3">
                       Top Product
                     </label>
@@ -228,7 +249,8 @@ const ProductCreate: React.FC<Props> = (props) => {
                       type="checkbox"
                       name="new_arrival"
                       id="new_arrival"
-                    />{" "}
+                      onChange={() => setIsCheckedNew(!isCheckedNew)}
+                    />
                     <label htmlFor="new_arrival" className="mr-3">
                       New Arrival
                     </label>
@@ -236,7 +258,8 @@ const ProductCreate: React.FC<Props> = (props) => {
                       type="checkbox"
                       name="best_product"
                       id="best_product"
-                    />{" "}
+                      onChange={() => setIsCheckedBest(!isCheckedBest)}
+                    />
                     <label htmlFor="best_product" className="mr-3">
                       Best Product
                     </label>
@@ -244,7 +267,8 @@ const ProductCreate: React.FC<Props> = (props) => {
                       type="checkbox"
                       name="is_featured"
                       id="is_featured"
-                    />{" "}
+                      onChange={() => setIsCheckedFeatured(!isCheckedFeatured)}
+                    />
                     <label htmlFor="is_featured" className="mr-3">
                       Featured Product
                     </label>
@@ -257,7 +281,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                   </label>
                   <select
                     className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                    name="status"
+                    name="productStatus"
                     id=""
                     required
                   >
@@ -290,7 +314,9 @@ const ProductCreate: React.FC<Props> = (props) => {
                 </div>
 
                 <div className="col-12">
-                  <button className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]">Save</button>
+                  <button className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]">
+                    Save
+                  </button>
                 </div>
               </form>
             </div>
