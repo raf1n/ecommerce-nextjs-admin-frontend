@@ -1,16 +1,23 @@
-import React from 'react'
-import Link from 'next/link';
-import { useSelector } from 'react-redux'
-import { controller } from './../../../../../../src/state/StateController';
-import { Jsondata } from '../../../../../../src/utils/Jsondata';
-import DashboardBreadcrumb from '../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb';
-import SharedAddNewButton from './../../../../../shared/SharedAddNewButton/SharedAddNewButton';
-import DynamicTable from './../../../../../shared/SharedTable/DynamicTable';
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { useSelector } from "react-redux";
+import { controller } from "./../../../../../../src/state/StateController";
+import { Jsondata } from "../../../../../../src/utils/Jsondata";
+import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import SharedAddNewButton from "./../../../../../shared/SharedAddNewButton/SharedAddNewButton";
+import DynamicTable from "./../../../../../shared/SharedTable/DynamicTable";
 
-interface Props {
-}
+interface Props {}
 
-const tableHeaders = ["SN", "Name", "Price", "Photo", "Type", "Status", "Action"];
+const tableHeaders = [
+  "SN",
+  "Name",
+  "Price",
+  "Photo",
+  "Type",
+  "Status",
+  "Action",
+];
 
 const actions = {
   isEditable: true,
@@ -18,10 +25,14 @@ const actions = {
 };
 
 const Products: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states)
-
+  const states = useSelector(() => controller.states);
+  const [productsData, setProductsData] = useState([]);
   const { adminProductsData } = Jsondata;
-  
+  useEffect(() => {
+    fetch("http://localhost:8000/products/")
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }, []);
   return (
     <div className="w-full">
       <DashboardBreadcrumb
@@ -44,7 +55,7 @@ const Products: React.FC<Props> = (props) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Products
+export default Products;

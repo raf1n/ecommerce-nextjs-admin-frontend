@@ -13,7 +13,6 @@ const ProductCreate: React.FC<Props> = (props) => {
   const [isCheckedBest, setIsCheckedBest] = useState(false);
   const [isCheckedFeatured, setIsCheckedFeatured] = useState(false);
   const [imageLink, setImageLink] = useState("");
-  console.log(imageLink);
   const handleProductAdd = (e: any) => {
     e.preventDefault();
 
@@ -65,8 +64,6 @@ const ProductCreate: React.FC<Props> = (props) => {
             console.error("Error:", error);
           });
       });
-
-    // console.log(productData);
   };
   return (
     <div className="w-full ">
