@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
@@ -18,8 +18,17 @@ const actions = {
 
 const ProductBrands: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [productBrandsData, setProductBrandsData] = useState([])
 
-  const { productBrandsData } = Jsondata;
+  useEffect(() => {
+    fetch('http://localhost:8000/brands')
+    .then(res => res.json())
+    .then(data => setProductBrandsData(data))
+
+  }, [])
+  
+
+  // const { productBrandsData } = Jsondata;
 
   return (
     <div className="w-full">

@@ -4,20 +4,42 @@ import { controller } from "../../../../../../src/state/StateController";
 import Styles from "./ToggleButton.module.css";
 interface Props {
   status: string;
+  slug: string;
 }
 
-const ToggleButton: React.FC<Props> = ({ status }) => {
+const ToggleButton: React.FC<Props> = ({ status, slug }) => {
   const states = useSelector(() => controller.states);
 
   const [toggleStatus, setToggleStatus] = useState(status);
 
+  console.log({
+    status,
+    toggleStatus
+  });
+
+
   const handleClick = () => {
+    let patchStatus;
+
     if (toggleStatus === "active") {
-      setToggleStatus("inactive");
+      patchStatus =  "inactive"
     } else {
-      setToggleStatus("active");
+      patchStatus =  "active"
     }
-  };
+
+    fetch(`http://localhost:8000/brands/${slug}`, {
+      method: 'PATCH',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({ status: patchStatus })
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      setToggleStatus(data.status);
+    })
+  }
 
   return (
     <div

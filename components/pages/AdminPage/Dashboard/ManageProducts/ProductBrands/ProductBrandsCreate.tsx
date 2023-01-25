@@ -15,14 +15,14 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
     const form = e.target;
 
     const name = form.name.value;
-    const logo_url = form.logo.value;
+    const logo = form.logo.value;
     const cat_slug = [form.categories.value];
     const sub_cat_slug = [form.sub_categories.value];
     const status = form.status.value;
 
     const brandData = {
       name,
-      logo_url,
+      logo,
       cat_slug,
       sub_cat_slug,
       status,
