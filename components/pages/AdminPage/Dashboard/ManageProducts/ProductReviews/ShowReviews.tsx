@@ -27,41 +27,41 @@ const ShowReviews: React.FC<Props> = (props) => {
           ></SharedGoBackButton>
         </div>
       </div>
-      <div className="ml-[45px] mt-10 text-qgray">
+      <div className="mx-[45px] mt-10 text-qgray bg-white">
         <table className="ml-10">
-          <tbody>
-            {productReviews.map((productReview, index) => (
-              <>
-                <tr>
+          <tbody className="w-full">
+            {/* {productReviews.map((productReview, index) => (
+              <> */}
+                <tr className="odd:bg-slate-200 even:bg-white ">
                   <td className="px-[25px] h-16">User Name</td>
-                  <td className="px-[25px] pl-96 h-16">{productReview.name}</td>
+                  <td className="px-[25px] pl-96 h-16">{productReviews[0].name}</td>
                 </tr>
-                <tr>
+                <tr  className="odd:bg-slate-200 even:bg-white ">
                   <td className="px-[25px] h-16">User Email</td>
-                  <td className="px-[25px] pl-96 h-16">{productReview.name}</td>
+                  <td className="px-[25px] pl-96 h-16">{productReviews[0].name}</td>
                 </tr>
-                <tr>
+                <tr  className="odd:bg-slate-200 even:bg-white ">
                   <td className="px-[25px] h-16">Product</td>
                   <td className="px-[25px] pl-96 h-16">
-                    {productReview.product}
+                    {productReviews[0].product}
                   </td>
                 </tr>
-                <tr>
+                <tr className="odd:bg-slate-200 even:bg-white ">
                   <td className="px-[25px] h-16">Rating</td>
                   <td className="px-[25px] pl-96 h-16">5</td>
                 </tr>
-                <tr>
+                <tr className="odd:bg-slate-200 even:bg-white ">
                   <td className="px-[25px] h-16">Review</td>
                   <td className="px-[25px] pl-96 h-16">...</td>
                 </tr>
-                <tr>
+                <tr className="odd:bg-slate-200 even:bg-white ">
                   <td className="px-[25px] h-16">Status</td>
                   <td className="px-[25px] pl-96 h-16">
-                    <ToggleButton status={productReview.status} />
+                    <ToggleButton status={productReviews[0].status} />
                   </td>
                 </tr>
-              </>
-            ))}
+              {/* </>
+            ))} */}
 
             {/* <tr>
               <td className="px-[25px] h-16">Rating</td>
