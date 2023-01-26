@@ -1,11 +1,116 @@
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState, useEffect} from "react";
 import { useSelector } from "react-redux";
+import { IUser } from "../../../../interfaces/models";
+import { EcommerceApi } from "../../../../src/API/EcommerceApi";
 import { controller } from "../../../../src/state/StateController";
+import { CookiesHandler } from "../../../../src/utils/CookiesHandler";
+import { SocialLogin } from "../../../helpers/SocialLogin";
 
 interface Props {}
 
 const AdminLogin: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [errorLogin, setErrorLogin] = useState(false);
+  const [errorTextLogin, setErrorTextLogin] = useState('');
+  const [successLogin, setSuccessLogin] = useState(false);
+  const [successTextLogin, setSuccessTextLogin] = useState('')
+  const [loggedinSendVerify, setLoggedinSendVerify] = useState(false)
+  const [loggedinSendVerifyText, setLoggedinSendVerifyText] = useState('')
+
+  const router = useRouter();
+
+  useEffect(() => {
+    SocialLogin.initFirebase()
+  }, [])
+
+  const sendEmailVerify = async () => {
+    SocialLogin.sendEmail()
+    setErrorLogin(false)
+    setSuccessLogin(false)
+    setLoggedinSendVerifyText('Verification sent')
+  }
+
+
+  const handleEmailPasswordLogin = async (e: any) => {
+    e.preventDefault();
+    const loginPassword = e.target.password.value
+    const loginEmail = e.target.email.value
+    if (loginPassword.length > 15) {
+      setErrorLogin(true)
+      setErrorTextLogin('Password can not be more than 15 characters')
+    }
+    else if (loginEmail.length > 25) {
+      setErrorLogin(true)
+      setErrorTextLogin('Email can not be more than 25 characters')
+    }
+    else {
+      const { res, err } = await SocialLogin.loginWithEmailPassword(loginEmail, loginPassword)
+      if (err) {
+        setErrorLogin(true)
+        setSuccessLogin(false)
+        setErrorTextLogin(err)
+      }
+      else {
+        console.log('resss', res)
+        setErrorLogin(false)
+        if (!res.user.emailVerified) {
+          console.log('kkk');
+          setLoggedinSendVerify(true)
+          setLoggedinSendVerifyText('verify first and login again')
+        }
+        else {
+          setLoggedinSendVerify(false)
+          console.log('resooooo', res)
+          const token = res?.user?.accessToken;
+          const user = res.user
+          console.log('use,tok', user?.email);
+          console.log('dis', user?.displayName);
+          if (token && user?.email) {
+            console.log('enter');
+            const { email, displayName } = user
+            const data: Partial<IUser> = {
+              token: token,
+              tokenType: 'email',
+              email: email,
+              avatar: 'https://tinyurl.com/382e6w5t',
+              fullName: displayName,
+              // role: 'buyer'
+            }
+            const { res, err } = await EcommerceApi.login(data);
+            if (err) {
+              setErrorLogin(true)
+              setSuccessLogin(false)
+              setErrorTextLogin('Server Error')
+            }
+            else {
+              if (res.role == "buyer") {
+                setErrorLogin(true)
+                setErrorTextLogin('Already registered as Admin')
+              }
+              else if (res.role == "seller") {
+                setErrorLogin(true)
+                setErrorTextLogin('Already registered as Seller')
+              }
+              else if (res.slug && res.access_token) {
+                setErrorLogin(false)
+                setSuccessLogin(true)
+                CookiesHandler.setAccessToken(res.access_token)
+                CookiesHandler.setSlug(res.slug as string)
+                setSuccessTextLogin('SignIn Success')
+                router.push('/')
+              }
+            }
+          }
+  
+  
+        }
+  
+  
+      }
+}
+   
+  }
 
   return (
     <div>
@@ -29,7 +134,7 @@ const AdminLogin: React.FC<Props> = (props) => {
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-sm text-blue-600   md:text-2xl">Login</h1>
               <hr />
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form className="space-y-4 md:space-y-6" action="#" onSubmit={(e) => { handleEmailPasswordLogin(e) }}>
                 <div>
                   <label
                     htmlFor="email"
@@ -41,6 +146,7 @@ const AdminLogin: React.FC<Props> = (props) => {
                     type="email"
                     name="email"
                     id="email"
+                    // maxLength={50}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     placeholder=""
                     required
@@ -51,13 +157,14 @@ const AdminLogin: React.FC<Props> = (props) => {
                     htmlFor="password"
                     className="block mb-2 text-sm font-medium text-gray-900"
                   >
-                    Password
+                    Password (6-25 char)
                   </label>
                   <input
                     type="password"
                     name="password"
                     id="password"
                     placeholder=""
+                    // maxLength={25}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     required
                   />
@@ -87,6 +194,9 @@ const AdminLogin: React.FC<Props> = (props) => {
                   Login
                 </button>
               </form>
+              {errorLogin && <div style={{ color: 'red' }}>{errorTextLogin}</div>}
+        {successLogin && <div style={{ color: 'black' }}>{successTextLogin}</div>}
+        {loggedinSendVerify && <button type="submit" style={{ backgroundColor: 'blue', borderRadius: '10px', margin: '10px 0', width: '300px', color: 'white' }} onClick={() => { sendEmailVerify() }}>{loggedinSendVerifyText}</button>}
             </div>
           </div>
         </div>
