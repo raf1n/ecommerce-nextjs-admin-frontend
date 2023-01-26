@@ -5,9 +5,9 @@ export type User = {
   name: string;
 };
 
-export type IProducts = {
+export interface IProducts {
   productName: string;
-  //   productSlug:string
+  slug: string;
   catSlug: string;
   subCatSlug: string;
   brandSlug: string;
@@ -24,4 +24,5 @@ export type IProducts = {
   isNewArrival: boolean;
   isBestProduct: boolean;
   isFeatured: boolean;
-};
+  isPopular: boolean;
+}
