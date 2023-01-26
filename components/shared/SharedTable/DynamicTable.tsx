@@ -207,7 +207,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                               <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
                                 <span
                                   onClick={() =>
-                                    router.push(`${asPath}/${row.id}/edit`)
+                                    router.push(`${asPath}/${row.slug}/edit`)
                                   }
                                   className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center"
                                 >
