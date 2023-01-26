@@ -4,17 +4,15 @@ import { Jsondata } from "../../../../../../src/utils/Jsondata";
 import { controller } from "./../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { useRouter } from "next/router";
 
-interface Props {
-  actions: {
-    isSeller?: boolean;
-  };
-}
+interface Props {}
 
 const ProductEdit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const { actions } = props;
-
+  const router = useRouter();
+  const { id } = router.query;
+  console.log(id);
   const { itemDetail } = Jsondata;
 
   const {
