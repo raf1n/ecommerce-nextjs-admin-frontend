@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 import { useRouter } from "next/router";
+import ProductsToggleButton from "../ProductsToggleButton/ProductsToggleButton";
 
 interface Props {}
 
@@ -160,7 +161,7 @@ const Products: React.FC<Props> = (props) => {
                           <tr className="even:bg-gray-100 odd:bg-white">
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
-                                1
+                                {data?.slug?.split("_")[2]}
                               </p>
                             </td>
                             <td className="px-5 py-5 text-sm">
@@ -174,10 +175,12 @@ const Products: React.FC<Props> = (props) => {
                               </p>
                             </td>
                             <td className="px-3 py-3 ">
-                              <img
-                                src={data.imageURL[0]}
-                                className="w-[100px] h-[100px] object-cover"
-                              />
+                              {data && data.imageURL && (
+                                <img
+                                  src={data?.imageURL[0]}
+                                  className="w-[100px] h-[100px] object-cover"
+                                />
+                              )}
                             </td>
                             <td className="px-5 py-5  text-sm">
                               <span className="flex gap-2">
@@ -187,30 +190,33 @@ const Products: React.FC<Props> = (props) => {
                                   </span>
                                 )}
                                 {data.isBestProduct && (
-                                  <span className="bg-green-500 rounded-xl py-1 px-2 text-white">
+                                  <span className="bg-blue-500 rounded-xl py-1 px-2 text-white">
                                     Featured
                                   </span>
                                 )}
 
                                 {data.isBestProduct && (
-                                  <span className="bg-green-500 rounded-xl py-1 px-2 text-white">
+                                  <span className="bg-red-500 rounded-xl py-1 px-2 text-white">
                                     Best
                                   </span>
                                 )}
                                 {data.isPopular && (
-                                  <span className="bg-green-500 rounded-xl py-1 px-2 text-white">
+                                  <span className="bg-orange-500 rounded-xl py-1 px-2 text-white">
                                     Popular
                                   </span>
                                 )}
                                 {data.isTopProduct && (
-                                  <span className="bg-green-500 rounded-xl py-1 px-2 text-white">
+                                  <span className="bg-amber-500 rounded-xl py-1 px-2 text-white">
                                     Top
                                   </span>
                                 )}
                               </span>
                             </td>
                             <td className="px-3 py-3 text-sm ">
-                              <ToggleButton status={data.status} />
+                              <ProductsToggleButton
+                                slug={data?.slug}
+                                status={data?.status}
+                              />
                             </td>
                             <td className="px-2 py-3  text-sm">
                               <button

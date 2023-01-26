@@ -6,23 +6,23 @@ export type User = {
 };
 
 export interface IProducts {
-  productName: string;
-  slug: string;
-  catSlug: string;
-  subCatSlug: string;
-  brandSlug: string;
-  price: number;
-  description: string;
-  status: string;
-  imageURL: Array<string>;
-  offerPrice: string;
-  weight: number;
-  stock: number;
-  seoTitle: string;
-  seoDescription: string;
-  isTopProduct: boolean;
-  isNewArrival: boolean;
-  isBestProduct: boolean;
-  isFeatured: boolean;
-  isPopular: boolean;
+  productName?: string;
+  slug?: string;
+  catSlug?: string;
+  subCatSlug?: string;
+  brandSlug?: string;
+  price?: number;
+  description?: string;
+  status?: string;
+  imageURL?: Array<string>;
+  offerPrice?: string;
+  weight?: number;
+  stock?: number;
+  seoTitle?: string;
+  seoDescription?: string;
+  isTopProduct?: boolean;
+  isNewArrival?: boolean;
+  isBestProduct?: boolean;
+  isFeatured?: boolean;
+  isPopular?: boolean;
 }
