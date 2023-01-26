@@ -12,6 +12,7 @@ const ProductCreate: React.FC<Props> = (props) => {
   const [isCheckedNew, setIsCheckedNew] = useState(false);
   const [isCheckedBest, setIsCheckedBest] = useState(false);
   const [isCheckedFeatured, setIsCheckedFeatured] = useState(false);
+  const [isCheckedPopular, setIsCheckedPopular] = useState(false);
   const [imageLink, setImageLink] = useState("");
   const handleProductAdd = (e: any) => {
     e.preventDefault();
@@ -29,7 +30,7 @@ const ProductCreate: React.FC<Props> = (props) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        setImageLink(data.data.url);
+        setImageLink(data?.data?.url);
         const productData = {
           productName: e.target.productName.value,
           price: parseFloat(e.target.productPrice.value),
@@ -48,6 +49,7 @@ const ProductCreate: React.FC<Props> = (props) => {
           isNewArrival: isCheckedNew,
           isBestProduct: isCheckedBest,
           isFeatured: isCheckedFeatured,
+          isPopular: isCheckedPopular,
         };
         fetch("http://localhost:8000/products", {
           method: "POST",
@@ -259,6 +261,15 @@ const ProductCreate: React.FC<Props> = (props) => {
                     />
                     <label htmlFor="best_product" className="mr-3">
                       Best Product
+                    </label>
+                    <input
+                      type="checkbox"
+                      name="is_popular"
+                      id="is_popular"
+                      onChange={() => setIsCheckedPopular(!isCheckedPopular)}
+                    />
+                    <label htmlFor="is_popular" className="mr-3">
+                      Popular Product
                     </label>
                     <input
                       type="checkbox"

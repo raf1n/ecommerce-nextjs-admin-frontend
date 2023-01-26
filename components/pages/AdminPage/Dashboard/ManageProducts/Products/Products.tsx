@@ -31,7 +31,7 @@ const Products: React.FC<Props> = (props) => {
   useEffect(() => {
     fetch("http://localhost:8000/products/")
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => setProductsData(data));
   }, []);
   return (
     <div className="w-full">
@@ -49,7 +49,7 @@ const Products: React.FC<Props> = (props) => {
             <DynamicTable
               tableHeaders={tableHeaders}
               actions={actions}
-              testDynamicTableData={adminProductsData}
+              testDynamicTableData={productsData}
             />
           </div>
         </div>
