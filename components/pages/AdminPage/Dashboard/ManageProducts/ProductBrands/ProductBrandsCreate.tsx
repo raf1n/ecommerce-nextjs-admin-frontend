@@ -15,7 +15,8 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
     const form = e.target;
 
     const name = form.name.value;
-    const logo = form.logo.value;
+    // const logo = form.logo.value;
+    const logo = "https://api.websolutionus.com/shopo/uploads/custom-images/mircrosoft-2022-09-25-04-16-10-7094.png";
     const cat_slug = [form.categories.value];
     const sub_cat_slug = [form.sub_categories.value];
     const status = form.status.value;
@@ -36,7 +37,10 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
       body: JSON.stringify(brandData)
     })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(data => {
+      console.log(data);
+      e.target.reset();
+    })
   };
 
   return (

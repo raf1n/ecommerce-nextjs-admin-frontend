@@ -4,3 +4,10 @@ export type User = {
     id: number
     name: string
 }
+
+export type Brand = {
+  slug: string;
+  logo: string;
+  name: string;
+  status: string;
+}

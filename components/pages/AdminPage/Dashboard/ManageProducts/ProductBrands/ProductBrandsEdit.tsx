@@ -1,14 +1,30 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import { controller } from "../../../../../../src/state/StateController";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 interface Props {}
 
 const ProductBrandsEdit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [brandData, setBrandData] = useState({});
+
+  const { asPath } = useRouter();
+  const brandSlug = asPath.split("/")[2];
+
+  useEffect(() => {
+    if (brandSlug !== '[id]') {
+      fetch(`http://localhost:8000/brands/${brandSlug}`)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        setBrandData(data);
+      })
+    }
+  }, [brandSlug]);
 
   return (
     <div className="w-full ">
@@ -39,7 +55,7 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                     loader={() =>
                       "https://api.websolutionus.com/shopo/uploads/custom-images/mircrosoft-2022-09-25-04-16-10-7094.png"
                     }
-                    src="https://api.websolutionus.com/shopo/uploads/custom-images/mircrosoft-2022-09-25-04-16-10-7094.png"
+                    src={brandData?.logo}
                     width={100}
                     height={100}
                     alt=""
@@ -79,7 +95,7 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
                       name="name"
-                      defaultValue="Mircrosoft"
+                      defaultValue={brandData?.name}
                       id=""
                       required
                     />
@@ -141,3 +157,4 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
 };
 
 export default ProductBrandsEdit;
+
