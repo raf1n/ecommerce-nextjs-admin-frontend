@@ -18,14 +18,10 @@ export interface IUser {
     createdAt?: string
     updatedAt: string
 }
-export type User = {
-  id: number;
-  name: string;
-};
 
-export type IProducts = {
+export interface IProducts {
   productName: string;
-  //   productSlug:string
+    slug:string
   catSlug: string;
   subCatSlug: string;
   brandSlug: string;
