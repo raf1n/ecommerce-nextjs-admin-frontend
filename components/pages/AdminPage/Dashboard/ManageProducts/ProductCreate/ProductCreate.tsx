@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { controller } from "./../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 
 interface Props {}
 
@@ -51,20 +52,21 @@ const ProductCreate: React.FC<Props> = (props) => {
           isFeatured: isCheckedFeatured,
           isPopular: isCheckedPopular,
         };
-        fetch("http://localhost:8000/products", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(productData),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data.message);
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
+        EcommerceApi.addProducts(productData);
+        // fetch("http://localhost:8000/products", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify(productData),
+        // })
+        //   .then((response) => response.json())
+        //   .then((data) => {
+        //     console.log(data.message);
+        //   })
+        //   .catch((error) => {
+        //     console.error("Error:", error);
+        //   });
       });
   };
   return (

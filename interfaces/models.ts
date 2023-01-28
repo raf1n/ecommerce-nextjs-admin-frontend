@@ -15,7 +15,7 @@ export interface IProducts {
   description?: string;
   status?: string;
   imageURL?: Array<string>;
-  offerPrice?: string;
+  offerPrice?: number;
   weight?: number;
   stock?: number;
   seoTitle?: string;
