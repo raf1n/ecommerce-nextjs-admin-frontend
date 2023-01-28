@@ -1,3 +1,4 @@
+import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProducts } from "../../interfaces/models";
 import { callFetch } from "../utils/CallFetch";
 
@@ -35,7 +36,10 @@ export class EcommerceApi {
   // }
   // test
 
-  static async addProducts(data: Partial<IProducts>): Promise<object> {
+  //  product add
+  static async addProducts(
+    data: Partial<IProducts>
+  ): Promise<MyFetchInterface> {
     console.log(data);
     console.log(API_ENDPOINT);
     const myHeaders = new Headers();
@@ -49,5 +53,23 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/products`, requestOptions);
+  }
+  static async editProducts(
+    data: Partial<IProducts>,
+    slug: string
+  ): Promise<MyFetchInterface> {
+    console.log(data);
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/products/${slug}`, requestOptions);
   }
 }

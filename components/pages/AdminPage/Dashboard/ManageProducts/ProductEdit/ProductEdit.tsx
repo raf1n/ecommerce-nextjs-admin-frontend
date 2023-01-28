@@ -6,6 +6,7 @@ import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcum
 import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import { useRouter } from "next/router";
 import { IProducts } from "../../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 
 interface Props {}
 
@@ -78,20 +79,21 @@ const ProductEdit: React.FC<Props> = (props) => {
           isFeatured: isCheckedFeatured,
           isPopular: isCheckedPopular,
         };
-        fetch(`http://localhost:8000/products/${productSlug}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newProductData),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
+        // fetch(`http://localhost:8000/products/${productSlug}`, {
+        //   method: "PATCH",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify(newProductData),
+        // })
+        //   .then((response) => response.json())
+        //   .then((data) => {
+        //     console.log(data);
+        //   })
+        //   .catch((error) => {
+        //     console.error("Error:", error);
+        //   });
+        EcommerceApi.editProducts(newProductData, productSlug);
       });
   };
   return (

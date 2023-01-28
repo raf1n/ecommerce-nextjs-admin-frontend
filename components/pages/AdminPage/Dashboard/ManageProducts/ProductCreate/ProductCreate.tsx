@@ -17,7 +17,6 @@ const ProductCreate: React.FC<Props> = (props) => {
   const [imageLink, setImageLink] = useState("");
   const handleProductAdd = (e: any) => {
     e.preventDefault();
-
     // console.log(productData);
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
@@ -31,6 +30,12 @@ const ProductCreate: React.FC<Props> = (props) => {
     )
       .then((res) => res.json())
       .then((data) => {
+        let imageUrl;
+        imageUrl = [data?.data?.url];
+        // setImageLink(data?.data?.url);
+        if (data?.data?.url === undefined) {
+          imageUrl = [""];
+        }
         setImageLink(data?.data?.url);
         const productData = {
           productName: e.target.productName.value,
@@ -41,7 +46,7 @@ const ProductCreate: React.FC<Props> = (props) => {
           brandSlug: e.target.brand.value,
           description: e.target.short_description.value,
           status: e.target.productStatus.value,
-          imageURL: [imageLink],
+          imageURL: imageUrl,
           stock: parseFloat(e.target.stock_quantity.value),
           weight: parseFloat(e.target.weight.value),
           seoTitle: e.target.seo_title.value,
