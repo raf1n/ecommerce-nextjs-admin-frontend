@@ -4,10 +4,10 @@ import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedAddNewButton from "./../../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DynamicTable from "../../../../../shared/SharedTable/DynamicTable";
-import { Jsondata } from "../../../../../../src/utils/Jsondata";
 import Link from "next/link";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { IBrandDetail } from "../../../../../../interfaces/models";
+import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 
 interface Props {}
 
@@ -20,6 +20,7 @@ const actions = {
 
 const ProductBrands: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [deleteModalSlug, setDeleteModalSlug] = useState("")
   const [productBrandsData, setProductBrandsData] = useState<IBrandDetail[]>([])
 
   useEffect( () => {
@@ -31,10 +32,22 @@ const ProductBrands: React.FC<Props> = (props) => {
 
     fetchBrands();
 
-  }, [])
-  
+  }, []);
 
-  // const { productBrandsData } = Jsondata;
+  const handleDelete = () => {
+    console.log(deleteModalSlug );
+    fetch(`http://localhost:8000/brands/${deleteModalSlug}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        setDeleteModalSlug("");
+        const remainingBrands = productBrandsData.filter(product => product.slug !== deleteModalSlug);
+        setProductBrandsData(remainingBrands);
+      });
+  };
+  
 
   return (
     <div className="w-full">
@@ -53,7 +66,13 @@ const ProductBrands: React.FC<Props> = (props) => {
               tableHeaders={tableHeaders}
               actions={actions}
               testDynamicTableData={productBrandsData}
+              setDeleteModalSlug={setDeleteModalSlug}
             />
+             <SharedDeleteModal
+                handleDelete={handleDelete}
+                deleteModalSlug={deleteModalSlug}
+                setDeleteModalSlug={setDeleteModalSlug}
+              ></SharedDeleteModal>
           </div>
         </div>
       </div>

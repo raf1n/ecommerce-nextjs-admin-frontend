@@ -16,31 +16,45 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
 
     const name = form.name.value;
     // const logo = form.logo.value;
-    const logo = "https://api.websolutionus.com/shopo/uploads/custom-images/mircrosoft-2022-09-25-04-16-10-7094.png";
+    // const logo = "https://api.websolutionus.com/shopo/uploads/custom-images/mircrosoft-2022-09-25-04-16-10-7094.png";
     const cat_slug = [form.categories.value];
     const sub_cat_slug = [form.sub_categories.value];
     const status = form.status.value;
 
-    const brandData = {
-      name,
-      logo,
-      cat_slug,
-      sub_cat_slug,
-      status,
-    };
+    const logoFile = e.target.logo.files[0];
+    const formData = new FormData();
+    formData.append("image", logoFile);
 
-    fetch('http://localhost:8000/brands', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(brandData)
-    })
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      e.target.reset();
-    })
+    fetch(
+      `https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        const brandData = {
+          logo: data?.data?.url,
+          name,
+          cat_slug,
+          sub_cat_slug,
+          status,
+        };
+
+        fetch("http://localhost:8000/brands", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(brandData),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            e.target.reset();
+          });
+      });
   };
 
   return (

@@ -12,12 +12,6 @@ const ToggleButton: React.FC<Props> = ({ status, slug }) => {
 
   const [toggleStatus, setToggleStatus] = useState(status);
 
-  console.log({
-    status,
-    toggleStatus
-  });
-
-
   const handleClick = () => {
     let patchStatus;
 

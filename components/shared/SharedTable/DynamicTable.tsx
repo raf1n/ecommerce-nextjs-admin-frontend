@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../src/state/StateController";
 import {
@@ -23,13 +23,13 @@ interface Props {
     isSeller?: boolean;
   };
   testDynamicTableData: Array<object>;
+  setDeleteModalSlug: Dispatch<SetStateAction<string>>
 }
 const DynamicTable: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [showModal, setShowModal] = useState(false);
   const router = useRouter();
   const { asPath } = router;
-  const { tableHeaders, actions, testDynamicTableData } = props;
+  const { tableHeaders, actions, testDynamicTableData, setDeleteModalSlug } = props;
   return (
     <div>
       <div className="bg-white p-8 rounded-md w-full">
@@ -222,7 +222,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                             {actions?.isDeletable && (
                               <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
                                 <span
-                                  onClick={() => setShowModal(true)}
+                                  onClick={() => setDeleteModalSlug(row.slug)}
                                   className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-red-500 rounded relative text-white flex justify-center items-center"
                                 >
                                   <FaTrash />
@@ -243,10 +243,10 @@ const DynamicTable: React.FC<Props> = (props) => {
                   })}
                 </tbody>
               </table>
-              <SharedDeleteModal
+              {/* <SharedDeleteModal
                 showModal={showModal}
                 setShowModal={setShowModal}
-              ></SharedDeleteModal>
+              ></SharedDeleteModal> */}
               {/* -------------- */}
               <div className="px-5 py-5 bg-white border-t flex justify-between">
                 <span className="text-xs xs:text-sm text-gray-900">

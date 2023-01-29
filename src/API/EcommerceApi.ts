@@ -55,12 +55,12 @@ export class EcommerceApi {
   // }
 
   static async getAllBrandsAdmin(): Promise<IResponseAllBrands> {
-      const myHeaders = new Headers();
+    const myHeaders = new Headers();
 
     const requestOptions = {
       method: "GET",
       headers: myHeaders,
-      redirect: 'follow'
+      redirect: "follow",
     };
 
     return await callFetch(`${API_ENDPOINT}/brands`, requestOptions);

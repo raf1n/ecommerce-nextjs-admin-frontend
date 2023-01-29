@@ -45,18 +45,13 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
       .then((data) => {
         console.log(data);
         const editBrand = {
-          // cat_image: e.target.image.value,
-
           logo: data?.data?.url,
           name: e.target.name.value,
           slug: e.target.slug.value,
           cat_slug: [e.target.categories.value],
           sub_cat_slug: [e.target.sub_categories.value],
-          // slug: e.target.slug.value,
           status: e.target.status.value,
         };
-        // console.log(data?.data?.url);
-        // console.log(editBrand);
 
         fetch(`http://localhost:8000/brands/${brandSlug}`, {
           method: "PATCH",
