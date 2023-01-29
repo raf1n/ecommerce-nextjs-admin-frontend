@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { controller } from "./../../../../../../src/state/StateController";
-import { Jsondata } from "../../../../../../src/utils/Jsondata";
+
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedAddNewButton from "./../../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DynamicTable from "./../../../../../shared/SharedTable/DynamicTable";

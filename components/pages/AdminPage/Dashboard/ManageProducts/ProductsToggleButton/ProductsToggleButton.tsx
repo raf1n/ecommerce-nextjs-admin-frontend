@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 import Styles from "../../ManageCategories/ToggleButton/ToggleButton.module.css";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 interface Props {
   status?: string;
-  slug?: string;
+  slug?: string | any;
 }
 
 const ProductsToggleButton: React.FC<Props> = ({ status, slug }) => {
@@ -17,7 +18,7 @@ const ProductsToggleButton: React.FC<Props> = ({ status, slug }) => {
     toggleStatus,
   });
 
-  const handleClick = () => {
+  const handleClick = async () => {
     let patchStatus;
 
     if (toggleStatus === "active") {
@@ -25,18 +26,11 @@ const ProductsToggleButton: React.FC<Props> = ({ status, slug }) => {
     } else {
       patchStatus = "active";
     }
-
-    fetch(`http://localhost:8000/products/${slug}`, {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ status: patchStatus }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setToggleStatus(data.status);
-      });
+    const updatedStatus = { status: patchStatus };
+    const { res, err } = await EcommerceApi.updateStatus(updatedStatus, slug);
+    if (res) {
+      setToggleStatus(res.status);
+    }
   };
 
   return (
