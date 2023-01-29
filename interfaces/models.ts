@@ -5,10 +5,10 @@ export type User = {
   name: string;
 };
 
-export type Categories = {
-  slug: string;
-  name: string;
-  image: string;
-  status: string;
-  icon: string;
-};
+export interface ICategories {
+  cat_slug: string;
+  cat_name: string;
+  cat_image: string;
+  cat_status: string;
+  cat_icon: string;
+}

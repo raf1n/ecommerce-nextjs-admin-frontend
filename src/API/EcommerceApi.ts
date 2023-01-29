@@ -1,5 +1,5 @@
 import { callFetch } from "../utils/CallFetch";
-import { ICategories } from "./../../interfaces/response";
+import { IResponseCategories } from "./../../interfaces/response";
 // import { callFetch, MyFetchInterface } from "../utils/CallFetch"
 export const API_ENDPOINT = process.env["NEXT_PUBLIC_API_ENDPOINT"];
 
@@ -11,7 +11,7 @@ export interface LoginInterface {
 }
 
 export class EcommerceApi {
-  static async allProducts(): Promise<ICategories> {
+  static async allCategories(): Promise<IResponseCategories> {
     console.log(API_ENDPOINT);
     const myHeaders = new Headers();
 

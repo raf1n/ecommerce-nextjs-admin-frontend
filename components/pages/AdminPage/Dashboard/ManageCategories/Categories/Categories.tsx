@@ -19,6 +19,8 @@ import Link from "next/link";
 import ToggleButton from "../ToggleButton/ToggleButton";
 import { useRouter } from "next/router";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import { ICategories } from "../../../../../../interfaces/models";
 
 interface Props {}
 
@@ -26,16 +28,19 @@ const Categories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const router = useRouter();
   const { asPath } = router;
-  const [categoriesData, setCategoriesData] = useState([]);
+  const [categoriesData, setCategoriesData] = useState<ICategories[]>([]);
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
-    fetch("http://localhost:8000/categories", {
-      method: "GET",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("k", data), setCategoriesData(data);
-      });
+    const fetchAllCategoriesData = async () => {
+      const { res, err } = await EcommerceApi.allCategories();
+      if (err) {
+        console.log(err);
+      } else {
+        setCategoriesData(res);
+        // console.log(res);
+      }
+    };
+    fetchAllCategoriesData();
   }, []);
 
   return (
