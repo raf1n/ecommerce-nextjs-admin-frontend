@@ -1,4 +1,4 @@
-import { MyFetchInterface } from "../src/utils/CallFetch";
+
 import { ICategories } from "./models";
 //here we will declare our response interfaces or in easy way type of our all response in our website
 

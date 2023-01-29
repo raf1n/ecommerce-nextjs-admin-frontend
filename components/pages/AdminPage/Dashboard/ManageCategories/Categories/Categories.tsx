@@ -29,7 +29,19 @@ const Categories: React.FC<Props> = (props) => {
   const router = useRouter();
   const { asPath } = router;
   const [categoriesData, setCategoriesData] = useState<ICategories[]>([]);
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
+  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteCategories(deleteModalSlug);
+    if (res) {
+      setDeleteModalSlug("");
+      const remainingBrands = categoriesData.filter(
+        (product) => product.cat_slug !== deleteModalSlug
+      );
+      setCategoriesData(remainingBrands);
+    }
+  };
   useEffect(() => {
     const fetchAllCategoriesData = async () => {
       const { res, err } = await EcommerceApi.allCategories();
@@ -147,77 +159,83 @@ const Categories: React.FC<Props> = (props) => {
                     {/* -------Plz Attention ,Table body/Row start here -------------- */}
                     <tbody>
                       {/* Jsondata.categoriesTableData */}
-                      {categoriesData.map((categoryTableData: any, index) => (
-                        // <div>
-                        <tr className="even:bg-gray-50 odd:bg-white">
-                          <td className="px-3 py-3    text-sm">
-                            <p className="text-gray-900 whitespace-no-wrap">
-                              {index + 1}
-                            </p>
-                          </td>
-                          <td className="px-3 py-3  text-sm">
-                            <p className="text-gray-900 whitespace-no-wrap ">
-                              {categoryTableData?.cat_name}
-                            </p>
-                          </td>
-                          <td className="px-3 py-3    ">
-                            <img
-                              width="150px"
-                              src={categoryTableData?.cat_image}
-                              className=""
-                            ></img>
-                          </td>
-                          <td className="px-0 py-3 text-sm ">
-                            <p className="text-gray-900 whitespace-wrap pl-5 ">
-                              {/* <categoryTableData.cat_icon /> */}
+                      {categoriesData.map(
+                        (categoryTableData: ICategories, index) => (
+                          // <div>
+                          <tr className="even:bg-gray-50 odd:bg-white">
+                            <td className="px-3 py-3    text-sm">
+                              <p className="text-gray-900 whitespace-no-wrap">
+                                {index + 1}
+                              </p>
+                            </td>
+                            <td className="px-3 py-3  text-sm">
+                              <p className="text-gray-900 whitespace-no-wrap ">
+                                {categoryTableData?.cat_name}
+                              </p>
+                            </td>
+                            <td className="px-3 py-3    ">
                               <img
                                 width="150px"
-                                src={categoryTableData?.cat_icon}
+                                src={categoryTableData?.cat_image}
                                 className=""
                               ></img>
-                            </p>
-                          </td>
-                          <td className="px-3 py-3 text-sm">
-                            <ToggleButton
-                              status={categoryTableData.cat_status}
-                            />
-                          </td>
+                            </td>
+                            <td className="px-0 py-3 text-sm ">
+                              <p className="text-gray-900 whitespace-wrap pl-5 ">
+                                {/* <categoryTableData.cat_icon /> */}
+                                <img
+                                  width="150px"
+                                  src={categoryTableData?.cat_icon}
+                                  className=""
+                                ></img>
+                              </p>
+                            </td>
+                            <td className="px-3 py-3 text-sm">
+                              <ToggleButton
+                                slug={categoryTableData?.cat_slug}
+                                status={categoryTableData.cat_status}
+                              />
+                            </td>
 
-                          <td className="px-2 py-3  text-sm">
-                            <button
-                              onClick={() =>
-                                router.push(
-                                  `${asPath}/${categoryTableData.slug}/edit`
-                                )
-                              }
-                            >
-                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                <span
-                                  style={{
-                                    boxShadow: "0 2px 6px #acb5f6",
-                                  }}
-                                  className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
-                                >
-                                  <FaEdit />
+                            <td className="px-2 py-3  text-sm">
+                              <button
+                                onClick={() =>
+                                  router.push(
+                                    `${asPath}/${categoryTableData.cat_slug}/edit`
+                                  )
+                                }
+                              >
+                                <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                                  <span
+                                    style={{
+                                      boxShadow: "0 2px 6px #acb5f6",
+                                    }}
+                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
+                                  >
+                                    <FaEdit />
+                                  </span>
                                 </span>
-                              </span>
-                            </button>
-                            <button>
-                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                <span
-                                  onClick={() => setShowModal(true)}
-                                  // onClick={() => openModal()}
-                                  style={{
-                                    boxShadow: "0 2px 6px #fd9b96",
-                                  }}
-                                  className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
-                                >
-                                  <FaTrash />
+                              </button>
+                              <button>
+                                <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                                  <span
+                                    onClick={() =>
+                                      setDeleteModalSlug(
+                                        categoryTableData.cat_slug
+                                      )
+                                    }
+                                    // onClick={() => openModal()}
+                                    style={{
+                                      boxShadow: "0 2px 6px #fd9b96",
+                                    }}
+                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                                  >
+                                    <FaTrash />
+                                  </span>
                                 </span>
-                              </span>
-                            </button>
-                            {/* <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight"> */}
-                            {/* <button>
+                              </button>
+                              {/* <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight"> */}
+                              {/* <button>
                                       <span
                                         style={{
                                           boxShadow: "0 2px 6px #ffc473",
@@ -227,17 +245,17 @@ const Categories: React.FC<Props> = (props) => {
                                         <FaTruck />
                                       </span>
                                     </button> */}
-                            {/* </span> */}
-                          </td>
-                          <SharedDeleteModal
-                            showModal={showModal}
-                            setShowModal={setShowModal}
-                            slug={categoryTableData.slug}
-                            url={"categories"}
-                          ></SharedDeleteModal>
-                        </tr>
-                        // </div>
-                      ))}
+                              {/* </span> */}
+                            </td>
+                            <SharedDeleteModal
+                              deleteModalSlug={deleteModalSlug}
+                              handleDelete={handleDelete}
+                              setDeleteModalSlug={setDeleteModalSlug}
+                            ></SharedDeleteModal>
+                          </tr>
+                          // </div>
+                        )
+                      )}
                     </tbody>
                   </table>
 

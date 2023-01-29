@@ -16,23 +16,23 @@ const ToggleButton: React.FC<Props> = ({ status, slug }) => {
     let patchStatus;
 
     if (toggleStatus === "active") {
-      patchStatus =  "inactive"
+      patchStatus = "inactive";
     } else {
-      patchStatus =  "active"
+      patchStatus = "active";
     }
-
-    fetch(`http://localhost:8000/brands/${slug}`, {
-      method: 'PATCH',
+    console.log(slug);
+    fetch(`http://localhost:8000/categories/${slug}`, {
+      method: "PATCH",
       headers: {
-        'content-type': 'application/json'
+        "content-type": "application/json",
       },
-      body: JSON.stringify({ status: patchStatus })
+      body: JSON.stringify({ cat_status: patchStatus }),
     })
-    .then(res => res.json())
-    .then(data => {
-      setToggleStatus(data.status);
-    })
-  }
+      .then((res) => res.json())
+      .then((data) => {
+        setToggleStatus(data.cat_status);
+      });
+  };
 
   return (
     <div
