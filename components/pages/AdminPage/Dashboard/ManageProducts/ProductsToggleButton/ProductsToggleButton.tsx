@@ -1,38 +1,43 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
-import Styles from "./ToggleButton.module.css";
+import Styles from "../../ManageCategories/ToggleButton/ToggleButton.module.css";
 interface Props {
-  status: string;
-  slug: string;
+  status?: string;
+  slug?: string;
 }
 
-const ToggleButton: React.FC<Props> = ({ status, slug }) => {
+const ProductsToggleButton: React.FC<Props> = ({ status, slug }) => {
   const states = useSelector(() => controller.states);
 
   const [toggleStatus, setToggleStatus] = useState(status);
+
+  console.log({
+    status,
+    toggleStatus,
+  });
 
   const handleClick = () => {
     let patchStatus;
 
     if (toggleStatus === "active") {
-      patchStatus =  "inactive"
+      patchStatus = "inactive";
     } else {
-      patchStatus =  "active"
+      patchStatus = "active";
     }
 
-    fetch(`http://localhost:8000/brands/${slug}`, {
-      method: 'PATCH',
+    fetch(`http://localhost:8000/products/${slug}`, {
+      method: "PATCH",
       headers: {
-        'content-type': 'application/json'
+        "content-type": "application/json",
       },
-      body: JSON.stringify({ status: patchStatus })
+      body: JSON.stringify({ status: patchStatus }),
     })
-    .then(res => res.json())
-    .then(data => {
-      setToggleStatus(data.status);
-    })
-  }
+      .then((res) => res.json())
+      .then((data) => {
+        setToggleStatus(data.status);
+      });
+  };
 
   return (
     <div
@@ -60,4 +65,4 @@ const ToggleButton: React.FC<Props> = ({ status, slug }) => {
   );
 };
 
-export default ToggleButton;
+export default ProductsToggleButton;

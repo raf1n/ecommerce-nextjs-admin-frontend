@@ -12,3 +12,40 @@ export interface ICategories {
   cat_status: string;
   cat_icon: string;
 }
+export interface IProducts {
+  productName?: string;
+  slug?: string;
+  catSlug?: string;
+  subCatSlug?: string;
+  brandSlug?: string;
+  price?: number;
+  description?: string;
+  status?: string;
+  imageURL?: Array<string>;
+  offerPrice?: number;
+  weight?: number;
+  stock?: number;
+  seoTitle?: string;
+  seoDescription?: string;
+  isTopProduct?: boolean;
+  isNewArrival?: boolean;
+  isBestProduct?: boolean;
+  isFeatured?: boolean;
+  isPopular?: boolean;
+}
+
+export type Brand = {
+  slug: string;
+  logo: string;
+  name: string;
+  status: string;
+};
+
+export interface IBrandDetail {
+  name?: string;
+  cat_slug?: Array<string>;
+  sub_cat_slug?: Array<string>;
+  logo?: string;
+  status?: string;
+  slug?: string;
+}

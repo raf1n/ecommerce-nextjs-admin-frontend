@@ -1,5 +1,17 @@
+<<<<<<< HEAD
 import { callFetch } from "../utils/CallFetch";
 import { IResponseCategories } from "./../../interfaces/response";
+=======
+import { MyFetchInterface } from "./../utils/CallFetch";
+import { IProducts } from "../../interfaces/models";
+import { callFetch } from "../utils/CallFetch";
+import {
+  IProductResponse,
+  IResponseAllBrands,
+  ISingleProductResponse,
+} from "../../interfaces/response";
+
+>>>>>>> 93b6203a88f719655483e5cbf113efec822b6c67
 // import { callFetch, MyFetchInterface } from "../utils/CallFetch"
 export const API_ENDPOINT = process.env["NEXT_PUBLIC_API_ENDPOINT"];
 
