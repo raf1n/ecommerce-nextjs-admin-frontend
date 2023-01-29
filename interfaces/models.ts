@@ -26,3 +26,19 @@ export interface IProducts {
   isFeatured?: boolean;
   isPopular?: boolean;
 }
+
+export type Brand = {
+  slug: string;
+  logo: string;
+  name: string;
+  status: string;
+};
+
+export interface IBrandDetail {
+  name?: string;
+  cat_slug?: Array<string>;
+  sub_cat_slug?: Array<string>;
+  logo?: string;
+  status?: string;
+  slug?: string;
+}

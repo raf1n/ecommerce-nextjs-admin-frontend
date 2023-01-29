@@ -6,6 +6,7 @@ import { FaBars, FaHome, FaSignOutAlt } from "react-icons/fa";
 import { MdArrowDropDown } from "react-icons/md";
 import { HiOutlineUser } from "react-icons/hi";
 import styles from "../pages/AdminPage/Dashboard/Dashboard.module.css";
+import Link from "next/link";
 interface Props {
   children: any;
 }
@@ -42,7 +43,8 @@ const Layout: React.FC<Props> = ({ children }) => {
             setResponsiveOpen(false);
             setMenuOpen(0);
           }}
-          className="fixed z-10 opacity-40 bg-black top-0 left-0 right-0 bottom-0"></div>
+          className="fixed z-10 opacity-40 bg-black top-0 left-0 right-0 bottom-0"
+        ></div>
       )}
 
       {/* right side dashboard */}
@@ -76,7 +78,8 @@ const Layout: React.FC<Props> = ({ children }) => {
             <button
               onClick={() => {
                 setShow(!show);
-              }}>
+              }}
+            >
               <div className={`flex text-white  pl-6`}>
                 <img
                   src={`https://api.websolutionus.com/shopo/uploads/website-images/ibrahim-khalil-2022-01-30-02-48-50-5743.jpg`}
@@ -95,12 +98,12 @@ const Layout: React.FC<Props> = ({ children }) => {
         <div className={` ${show ? "block" : "hidden"} relative`}>
           <div className={`${styles["dropdown-menu"]} -mt-14 mr-2`}>
             <div>
-              <a href="/profile" className="flex text-xs">
+              <Link href="/profile" className="flex text-xs">
                 <span className="pr-2">
                   <HiOutlineUser />
                 </span>
                 Profile
-              </a>
+              </Link>
 
               <div className="border-t"></div>
               <a href="/logout" className="flex text-xs font-medium">

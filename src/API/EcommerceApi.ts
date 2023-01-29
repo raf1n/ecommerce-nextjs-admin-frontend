@@ -3,6 +3,7 @@ import { IProducts } from "../../interfaces/models";
 import { callFetch } from "../utils/CallFetch";
 import {
   IProductResponse,
+  IResponseAllBrands,
   ISingleProductResponse,
 } from "../../interfaces/response";
 
@@ -116,5 +117,16 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/products/${slug}`, requestOptions);
+  }
+  static async getAllBrandsAdmin(): Promise<IResponseAllBrands> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/brands`, requestOptions);
   }
 }
