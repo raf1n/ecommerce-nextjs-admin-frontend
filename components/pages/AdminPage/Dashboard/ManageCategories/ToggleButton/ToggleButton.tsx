@@ -36,7 +36,6 @@ const ToggleButton: React.FC<Props> = ({ status, slug }) => {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
       setToggleStatus(data.status);
     })
   }

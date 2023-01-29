@@ -6,6 +6,8 @@ import SharedAddNewButton from "./../../../../../shared/SharedAddNewButton/Share
 import DynamicTable from "../../../../../shared/SharedTable/DynamicTable";
 import { Jsondata } from "../../../../../../src/utils/Jsondata";
 import Link from "next/link";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import { IBrandDetail } from "../../../../../../interfaces/models";
 
 interface Props {}
 
@@ -18,12 +20,16 @@ const actions = {
 
 const ProductBrands: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [productBrandsData, setProductBrandsData] = useState([])
+  const [productBrandsData, setProductBrandsData] = useState<IBrandDetail[]>([])
 
-  useEffect(() => {
-    fetch('http://localhost:8000/brands')
-    .then(res => res.json())
-    .then(data => setProductBrandsData(data))
+  useEffect( () => {
+    const fetchBrands = async () => {
+      const { res, err } = await EcommerceApi.getAllBrandsAdmin();
+
+      setProductBrandsData(res)
+    }
+
+    fetchBrands();
 
   }, [])
   
