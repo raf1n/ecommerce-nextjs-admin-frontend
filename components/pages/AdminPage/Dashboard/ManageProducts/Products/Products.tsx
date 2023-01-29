@@ -17,6 +17,7 @@ import {
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 import { useRouter } from "next/router";
 import ProductsToggleButton from "../ProductsToggleButton/ProductsToggleButton";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 
 interface Props {}
 
@@ -37,17 +38,28 @@ const actions = {
 
 const Products: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [productsData, setProductsData] = useState([]);
+  const [productsData, setProductsData] = useState<IProducts[]>([]);
   const [showModal, setShowModal] = useState(false);
   // const { adminProductsData } = Jsondata;
   const router = useRouter();
   const { asPath } = router;
-  console.log(productsData);
+
   useEffect(() => {
-    fetch("http://localhost:8000/products/")
-      .then((res) => res.json())
-      .then((data) => setProductsData(data));
+    const fetchAllProducts = async () => {
+      const { res, err } = await EcommerceApi.allProducts();
+      if (err) {
+        console.log(err);
+      } else {
+        setProductsData(res.allProductData);
+      }
+    };
+
+    fetchAllProducts();
+    // fetch("http://localhost:8000/products/")
+    //   .then((res) => res.json())
+    //   .then((data) => setProductsData(data.allProductData));
   }, []);
+
   return (
     <div className="w-full">
       <DashboardBreadcrumb

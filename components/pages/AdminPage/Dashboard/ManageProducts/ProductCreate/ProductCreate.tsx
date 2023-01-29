@@ -14,65 +14,43 @@ const ProductCreate: React.FC<Props> = (props) => {
   const [isCheckedBest, setIsCheckedBest] = useState(false);
   const [isCheckedFeatured, setIsCheckedFeatured] = useState(false);
   const [isCheckedPopular, setIsCheckedPopular] = useState(false);
-  const [imageLink, setImageLink] = useState("");
-  const handleProductAdd = (e: any) => {
+  // const [imageLink, setImageLink] = useState("");
+  const handleProductAdd = async (e: any) => {
     e.preventDefault();
     // console.log(productData);
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
     formData.append("image", image);
-    fetch(
-      `https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024`,
-      {
-        method: "POST",
-        body: formData,
+    const { res, err } = await EcommerceApi.uploadProductImage(formData);
+    if (res.data?.url) {
+      let imageUrl;
+      imageUrl = [res.data?.url];
+      // setImageLink(data?.data?.url);
+      if (res.data?.url === undefined) {
+        imageUrl = [""];
       }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        let imageUrl;
-        imageUrl = [data?.data?.url];
-        // setImageLink(data?.data?.url);
-        if (data?.data?.url === undefined) {
-          imageUrl = [""];
-        }
-        setImageLink(data?.data?.url);
-        const productData = {
-          productName: e.target.productName.value,
-          price: parseFloat(e.target.productPrice.value),
-          offerPrice: parseFloat(e.target.offer_price.value),
-          catSlug: e.target.category.value,
-          subCatSlug: e.target.sub_category.value,
-          brandSlug: e.target.brand.value,
-          description: e.target.short_description.value,
-          status: e.target.productStatus.value,
-          imageURL: imageUrl,
-          stock: parseFloat(e.target.stock_quantity.value),
-          weight: parseFloat(e.target.weight.value),
-          seoTitle: e.target.seo_title.value,
-          seoDescription: e.target.seo_description.value,
-          isTopProduct: isCheckedTop,
-          isNewArrival: isCheckedNew,
-          isBestProduct: isCheckedBest,
-          isFeatured: isCheckedFeatured,
-          isPopular: isCheckedPopular,
-        };
-        EcommerceApi.addProducts(productData);
-        // fetch("http://localhost:8000/products", {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: JSON.stringify(productData),
-        // })
-        //   .then((response) => response.json())
-        //   .then((data) => {
-        //     console.log(data.message);
-        //   })
-        //   .catch((error) => {
-        //     console.error("Error:", error);
-        //   });
-      });
+      const productData = {
+        productName: e.target.productName.value,
+        price: parseFloat(e.target.productPrice.value),
+        offerPrice: parseFloat(e.target.offer_price.value),
+        catSlug: e.target.category.value,
+        subCatSlug: e.target.sub_category.value,
+        brandSlug: e.target.brand.value,
+        description: e.target.short_description.value,
+        status: e.target.productStatus.value,
+        imageURL: imageUrl,
+        stock: parseFloat(e.target.stock_quantity.value),
+        weight: parseFloat(e.target.weight.value),
+        seoTitle: e.target.seo_title.value,
+        seoDescription: e.target.seo_description.value,
+        isTopProduct: isCheckedTop,
+        isNewArrival: isCheckedNew,
+        isBestProduct: isCheckedBest,
+        isFeatured: isCheckedFeatured,
+        isPopular: isCheckedPopular,
+      };
+      EcommerceApi.addProducts(productData);
+    }
   };
   return (
     <div className="w-full ">
