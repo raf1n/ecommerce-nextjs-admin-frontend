@@ -5,7 +5,7 @@ import { HiOutlineX } from "react-icons/hi";
 
 interface Props {
   deleteModalSlug: string;
-  setDeleteModalSlug: Dispatch<SetStateAction<string>>
+  setDeleteModalSlug: Dispatch<SetStateAction<string>>;
   handleDelete: () => void;
 }
 

@@ -21,29 +21,32 @@ import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 
 interface Props {}
 
-const tableHeaders = [
-  "SN",
-  "Name",
-  "Price",
-  "Photo",
-  "Type",
-  "Status",
-  "Action",
-];
-
-const actions = {
-  isEditable: true,
-  isDeletable: true,
-};
-
 const Products: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [productsData, setProductsData] = useState<IProducts[]>([]);
-  const [showModal, setShowModal] = useState(false);
+  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  // const [showModal, setShowModal] = useState(false);
   // const { adminProductsData } = Jsondata;
   const router = useRouter();
   const { asPath } = router;
-
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteProduct(deleteModalSlug);
+    if (res) {
+      setDeleteModalSlug("");
+      const remainingBrands = productsData.filter(
+        (product) => product.slug !== deleteModalSlug
+      );
+      setProductsData(remainingBrands);
+    }
+    // console.log(deleteModalSlug);
+    // fetch(`http://localhost:8000/products/${deleteModalSlug}`, {
+    //   method: "DELETE",
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     // console.log(data);
+    //   });
+  };
   useEffect(() => {
     const fetchAllProducts = async () => {
       const { res, err } = await EcommerceApi.allProducts();
@@ -250,7 +253,9 @@ const Products: React.FC<Props> = (props) => {
                               <button>
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
-                                    onClick={() => setShowModal(true)}
+                                    onClick={() =>
+                                      setDeleteModalSlug(data?.slug)
+                                    }
                                     // onClick={() => openModal()}
                                     style={{
                                       boxShadow: "0 2px 6px #fd9b96",
@@ -279,8 +284,9 @@ const Products: React.FC<Props> = (props) => {
                       </tbody>
                     </table>
                     <SharedDeleteModal
-                      showModal={showModal}
-                      setShowModal={setShowModal}
+                      handleDelete={handleDelete}
+                      deleteModalSlug={deleteModalSlug}
+                      setDeleteModalSlug={setDeleteModalSlug}
                     ></SharedDeleteModal>
                     <div className="px-5 py-5 bg-white border-t flex justify-between">
                       <span className="text-xs xs:text-sm text-gray-900">

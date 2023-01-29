@@ -18,28 +18,6 @@ export interface LoginInterface {
 }
 
 export class EcommerceApi {
-  //DEMO API CALLING STRUCTURE
-  // static async login(token: string, email: string, fullName: string, avatar: string, tokenType: "google" | "facebook"): Promise<ILoginResponse> {
-  //     console.log(token);
-  //     console.log(API_ENDPOINT)
-  //     const myHeaders = new Headers();
-  //     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-  //     const urlencoded = new URLSearchParams();
-  //     urlencoded.append("token", token);
-  //     urlencoded.append("tokenType", tokenType);
-  //     urlencoded.append("email", email);
-  //     urlencoded.append("fullName", fullName);
-  //     urlencoded.append("avatar", avatar);
-  //     const requestOptions = {
-  //         method: 'POST',
-  //         headers: myHeaders,
-  //         body: urlencoded,
-  //         redirect: 'follow'
-  //     };
-
-  //     return await callFetch(`${API_ENDPOINT}/users/login`, requestOptions)
-  // }
-  // test
   // get all products
   static async allProducts(): Promise<IProductResponse> {
     console.log(API_ENDPOINT);
@@ -64,7 +42,7 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/products/${slug}`, requestOptions);
   }
-  //  product add
+  //  product image add
   static async uploadProductImage(
     data: Partial<any>
   ): Promise<MyFetchInterface> {
@@ -82,6 +60,7 @@ export class EcommerceApi {
       requestOptions
     );
   }
+  // add products
   static async addProducts(
     data: Partial<IProducts>
   ): Promise<IProductResponse> {
@@ -99,7 +78,7 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/products`, requestOptions);
   }
-
+  //  edit products
   static async editProducts(
     data: Partial<IProducts>,
     slug: string
@@ -118,6 +97,20 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/products/${slug}`, requestOptions);
   }
+  // delete products
+  static async deleteProduct(slug: string): Promise<ISingleProductResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/products/${slug}`, requestOptions);
+  }
+  //get all brands admin
   static async getAllBrandsAdmin(): Promise<IResponseAllBrands> {
     const myHeaders = new Headers();
 
