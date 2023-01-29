@@ -16,3 +16,6 @@ export interface IProductResponse extends MyFetchInterface {
     popularProducts: Array<IProducts>;
   };
 }
+export interface ISingleProductResponse extends MyFetchInterface {
+  res: IProducts;
+}

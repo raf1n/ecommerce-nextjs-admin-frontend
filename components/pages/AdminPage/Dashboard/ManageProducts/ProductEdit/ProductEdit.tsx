@@ -27,14 +27,23 @@ const ProductEdit: React.FC<Props> = (props) => {
   const productSlug = asPath.split("/")[2];
 
   useEffect(() => {
-    if (productSlug !== "[id]") {
-      fetch(`http://localhost:8000/products/${productSlug}`)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setProductData(data);
-        });
-    }
+    const getSingleProduct = async () => {
+      if (productSlug !== "[id]") {
+        // fetch(`http://localhost:8000/products/${productSlug}`)
+        //   .then((res) => res.json())
+        //   .then((data) => {
+        //     console.log(data);
+        //     setProductData(data);
+        //   });
+        const { res, err } = await EcommerceApi.getSingleProduct(productSlug);
+        if (res) {
+          setProductData(res);
+        } else {
+          console.log(err);
+        }
+      }
+    };
+    getSingleProduct();
   }, [productSlug]);
   const handleProductUpdate = async (e: any) => {
     e.preventDefault();

@@ -1,7 +1,10 @@
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProducts } from "../../interfaces/models";
 import { callFetch } from "../utils/CallFetch";
-import { IProductResponse } from "../../interfaces/response";
+import {
+  IProductResponse,
+  ISingleProductResponse,
+} from "../../interfaces/response";
 
 // import { callFetch, MyFetchInterface } from "../utils/CallFetch"
 export const API_ENDPOINT = process.env["NEXT_PUBLIC_API_ENDPOINT"];
@@ -47,6 +50,18 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/products`, requestOptions);
+  }
+  // get single products
+  static async getSingleProduct(slug: string): Promise<ISingleProductResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/products/${slug}`, requestOptions);
   }
   //  product add
   static async uploadProductImage(
