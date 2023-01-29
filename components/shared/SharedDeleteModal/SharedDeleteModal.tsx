@@ -6,11 +6,26 @@ import { HiOutlineX } from "react-icons/hi";
 interface Props {
   showModal: boolean;
   setShowModal: any;
+  url: string;
+  slug: string;
 }
 
 const SharedDeleteModal: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const { setShowModal, showModal } = props;
+
+  const handleDelete = (slug: string, url: string) => {
+    console.log(slug, url);
+    fetch(`http://localhost:8000/${url}/${slug}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setShowModal(false);
+      });
+  };
+
   return (
     <>
       {showModal ? (
@@ -48,7 +63,8 @@ const SharedDeleteModal: React.FC<Props> = (props) => {
                   Close
                 </button>
                 <button
-                  onClick={() => setShowModal(false)}
+                  // onClick={() => setShowModal(false)}
+                  onClick={() => handleDelete(props.slug, props.url)}
                   className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded shadow-[0_2px_6px_#acb5f6]"
                 >
                   Yes, Delete

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 
@@ -26,14 +26,18 @@ const Categories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const router = useRouter();
   const { asPath } = router;
-
-  fetch("http://localhost:8000/categories", {
-    method: "GET",
-  })
-    .then((res) => res.json())
-    .then((data) => console.log(data));
-
+  const [categoriesData, setCategoriesData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  useEffect(() => {
+    fetch("http://localhost:8000/categories", {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("k", data), setCategoriesData(data);
+      });
+  }, []);
+
   return (
     <div className="w-full">
       <DashboardBreadcrumb
@@ -135,76 +139,80 @@ const Categories: React.FC<Props> = (props) => {
                         </th>
                       </tr>
                     </thead>
-                    {/* -----------Plz Attention ,Table body/Row start here -------------- */}
+                    {/* -------Plz Attention ,Table body/Row start here -------------- */}
                     <tbody>
-                      {Jsondata.categoriesTableData.map(
-                        (categoryTableData, index) => (
-                          <tr className="even:bg-gray-50 odd:bg-white">
-                            <td className="px-3 py-3    text-sm">
-                              <p className="text-gray-900 whitespace-no-wrap">
-                                {index + 1}
-                              </p>
-                            </td>
-                            <td className="px-3 py-3  text-sm">
-                              <p className="text-gray-900 whitespace-no-wrap ">
-                                {categoryTableData.name}
-                              </p>
-                            </td>
-                            <td className="px-3 py-3    ">
+                      {/* Jsondata.categoriesTableData */}
+                      {categoriesData.map((categoryTableData: any, index) => (
+                        // <div>
+                        <tr className="even:bg-gray-50 odd:bg-white">
+                          <td className="px-3 py-3    text-sm">
+                            <p className="text-gray-900 whitespace-no-wrap">
+                              {index + 1}
+                            </p>
+                          </td>
+                          <td className="px-3 py-3  text-sm">
+                            <p className="text-gray-900 whitespace-no-wrap ">
+                              {categoryTableData?.cat_name}
+                            </p>
+                          </td>
+                          <td className="px-3 py-3    ">
+                            <img
+                              width="150px"
+                              src={categoryTableData?.cat_image}
+                              className=""
+                            ></img>
+                          </td>
+                          <td className="px-0 py-3 text-sm ">
+                            <p className="text-gray-900 whitespace-wrap pl-5 ">
+                              {/* <categoryTableData.cat_icon /> */}
                               <img
                                 width="150px"
-                                src={categoryTableData.image}
+                                src={categoryTableData?.cat_icon}
                                 className=""
                               ></img>
-                            </td>
-                            <td className="px-0 py-3 text-sm ">
-                              <p className="text-gray-900 whitespace-wrap pl-5 ">
-                                <categoryTableData.icon />
-                              </p>
-                            </td>
-                            <td className="px-3 py-3 text-sm">
-                              <ToggleButton status={categoryTableData.status} />
-                              {/* <span className="text-gray-900 whitespace-no-wrap">
-                                   
-                                   
-                                  </span> */}
-                            </td>
+                            </p>
+                          </td>
+                          <td className="px-3 py-3 text-sm">
+                            <ToggleButton
+                              status={categoryTableData.cat_status}
+                            />
+                          </td>
 
-                            <td className="px-2 py-3  text-sm">
-                              <button
-                                onClick={() =>
-                                  router.push(
-                                    `${asPath}/${categoryTableData.id}/edit`
-                                  )
-                                }
-                              >
-                                <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                  <span
-                                    style={{
-                                      boxShadow: "0 2px 6px #acb5f6",
-                                    }}
-                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
-                                  >
-                                    <FaEdit />
-                                  </span>
+                          <td className="px-2 py-3  text-sm">
+                            <button
+                              onClick={() =>
+                                router.push(
+                                  `${asPath}/${categoryTableData.slug}/edit`
+                                )
+                              }
+                            >
+                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                                <span
+                                  style={{
+                                    boxShadow: "0 2px 6px #acb5f6",
+                                  }}
+                                  className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
+                                >
+                                  <FaEdit />
                                 </span>
-                              </button>
-                              <button>
-                                <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                  <span
-                                    onClick={() => setShowModal(true)}
-                                    // onClick={() => openModal()}
-                                    style={{
-                                      boxShadow: "0 2px 6px #fd9b96",
-                                    }}
-                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
-                                  >
-                                    <FaTrash />
-                                  </span>
+                              </span>
+                            </button>
+                            <button>
+                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                                <span
+                                  onClick={() => setShowModal(true)}
+                                  // onClick={() => openModal()}
+                                  style={{
+                                    boxShadow: "0 2px 6px #fd9b96",
+                                  }}
+                                  className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                                >
+                                  <FaTrash />
                                 </span>
-                              </button>
-                              {/* <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight"> */}
-                              {/* <button>
+                              </span>
+                            </button>
+                            {/* <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight"> */}
+                            {/* <button>
                                       <span
                                         style={{
                                           boxShadow: "0 2px 6px #ffc473",
@@ -214,17 +222,20 @@ const Categories: React.FC<Props> = (props) => {
                                         <FaTruck />
                                       </span>
                                     </button> */}
-                              {/* </span> */}
-                            </td>
-                          </tr>
-                        )
-                      )}
+                            {/* </span> */}
+                          </td>
+                          <SharedDeleteModal
+                            showModal={showModal}
+                            setShowModal={setShowModal}
+                            slug={categoryTableData.slug}
+                            url={"categories"}
+                          ></SharedDeleteModal>
+                        </tr>
+                        // </div>
+                      ))}
                     </tbody>
                   </table>
-                  <SharedDeleteModal
-                    showModal={showModal}
-                    setShowModal={setShowModal}
-                  ></SharedDeleteModal>
+
                   {/* -------------- */}
                   <div className="px-5 py-5  border-t flex justify-end">
                     <div className="inline-flex mt-2 xs:mt-0">

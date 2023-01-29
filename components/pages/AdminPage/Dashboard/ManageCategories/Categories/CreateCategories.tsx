@@ -12,22 +12,39 @@ const CreateCategories: React.FC<Props> = (props) => {
 
   const handleSave = (e: any) => {
     e.preventDefault();
-    const categories = {
-      cat_image: e.target.image.value,
-      cat_icon: e.target.icon.value,
-      cat_name: e.target.name.value,
-      // slug: e.target.slug.value,
-      cat_status: e.target.status.value,
-    };
-    fetch("http://localhost:8000/categories", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(categories),
-    })
+    const image = e.target.image.files[0];
+    const formData = new FormData();
+    formData.append("image", image);
+    fetch(
+      `https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    )
       .then((res) => res.json())
-      .then((data) => console.log(data), e.target.reset());
+      .then((data) => {
+        const categories = {
+          // cat_image: e.target.image.value,
+
+          cat_image: data?.data?.url,
+          cat_icon: e.target.icon.value,
+          cat_name: e.target.name.value,
+          // slug: e.target.slug.value,
+          cat_status: e.target.status.value,
+        };
+        console.log(data?.data?.url);
+
+        fetch("http://localhost:8000/categories", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(categories),
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data), e.target.reset());
+      });
   };
 
   return (
