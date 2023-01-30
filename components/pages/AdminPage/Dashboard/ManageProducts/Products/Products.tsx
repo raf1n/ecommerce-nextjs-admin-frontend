@@ -159,11 +159,11 @@ const Products: React.FC<Props> = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {productsData.map((data: IProducts) => (
+                        {productsData.map((data: IProducts, indx) => (
                           <tr className="even:bg-gray-100 odd:bg-white">
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
-                                {data?.slug?.split("_")[2]}
+                                {indx + 1}
                               </p>
                             </td>
                             <td className="px-5 py-5 text-sm">

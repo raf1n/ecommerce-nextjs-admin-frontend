@@ -129,6 +129,25 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/products/${slug}`, requestOptions);
   }
+  // status update
+  static async updateApprovalStatus(
+    data: Partial<object>,
+    slug: string
+  ): Promise<MyFetchInterface> {
+    console.log(data);
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/products/${slug}`, requestOptions);
+  }
   //get all brands admin
   static async getAllBrandsAdmin(): Promise<IResponseAllBrands> {
     const myHeaders = new Headers();

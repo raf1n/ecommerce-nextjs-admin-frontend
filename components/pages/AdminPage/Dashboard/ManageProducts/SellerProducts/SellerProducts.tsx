@@ -2,10 +2,9 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
-import { Jsondata } from "../../../../../../src/utils/Jsondata";
 import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
-import DynamicTable from "../../../../../shared/SharedTable/DynamicTable";
+
 import {
   FaEdit,
   FaLongArrowAltDown,
@@ -159,11 +158,12 @@ const SellerProducts: React.FC<Props> = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {sellerProducts.map((data: IProducts) => (
+                        {sellerProducts.map((data: IProducts, indx) => (
                           <tr className="even:bg-gray-100 odd:bg-white">
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
-                                {data?.slug?.split("_")[2]}
+                                {/* {data?.slug?.split("_")[2]} */}
+                                {indx + 1}
                               </p>
                             </td>
                             <td className="px-5 py-5 text-sm">
