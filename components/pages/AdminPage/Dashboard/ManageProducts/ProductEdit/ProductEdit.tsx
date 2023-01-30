@@ -53,7 +53,7 @@ const ProductEdit: React.FC<Props> = (props) => {
     const formData = new FormData();
     formData.append("image", image);
     const { res, err } = await EcommerceApi.uploadProductImage(formData);
-    if (res.data?.url) {
+    if (res.data?.url || res) {
       let imageUrl;
       imageUrl = [res.data?.url];
       // setImageLink(data?.data?.url);
@@ -168,26 +168,26 @@ const ProductEdit: React.FC<Props> = (props) => {
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                   >
                     <option
-                      selected={productData.catSlug === "electronics"}
-                      value="electronics"
+                      selected={productData.catSlug === "electronics_slug"}
+                      value="electronics_slug"
                     >
                       Electronics
                     </option>
                     <option
-                      selected={productData.catSlug === "game"}
-                      value="game"
+                      selected={productData.catSlug === "game_slug"}
+                      value="game_slug"
                     >
                       Game
                     </option>
                     <option
-                      selected={productData.catSlug === "mobile"}
-                      value="mobile"
+                      selected={productData.catSlug === "mobile_slug"}
+                      value="game_slug"
                     >
                       Mobile
                     </option>
                     <option
-                      selected={productData.catSlug === "television"}
-                      value="television"
+                      selected={productData.catSlug === "television_slug"}
+                      value="television_slug"
                     >
                       Television
                     </option>
@@ -204,26 +204,26 @@ const ProductEdit: React.FC<Props> = (props) => {
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                   >
                     <option
-                      selected={productData.subCatSlug === "electronics"}
-                      value="electronics"
+                      selected={productData.subCatSlug === "electronics_slug"}
+                      value="electronics_slug"
                     >
                       Electronics
                     </option>
                     <option
-                      selected={productData.subCatSlug === "game"}
-                      value="game"
+                      selected={productData.subCatSlug === "game_slug"}
+                      value="game_slug"
                     >
                       Game
                     </option>
                     <option
-                      selected={productData.subCatSlug === "mobile"}
-                      value="mobile"
+                      selected={productData.subCatSlug === "mobile_slug"}
+                      value="game_slug"
                     >
                       Mobile
                     </option>
                     <option
-                      selected={productData.subCatSlug === "television"}
-                      value="television"
+                      selected={productData.subCatSlug === "television_slug"}
+                      value="television_slug"
                     >
                       Television
                     </option>
@@ -240,26 +240,26 @@ const ProductEdit: React.FC<Props> = (props) => {
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                   >
                     <option
-                      selected={productData.brandSlug === "electronics"}
-                      value="electronics"
+                      selected={productData.brandSlug === "electronics_slug"}
+                      value="electronics_slug"
                     >
                       Electronics
                     </option>
                     <option
-                      selected={productData.brandSlug === "game"}
-                      value="game"
+                      selected={productData.brandSlug === "game_slug"}
+                      value="game_slug"
                     >
                       Game
                     </option>
                     <option
-                      selected={productData.brandSlug === "mobile"}
-                      value="mobile"
+                      selected={productData.brandSlug === "mobile_slug"}
+                      value="game_slug"
                     >
                       Mobile
                     </option>
                     <option
-                      selected={productData.brandSlug === "television"}
-                      value="television"
+                      selected={productData.brandSlug === "television_slug"}
+                      value="television_slug"
                     >
                       Television
                     </option>
@@ -296,6 +296,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                     Stock Quantity <span className="text-red-500">*</span>
                   </label>
                   <input
+                    min={0}
                     type="number"
                     id="stock_quantity"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"

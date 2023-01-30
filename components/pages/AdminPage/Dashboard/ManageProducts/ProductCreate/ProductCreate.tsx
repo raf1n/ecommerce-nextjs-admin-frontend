@@ -48,6 +48,7 @@ const ProductCreate: React.FC<Props> = (props) => {
         isBestProduct: isCheckedBest,
         isFeatured: isCheckedFeatured,
         isPopular: isCheckedPopular,
+        addedBy: "admin",
       };
       EcommerceApi.addProducts(productData);
     }

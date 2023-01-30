@@ -25,6 +25,8 @@ export interface IProducts {
   isBestProduct?: boolean;
   isFeatured?: boolean;
   isPopular?: boolean;
+  addedBy?: string;
+  approvalStatus?: string;
 }
 
 export type Brand = {

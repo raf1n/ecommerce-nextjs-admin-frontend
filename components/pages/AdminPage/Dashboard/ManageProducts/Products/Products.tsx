@@ -38,14 +38,6 @@ const Products: React.FC<Props> = (props) => {
       );
       setProductsData(remainingBrands);
     }
-    // console.log(deleteModalSlug);
-    // fetch(`http://localhost:8000/products/${deleteModalSlug}`, {
-    //   method: "DELETE",
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     // console.log(data);
-    //   });
   };
   useEffect(() => {
     const fetchAllProducts = async () => {
@@ -58,9 +50,6 @@ const Products: React.FC<Props> = (props) => {
     };
 
     fetchAllProducts();
-    // fetch("http://localhost:8000/products/")
-    //   .then((res) => res.json())
-    //   .then((data) => setProductsData(data.allProductData));
   }, []);
 
   return (
