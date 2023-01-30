@@ -162,6 +162,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     Price <span className="text-red-500">*</span>
                   </label>
                   <input
+                    min={0}
                     type="number"
                     id="price"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
@@ -174,6 +175,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     Offer Price
                   </label>
                   <input
+                    min={0}
                     type="number"
                     id="offer_price"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
@@ -186,6 +188,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     Stock Quantity <span className="text-red-500">*</span>
                   </label>
                   <input
+                    min={0}
                     type="number"
                     id="stock_quantity"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
@@ -198,6 +201,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     Weight <span className="text-red-500">*</span>
                   </label>
                   <input
+                    min={0}
                     type="number"
                     id="weight"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"

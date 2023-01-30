@@ -5,8 +5,6 @@ import { controller } from "./../../../../../../src/state/StateController";
 
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedAddNewButton from "./../../../../../shared/SharedAddNewButton/SharedAddNewButton";
-import DynamicTable from "./../../../../../shared/SharedTable/DynamicTable";
-import ToggleButton from "../../ManageCategories/ToggleButton/ToggleButton";
 import { IProducts } from "../../../../../../interfaces/models";
 import {
   FaEdit,
@@ -193,7 +191,7 @@ const Products: React.FC<Props> = (props) => {
                                     New
                                   </span>
                                 )}
-                                {data.isBestProduct && (
+                                {data.isFeatured && (
                                   <span className="bg-blue-500 rounded-xl py-1 px-2 text-white">
                                     Featured
                                   </span>
