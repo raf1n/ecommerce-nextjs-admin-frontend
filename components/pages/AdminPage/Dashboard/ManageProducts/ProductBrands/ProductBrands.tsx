@@ -11,7 +11,7 @@ import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDel
 
 interface Props {}
 
-const tableHeaders = ["SN", "Name", "Slug", "Logo", "Status", "Action"];
+const tableHeaders = ["sn", "name", "slug", "logo", "status", "action"];
 
 const actions = {
   isEditable: true,
@@ -20,19 +20,33 @@ const actions = {
 
 const ProductBrands: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [deleteModalSlug, setDeleteModalSlug] = useState("")
-  const [productBrandsData, setProductBrandsData] = useState<IBrandDetail[]>([])
+  const [deleteModalSlug, setDeleteModalSlug] = useState("");
+  const [productBrandsData, setProductBrandsData] = useState<IBrandDetail[]>([]);
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortType, setSortType] = useState("desc");
+  const [searchString, setSearchString] = useState("");
+
+  console.log({sortBy, sortType});
 
   useEffect( () => {
     const fetchBrands = async () => {
-      const { res, err } = await EcommerceApi.getAllBrandsAdmin();
+      const { res, err } = await EcommerceApi.getAllBrandsAdmin(`sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`);
 
       setProductBrandsData(res)
     }
 
     fetchBrands();
 
-  }, []);
+  }, [searchString, sortBy, sortType]);
+
+  // const handleSetSortBy = (sortByString: string) => {
+  //   if (sortType === 'asc') {
+  //     setSortType('desc')
+  //   } else {
+  //     setSortType('asc')
+  //   }
+  //   setSortBy(sortByString);
+  // }
 
   const handleDelete = () => {
     console.log(deleteModalSlug );
@@ -67,6 +81,12 @@ const ProductBrands: React.FC<Props> = (props) => {
               actions={actions}
               testDynamicTableData={productBrandsData}
               setDeleteModalSlug={setDeleteModalSlug}
+              sortBy={sortBy}
+              sortType={sortType}
+              setSortBy={setSortBy}
+              setSortType={setSortType}
+              setSearchString={setSearchString}
+              // handleSetSortBy={handleSetSortBy}
             />
              <SharedDeleteModal
                 handleDelete={handleDelete}

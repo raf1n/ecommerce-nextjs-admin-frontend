@@ -11,31 +11,6 @@ export interface LoginInterface {
   };
 }
 
-// export class EcommerceApi {
-//DEMO API CALLING STRUCTURE
-// static async login(token: string, email: string, fullName: string, avatar: string, tokenType: "google" | "facebook"): Promise<ILoginResponse> {
-//     console.log(token);
-//     console.log(API_ENDPOINT)
-//     const myHeaders = new Headers();
-//     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-//     const urlencoded = new URLSearchParams();
-//     urlencoded.append("token", token);
-//     urlencoded.append("tokenType", tokenType);
-//     urlencoded.append("email", email);
-//     urlencoded.append("fullName", fullName);
-//     urlencoded.append("avatar", avatar);
-//     const requestOptions = {
-//         method: 'POST',
-//         headers: myHeaders,
-//         body: urlencoded,
-//         redirect: 'follow'
-//     };
-
-//     return await callFetch(`${API_ENDPOINT}/users/login`, requestOptions)
-// }
-// test
-// }
-
 export class EcommerceApi {
   //DEMO API CALLING STRUCTURE
   // static async login(data: Partial<IUser>): Promise<ILoginResponse> {
@@ -54,7 +29,9 @@ export class EcommerceApi {
   //     return await callFetch(`${API_ENDPOINT}/users/login`, requestOptions)
   // }
 
-  static async getAllBrandsAdmin(): Promise<IResponseAllBrands> {
+
+  // get all brands for manage products: brands page
+  static async getAllBrandsAdmin(query: string): Promise<IResponseAllBrands> {
     const myHeaders = new Headers();
 
     const requestOptions = {
@@ -63,6 +40,6 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/brands`, requestOptions);
+    return await callFetch(`${API_ENDPOINT}/brands?${query}`, requestOptions);
   }
 }

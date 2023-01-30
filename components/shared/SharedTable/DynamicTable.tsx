@@ -12,7 +12,8 @@ import {
 import ToggleButton from "../../pages/AdminPage/Dashboard/ManageCategories/ToggleButton/ToggleButton";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import SharedDeleteModal from "./../SharedDeleteModal/SharedDeleteModal";
+import Styles from "./Table.module.css";
+
 interface Props {
   tableHeaders: Array<string>;
   actions?: {
@@ -23,17 +24,35 @@ interface Props {
     isSeller?: boolean;
   };
   testDynamicTableData: Array<object>;
-  setDeleteModalSlug: Dispatch<SetStateAction<string>>
+  setDeleteModalSlug: Dispatch<SetStateAction<string>>;
+  sortBy: string;
+  sortType: string;
+  setSortBy: Dispatch<SetStateAction<string>>;
+  setSortType: Dispatch<SetStateAction<string>>;
+  setSearchString: Dispatch<SetStateAction<string>>;
+  // handleSetSortBy: Function;
 }
 const DynamicTable: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const router = useRouter();
   const { asPath } = router;
-  const { tableHeaders, actions, testDynamicTableData, setDeleteModalSlug } = props;
+  const {
+    tableHeaders,
+    actions,
+    testDynamicTableData,
+    setDeleteModalSlug,
+    sortBy,
+    sortType,
+    setSortBy,
+    setSortType,
+    setSearchString,
+    // handleSetSortBy,
+  } = props;
+
   return (
     <div>
-      <div className="bg-white p-8 rounded-md w-full">
-        <div className=" flex items-center justify-between pb-6">
+      <div className="bg-white p-4 rounded-md w-full">
+        {/* <div className=" flex items-center justify-between pb-6">
           <div>
             <span className="text-xs px-1">Show </span>
             <select
@@ -71,6 +90,41 @@ const DynamicTable: React.FC<Props> = (props) => {
               />
             </div>
           </div>
+        </div> */}
+        <div className="flex items-center justify-between pb-6">
+          <div>
+            <span className="text-xs text-gray-500 px-1">Show </span>
+            <select
+              name="dataTable_length"
+              aria-controls="dataTable"
+              className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center"
+            >
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            <span className="text-xs text-gray-500  px-1">Entries</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <label htmlFor="" className="text-xs text-gray-500">
+              Search
+            </label>
+            <div
+              className={`${Styles[" "]}  flex bg-gray-50 items-center ml-3 rounded h-[34px]  `}
+            >
+              <input
+                className={`${Styles["form-control-sm"]} bg-gray-50 outline-none  border border-blue-200 `}
+                onChange={(e) => {
+                  console.log(e.target.value);
+                  setSearchString(e.target.value);
+                }}
+                type="search"
+                name=""
+                id=""
+              />
+            </div>
+          </div>
         </div>
         <div>
           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -79,11 +133,36 @@ const DynamicTable: React.FC<Props> = (props) => {
                 <thead>
                   <tr>
                     {tableHeaders.map((header, idx) => (
-                      <th key={idx} className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        <span className="flex">
-                          {header}
-                          <FaLongArrowAltUp className="w-2 ml-2 cursor-pointer" />{" "}
-                          <FaLongArrowAltDown className="w-2 ml-1 cursor-pointer" />
+                      <th
+                        key={idx}
+                        className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                      >
+                        <span
+                          className="flex"
+                        >
+                          <span className="flex-1">{header}</span>
+                          <FaLongArrowAltUp
+                            onClick={() => {
+                              setSortType("asc");
+                              setSortBy(header);
+                            }}
+                            className={`${
+                              sortBy === header && sortType === "asc"
+                                ? "fill-gray-700"
+                                : "fill-gray-300"
+                            } w-2 ml-2 cursor-pointer`}
+                          />{" "}
+                          <FaLongArrowAltDown
+                            onClick={() => {
+                              setSortType("desc");
+                              setSortBy(header);
+                            }}
+                            className={`${
+                              sortBy === header && sortType === "desc"
+                                ? "fill-gray-700"
+                                : "fill-gray-300"
+                            } w-2 ml-1 cursor-pointer`}
+                          />
                         </span>
                       </th>
                     ))}
@@ -111,7 +190,10 @@ const DynamicTable: React.FC<Props> = (props) => {
                             row[key] === "pending"
                           ) {
                             return (
-                              <td key={idx} className="px-5 py-5  bg-white text-sm">
+                              <td
+                                key={idx}
+                                className="px-5 py-5  bg-white text-sm"
+                              >
                                 <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     aria-hidden
@@ -128,7 +210,10 @@ const DynamicTable: React.FC<Props> = (props) => {
                             row[key] === "success"
                           ) {
                             return (
-                              <td key={idx} className="px-5 py-5  bg-white text-sm">
+                              <td
+                                key={idx}
+                                className="px-5 py-5  bg-white text-sm"
+                              >
                                 <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     aria-hidden
@@ -142,10 +227,16 @@ const DynamicTable: React.FC<Props> = (props) => {
                             );
                           } else if (key === "type") {
                             return (
-                              <td key={idx} className=" px-5 py-5  bg-white text-sm">
+                              <td
+                                key={idx}
+                                className=" px-5 py-5  bg-white text-sm"
+                              >
                                 <span className="flex gap-2">
                                   {row[key].map((type: any, idx: number) => (
-                                    <span key={idx} className="bg-green-500 rounded-xl py-1 px-2 text-white">
+                                    <span
+                                      key={idx}
+                                      className="bg-green-500 rounded-xl py-1 px-2 text-white"
+                                    >
                                       {type}
                                     </span>
                                   ))}
@@ -171,7 +262,10 @@ const DynamicTable: React.FC<Props> = (props) => {
                             );
                           } else if (key === "logo") {
                             return (
-                              <td key={idx} className="px-5 py-5  bg-white text-sm">
+                              <td
+                                key={idx}
+                                className="px-5 py-5  bg-white text-sm"
+                              >
                                 <Image
                                   width={80}
                                   height={80}
@@ -185,7 +279,10 @@ const DynamicTable: React.FC<Props> = (props) => {
                             );
                           } else {
                             return (
-                              <td key={idx} className="px-5 py-5 bg-white text-sm">
+                              <td
+                                key={idx}
+                                className="px-5 py-5 bg-white text-sm"
+                              >
                                 <p className="text-gray-900 whitespace-no-wrap">
                                   {row[key]}
                                 </p>

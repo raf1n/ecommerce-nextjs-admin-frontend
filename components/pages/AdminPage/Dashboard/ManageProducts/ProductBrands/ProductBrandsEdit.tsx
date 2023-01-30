@@ -61,7 +61,10 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
           body: JSON.stringify(editBrand),
         })
           .then((res) => res.json())
-          .then((data) => console.log(data));
+          .then((data) => {
+            console.log(data);
+            setBrandData(data);
+          });
       });
   };
 
