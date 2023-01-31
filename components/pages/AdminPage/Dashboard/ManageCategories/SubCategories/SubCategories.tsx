@@ -6,7 +6,6 @@ import { FaEye, FaTrash, FaEdit } from "react-icons/fa";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import { controller } from "../../../../../../src/state/StateController";
 import { Jsondata } from "../../../../../../src/utils/Jsondata";
-import ToggleButton from "./ToggleButton";
 
 import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
@@ -15,6 +14,8 @@ import { useRouter } from "next/router";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 import { ISubCategories } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import ToggleButton from "./ToggleButton";
+
 interface Props {}
 
 const SubCategories: React.FC<Props> = (props) => {
@@ -156,31 +157,32 @@ const SubCategories: React.FC<Props> = (props) => {
                     </thead>
 
                     <tbody>
-                      {subCategoriesData.map((tabledata, index) => (
-                        <tr className="even:bg-gray-50 odd:bg-white">
-                          <td className="px-3 py-3   text-sm">
-                            <p className="text-gray-900 whitespace-no-wrap">
-                              {index + 1}
-                            </p>
-                          </td>
-                          <td className="px-3 py-3  text-sm">
-                            <p className="text-gray-900 whitespace-no-wrap ">
-                              {tabledata.subcat_name}
-                            </p>
-                          </td>
-                          <td className="px-3 py-3 text-sm">
-                            <p className="text-gray-900 whitespace-no-wrap">
-                              {tabledata.slug}
-                            </p>
-                          </td>
-                          <td className="px-0 py-3 text-sm">
-                            <p className="text-gray-900 whitespace-wrap">
-                              {tabledata.cat_name}
-                            </p>
-                          </td>
-                          <td className="px-1 py-3 text-sm ">
-                            <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight ">
-                              {/* <span
+                      {subCategoriesData.map(
+                        (tabledata: ISubCategories, index) => (
+                          <tr className="even:bg-gray-50 odd:bg-white">
+                            <td className="px-3 py-3   text-sm">
+                              <p className="text-gray-900 whitespace-no-wrap">
+                                {index + 1}
+                              </p>
+                            </td>
+                            <td className="px-3 py-3  text-sm">
+                              <p className="text-gray-900 whitespace-no-wrap ">
+                                {tabledata.subcat_name}
+                              </p>
+                            </td>
+                            <td className="px-3 py-3 text-sm">
+                              <p className="text-gray-900 whitespace-no-wrap">
+                                {tabledata.slug}
+                              </p>
+                            </td>
+                            <td className="px-0 py-3 text-sm">
+                              <p className="text-gray-900 whitespace-wrap">
+                                {tabledata?.cat_name}
+                              </p>
+                            </td>
+                            <td className="px-1 py-3 text-sm ">
+                              <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight ">
+                                {/* <span
                             aria-hidden
                             className={`absolute inset-0 ${
                               tabledata.status == "active"
@@ -192,52 +194,55 @@ const SubCategories: React.FC<Props> = (props) => {
                             {tabledata.status}
                           </span> */}
 
-                              <ToggleButton
-                                slug={tabledata?.slug}
-                                status={tabledata.subcat_status}
-                              />
-                            </span>
-                          </td>
-
-                          <td className="px-2 py-3  text-sm">
-                            <button
-                              onClick={() =>
-                                router.push(`${asPath}/${tabledata.slug}/edit`)
-                              }
-                            >
-                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                <span
-                                  style={{ boxShadow: "0 2px 6px #acb5f6" }}
-                                  className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
-                                >
-                                  <FaEdit />
-                                </span>
+                                <ToggleButton
+                                  slug={tabledata?.slug}
+                                  status={tabledata.subcat_status}
+                                />
                               </span>
-                            </button>
-                            <button
-                              onClick={
-                                () => setDeleteModalSlug(tabledata.slug)
+                            </td>
 
-                                // setShowModal(true)
-                              }
-                            >
-                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                <span
-                                  style={{ boxShadow: "0 2px 6px #fd9b96" }}
-                                  className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
-                                >
-                                  <FaTrash />
+                            <td className="px-2 py-3  text-sm">
+                              <button
+                                onClick={() =>
+                                  router.push(
+                                    `${asPath}/${tabledata.slug}/edit`
+                                  )
+                                }
+                              >
+                                <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                                  <span
+                                    style={{ boxShadow: "0 2px 6px #acb5f6" }}
+                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
+                                  >
+                                    <FaEdit />
+                                  </span>
                                 </span>
-                              </span>
-                            </button>
-                          </td>
-                          <SharedDeleteModal
-                            deleteModalSlug={deleteModalSlug}
-                            handleDelete={handleDelete}
-                            setDeleteModalSlug={setDeleteModalSlug}
-                          ></SharedDeleteModal>
-                        </tr>
-                      ))}
+                              </button>
+                              <button
+                                onClick={
+                                  () => setDeleteModalSlug(tabledata.slug)
+
+                                  // setShowModal(true)
+                                }
+                              >
+                                <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                                  <span
+                                    style={{ boxShadow: "0 2px 6px #fd9b96" }}
+                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                                  >
+                                    <FaTrash />
+                                  </span>
+                                </span>
+                              </button>
+                            </td>
+                            <SharedDeleteModal
+                              deleteModalSlug={deleteModalSlug}
+                              handleDelete={handleDelete}
+                              setDeleteModalSlug={setDeleteModalSlug}
+                            ></SharedDeleteModal>
+                          </tr>
+                        )
+                      )}
                     </tbody>
                     {/* <SharedDeleteModal
                       showModal={showModal}

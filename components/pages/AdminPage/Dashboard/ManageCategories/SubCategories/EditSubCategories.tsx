@@ -1,14 +1,66 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import { controller } from "../../../../../../src/state/StateController";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import { ICategories } from "../../../../../../interfaces/models";
+import { useRouter } from "next/router";
 
 interface Props {}
 
 const EditSubCategories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [categoriesData, setCategoriesData] = useState<ICategories[]>([]);
+  const { asPath } = useRouter();
+  const subCatSlug = asPath.split("/")[2];
+  const [subCatData, setSubCatData] = useState({});
+  useEffect(() => {
+    console.log(subCatSlug);
+    const getSingleCategory = async () => {
+      if (subCatSlug !== "[id]") {
+        const { res, err } = await EcommerceApi.getSingleSubCategory(
+          subCatSlug
+        );
+        if (res) {
+          setSubCatData(res);
+        } else {
+          console.log(err);
+        }
+      }
+    };
+    getSingleCategory();
+  }, [subCatSlug]);
 
+  useEffect(() => {
+    const fetchAllCategoriesData = async () => {
+      const { res, err } = await EcommerceApi.allCategories();
+      if (err) {
+        console.log(err);
+      } else {
+        setCategoriesData(res);
+
+        // console.log(res);
+      }
+    };
+    fetchAllCategoriesData();
+  }, []);
+
+  const handleEdit = async (e: any) => {
+    e.preventDefault();
+
+    const subCategories = {
+      // cat_imag
+
+      cat_slug: e.target.categories.value,
+      subcat_name: e.target.name.value,
+      // cat_slug: e.target.slug.value,
+      slug: e.target.slug.value,
+      subcat_status: e.target.status.value,
+    };
+    EcommerceApi.editSubCategories(subCategories, subCatSlug);
+    e.target.reset();
+  };
   return (
     <div className="w-full ">
       <DashboardBreadcrumb
@@ -28,7 +80,7 @@ const EditSubCategories: React.FC<Props> = (props) => {
         <div className="mt-4">
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6">
-              <form action="">
+              <form onSubmit={handleEdit} action="">
                 <div>
                   <div>
                     <div className="mt-4">
@@ -43,14 +95,19 @@ const EditSubCategories: React.FC<Props> = (props) => {
                       </div>
                       <select
                         className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                        name=""
+                        name="categories"
                         id=""
                       >
                         <option value="">Select Category</option>
-                        <option value="active">Electronics</option>
+                        {categoriesData.map((category: ICategories) => (
+                          <option value={category.cat_slug}>
+                            {category.cat_name}
+                          </option>
+                        ))}
+                        {/* <option value="active">Electronics</option>
                         <option value="inactive">Game</option>
                         <option value="inactive">Mobile</option>
-                        <option value="inactive">Lifestyles</option>
+                        <option value="inactive">Lifestyles</option> */}
                       </select>
                     </div>
                   </div>
@@ -68,6 +125,7 @@ const EditSubCategories: React.FC<Props> = (props) => {
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
                       name="name"
+                      defaultValue={subCatData?.subcat_name}
                       id=""
                     />
                   </div>
@@ -100,7 +158,7 @@ const EditSubCategories: React.FC<Props> = (props) => {
                     </div>
                     <select
                       className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name=""
+                      name="status"
                       id=""
                     >
                       <option value="active">Active</option>

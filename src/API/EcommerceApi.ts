@@ -1,5 +1,10 @@
+import { ISingleSubCategoryResponse } from "./../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
-import { ICategories, IProducts, ISubCategories } from "../../interfaces/models";
+import {
+  ICategories,
+  IProducts,
+  ISubCategories,
+} from "../../interfaces/models";
 import { callFetch } from "../utils/CallFetch";
 import {
   IProductResponse,
@@ -86,7 +91,7 @@ export class EcommerceApi {
       requestOptions
     );
   }
-  // get single products
+  // get single Category
   static async getSingleCategory(
     slug: string
   ): Promise<ISingleCategoryResponse> {
@@ -103,6 +108,7 @@ export class EcommerceApi {
       requestOptions
     );
   }
+
   //Edit Categories
 
   static async editCategories(
@@ -176,6 +182,48 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/sub-categories`, requestOptions);
+  }
+
+  //Edit SubCategories
+
+  static async editSubCategories(
+    data: Partial<ISubCategories>,
+    slug: string
+  ): Promise<ISubCategoriesResponse> {
+    console.log(data);
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/sub-categories/${slug}`,
+      requestOptions
+    );
+  }
+
+  // get single Sub Category
+  static async getSingleSubCategory(
+    slug: string
+  ): Promise<ISingleSubCategoryResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/sub-categories/${slug}`,
+      requestOptions
+    );
   }
   //DEMO API CALLING STRUCTURE
   // static async login(token: string, email: string, fullName: string, avatar: string, tokenType: "google" | "facebook"): Promise<ILoginResponse> {

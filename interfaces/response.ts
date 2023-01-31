@@ -20,6 +20,10 @@ export interface ISingleCategoryResponse extends MyFetchInterface {
 export interface ISubCategoriesResponse extends MyFetchInterface {
   res: Array<ISubCategories>;
 }
+
+export interface ISingleSubCategoryResponse extends MyFetchInterface {
+  res: ISubCategories;
+}
 export interface IProductResponse extends MyFetchInterface {
   res: {
     allProductData: Array<IProducts>;
