@@ -4,7 +4,7 @@ import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import { controller } from "../../../../../../src/state/StateController";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
-import { ICategories } from "../../../../../../interfaces/models";
+import { ICategories, ISubCategories } from "../../../../../../interfaces/models";
 import { useRouter } from "next/router";
 
 interface Props {}
@@ -14,7 +14,7 @@ const EditSubCategories: React.FC<Props> = (props) => {
   const [categoriesData, setCategoriesData] = useState<ICategories[]>([]);
   const { asPath } = useRouter();
   const subCatSlug = asPath.split("/")[2];
-  const [subCatData, setSubCatData] = useState({});
+  const [subCatData, setSubCatData] = useState<ISubCategories | null>(null);
   useEffect(() => {
     console.log(subCatSlug);
     const getSingleCategory = async () => {

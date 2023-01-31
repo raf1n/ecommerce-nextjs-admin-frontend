@@ -114,7 +114,7 @@ export class EcommerceApi {
   static async editCategories(
     data: Partial<ICategories>,
     slug: string
-  ): Promise<IResponseCategories> {
+  ): Promise<ISingleCategoryResponse> {
     console.log(data);
     console.log(API_ENDPOINT);
     const myHeaders = new Headers();

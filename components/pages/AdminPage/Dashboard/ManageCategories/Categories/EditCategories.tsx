@@ -14,7 +14,7 @@ const EditCategories: React.FC<Props> = (props) => {
 
   const { asPath } = useRouter();
   const catSlug = asPath.split("/")[2];
-  const [catData, setCatData] = useState({});
+  const [catData, setCatData] = useState<ICategories | null>(null);
   useEffect(() => {
     console.log(catSlug);
     const getSingleCategory = async () => {

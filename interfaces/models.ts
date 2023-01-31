@@ -18,7 +18,7 @@ export interface ISubCategories {
   cat_slug: string;
   subcat_name: string;
   subcat_status: string;
-  // cat_name: string;
+  cat_name: string;
 }
 export interface IProducts {
   productName?: string;
