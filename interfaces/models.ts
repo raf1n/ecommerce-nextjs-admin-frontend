@@ -8,9 +8,17 @@ export type User = {
 export interface ICategories {
   cat_slug: string;
   cat_name: string;
-  cat_image: string;
+  cat_image?: string;
   cat_status: string;
   cat_icon: string;
+}
+
+export interface ISubCategories {
+  slug: string;
+  cat_slug: string;
+  subcat_name: string;
+  subcat_status: string;
+  // cat_name: string;
 }
 export interface IProducts {
   productName?: string;

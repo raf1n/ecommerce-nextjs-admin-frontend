@@ -1,11 +1,13 @@
 import { MyFetchInterface } from "./../utils/CallFetch";
-import { IProducts } from "../../interfaces/models";
+import { ICategories, IProducts, ISubCategories } from "../../interfaces/models";
 import { callFetch } from "../utils/CallFetch";
 import {
   IProductResponse,
   IResponseAllBrands,
   IResponseCategories,
+  ISingleCategoryResponse,
   ISingleProductResponse,
+  ISubCategoriesResponse,
 } from "../../interfaces/response";
 
 // import { callFetch, MyFetchInterface } from "../utils/CallFetch"
@@ -19,6 +21,7 @@ export interface LoginInterface {
 }
 
 export class EcommerceApi {
+  //get all categories
   static async allCategories(): Promise<IResponseCategories> {
     console.log(API_ENDPOINT);
     const myHeaders = new Headers();
@@ -30,6 +33,43 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/categories`, requestOptions);
   }
+  //add image to Categories
+  static async uploadCategoryImage(
+    data: Partial<any>
+  ): Promise<MyFetchInterface> {
+    console.log(data);
+    console.log(API_ENDPOINT);
+
+    const requestOptions = {
+      method: "POST",
+      body: data,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024`,
+      requestOptions
+    );
+  }
+  //create categories
+  static async createCategories(
+    data: Partial<ICategories>
+  ): Promise<IResponseCategories> {
+    console.log(data);
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/categories`, requestOptions);
+  }
+  //delete categories
   static async deleteCategories(slug: string): Promise<MyFetchInterface> {
     console.log(API_ENDPOINT);
     console.log(slug);
@@ -45,6 +85,97 @@ export class EcommerceApi {
       `${API_ENDPOINT}/categories/${slug}`,
       requestOptions
     );
+  }
+  // get single products
+  static async getSingleCategory(
+    slug: string
+  ): Promise<ISingleCategoryResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/categories/${slug}`,
+      requestOptions
+    );
+  }
+  //Edit Categories
+
+  static async editCategories(
+    data: Partial<ICategories>,
+    slug: string
+  ): Promise<IResponseCategories> {
+    console.log(data);
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/categories/${slug}`,
+      requestOptions
+    );
+  }
+
+  // get all SubCategories
+
+  static async allSubCategories(): Promise<ISubCategoriesResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/sub-categories`, requestOptions);
+  }
+
+  //Delete Sub Categories
+  static async deleteSubCategories(slug: string): Promise<MyFetchInterface> {
+    console.log(API_ENDPOINT);
+    console.log(slug);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/sub-categories/${slug}`,
+      requestOptions
+    );
+  }
+
+  //create sub category
+  static async createSubCategories(
+    data: Partial<ISubCategories>
+  ): Promise<ISubCategoriesResponse> {
+    console.log(data);
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/sub-categories`, requestOptions);
   }
   //DEMO API CALLING STRUCTURE
   // static async login(token: string, email: string, fullName: string, avatar: string, tokenType: "google" | "facebook"): Promise<ILoginResponse> {

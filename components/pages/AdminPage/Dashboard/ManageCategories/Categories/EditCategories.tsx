@@ -1,6 +1,8 @@
 import { Router, useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { ICategories } from "../../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
@@ -14,53 +16,87 @@ const EditCategories: React.FC<Props> = (props) => {
   const catSlug = asPath.split("/")[2];
   const [catData, setCatData] = useState({});
   useEffect(() => {
-    if (catSlug !== "[slug]") {
-      fetch(`http://localhost:8000/categories/${catSlug}`)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          if (data) {
-            setCatData(data);
-          }
-        });
-    }
+    console.log(catSlug);
+    const getSingleCategory = async () => {
+      if (catSlug !== "[id]") {
+        const { res, err } = await EcommerceApi.getSingleCategory(catSlug);
+        if (res) {
+          setCatData(res);
+        } else {
+          console.log(err);
+        }
+      }
+    };
+    getSingleCategory();
   }, [catSlug]);
-  const handleEdit = (e: any) => {
+  // if (catSlug !== "[slug]") {
+  //   fetch(`http://localhost:8000/categories/${catSlug}`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       if (data) {
+  //         setCatData(data);
+  //       }
+  //     });
+  // }
+
+  const handleEdit = async (e: any) => {
     e.preventDefault();
     const image = e.target.image.files[0];
     const formData = new FormData();
     formData.append("image", image);
-    fetch(
-      `https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024`,
-      {
-        method: "POST",
-        body: formData,
+    const { res, err } = await EcommerceApi.uploadCategoryImage(formData);
+    if (res.data?.url) {
+      let imageUrl;
+      imageUrl = res.data?.url;
+      // setImageLink(data?.data?.url);
+      if (res.data?.url === undefined) {
+        imageUrl = "";
       }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const categories = {
-          // cat_image: e.target.image.value,
+      const categories = {
+        // cat_image: e.target.image.value,
 
-          cat_image: data?.data?.url,
-          cat_icon: e.target.icon.value,
-          cat_name: e.target.name.value,
-          // slug: e.target.slug.value,
-          cat_status: e.target.status.value,
-        };
-        console.log(data?.data?.url);
-
-        fetch(`http://localhost:8000/categories/${catSlug}`, {
-          method: "PATCH",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(categories),
-        })
-          .then((res) => res.json())
-          .then((data) => console.log(data), e.target.reset());
-      });
+        cat_image: imageUrl,
+        cat_icon: e.target.icon.value,
+        cat_name: e.target.name.value,
+        // cat_slug: e.target.slug.value,
+        cat_status: e.target.status.value,
+      };
+      EcommerceApi.editCategories(categories, catSlug);
+      e.target.reset();
+    }
   };
+  // fetch(
+  //   `https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024`,
+  //   {
+  //     method: "POST",
+  //     body: formData,
+  //   }
+  // )
+  //   .then((res) => res.json())
+  //   .then((data) => {
+  //     const categories = {
+  //       // cat_image: e.target.image.value,
+
+  //       cat_image: data?.data?.url,
+  //       cat_icon: e.target.icon.value,
+  //       cat_name: e.target.name.value,
+  //       // slug: e.target.slug.value,
+  //       cat_status: e.target.status.value,
+  //     };
+  //     console.log(data?.data?.url);
+
+  //     fetch(`http://localhost:8000/categories/${catSlug}`, {
+  //       method: "PATCH",
+  //       headers: {
+  //         "content-type": "application/json",
+  //       },
+  //       body: JSON.stringify(categories),
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => console.log(data), e.target.reset());
+  //   });
+
   return (
     <div className="w-full ">
       <DashboardBreadcrumb
