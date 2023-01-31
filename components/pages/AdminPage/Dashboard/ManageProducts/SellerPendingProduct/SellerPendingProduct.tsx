@@ -25,6 +25,9 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
   const { asPath } = router;
   const [sellerProducts, setSellerProducts] = useState<IProducts[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortType, setSortType] = useState("desc");
+  const [searchString, setSearchString] = useState("");
   const handleDelete = async () => {
     const { res, err } = await EcommerceApi.deleteProduct(deleteModalSlug);
     if (res) {
@@ -37,7 +40,9 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
   };
   useEffect(() => {
     const fetchAllProducts = async () => {
-      const { res, err } = await EcommerceApi.allProducts();
+      const { res, err } = await EcommerceApi.allProducts(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
       if (err) {
         console.log(err);
       } else {
@@ -46,7 +51,16 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
     };
 
     fetchAllProducts();
-  }, []);
+  }, [searchString, sortBy, sortType]);
+  const tableHeaders = {
+    sn: "sn",
+    name: "productName",
+    price: "price",
+    photo: "imageURL",
+    action: "action",
+    type: "type",
+    status: "approvalStatus",
+  };
   return (
     <div className="w-full">
       <DashboardBreadcrumb
@@ -91,6 +105,7 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
                       ></path>
                     </svg>
                     <input
+                      onChange={(e) => setSearchString(e.target.value)}
                       className="bg-gray-50 outline-none ml-1 block "
                       type="text"
                       name=""
@@ -106,55 +121,41 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
                     <table className="min-w-full leading-normal">
                       <thead>
                         <tr className="h-16">
-                          <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            <span className="flex">
-                              SN
-                              <FaLongArrowAltUp />
-                              <FaLongArrowAltDown />
-                            </span>
-                          </th>
-                          <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            <span className="flex">
-                              Name
-                              <FaLongArrowAltUp />
-                              <FaLongArrowAltDown />
-                            </span>
-                          </th>
-                          <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            <span className="flex">
-                              Price
-                              <FaLongArrowAltUp />
-                              <FaLongArrowAltDown />
-                            </span>
-                          </th>
-                          <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            <span className="flex">
-                              Photo
-                              <FaLongArrowAltUp />
-                              <FaLongArrowAltDown />
-                            </span>
-                          </th>
-                          <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            <span className="flex">
-                              Type
-                              <FaLongArrowAltUp />
-                              <FaLongArrowAltDown />
-                            </span>
-                          </th>
-                          <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            <span className="flex">
-                              Status
-                              <FaLongArrowAltUp />
-                              <FaLongArrowAltDown />
-                            </span>
-                          </th>
-                          <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            <span className="flex">
-                              Action
-                              <FaLongArrowAltUp />
-                              <FaLongArrowAltDown />
-                            </span>
-                          </th>
+                          {Object.keys(tableHeaders).map((header: any) => (
+                            <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                              <span className="flex">
+                                {header}
+                                <FaLongArrowAltUp
+                                  onClick={() => {
+                                    setSortType("asc");
+                                    //@ts-ignore
+                                    setSortBy(tableHeaders[header]);
+                                  }}
+                                  className={`${
+                                    //@ts-ignore
+                                    sortBy === tableHeaders[header] &&
+                                    sortType === "asc"
+                                      ? "fill-gray-700"
+                                      : "fill-gray-300"
+                                  } w-2 ml-2 cursor-pointer`}
+                                />{" "}
+                                <FaLongArrowAltDown
+                                  onClick={() => {
+                                    setSortType("desc");
+                                    //@ts-ignore
+                                    setSortBy(tableHeaders[header]);
+                                  }}
+                                  className={`${
+                                    //@ts-ignore
+                                    sortBy === tableHeaders[header] &&
+                                    sortType === "desc"
+                                      ? "fill-gray-700"
+                                      : "fill-gray-300"
+                                  } w-2 ml-1 cursor-pointer`}
+                                />
+                              </span>
+                            </th>
+                          ))}
                         </tr>
                       </thead>
                       <tbody>

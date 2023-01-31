@@ -19,7 +19,7 @@ export interface LoginInterface {
 
 export class EcommerceApi {
   // get all products
-  static async allProducts(): Promise<IProductResponse> {
+  static async allProducts(query: string): Promise<IProductResponse> {
     console.log(API_ENDPOINT);
     const myHeaders = new Headers();
 
@@ -28,7 +28,10 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/products`, requestOptions);
+    return await callFetch(
+      `${API_ENDPOINT}/products/admin?${query}`,
+      requestOptions
+    );
   }
   // get single products
   static async getSingleProduct(slug: string): Promise<ISingleProductResponse> {

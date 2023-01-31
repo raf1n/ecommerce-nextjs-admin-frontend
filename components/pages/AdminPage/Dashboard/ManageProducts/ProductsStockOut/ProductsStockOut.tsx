@@ -19,16 +19,22 @@ const ProductsStockOut: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [stockoutProducts, setStockoutProducts] = useState<IProducts[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortType, setSortType] = useState("desc");
+  const [searchString, setSearchString] = useState("");
+
   const router = useRouter();
   useEffect(() => {
     const getStockoutProducts = async () => {
-      const { res, err } = await EcommerceApi.allProducts();
+      const { res, err } = await EcommerceApi.allProducts(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
       if (res) {
         setStockoutProducts(res.stockOutProducts);
       }
     };
     getStockoutProducts();
-  }, []);
+  }, [searchString, sortBy, sortType]);
   const handleDelete = async () => {
     const { res, err } = await EcommerceApi.deleteProduct(deleteModalSlug);
     if (res) {
@@ -38,6 +44,14 @@ const ProductsStockOut: React.FC<Props> = (props) => {
       );
       setStockoutProducts(remainingBrands);
     }
+  };
+  console.log({ searchString, sortBy, sortType });
+  const tableHeaders = {
+    sn: "sn",
+    name: "productName",
+    price: "price",
+    photo: "imageURL",
+    action: "action",
   };
   return (
     <div className="w-full">
@@ -84,6 +98,7 @@ const ProductsStockOut: React.FC<Props> = (props) => {
                         ></path>
                       </svg>
                       <input
+                        onChange={(e) => setSearchString(e.target.value)}
                         className="bg-gray-50 outline-none ml-1 block "
                         type="text"
                         name=""
@@ -99,36 +114,41 @@ const ProductsStockOut: React.FC<Props> = (props) => {
                       <table className="min-w-full leading-normal">
                         <thead>
                           <tr>
-                            <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                              <span className="flex">
-                                SN
-                                <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                              </span>
-                            </th>
-                            <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                              <span className="flex">
-                                Name
-                                <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                              </span>
-                            </th>
-                            <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                              <span className="flex">
-                                Price
-                                <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                              </span>
-                            </th>
-                            <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                              <span className="flex">
-                                Photo
-                                <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                              </span>
-                            </th>
-                            <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                              <span className="flex">
-                                Action
-                                <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                              </span>
-                            </th>
+                            {Object.keys(tableHeaders).map((header: any) => (
+                              <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                <span className="flex">
+                                  {header}
+                                  <FaLongArrowAltUp
+                                    onClick={() => {
+                                      setSortType("asc");
+                                      //@ts-ignore
+                                      setSortBy(tableHeaders[header]);
+                                    }}
+                                    className={`${
+                                      //@ts-ignore
+                                      sortBy === tableHeaders[header] &&
+                                      sortType === "asc"
+                                        ? "fill-gray-700"
+                                        : "fill-gray-300"
+                                    } w-2 ml-2 cursor-pointer`}
+                                  />{" "}
+                                  <FaLongArrowAltDown
+                                    onClick={() => {
+                                      setSortType("desc");
+                                      //@ts-ignore
+                                      setSortBy(tableHeaders[header]);
+                                    }}
+                                    className={`${
+                                      //@ts-ignore
+                                      sortBy === tableHeaders[header] &&
+                                      sortType === "desc"
+                                        ? "fill-gray-700"
+                                        : "fill-gray-300"
+                                    } w-2 ml-1 cursor-pointer`}
+                                  />
+                                </span>
+                              </th>
+                            ))}
                           </tr>
                         </thead>
                         <tbody>
