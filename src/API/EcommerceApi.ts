@@ -38,6 +38,23 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/categories`, requestOptions);
   }
+
+  //get all categories admin
+
+  static async allCategoriesAdmin(query: string): Promise<IResponseCategories> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/categories/admin?${query}`,
+      requestOptions
+    );
+  }
   //add image to Categories
   static async uploadCategoryImage(
     data: Partial<any>

@@ -31,6 +31,9 @@ const Categories: React.FC<Props> = (props) => {
   const [categoriesData, setCategoriesData] = useState<ICategories[]>([]);
   // const [showModal, setShowModal] = useState(false);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortType, setSortType] = useState("desc");
+  const [searchString, setSearchString] = useState("");
 
   const handleDelete = async () => {
     const { res, err } = await EcommerceApi.deleteCategories(deleteModalSlug);
@@ -42,18 +45,42 @@ const Categories: React.FC<Props> = (props) => {
       setCategoriesData(remainingBrands);
     }
   };
+  // useEffect(() => {
+  //   const fetchAllCategoriesData = async () => {
+  //     const { res, err } = await EcommerceApi.allCategories();
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       setCategoriesData(res);
+  //       // console.log(res);
+  //     }
+  //   };
+  //   fetchAllCategoriesData();
+  // }, []);
   useEffect(() => {
-    const fetchAllCategoriesData = async () => {
-      const { res, err } = await EcommerceApi.allCategories();
+    const fetchAllCategoriesAdminData = async () => {
+      const { res, err } = await EcommerceApi.allCategoriesAdmin(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
       if (err) {
         console.log(err);
       } else {
         setCategoriesData(res);
-        // console.log(res);
+        console.log(res);
       }
     };
-    fetchAllCategoriesData();
-  }, []);
+    fetchAllCategoriesAdminData();
+  }, [searchString, sortBy, sortType]);
+
+  const tableHeaders = {
+    sn: "sn",
+    name: "cat_name",
+    image: "cat_image",
+    icon: "cat_icon",
+    // type: "type",
+    status: "cat_status",
+    action: "action",
+  };
 
   return (
     <div className="w-full">
@@ -91,6 +118,7 @@ const Categories: React.FC<Props> = (props) => {
                 </label>
                 <div className="flex bg-gray-50 items-center ml-3 p-1 rounded">
                   <input
+                    onChange={(e) => setSearchString(e.target.value)}
                     className="bg-gray-50 outline-none   "
                     type="text"
                     name=""
@@ -105,12 +133,74 @@ const Categories: React.FC<Props> = (props) => {
                   <table className="min-w-full leading-normal">
                     <thead>
                       <tr className="h-16">
-                        <th
+                        {Object.keys(tableHeaders).map((header: any) => (
+                          <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            <span className="flex">
+                              <span className="flex-1">{header}</span>
+                              <FaLongArrowAltUp
+                                onClick={() => {
+                                  setSortType("asc");
+                                  //@ts-ignore
+                                  setSortBy(tableHeaders[header]);
+                                }}
+                                className={`${
+                                  //@ts-ignore
+                                  sortBy === tableHeaders[header] &&
+                                  sortType === "asc"
+                                    ? "fill-gray-700"
+                                    : "fill-gray-300"
+                                } w-2 ml-2 cursor-pointer`}
+                              />{" "}
+                              <FaLongArrowAltDown
+                                onClick={() => {
+                                  setSortType("desc");
+                                  //@ts-ignore
+                                  setSortBy(tableHeaders[header]);
+                                }}
+                                className={`${
+                                  //@ts-ignore
+                                  sortBy === tableHeaders[header] &&
+                                  sortType === "desc"
+                                    ? "fill-gray-700"
+                                    : "fill-gray-300"
+                                } w-2 ml-1 cursor-pointer`}
+                              />
+                            </span>
+                          </th>
+                        ))}
+                        {/* <th
                           className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
                         >
                           <span className="flex  space-x-0 space-y-0 opacity-80">
                             SN
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
+                            <FaLongArrowAltUp
+                              onClick={() => {
+                                setSortType("asc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "asc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-2 cursor-pointer`}
+                            />{" "}
+                            <FaLongArrowAltDown
+                              onClick={() => {
+                                setSortType("desc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "desc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-1 cursor-pointer`}
+                            />
                           </span>
                         </th>
                         <th
@@ -118,7 +208,34 @@ const Categories: React.FC<Props> = (props) => {
                         >
                           <span className="flex  space-x-0 space-y-0  opacity-80">
                             Name
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
+                            <FaLongArrowAltUp
+                              onClick={() => {
+                                setSortType("asc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "asc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-2 cursor-pointer`}
+                            />{" "}
+                            <FaLongArrowAltDown
+                              onClick={() => {
+                                setSortType("desc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "desc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-1 cursor-pointer`}
+                            />
                           </span>
                         </th>
                         <th
@@ -126,7 +243,34 @@ const Categories: React.FC<Props> = (props) => {
                         >
                           <span className="flex  space-x-0 space-y-0  opacity-80">
                             Image
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
+                            <FaLongArrowAltUp
+                              onClick={() => {
+                                setSortType("asc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "asc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-2 cursor-pointer`}
+                            />{" "}
+                            <FaLongArrowAltDown
+                              onClick={() => {
+                                setSortType("desc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "desc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-1 cursor-pointer`}
+                            />
                           </span>
                         </th>
                         <th
@@ -134,7 +278,34 @@ const Categories: React.FC<Props> = (props) => {
                         >
                           <span className="flex  space-x-0 space-y-0  opacity-80">
                             Icon
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
+                            <FaLongArrowAltUp
+                              onClick={() => {
+                                setSortType("asc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "asc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-2 cursor-pointer`}
+                            />{" "}
+                            <FaLongArrowAltDown
+                              onClick={() => {
+                                setSortType("desc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "desc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-1 cursor-pointer`}
+                            />
                           </span>
                         </th>
                         <th
@@ -142,7 +313,34 @@ const Categories: React.FC<Props> = (props) => {
                         >
                           <span className="flex  space-x-0 space-y-0  opacity-80">
                             Status
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
+                            <FaLongArrowAltUp
+                              onClick={() => {
+                                setSortType("asc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "asc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-2 cursor-pointer`}
+                            />{" "}
+                            <FaLongArrowAltDown
+                              onClick={() => {
+                                setSortType("desc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "desc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-1 cursor-pointer`}
+                            />
                           </span>
                         </th>
 
@@ -153,7 +351,7 @@ const Categories: React.FC<Props> = (props) => {
                             Action
                             <FaLongArrowAltUp /> <FaLongArrowAltDown />
                           </span>
-                        </th>
+                        </th> */}
                       </tr>
                     </thead>
                     {/* -------Plz Attention ,Table body/Row start here -------------- */}
