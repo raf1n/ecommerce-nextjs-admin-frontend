@@ -17,6 +17,6 @@ export interface IBrandDetail {
   cat_slug?: Array<string>;
   sub_cat_slug?: Array<string>;
   logo?: string;
-  status?: string;
+  status: string;
   slug?: string;
 }

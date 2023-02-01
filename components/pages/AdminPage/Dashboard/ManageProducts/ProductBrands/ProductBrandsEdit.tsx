@@ -11,7 +11,7 @@ interface Props {}
 
 const ProductBrandsEdit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [brandData, setBrandData] = useState<IBrandDetail>({});
+  const [brandData, setBrandData] = useState<IBrandDetail | null>(null);
 
   const { asPath } = useRouter();
   const brandSlug = asPath.split("/")[2];

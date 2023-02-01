@@ -1,4 +1,8 @@
-import { IResponseAllBrands } from "../../interfaces/response";
+import { IBrandDetail } from "../../interfaces/models";
+import {
+  IResponseAllBrands,
+  IResponseBrandDetail,
+} from "../../interfaces/response";
 import { callFetch } from "../utils/CallFetch";
 
 // import { callFetch, MyFetchInterface } from "../utils/CallFetch"
@@ -29,7 +33,6 @@ export class EcommerceApi {
   //     return await callFetch(`${API_ENDPOINT}/users/login`, requestOptions)
   // }
 
-
   // get all brands for manage products: brands page
   static async getAllBrandsAdmin(query: string): Promise<IResponseAllBrands> {
     const myHeaders = new Headers();
@@ -41,5 +44,23 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/brands?${query}`, requestOptions);
+  }
+
+  static async toggleStatusButton(
+    slug: string,
+    patchStatus: string
+  ): Promise<IResponseBrandDetail> {
+    const myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify({ status: patchStatus }),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/brands/${slug}`, requestOptions);
   }
 }

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import Styles from "./ToggleButton.module.css";
+import { IResponseBrandDetail } from "./../../../../../../interfaces/response";
 interface Props {
   status: string;
   slug: string;
@@ -12,27 +14,24 @@ const ToggleButton: React.FC<Props> = ({ status, slug }) => {
 
   const [toggleStatus, setToggleStatus] = useState(status);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     let patchStatus;
 
     if (toggleStatus === "active") {
-      patchStatus =  "inactive"
+      patchStatus = "inactive";
     } else {
-      patchStatus =  "active"
+      patchStatus = "active";
     }
 
-    fetch(`http://localhost:8000/brands/${slug}`, {
-      method: 'PATCH',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({ status: patchStatus })
-    })
-    .then(res => res.json())
-    .then(data => {
-      setToggleStatus(data.status);
-    })
-  }
+    const { res, err } = await EcommerceApi.toggleStatusButton(
+      slug,
+      patchStatus
+    );
+
+    if (res) {
+      setToggleStatus(res?.status);
+    }
+  };
 
   return (
     <div
