@@ -94,6 +94,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     Thumbnail Image <span className="text-red-500">*</span>
                   </label>
                   <input
+                    required
                     name="imageURL"
                     type="file"
                     className="form-control-file"
@@ -115,6 +116,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     Category <span className="text-red-500">*</span>
                   </label>
                   <select
+                    required
                     name="category"
                     id="category"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
@@ -162,6 +164,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     Price <span className="text-red-500">*</span>
                   </label>
                   <input
+                    required
                     min={0}
                     type="number"
                     id="price"
@@ -188,6 +191,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     Stock Quantity <span className="text-red-500">*</span>
                   </label>
                   <input
+                    required
                     min={0}
                     type="number"
                     id="stock_quantity"
@@ -201,6 +205,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     Weight <span className="text-red-500">*</span>
                   </label>
                   <input
+                    required
                     min={0}
                     type="number"
                     id="weight"
@@ -214,6 +219,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     Short Description <span className="text-red-500">*</span>
                   </label>
                   <textarea
+                    required
                     id="short_description"
                     className="form-control h-[100px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="short_description"
@@ -290,7 +296,7 @@ const ProductCreate: React.FC<Props> = (props) => {
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
-                    SEO Title <span className="text-red-500">*</span>
+                    SEO Title
                   </label>
                   <input
                     type="text"
@@ -302,7 +308,7 @@ const ProductCreate: React.FC<Props> = (props) => {
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
-                    SEO Description <span className="text-red-500">*</span>
+                    SEO Description
                   </label>
                   <textarea
                     id="seo_description"

@@ -19,7 +19,18 @@ export interface LoginInterface {
 
 export class EcommerceApi {
   // get all products
-  static async allProducts(query: string): Promise<IProductResponse> {
+  static async allProducts(): Promise<IProductResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/products`, requestOptions);
+  }
+  static async allProductsAdmin(query: string): Promise<IProductResponse> {
     console.log(API_ENDPOINT);
     const myHeaders = new Headers();
 

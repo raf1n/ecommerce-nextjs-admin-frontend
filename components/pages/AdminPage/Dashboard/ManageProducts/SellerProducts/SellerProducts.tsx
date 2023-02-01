@@ -40,7 +40,7 @@ const SellerProducts: React.FC<Props> = (props) => {
   };
   useEffect(() => {
     const fetchAllProducts = async () => {
-      const { res, err } = await EcommerceApi.allProducts(
+      const { res, err } = await EcommerceApi.allProductsAdmin(
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
       if (err) {
@@ -57,9 +57,9 @@ const SellerProducts: React.FC<Props> = (props) => {
     name: "productName",
     price: "price",
     photo: "imageURL",
-    action: "action",
     type: "type",
     status: "status",
+    action: "action",
   };
   return (
     <div className="w-full">
@@ -105,6 +105,7 @@ const SellerProducts: React.FC<Props> = (props) => {
                       ></path>
                     </svg>
                     <input
+                      onChange={(e) => setSearchString(e.target.value)}
                       className="bg-gray-50 outline-none ml-1 block "
                       type="text"
                       name=""

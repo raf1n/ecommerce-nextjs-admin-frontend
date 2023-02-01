@@ -17,6 +17,7 @@ export interface IProductResponse extends MyFetchInterface {
     stockOutProducts: Array<IProducts>;
     topProducts: Array<IProducts>;
     sellerProducts: Array<IProducts>;
+    sellerPendingProducts: Array<IProducts>;
   };
 }
 export interface ISingleProductResponse extends MyFetchInterface {

@@ -26,7 +26,7 @@ const ProductsStockOut: React.FC<Props> = (props) => {
   const router = useRouter();
   useEffect(() => {
     const getStockoutProducts = async () => {
-      const { res, err } = await EcommerceApi.allProducts(
+      const { res, err } = await EcommerceApi.allProductsAdmin(
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
       if (res) {
@@ -39,10 +39,10 @@ const ProductsStockOut: React.FC<Props> = (props) => {
     const { res, err } = await EcommerceApi.deleteProduct(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
-      const remainingBrands = stockoutProducts.filter(
+      const remainingProducts = stockoutProducts.filter(
         (product) => product.slug !== deleteModalSlug
       );
-      setStockoutProducts(remainingBrands);
+      setStockoutProducts(remainingProducts);
     }
   };
   console.log({ searchString, sortBy, sortType });

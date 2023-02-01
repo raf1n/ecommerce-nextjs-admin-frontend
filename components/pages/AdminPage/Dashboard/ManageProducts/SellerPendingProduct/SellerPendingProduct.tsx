@@ -23,35 +23,43 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
 
   const router = useRouter();
   const { asPath } = router;
-  const [sellerProducts, setSellerProducts] = useState<IProducts[]>([]);
+  const [sellerPendingProducts, setSellerPendingProducts] = useState<
+    IProducts[]
+  >([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [refresh, setRefresh] = useState(false);
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
+  const refreshPage = () => {
+    setTimeout(() => {
+      setRefresh(!refresh);
+    }, 1500);
+  };
   const handleDelete = async () => {
     const { res, err } = await EcommerceApi.deleteProduct(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
-      const remainingBrands = sellerProducts.filter(
+      const remainingProducts = sellerPendingProducts.filter(
         (product) => product.slug !== deleteModalSlug
       );
-      setSellerProducts(remainingBrands);
+      setSellerPendingProducts(remainingProducts);
     }
   };
   useEffect(() => {
     const fetchAllProducts = async () => {
-      const { res, err } = await EcommerceApi.allProducts(
+      const { res, err } = await EcommerceApi.allProductsAdmin(
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
       if (err) {
         console.log(err);
       } else {
-        setSellerProducts(res.sellerProducts);
+        setSellerPendingProducts(res.sellerPendingProducts);
       }
     };
 
     fetchAllProducts();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, refresh]);
   const tableHeaders = {
     sn: "sn",
     name: "productName",
@@ -159,7 +167,7 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {sellerProducts.map((data: IProducts, indx) => (
+                        {sellerPendingProducts.map((data: IProducts, indx) => (
                           <tr className="even:bg-gray-100 odd:bg-white">
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
@@ -215,7 +223,10 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
                                 )}
                               </span>
                             </td>
-                            <td className="px-3 py-3 text-sm ">
+                            <td
+                              onClick={() => refreshPage()}
+                              className="px-3 py-3 text-sm "
+                            >
                               <ApprovalToggleButton
                                 slug={data?.slug}
                                 status={data?.approvalStatus}
