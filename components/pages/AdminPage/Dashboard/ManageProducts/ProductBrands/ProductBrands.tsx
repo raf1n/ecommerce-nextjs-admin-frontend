@@ -26,7 +26,7 @@ const ProductBrands: React.FC<Props> = (props) => {
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
-  console.log({sortBy, sortType});
+  // console.log({sortBy, sortType});
 
   useEffect( () => {
     const fetchBrands = async () => {

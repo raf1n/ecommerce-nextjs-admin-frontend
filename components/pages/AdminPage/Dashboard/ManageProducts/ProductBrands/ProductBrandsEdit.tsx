@@ -72,7 +72,7 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
     <div className="w-full ">
       <DashboardBreadcrumb
         headline="Edit Product Brand"
-        link="/product_brands/edit"
+        link={`/product_brands/${brandSlug}/edit`}
         slug="Edit Product Brand"
       ></DashboardBreadcrumb>
       <div className="m-6">
@@ -111,7 +111,6 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                       htmlFor=""
                     >
                       Logo
-                      <span className=" text-red-500 ml-2">*</span>
                     </label>
 
                     <input
@@ -130,7 +129,6 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                       >
                         Name
                       </label>
-                      <span className="text-red-500 ml-2">*</span>
                     </div>
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
@@ -169,41 +167,23 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                         Brand Categories
                       </label>
                     </div>
-                    <select
-                      className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name="categories"
-                      id=""
-                      // required
-                    >
-                      {brandData?.cat_slug && (
-                        <>
-                          <option
-                            value="Electronics_slug"
-                            selected={
-                              brandData?.cat_slug[0] === "Electronics_slug"
-                            }
-                          >
-                            Electronics
-                          </option>
-                          <option value="lifestyle_slug" selected={
-                              brandData?.cat_slug[0] === "lifestyle_slug"
-                            }>Lifestyle</option>
-                          <option value="accessories_slug" selected={
-                              brandData?.cat_slug[0] === "accessories_slug"
-                            }>Accessories</option>
-                          <option value="mens_clothes_slug" selected={
-                              brandData?.cat_slug[0] === "mens_clothes_slug"
-                            }>
-                            Men's clothes
-                          </option>
-                          <option value="womens_clothes_slug" selected={
-                              brandData?.cat_slug[0] === "womens_clothes_slug"
-                            }>
-                            Women's clothes
-                          </option>
-                        </>
-                      )}
-                    </select>
+                    {brandData?.cat_slug && (
+                      <select
+                        className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
+                        name="categories"
+                        id=""
+                        defaultValue={brandData?.cat_slug[0]}
+                        // required
+                      >
+                        <option value="Electronics_slug">Electronics</option>
+                        <option value="lifestyle_slug">Lifestyle</option>
+                        <option value="accessories_slug">Accessories</option>
+                        <option value="mens_clothes_slug">Men's clothes</option>
+                        <option value="womens_clothes_slug">
+                          Women's clothes
+                        </option>
+                      </select>
+                    )}
                   </div>
 
                   {/* brand sub-categories */}
@@ -216,16 +196,19 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                         Brand Sub-Categories
                       </label>
                     </div>
-                    <select
-                      className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name="sub_categories"
-                      id=""
-                      // required
-                    >
-                      <option value="mobiles_slug">Mobiles</option>
-                      <option value="monitor_slug">Monitor</option>
-                      <option value="headphone_slug">Headphone</option>
-                    </select>
+                    {brandData?.sub_cat_slug && (
+                      <select
+                        className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
+                        name="sub_categories"
+                        id=""
+                        defaultValue={brandData?.sub_cat_slug[0]}
+                        // required
+                      >
+                        <option value="mobiles_slug">Mobiles</option>
+                        <option value="monitor_slug">Monitor</option>
+                        <option value="headphone_slug">Headphone</option>
+                      </select>
+                    )}
                   </div>
 
                   {/* Brand status */}
@@ -238,25 +221,18 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                         Status
                       </label>
                     </div>
-                    <select
-                      className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name="status"
-                      id=""
-                      // required
-                    >
-                      <option
-                        value="active"
-                        selected={brandData?.status === "active"}
+                    {brandData?.status && (
+                      <select
+                        className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
+                        name="status"
+                        id=""
+                        defaultValue={brandData?.status}
+                        // required
                       >
-                        Active
-                      </option>
-                      <option
-                        value="inactive"
-                        selected={brandData?.status === "inactive"}
-                      >
-                        InActive
-                      </option>
-                    </select>
+                        <option value="active">Active</option>
+                        <option value="inactive">InActive</option>
+                      </select>
+                    )}
                   </div>
                   <div className="mt-4">
                     <button
