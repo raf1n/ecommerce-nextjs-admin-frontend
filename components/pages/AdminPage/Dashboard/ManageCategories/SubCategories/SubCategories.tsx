@@ -27,6 +27,9 @@ const SubCategories: React.FC<Props> = (props) => {
   );
   // const [showModal, setShowModal] = useState(false);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortType, setSortType] = useState("desc");
+  const [searchString, setSearchString] = useState("");
 
   const handleDelete = async () => {
     const { res, err } = await EcommerceApi.deleteSubCategories(
@@ -41,20 +44,43 @@ const SubCategories: React.FC<Props> = (props) => {
     }
   };
 
+  // useEffect(() => {
+  //   const fetchAllSubCategoriesData = async () => {
+  //     const { res, err } = await EcommerceApi.allSubCategories();
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       setSubCategoriesData(res);
+  //       console.log(res);
+  //       // console.log(res);
+  //     }
+  //   };
+  //   fetchAllSubCategoriesData();
+  // }, []);
   useEffect(() => {
-    const fetchAllSubCategoriesData = async () => {
-      const { res, err } = await EcommerceApi.allSubCategories();
+    const fetchAllSubCategoriesAdminData = async () => {
+      const { res, err } = await EcommerceApi.allSubCategoriesAdmin(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
       if (err) {
         console.log(err);
       } else {
         setSubCategoriesData(res);
         console.log(res);
-        // console.log(res);
       }
     };
-    fetchAllSubCategoriesData();
-  }, []);
-
+    fetchAllSubCategoriesAdminData();
+  }, [searchString, sortBy, sortType]);
+  const tableHeaders = {
+    sn: "sn",
+    "sub category": "subcat_name",
+    slug: "slug",
+    category: "cat_name",
+    // icon: "cat_icon",
+    // type: "type",
+    status: "subcat_status",
+    action: "action",
+  };
   return (
     <div className="w-full">
       <DashboardBreadcrumb
@@ -89,6 +115,7 @@ const SubCategories: React.FC<Props> = (props) => {
                 </label>
                 <div className="flex bg-gray-50 items-center ml-3 p-1 rounded">
                   <input
+                    onChange={(e) => setSearchString(e.target.value)}
                     className="bg-gray-50 outline-none   "
                     type="text"
                     name=""

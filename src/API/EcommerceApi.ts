@@ -61,15 +61,17 @@ export class EcommerceApi {
   ): Promise<MyFetchInterface> {
     console.log(data);
     console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
 
     const requestOptions = {
       method: "POST",
+      headers: myHeaders,
       body: data,
       redirect: "follow",
     };
 
     return await callFetch(
-      `https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024`,
+      "https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024",
       requestOptions
     );
   }
@@ -162,6 +164,25 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/sub-categories`, requestOptions);
+  }
+
+  // get all SubCategories Admin
+
+  static async allSubCategoriesAdmin(
+    query: string
+  ): Promise<ISubCategoriesResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/sub-categories/admin?${query}`,
+      requestOptions
+    );
   }
 
   //Delete Sub Categories

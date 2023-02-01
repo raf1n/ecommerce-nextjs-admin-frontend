@@ -14,14 +14,17 @@ const CreateCategories: React.FC<Props> = (props) => {
   const handleSave = async (e: any) => {
     e.preventDefault();
     const image = e.target.imageURL.files[0];
+    console.log("image", image);
     const formData = new FormData();
+    console.log("form", formData);
     formData.append("image", image);
     const { res, err } = await EcommerceApi.uploadCategoryImage(formData);
-    if (res.data?.url) {
+    console.log("response", res);
+    if (res?.data?.url || !res?.data?.url) {
       let imageUrl;
-      imageUrl = res.data?.url;
+      imageUrl = res?.data?.url;
       // setImageLink(data?.data?.url);
-      if (res.data?.url === undefined) {
+      if (res?.data?.url === undefined || null) {
         imageUrl = "";
       }
       const categories = {
