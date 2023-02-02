@@ -1,4 +1,4 @@
-import { ICategories, ISubCategories } from "./models";
+import { ICategories, IPopularCategories, ISubCategories } from "./models";
 //here we will declare our response interfaces or in easy way type of our all response in our website
 
 import { MyFetchInterface } from "../src/utils/CallFetch";
@@ -23,6 +23,10 @@ export interface ISubCategoriesResponse extends MyFetchInterface {
 
 export interface ISingleSubCategoryResponse extends MyFetchInterface {
   res: ISubCategories;
+}
+
+export interface IPopularCategoriesResponse extends MyFetchInterface {
+  res: IPopularCategories;
 }
 export interface IProductResponse extends MyFetchInterface {
   res: {

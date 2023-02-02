@@ -11,7 +11,10 @@ import SharedAddNewModal from "../../../../../shared/SharedAddNewModal/SharedAdd
 import { useRouter } from "next/router";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
-import { ICategories } from "../../../../../../interfaces/models";
+import {
+  ICategories,
+  IPopularCategories,
+} from "../../../../../../interfaces/models";
 
 interface Props {}
 
@@ -20,7 +23,23 @@ const PopularCategoryAdmin: React.FC<Props> = (props) => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [categoriesData, setCategoriesData] = useState<ICategories[]>([]);
+  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [popularCategoriesData, setPopularCategoriesData] = useState<
+    IPopularCategories[]
+  >([]);
 
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteSubCategories(
+      deleteModalSlug
+    );
+    if (res) {
+      setDeleteModalSlug("");
+      const remainingBrands = categoriesData.filter(
+        (product) => product.cat_slug !== deleteModalSlug
+      );
+      setCategoriesData(remainingBrands);
+    }
+  };
   useEffect(() => {
     const fetchAllCategoriesData = async () => {
       const { res, err } = await EcommerceApi.allCategories();
@@ -33,6 +52,20 @@ const PopularCategoryAdmin: React.FC<Props> = (props) => {
       }
     };
     fetchAllCategoriesData();
+  }, []);
+
+  useEffect(() => {
+    const fetchAllPopularCategoriesData = async () => {
+      const { res, err } = await EcommerceApi.allPopularCategories();
+      if (err) {
+        console.log(err);
+      } else {
+        setPopularCategoriesData(res);
+
+        // console.log(res);
+      }
+    };
+    fetchAllPopularCategoriesData();
   }, []);
 
   return (
@@ -119,13 +152,13 @@ const PopularCategoryAdmin: React.FC<Props> = (props) => {
                 </thead>
                 {/* -----------Plz Attention ,Table body/Row start here -------------- */}
                 <tbody>
-                  {Jsondata.categoriesTableData
+                  {popularCategoriesData
                     .slice(0, 3)
                     .map((categoryTableData, index) => (
                       <tr className="even:bg-gray-50 odd:bg-white">
                         <td className="px-3 py-3  text-sm">
                           <p className="text-gray-900 whitespace-no-wrap ">
-                            {categoryTableData.name}
+                            {categoryTableData.cat_name}
                           </p>
                         </td>
 
@@ -143,8 +176,9 @@ const PopularCategoryAdmin: React.FC<Props> = (props) => {
                             </span>
                           </button>
                           <SharedDeleteModal
-                            setShowModal={setShowDeleteModal}
-                            showModal={showDeleteModal}
+                            deleteModalSlug={deleteModalSlug}
+                            handleDelete={handleDelete}
+                            setDeleteModalSlug={setDeleteModalSlug}
                           ></SharedDeleteModal>
                           <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                             {/* <button>

@@ -16,15 +16,15 @@ export interface ICategories {
 export interface ISubCategories {
   slug: string;
   cat_image?: string;
-  // subcat_name: string;
-  // subcat_status: string;
+  subcat_name: string;
+  subcat_status: string;
   cat_name: string;
 }
 export interface IPopularCategories {
   slug: string;
   cat_slug: string;
-  subcat_name: string;
-  subcat_status: string;
+  // subcat_name: string;
+  // subcat_status: string;
   cat_name: string;
 }
 export interface IProducts {

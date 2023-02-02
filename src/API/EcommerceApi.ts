@@ -1,7 +1,11 @@
-import { ISingleSubCategoryResponse } from "./../../interfaces/response";
+import {
+  IPopularCategoriesResponse,
+  ISingleSubCategoryResponse,
+} from "./../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import {
   ICategories,
+  IPopularCategories,
   IProducts,
   ISubCategories,
 } from "../../interfaces/models";
@@ -264,7 +268,45 @@ export class EcommerceApi {
     );
   }
 
-  // Get all categories for popular categories section
+  //get all popular categories
+
+  static async allPopularCategories(): Promise<IPopularCategoriesResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/popular-categories`,
+      requestOptions
+    );
+  }
+
+  // Create Popular Categories
+
+  static async createPopularCategories(
+    data: Partial<IPopularCategories>
+  ): Promise<IPopularCategoriesResponse> {
+    console.log(data);
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/popular-categories`,
+      requestOptions
+    );
+  }
 
   //DEMO API CALLING STRUCTURE
   // static async login(token: string, email: string, fullName: string, avatar: string, tokenType: "google" | "facebook"): Promise<ILoginResponse> {
