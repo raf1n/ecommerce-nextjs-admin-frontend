@@ -32,3 +32,7 @@ export interface IResponseUser extends User {
 export interface IResponseAllBrands extends MyFetchInterface {
   res: Array<IBrandDetail>;
 }
+
+export interface IResponseBrandDetail extends MyFetchInterface {
+  res: IBrandDetail;
+}

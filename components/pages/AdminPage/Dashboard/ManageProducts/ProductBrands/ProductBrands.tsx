@@ -11,7 +11,7 @@ import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDel
 
 interface Props {}
 
-const tableHeaders = ["SN", "Name", "Slug", "Logo", "Status", "Action"];
+const tableHeaders = ["sn", "name", "slug", "logo", "status", "action"];
 
 const actions = {
   isEditable: true,
@@ -20,34 +20,42 @@ const actions = {
 
 const ProductBrands: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [deleteModalSlug, setDeleteModalSlug] = useState("")
-  const [productBrandsData, setProductBrandsData] = useState<IBrandDetail[]>([])
+  const [deleteModalSlug, setDeleteModalSlug] = useState("");
+  const [productBrandsData, setProductBrandsData] = useState<IBrandDetail[]>(
+    []
+  );
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortType, setSortType] = useState("desc");
+  const [searchString, setSearchString] = useState("");
 
-  useEffect( () => {
+  // console.log({sortBy, sortType});
+
+  useEffect(() => {
     const fetchBrands = async () => {
-      const { res, err } = await EcommerceApi.getAllBrandsAdmin();
+      const { res, err } = await EcommerceApi.getAllBrandsAdmin(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
 
-      setProductBrandsData(res)
-    }
+      setProductBrandsData(res);
+    };
 
     fetchBrands();
+  }, [searchString, sortBy, sortType]);
 
-  }, []);
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteByModal(
+      deleteModalSlug,
+      "brands"
+    );
 
-  const handleDelete = () => {
-    console.log(deleteModalSlug );
-    fetch(`http://localhost:8000/brands/${deleteModalSlug}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log(data);
-        setDeleteModalSlug("");
-        const remainingBrands = productBrandsData.filter(product => product.slug !== deleteModalSlug);
-        setProductBrandsData(remainingBrands);
-      });
+    if (res) {
+      setDeleteModalSlug("");
+      const remainingBrands = productBrandsData.filter(
+        (product) => product.slug !== deleteModalSlug
+      );
+      setProductBrandsData(remainingBrands);
+    }
   };
-  
 
   return (
     <div className="w-full">
@@ -67,12 +75,18 @@ const ProductBrands: React.FC<Props> = (props) => {
               actions={actions}
               testDynamicTableData={productBrandsData}
               setDeleteModalSlug={setDeleteModalSlug}
+              sortBy={sortBy}
+              sortType={sortType}
+              setSortBy={setSortBy}
+              setSortType={setSortType}
+              setSearchString={setSearchString}
+              // handleSetSortBy={handleSetSortBy}
             />
-             <SharedDeleteModal
-                handleDelete={handleDelete}
-                deleteModalSlug={deleteModalSlug}
-                setDeleteModalSlug={setDeleteModalSlug}
-              ></SharedDeleteModal>
+            <SharedDeleteModal
+              handleDelete={handleDelete}
+              deleteModalSlug={deleteModalSlug}
+              setDeleteModalSlug={setDeleteModalSlug}
+            ></SharedDeleteModal>
           </div>
         </div>
       </div>

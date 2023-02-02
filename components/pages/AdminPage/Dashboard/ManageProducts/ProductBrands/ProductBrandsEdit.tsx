@@ -5,13 +5,14 @@ import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/Share
 import { controller } from "../../../../../../src/state/StateController";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { IBrandDetail } from "../../../../../../interfaces/models";
+import { IBrand, IBrandDetail } from "../../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 
 interface Props {}
 
 const ProductBrandsEdit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [brandData, setBrandData] = useState<IBrandDetail>({});
+  const [brandData, setBrandData] = useState<IBrandDetail | null>(null);
 
   const { asPath } = useRouter();
   const brandSlug = asPath.split("/")[2];
@@ -27,49 +28,53 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
     }
   }, [brandSlug]);
 
-  const handleEdit = (e: any) => {
+  const handleEdit = async (e: any) => {
     e.preventDefault();
 
     const logo = e.target.logo.files[0];
     const formData = new FormData();
     formData.append("image", logo);
 
-    fetch(
-      `https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        const editBrand = {
-          logo: data?.data?.url,
-          name: e.target.name.value,
-          slug: e.target.slug.value,
-          cat_slug: [e.target.categories.value],
-          sub_cat_slug: [e.target.sub_categories.value],
-          status: e.target.status.value,
-        };
+    const { res, err } = await EcommerceApi.uploadProductImage(formData);
+    console.log({ res, err })
+    // if (res?.data?.url) {
+    let imageUrl;
+    imageUrl = res?.data?.url;
 
-        fetch(`http://localhost:8000/brands/${brandSlug}`, {
-          method: "PATCH",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(editBrand),
-        })
-          .then((res) => res.json())
-          .then((data) => console.log(data));
-      });
+    console.log({ res, err });
+
+    if (res?.data?.url === undefined || err) {
+      imageUrl = "" || brandData?.logo;
+    }
+
+    const editBrandData: IBrand = {
+      logo: imageUrl,
+      name: e.target.name.value,
+      slug: e.target.slug.value,
+      cat_slug: [e.target.categories.value],
+      sub_cat_slug: [e.target.sub_categories.value],
+      status: e.target.status.value,
+    };
+
+    const { res: brandRes, err: brandErr } = await EcommerceApi.editBrand(
+      editBrandData,
+      brandSlug
+    );
+
+    console.log(brandRes, brandErr);
+
+    if (brandRes) {
+      setBrandData(brandRes);
+    } else {
+      console.log(brandErr);
+    }
   };
 
   return (
     <div className="w-full ">
       <DashboardBreadcrumb
         headline="Edit Product Brand"
-        link="/product_brands/edit"
+        link={`/product_brands/${brandSlug}/edit`}
         slug="Edit Product Brand"
       ></DashboardBreadcrumb>
       <div className="m-6">
@@ -108,7 +113,6 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                       htmlFor=""
                     >
                       Logo
-                      <span className=" text-red-500 ml-2">*</span>
                     </label>
 
                     <input
@@ -127,7 +131,6 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                       >
                         Name
                       </label>
-                      <span className="text-red-500 ml-2">*</span>
                     </div>
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
@@ -166,41 +169,23 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                         Brand Categories
                       </label>
                     </div>
-                    <select
-                      className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name="categories"
-                      id=""
-                      // required
-                    >
-                      {brandData?.cat_slug && (
-                        <>
-                          <option
-                            value="Electronics_slug"
-                            selected={
-                              brandData?.cat_slug[0] === "Electronics_slug"
-                            }
-                          >
-                            Electronics
-                          </option>
-                          <option value="lifestyle_slug" selected={
-                              brandData?.cat_slug[0] === "lifestyle_slug"
-                            }>Lifestyle</option>
-                          <option value="accessories_slug" selected={
-                              brandData?.cat_slug[0] === "accessories_slug"
-                            }>Accessories</option>
-                          <option value="mens_clothes_slug" selected={
-                              brandData?.cat_slug[0] === "mens_clothes_slug"
-                            }>
-                            Men's clothes
-                          </option>
-                          <option value="womens_clothes_slug" selected={
-                              brandData?.cat_slug[0] === "womens_clothes_slug"
-                            }>
-                            Women's clothes
-                          </option>
-                        </>
-                      )}
-                    </select>
+                    {brandData?.cat_slug && (
+                      <select
+                        className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
+                        name="categories"
+                        id=""
+                        defaultValue={brandData?.cat_slug[0]}
+                        // required
+                      >
+                        <option value="Electronics_slug">Electronics</option>
+                        <option value="lifestyle_slug">Lifestyle</option>
+                        <option value="accessories_slug">Accessories</option>
+                        <option value="mens_clothes_slug">Men's clothes</option>
+                        <option value="womens_clothes_slug">
+                          Women's clothes
+                        </option>
+                      </select>
+                    )}
                   </div>
 
                   {/* brand sub-categories */}
@@ -213,16 +198,19 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                         Brand Sub-Categories
                       </label>
                     </div>
-                    <select
-                      className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name="sub_categories"
-                      id=""
-                      // required
-                    >
-                      <option value="mobiles_slug">Mobiles</option>
-                      <option value="monitor_slug">Monitor</option>
-                      <option value="headphone_slug">Headphone</option>
-                    </select>
+                    {brandData?.sub_cat_slug && (
+                      <select
+                        className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
+                        name="sub_categories"
+                        id=""
+                        defaultValue={brandData?.sub_cat_slug[0]}
+                        // required
+                      >
+                        <option value="mobiles_slug">Mobiles</option>
+                        <option value="monitor_slug">Monitor</option>
+                        <option value="headphone_slug">Headphone</option>
+                      </select>
+                    )}
                   </div>
 
                   {/* Brand status */}
@@ -235,25 +223,18 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                         Status
                       </label>
                     </div>
-                    <select
-                      className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name="status"
-                      id=""
-                      // required
-                    >
-                      <option
-                        value="active"
-                        selected={brandData?.status === "active"}
+                    {brandData?.status && (
+                      <select
+                        className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
+                        name="status"
+                        id=""
+                        defaultValue={brandData?.status}
+                        // required
                       >
-                        Active
-                      </option>
-                      <option
-                        value="inactive"
-                        selected={brandData?.status === "inactive"}
-                      >
-                        InActive
-                      </option>
-                    </select>
+                        <option value="active">Active</option>
+                        <option value="inactive">InActive</option>
+                      </select>
+                    )}
                   </div>
                   <div className="mt-4">
                     <button

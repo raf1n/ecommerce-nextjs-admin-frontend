@@ -29,11 +29,13 @@ export interface IProducts {
   approvalStatus?: string;
 }
 
-export type Brand = {
-  slug: string;
+export interface IBrand {
+  slug?: string;
   logo: string;
   name: string;
   status: string;
+  cat_slug: string[];
+  sub_cat_slug: string[];
 };
 
 export interface IBrandDetail {
@@ -41,6 +43,6 @@ export interface IBrandDetail {
   cat_slug?: Array<string>;
   sub_cat_slug?: Array<string>;
   logo?: string;
-  status?: string;
+  status: string;
   slug?: string;
 }
