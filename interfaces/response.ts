@@ -26,7 +26,7 @@ export interface ISingleSubCategoryResponse extends MyFetchInterface {
 }
 
 export interface IPopularCategoriesResponse extends MyFetchInterface {
-  res: IPopularCategories;
+  res: IPopularCategories[];
 }
 export interface IProductResponse extends MyFetchInterface {
   res: {

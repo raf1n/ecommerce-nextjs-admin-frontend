@@ -26,6 +26,7 @@ export interface IPopularCategories {
   // subcat_name: string;
   // subcat_status: string;
   cat_name: string;
+  cat_image: string;
 }
 export interface IProducts {
   productName?: string;

@@ -308,6 +308,73 @@ export class EcommerceApi {
     );
   }
 
+  //Delete Popular Categories
+  static async deletePopularCategories(
+    slug: string
+  ): Promise<MyFetchInterface> {
+    console.log(API_ENDPOINT);
+    console.log(slug);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/popular-categories/${slug}`,
+      requestOptions
+    );
+  }
+
+  //add image to Categories
+  static async uploadPopularImage(
+    data: Partial<any>
+  ): Promise<MyFetchInterface> {
+    console.log(data);
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: data,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      "https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024",
+      requestOptions
+    );
+  }
+
+  //Update Popular Categories
+
+  //Edit Categories
+
+  static async editPopularCategories(
+    data: Partial<IPopularCategories>,
+    slug: string
+  ): Promise<IPopularCategoriesResponse> {
+    console.log(data);
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/popular-categories/${slug}`,
+      requestOptions
+    );
+  }
+
   //DEMO API CALLING STRUCTURE
   // static async login(token: string, email: string, fullName: string, avatar: string, tokenType: "google" | "facebook"): Promise<ILoginResponse> {
   //     console.log(token);

@@ -75,7 +75,7 @@ const SharedAddNewModal: React.FC<Props> = (props) => {
                       id=""
                     >
                       {props.categoriesData.map((category: ICategories) => (
-                        <option value={category.cat_slug}>
+                        <option value={category.cat_name}>
                           {category.cat_name}
                         </option>
                       ))}
