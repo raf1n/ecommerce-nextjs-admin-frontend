@@ -5,7 +5,8 @@ import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/Share
 import { controller } from "../../../../../../src/state/StateController";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { IBrandDetail } from "../../../../../../interfaces/models";
+import { IBrand, IBrandDetail } from "../../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 
 interface Props {}
 
@@ -27,45 +28,46 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
     }
   }, [brandSlug]);
 
-  const handleEdit = (e: any) => {
+  const handleEdit = async (e: any) => {
     e.preventDefault();
 
     const logo = e.target.logo.files[0];
     const formData = new FormData();
     formData.append("image", logo);
 
-    fetch(
-      `https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        const editBrand = {
-          logo: data?.data?.url,
-          name: e.target.name.value,
-          slug: e.target.slug.value,
-          cat_slug: [e.target.categories.value],
-          sub_cat_slug: [e.target.sub_categories.value],
-          status: e.target.status.value,
-        };
+    const { res, err } = await EcommerceApi.uploadProductImage(formData);
+    console.log({ res, err })
+    // if (res?.data?.url) {
+    let imageUrl;
+    imageUrl = res?.data?.url;
 
-        fetch(`http://localhost:8000/brands/${brandSlug}`, {
-          method: "PATCH",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(editBrand),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            setBrandData(data);
-          });
-      });
+    console.log({ res, err });
+
+    if (res?.data?.url === undefined || err) {
+      imageUrl = "" || brandData?.logo;
+    }
+
+    const editBrandData: IBrand = {
+      logo: imageUrl,
+      name: e.target.name.value,
+      slug: e.target.slug.value,
+      cat_slug: [e.target.categories.value],
+      sub_cat_slug: [e.target.sub_categories.value],
+      status: e.target.status.value,
+    };
+
+    const { res: brandRes, err: brandErr } = await EcommerceApi.editBrand(
+      editBrandData,
+      brandSlug
+    );
+
+    console.log(brandRes, brandErr);
+
+    if (brandRes) {
+      setBrandData(brandRes);
+    } else {
+      console.log(brandErr);
+    }
   };
 
   return (

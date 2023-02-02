@@ -1,4 +1,4 @@
-import { IBrandDetail } from "../../interfaces/models";
+import { IBrand, IBrandDetail } from "../../interfaces/models";
 import {
   IResponseAllBrands,
   IProductResponse,
@@ -32,6 +32,7 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/products`, requestOptions);
   }
+
   static async allProductsAdmin(query: string): Promise<IProductResponse> {
     console.log(API_ENDPOINT);
     const myHeaders = new Headers();
@@ -59,6 +60,7 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/products/${slug}`, requestOptions);
   }
+
   //  product image add
   static async uploadProductImage(
     data: Partial<any>
@@ -70,6 +72,7 @@ export class EcommerceApi {
       method: "POST",
       body: data,
       redirect: "follow",
+      cors: "no-cors"
     };
 
     return await callFetch(
@@ -77,6 +80,7 @@ export class EcommerceApi {
       requestOptions
     );
   }
+
   // add products
   static async addProducts(
     data: Partial<IProducts>
@@ -95,6 +99,7 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/products`, requestOptions);
   }
+
   //  edit products
   static async editProducts(
     data: Partial<IProducts>,
@@ -114,6 +119,7 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/products/${slug}`, requestOptions);
   }
+
   // delete products
   static async deleteProduct(slug: string): Promise<ISingleProductResponse> {
     console.log(API_ENDPOINT);
@@ -127,6 +133,7 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/products/${slug}`, requestOptions);
   }
+
   // status update
   static async updateStatus(
     data: Partial<object>,
@@ -146,6 +153,7 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/products/${slug}`, requestOptions);
   }
+
   // status update
   static async updateApprovalStatus(
     data: Partial<object>,
@@ -179,6 +187,42 @@ export class EcommerceApi {
     return await callFetch(`${API_ENDPOINT}/brands?${query}`, requestOptions);
   }
 
+  // create new brand from manage products brands
+  static async addNewBrand(
+    data: Partial<IBrand>,
+  ): Promise<IResponseBrandDetail> {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/brands`, requestOptions);
+  }
+
+  // edit brand from manage products brands
+  static async editBrand(
+    data: Partial<IBrand>,
+    slug: string
+  ): Promise<IResponseBrandDetail> {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/brands/${slug}`, requestOptions);
+  }
+
+  // toggle status button - shared - dynamic
   static async toggleStatusButton(
     slug: string,
     url: string,
@@ -198,6 +242,7 @@ export class EcommerceApi {
     return await callFetch(`${API_ENDPOINT}/${url}/${slug}`, requestOptions);
   }
 
+  // delete from modal - shared - dynamic
   static async deleteByModal(
     slug: string,
     url: string
