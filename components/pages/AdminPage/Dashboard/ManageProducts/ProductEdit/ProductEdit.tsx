@@ -53,11 +53,11 @@ const ProductEdit: React.FC<Props> = (props) => {
     const formData = new FormData();
     formData.append("image", image);
     const { res, err } = await EcommerceApi.uploadProductImage(formData);
-    if (res.data?.url || res) {
+    if (res?.data?.url || !res?.data?.url) {
       let imageUrl;
-      imageUrl = [res.data?.url];
+      imageUrl = [res?.data?.url];
       // setImageLink(data?.data?.url);
-      if (res.data?.url === undefined) {
+      if (res?.data?.url === undefined || null) {
         imageUrl = productData?.imageURL;
       }
       const newProductData = {

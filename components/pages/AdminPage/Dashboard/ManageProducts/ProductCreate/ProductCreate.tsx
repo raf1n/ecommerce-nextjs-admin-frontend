@@ -22,11 +22,11 @@ const ProductCreate: React.FC<Props> = (props) => {
     const formData = new FormData();
     formData.append("image", image);
     const { res, err } = await EcommerceApi.uploadProductImage(formData);
-    if (res.data?.url) {
+    if (res?.data?.url || !res?.data?.url) {
       let imageUrl;
-      imageUrl = [res.data?.url];
+      imageUrl = [res?.data?.url];
       // setImageLink(data?.data?.url);
-      if (res.data?.url === undefined) {
+      if (res?.data?.url === undefined || null) {
         imageUrl = [""];
       }
       const productData = {
@@ -105,6 +105,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     Name <span className="text-red-500">*</span>
                   </label>
                   <input
+                    required
                     type="text"
                     id="name"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
