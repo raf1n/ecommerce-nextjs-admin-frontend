@@ -49,6 +49,8 @@ const DynamicTable: React.FC<Props> = (props) => {
     // handleSetSortBy,
   } = props;
 
+  console.log(testDynamicTableData);
+
   return (
     <div>
       <div className="bg-white p-4 rounded-md w-full">
@@ -97,8 +99,7 @@ const DynamicTable: React.FC<Props> = (props) => {
             <select
               name="dataTable_length"
               aria-controls="dataTable"
-              className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center"
-            >
+              className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center">
               <option value="10">10</option>
               <option value="25">25</option>
               <option value="50">50</option>
@@ -111,8 +112,7 @@ const DynamicTable: React.FC<Props> = (props) => {
               Search
             </label>
             <div
-              className={`${Styles[" "]}  flex bg-gray-50 items-center ml-3 rounded h-[34px]  `}
-            >
+              className={`${Styles[" "]}  flex bg-gray-50 items-center ml-3 rounded h-[34px]  `}>
               <input
                 className={`${Styles["form-control-sm"]} bg-gray-50 outline-none  border border-blue-200 `}
                 onChange={(e) => {
@@ -135,11 +135,8 @@ const DynamicTable: React.FC<Props> = (props) => {
                     {tableHeaders.map((header, idx) => (
                       <th
                         key={idx}
-                        className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                      >
-                        <span
-                          className="flex"
-                        >
+                        className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <span className="flex">
                           <span className="flex-1">{header}</span>
                           <FaLongArrowAltUp
                             onClick={() => {
@@ -192,13 +189,11 @@ const DynamicTable: React.FC<Props> = (props) => {
                             return (
                               <td
                                 key={idx}
-                                className="px-5 py-5  bg-white text-sm"
-                              >
+                                className="px-5 py-5  bg-white text-sm">
                                 <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     aria-hidden
-                                    className="absolute inset-0 bg-red-500  rounded-full"
-                                  ></span>
+                                    className="absolute inset-0 bg-red-500  rounded-full"></span>
                                   <span className="relative text-white">
                                     Pending
                                   </span>
@@ -212,13 +207,11 @@ const DynamicTable: React.FC<Props> = (props) => {
                             return (
                               <td
                                 key={idx}
-                                className="px-5 py-5  bg-white text-sm"
-                              >
+                                className="px-5 py-5  bg-white text-sm">
                                 <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     aria-hidden
-                                    className="absolute inset-0 bg-green-500 rounded-full"
-                                  ></span>
+                                    className="absolute inset-0 bg-green-500 rounded-full"></span>
                                   <span className="relative text-white">
                                     Success
                                   </span>
@@ -229,14 +222,12 @@ const DynamicTable: React.FC<Props> = (props) => {
                             return (
                               <td
                                 key={idx}
-                                className=" px-5 py-5  bg-white text-sm"
-                              >
+                                className=" px-5 py-5  bg-white text-sm">
                                 <span className="flex gap-2">
                                   {row[key].map((type: any, idx: number) => (
                                     <span
                                       key={idx}
-                                      className="bg-green-500 rounded-xl py-1 px-2 text-white"
-                                    >
+                                      className="bg-green-500 rounded-xl py-1 px-2 text-white">
                                       {type}
                                     </span>
                                   ))}
@@ -264,8 +255,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                             return (
                               <td
                                 key={idx}
-                                className="px-5 py-5  bg-white text-sm"
-                              >
+                                className="px-5 py-5  bg-white text-sm">
                                 <Image
                                   width={80}
                                   height={80}
@@ -281,8 +271,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                             return (
                               <td
                                 key={idx}
-                                className="px-5 py-5 bg-white text-sm"
-                              >
+                                className="px-5 py-5 bg-white text-sm">
                                 <p className="text-gray-900 whitespace-no-wrap">
                                   {row[key]}
                                 </p>
@@ -298,8 +287,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                                   onClick={() =>
                                     router.push(`${asPath}/${row.id}/review`)
                                   }
-                                  className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center"
-                                >
+                                  className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center">
                                   <FaEye />
                                 </span>
                               </span>
@@ -310,8 +298,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                                   onClick={() =>
                                     router.push(`${asPath}/${row.slug}/edit`)
                                   }
-                                  className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center"
-                                >
+                                  className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center">
                                   <FaEdit />
                                 </span>
                               </span>
@@ -320,8 +307,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                               <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
                                 <span
                                   onClick={() => setDeleteModalSlug(row.slug)}
-                                  className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-red-500 rounded relative text-white flex justify-center items-center"
-                                >
+                                  className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-red-500 rounded relative text-white flex justify-center items-center">
                                   <FaTrash />
                                 </span>
                               </span>
