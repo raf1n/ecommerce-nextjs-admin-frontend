@@ -130,7 +130,42 @@ const SubCategories: React.FC<Props> = (props) => {
                   <table className="min-w-full leading-normal">
                     <thead>
                       <tr className="h-16">
-                        <th
+                        {Object.keys(tableHeaders).map((header: any) => (
+                          <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            <span className="flex">
+                              <span className="flex-1">{header}</span>
+                              <FaLongArrowAltUp
+                                onClick={() => {
+                                  setSortType("asc");
+                                  //@ts-ignore
+                                  setSortBy(tableHeaders[header]);
+                                }}
+                                className={`${
+                                  //@ts-ignore
+                                  sortBy === tableHeaders[header] &&
+                                  sortType === "asc"
+                                    ? "fill-gray-700"
+                                    : "fill-gray-300"
+                                } w-2 ml-2 cursor-pointer`}
+                              />{" "}
+                              <FaLongArrowAltDown
+                                onClick={() => {
+                                  setSortType("desc");
+                                  //@ts-ignore
+                                  setSortBy(tableHeaders[header]);
+                                }}
+                                className={`${
+                                  //@ts-ignore
+                                  sortBy === tableHeaders[header] &&
+                                  sortType === "desc"
+                                    ? "fill-gray-700"
+                                    : "fill-gray-300"
+                                } w-2 ml-1 cursor-pointer`}
+                              />
+                            </span>
+                          </th>
+                        ))}
+                        {/* <th
                           className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
                         >
                           <span className="flex  space-x-0 space-y-0 opacity-80">
@@ -179,7 +214,7 @@ const SubCategories: React.FC<Props> = (props) => {
                             Action
                             <FaLongArrowAltUp /> <FaLongArrowAltDown />
                           </span>
-                        </th>
+                        </th> */}
                       </tr>
                     </thead>
 

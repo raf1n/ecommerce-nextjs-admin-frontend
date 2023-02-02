@@ -263,6 +263,9 @@ export class EcommerceApi {
       requestOptions
     );
   }
+
+  // Get all categories for popular categories section
+
   //DEMO API CALLING STRUCTURE
   // static async login(token: string, email: string, fullName: string, avatar: string, tokenType: "google" | "facebook"): Promise<ILoginResponse> {
   //     console.log(token);

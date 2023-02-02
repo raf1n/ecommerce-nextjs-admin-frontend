@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../src/state/StateController";
 import { HiOutlineX } from "react-icons/hi";
+import { ICategories } from "../../../interfaces/models";
 
 interface Props {
   title: string;
   showModal: boolean;
   setShowModal: any;
+  categoriesData: any;
 }
 
 const SharedAddNewModal: React.FC<Props> = (props) => {
@@ -37,19 +39,28 @@ const SharedAddNewModal: React.FC<Props> = (props) => {
                     </label>
                     {/* <span className='text-red-500 ml-2'>*</span> */}
                   </div>
-                  <select
-                    className="w-full border rounded p-2 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                    name=""
-                    id=""
-                  >
+                  <form action="">
+                    <select
+                      className="w-full border rounded p-2 border-gray-200 bg-[#fdfdff] focus:outline-none"
+                      name="catName"
+                      id=""
+                    >
+                      {" "}
+                      {props.categoriesData.map((category: ICategories) => (
+                        <option value={category.cat_slug}>
+                          {category.cat_name}
+                        </option>
+                      ))}
+                      {/* <option value="electronics">Electronics</option>
                     <option value="electronics">Electronics</option>
                     <option value="electronics">Electronics</option>
                     <option value="electronics">Electronics</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="electronics">Electronics</option>
-                  </select>
+                    <option value="electronics">Electronics</option> */}
+                    </select>
+                  </form>
                 </div>
                 <button
+                  type="submit"
                   onClick={() => setShowModal(false)}
                   className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
                 >

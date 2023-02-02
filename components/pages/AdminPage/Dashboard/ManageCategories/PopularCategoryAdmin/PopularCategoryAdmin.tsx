@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
@@ -10,6 +10,8 @@ import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/
 import SharedAddNewModal from "../../../../../shared/SharedAddNewModal/SharedAddNewModal";
 import { useRouter } from "next/router";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import { ICategories } from "../../../../../../interfaces/models";
 
 interface Props {}
 
@@ -17,6 +19,21 @@ const PopularCategoryAdmin: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [categoriesData, setCategoriesData] = useState<ICategories[]>([]);
+
+  useEffect(() => {
+    const fetchAllCategoriesData = async () => {
+      const { res, err } = await EcommerceApi.allCategories();
+      if (err) {
+        console.log(err);
+      } else {
+        setCategoriesData(res);
+
+        // console.log(res);
+      }
+    };
+    fetchAllCategoriesData();
+  }, []);
 
   return (
     <div className="w-full">
@@ -67,6 +84,7 @@ const PopularCategoryAdmin: React.FC<Props> = (props) => {
           </div>
         </div>
         <SharedAddNewModal
+          categoriesData={categoriesData}
           title="Popular"
           setShowModal={setShowAddModal}
           showModal={showAddModal}
