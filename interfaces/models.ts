@@ -5,6 +5,29 @@ export type User = {
   name: string;
 };
 
+export interface ICategories {
+  cat_slug: string;
+  cat_name: string;
+  cat_image?: string;
+  cat_status: string;
+  cat_icon: string;
+}
+
+export interface ISubCategories {
+  slug: string;
+  cat_image?: string;
+  subcat_name: string;
+  subcat_status: string;
+  cat_name: string;
+}
+export interface IPopularCategories {
+  slug: string;
+  cat_slug: string;
+  // subcat_name: string;
+  // subcat_status: string;
+  cat_name: string;
+  cat_image: string;
+}
 export interface IProducts {
   productName?: string;
   slug?: string;

@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import Styles from "./Table.module.css";
 
 interface Props {
+  apiUrl: string;
   tableHeaders: Array<string>;
   actions?: {
     isEditable?: boolean;
@@ -46,6 +47,7 @@ const DynamicTable: React.FC<Props> = (props) => {
     setSortBy,
     setSortType,
     setSearchString,
+    apiUrl,
     // handleSetSortBy,
   } = props;
 
@@ -177,6 +179,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                             return (
                               <td key={idx} className="px-3 py-3 text-sm ">
                                 <ToggleButton
+                                  apiUrl={apiUrl}
                                   slug={row.slug}
                                   status={row[key]}
                                 />

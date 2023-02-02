@@ -7,9 +7,10 @@ import { IResponseBrandDetail } from "./../../../../../../interfaces/response";
 interface Props {
   status: string;
   slug: string;
+  apiUrl: string;
 }
 
-const ToggleButton: React.FC<Props> = ({ status, slug }) => {
+const ToggleButton: React.FC<Props> = ({ status, slug, apiUrl }) => {
   const states = useSelector(() => controller.states);
 
   const [toggleStatus, setToggleStatus] = useState(status);
@@ -25,7 +26,7 @@ const ToggleButton: React.FC<Props> = ({ status, slug }) => {
 
     const { res, err } = await EcommerceApi.toggleStatusButton(
       slug,
-      'brands',
+      apiUrl,
       patchStatus
     );
 
@@ -40,14 +41,12 @@ const ToggleButton: React.FC<Props> = ({ status, slug }) => {
         toggleStatus === "active"
           ? Styles["shadow-active"]
           : Styles["shadow-inactive"]
-      }`}
-    >
+      }`}>
       <div
         onClick={() => handleClick()}
         className={`grid grid-cols-[65px,15px,65px] relative transition-all delay-100 duration-200 ease-in ${
           toggleStatus === "active" ? "left-[0px]" : "left-[-65px]"
-        }`}
-      >
+        }`}>
         <span className="bg-green-500 text-xs text-white grid place-items-center">
           Active
         </span>
