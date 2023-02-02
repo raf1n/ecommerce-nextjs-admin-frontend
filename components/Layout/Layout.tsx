@@ -27,7 +27,7 @@ const Layout: React.FC<Props> = ({ children }) => {
   };
 
   return (
-    <div className="flex h-screen overflow-y-hidden bg-[#f4f6f9]">
+    <div className="font-nunito flex h-screen overflow-y-hidden bg-[#f4f6f9]">
       {/* left side bar */}
       <Sidebar
         open={open}
@@ -43,7 +43,8 @@ const Layout: React.FC<Props> = ({ children }) => {
             setResponsiveOpen(false);
             setMenuOpen(0);
           }}
-          className="fixed z-10 opacity-40 bg-black top-0 left-0 right-0 bottom-0"></div>
+          className="fixed z-10 opacity-40 bg-black top-0 left-0 right-0 bottom-0"
+        ></div>
       )}
 
       {/* right side dashboard */}
@@ -77,7 +78,8 @@ const Layout: React.FC<Props> = ({ children }) => {
             <button
               onClick={() => {
                 setShow(!show);
-              }}>
+              }}
+            >
               <div className={`flex text-white  pl-6`}>
                 <img
                   src={`https://api.websolutionus.com/shopo/uploads/website-images/ibrahim-khalil-2022-01-30-02-48-50-5743.jpg`}

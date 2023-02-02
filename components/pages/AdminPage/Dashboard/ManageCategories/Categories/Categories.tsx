@@ -12,23 +12,29 @@ import {
   FaTrash,
   FaTruck,
 } from "react-icons/fa";
-import ToggleButton from "../ToggleButton/ToggleButton";
+
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import Link from "next/link";
-import SharedDeleteModal from "./../../../../../shared/SharedDeleteModal/SharedDeleteModal";
+
+import ToggleButton from "../ToggleButton/ToggleButton";
+import { useRouter } from "next/router";
+import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 
 interface Props {}
 
 const Categories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const router = useRouter();
+  const { asPath } = router;
 
   const [showModal, setShowModal] = useState(false);
   return (
     <div className="w-full">
       <DashboardBreadcrumb
         headline="Product Category"
-        slug="Product Category"
-        link="/Product Category"></DashboardBreadcrumb>
+        slug="Product Categories"
+        link="/product_categories"
+      ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <Link className="inline-block" href="product_categories/create">
@@ -43,7 +49,8 @@ const Categories: React.FC<Props> = (props) => {
                 <select
                   name="dataTable_length"
                   aria-controls="dataTable"
-                  className="custom-select custom-select-sm form-control form-control-sm border border-blue-600 text-gray-500">
+                  className="custom-select custom-select-sm form-control form-control-sm border border-blue-600 text-gray-500"
+                >
                   <option value="10">10</option>
                   <option value="25">25</option>
                   <option value="50">50</option>
@@ -72,35 +79,40 @@ const Categories: React.FC<Props> = (props) => {
                     <thead>
                       <tr className="h-16">
                         <th
-                          className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                          className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
+                        >
                           <span className="flex  space-x-0 space-y-0 opacity-80">
                             SN
                             <FaLongArrowAltUp /> <FaLongArrowAltDown />
                           </span>
                         </th>
                         <th
-                          className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                          className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
+                        >
                           <span className="flex  space-x-0 space-y-0  opacity-80">
                             Name
                             <FaLongArrowAltUp /> <FaLongArrowAltDown />
                           </span>
                         </th>
                         <th
-                          className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                          className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
+                        >
                           <span className="flex  space-x-0 space-y-0  opacity-80">
                             Image
                             <FaLongArrowAltUp /> <FaLongArrowAltDown />
                           </span>
                         </th>
                         <th
-                          className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                          className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
+                        >
                           <span className="flex  space-x-0 space-y-0  opacity-80">
                             Icon
                             <FaLongArrowAltUp /> <FaLongArrowAltDown />
                           </span>
                         </th>
                         <th
-                          className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                          className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
+                        >
                           <span className="flex  space-x-0 space-y-0  opacity-80">
                             Status
                             <FaLongArrowAltUp /> <FaLongArrowAltDown />
@@ -108,7 +120,8 @@ const Categories: React.FC<Props> = (props) => {
                         </th>
 
                         <th
-                          className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase`}>
+                          className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase`}
+                        >
                           <span className="flex  space-x-0 space-y-0 opacity-80">
                             Action
                             <FaLongArrowAltUp /> <FaLongArrowAltDown />
@@ -135,7 +148,8 @@ const Categories: React.FC<Props> = (props) => {
                               <img
                                 width="150px"
                                 src={categoryTableData.image}
-                                className=""></img>
+                                className=""
+                              ></img>
                             </td>
                             <td className="px-0 py-3 text-sm ">
                               <p className="text-gray-900 whitespace-wrap pl-5 ">
@@ -143,7 +157,7 @@ const Categories: React.FC<Props> = (props) => {
                               </p>
                             </td>
                             <td className="px-3 py-3 text-sm">
-                              <ToggleButton />
+                              <ToggleButton status={categoryTableData.status} />
                               {/* <span className="text-gray-900 whitespace-no-wrap">
                                    
                                    
@@ -151,13 +165,20 @@ const Categories: React.FC<Props> = (props) => {
                             </td>
 
                             <td className="px-2 py-3  text-sm">
-                              <button>
+                              <button
+                                onClick={() =>
+                                  router.push(
+                                    `${asPath}/${categoryTableData.id}/edit`
+                                  )
+                                }
+                              >
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     style={{
                                       boxShadow: "0 2px 6px #acb5f6",
                                     }}
-                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center">
+                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
+                                  >
                                     <FaEdit />
                                   </span>
                                 </span>
@@ -170,11 +191,24 @@ const Categories: React.FC<Props> = (props) => {
                                     style={{
                                       boxShadow: "0 2px 6px #fd9b96",
                                     }}
-                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center">
+                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                                  >
                                     <FaTrash />
                                   </span>
                                 </span>
                               </button>
+                              {/* <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight"> */}
+                              {/* <button>
+                                      <span
+                                        style={{
+                                          boxShadow: "0 2px 6px #ffc473",
+                                        }}
+                                        className="h-8 w-8  inset-0 bg-orange-400   rounded  relative text-white flex justify-center items-center"
+                                      >
+                                        <FaTruck />
+                                      </span>
+                                    </button> */}
+                              {/* </span> */}
                             </td>
                           </tr>
                         )
@@ -183,7 +217,8 @@ const Categories: React.FC<Props> = (props) => {
                   </table>
                   <SharedDeleteModal
                     showModal={showModal}
-                    setShowModal={setShowModal}></SharedDeleteModal>
+                    setShowModal={setShowModal}
+                  ></SharedDeleteModal>
                   {/* -------------- */}
                   <div className="px-5 py-5  border-t flex justify-end">
                     <div className="inline-flex mt-2 xs:mt-0">
@@ -194,32 +229,38 @@ const Categories: React.FC<Props> = (props) => {
                       <a
                         href="#"
                         aria-current="page"
-                        className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20">
+                        className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
+                      >
                         1
                       </a>
                       <a
                         href="#"
-                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
+                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20"
+                      >
                         2
                       </a>
                       <a
                         href="#"
-                        className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex">
+                        className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex"
+                      >
                         3
                       </a>
                       <a
                         href="#"
-                        className="relative hidden items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex">
+                        className="relative hidden items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex"
+                      >
                         4
                       </a>
                       <a
                         href="#"
-                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
+                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20"
+                      >
                         5
                       </a>
                       <a
                         href="#"
-                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
+                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20"
+                      >
                         6
                       </a>
                       <button className="ml-3 text-sm text-indigo-500 transition duration-150  font-semibold py-2 px-4 rounded-r">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../src/state/StateController";
 import {
@@ -20,19 +20,16 @@ interface Props {
     isDeletable?: boolean;
     isShipping?: boolean;
     isViewable?: boolean;
+    isSeller?: boolean;
   };
   testDynamicTableData: Array<object>;
+  setDeleteModalSlug: Dispatch<SetStateAction<string>>
 }
-
 const DynamicTable: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [showModal, setShowModal] = useState(false);
-
   const router = useRouter();
   const { asPath } = router;
-
-  const { tableHeaders, actions, testDynamicTableData } = props;
-
+  const { tableHeaders, actions, testDynamicTableData, setDeleteModalSlug } = props;
   return (
     <div>
       <div className="bg-white p-8 rounded-md w-full">
@@ -42,7 +39,8 @@ const DynamicTable: React.FC<Props> = (props) => {
             <select
               name="dataTable_length"
               aria-controls="dataTable"
-              className="custom-select custom-select-sm form-control form-control-sm">
+              className="custom-select custom-select-sm form-control form-control-sm"
+            >
               <option value="10">10</option>
               <option value="25">25</option>
               <option value="50">50</option>
@@ -56,11 +54,12 @@ const DynamicTable: React.FC<Props> = (props) => {
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 text-gray-400"
                 viewBox="0 0 20 20"
-                fill="currentColor">
+                fill="currentColor"
+              >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 />
               </svg>
               <input
@@ -80,7 +79,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                 <thead>
                   <tr>
                     {tableHeaders.map((header, idx) => (
-                      <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      <th key={idx} className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                         <span className="flex">
                           {header}
                           <FaLongArrowAltUp className="w-2 ml-2 cursor-pointer" />{" "}
@@ -94,14 +93,17 @@ const DynamicTable: React.FC<Props> = (props) => {
                 <tbody>
                   {testDynamicTableData.map((row: any, idx) => {
                     return (
-                      <tr>
+                      <tr key={row.slug} className="border-b border-gray-200">
                         {Object.keys(row).map((key: any, idx) => {
                           if (key === "link") {
                             return null;
                           } else if (key === "status") {
                             return (
-                              <td className="px-3 py-3 text-sm border-b border-gray-200">
-                                <ToggleButton status={row[key]} />
+                              <td key={idx} className="px-3 py-3 text-sm ">
+                                <ToggleButton
+                                  slug={row.slug}
+                                  status={row[key]}
+                                />
                               </td>
                             );
                           } else if (
@@ -109,11 +111,12 @@ const DynamicTable: React.FC<Props> = (props) => {
                             row[key] === "pending"
                           ) {
                             return (
-                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <td key={idx} className="px-5 py-5  bg-white text-sm">
                                 <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     aria-hidden
-                                    className="absolute inset-0 bg-red-500  rounded-full"></span>
+                                    className="absolute inset-0 bg-red-500  rounded-full"
+                                  ></span>
                                   <span className="relative text-white">
                                     Pending
                                   </span>
@@ -125,11 +128,12 @@ const DynamicTable: React.FC<Props> = (props) => {
                             row[key] === "success"
                           ) {
                             return (
-                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <td key={idx} className="px-5 py-5  bg-white text-sm">
                                 <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     aria-hidden
-                                    className="absolute inset-0 bg-green-500 rounded-full"></span>
+                                    className="absolute inset-0 bg-green-500 rounded-full"
+                                  ></span>
                                   <span className="relative text-white">
                                     Success
                                   </span>
@@ -138,10 +142,10 @@ const DynamicTable: React.FC<Props> = (props) => {
                             );
                           } else if (key === "type") {
                             return (
-                              <td className=" px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <td key={idx} className=" px-5 py-5  bg-white text-sm">
                                 <span className="flex gap-2">
-                                  {row[key].map((type: any) => (
-                                    <span className="bg-green-500 rounded-xl py-1 px-2 text-white">
+                                  {row[key].map((type: any, idx: number) => (
+                                    <span key={idx} className="bg-green-500 rounded-xl py-1 px-2 text-white">
                                       {type}
                                     </span>
                                   ))}
@@ -150,16 +154,16 @@ const DynamicTable: React.FC<Props> = (props) => {
                             );
                           } else if (key === "image") {
                             return (
-                              <td className="px-3 py-3 border-b border-gray-200">
+                              <td key={idx} className="px-3 py-3 ">
                                 <img
-                                  width="150px"
                                   src={row[key]}
-                                  className=""></img>
+                                  className="w-[100px] h-[100px] object-cover"
+                                />
                               </td>
                             );
                           } else if (key === "icon") {
                             return (
-                              <td className="px-0 py-3 text-sm ">
+                              <td key={idx} className="px-0 py-3 text-sm ">
                                 <p className="text-gray-900 whitespace-wrap pl-5 ">
                                   <row.icon />
                                 </p>
@@ -167,11 +171,12 @@ const DynamicTable: React.FC<Props> = (props) => {
                             );
                           } else if (key === "logo") {
                             return (
-                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <td key={idx} className="px-5 py-5  bg-white text-sm">
                                 <Image
                                   width={80}
                                   height={80}
                                   loader={() => row[key]}
+                                  unoptimized={true}
                                   className="w-20 h-20 rounded-full object-cover"
                                   src={row[key]}
                                   alt="logo"
@@ -180,7 +185,7 @@ const DynamicTable: React.FC<Props> = (props) => {
                             );
                           } else {
                             return (
-                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <td key={idx} className="px-5 py-5 bg-white text-sm">
                                 <p className="text-gray-900 whitespace-no-wrap">
                                   {row[key]}
                                 </p>
@@ -188,12 +193,16 @@ const DynamicTable: React.FC<Props> = (props) => {
                             );
                           }
                         })}
-
                         {actions && (
-                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <td key={idx} className="px-5 py-5  bg-white text-sm">
                             {actions?.isViewable && (
                               <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
-                                <span className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center">
+                                <span
+                                  onClick={() =>
+                                    router.push(`${asPath}/${row.id}/review`)
+                                  }
+                                  className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center"
+                                >
                                   <FaEye />
                                 </span>
                               </span>
@@ -202,9 +211,10 @@ const DynamicTable: React.FC<Props> = (props) => {
                               <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
                                 <span
                                   onClick={() =>
-                                    router.push(`${asPath}/${row.id}/edit`)
+                                    router.push(`${asPath}/${row.slug}/edit`)
                                   }
-                                  className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center">
+                                  className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center"
+                                >
                                   <FaEdit />
                                 </span>
                               </span>
@@ -212,8 +222,9 @@ const DynamicTable: React.FC<Props> = (props) => {
                             {actions?.isDeletable && (
                               <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
                                 <span
-                                  onClick={() => setShowModal(true)}
-                                  className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-red-500 rounded relative text-white flex justify-center items-center">
+                                  onClick={() => setDeleteModalSlug(row.slug)}
+                                  className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-red-500 rounded relative text-white flex justify-center items-center"
+                                >
                                   <FaTrash />
                                 </span>
                               </span>
@@ -232,9 +243,10 @@ const DynamicTable: React.FC<Props> = (props) => {
                   })}
                 </tbody>
               </table>
-              <SharedDeleteModal
+              {/* <SharedDeleteModal
                 showModal={showModal}
-                setShowModal={setShowModal}></SharedDeleteModal>
+                setShowModal={setShowModal}
+              ></SharedDeleteModal> */}
               {/* -------------- */}
               <div className="px-5 py-5 bg-white border-t flex justify-between">
                 <span className="text-xs xs:text-sm text-gray-900">
@@ -250,7 +262,6 @@ const DynamicTable: React.FC<Props> = (props) => {
                   </button>
                 </div>
               </div>
-
               {/* ----------------- */}
             </div>
           </div>
@@ -259,5 +270,4 @@ const DynamicTable: React.FC<Props> = (props) => {
     </div>
   );
 };
-
 export default DynamicTable;
