@@ -25,6 +25,7 @@ const ToggleButton: React.FC<Props> = ({ status, slug }) => {
 
     const { res, err } = await EcommerceApi.toggleStatusButton(
       slug,
+      'brands',
       patchStatus
     );
 

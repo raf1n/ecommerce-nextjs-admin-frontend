@@ -48,6 +48,7 @@ export class EcommerceApi {
 
   static async toggleStatusButton(
     slug: string,
+    url: string,
     patchStatus: string
   ): Promise<IResponseBrandDetail> {
     const myHeaders = new Headers();
@@ -61,6 +62,21 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/brands/${slug}`, requestOptions);
+    return await callFetch(`${API_ENDPOINT}/${url}/${slug}`, requestOptions);
+  }
+
+  static async deleteByModal(
+    slug: string,
+    url: string
+  ) {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/${url}/${slug}`, requestOptions);
   }
 }

@@ -21,47 +21,41 @@ const actions = {
 const ProductBrands: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [deleteModalSlug, setDeleteModalSlug] = useState("");
-  const [productBrandsData, setProductBrandsData] = useState<IBrandDetail[]>([]);
+  const [productBrandsData, setProductBrandsData] = useState<IBrandDetail[]>(
+    []
+  );
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
   // console.log({sortBy, sortType});
 
-  useEffect( () => {
+  useEffect(() => {
     const fetchBrands = async () => {
-      const { res, err } = await EcommerceApi.getAllBrandsAdmin(`sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`);
+      const { res, err } = await EcommerceApi.getAllBrandsAdmin(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
 
-      setProductBrandsData(res)
-    }
+      setProductBrandsData(res);
+    };
 
     fetchBrands();
-
   }, [searchString, sortBy, sortType]);
 
-  // const handleSetSortBy = (sortByString: string) => {
-  //   if (sortType === 'asc') {
-  //     setSortType('desc')
-  //   } else {
-  //     setSortType('asc')
-  //   }
-  //   setSortBy(sortByString);
-  // }
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteByModal(
+      deleteModalSlug,
+      "brands"
+    );
 
-  const handleDelete = () => {
-    console.log(deleteModalSlug );
-    fetch(`http://localhost:8000/brands/${deleteModalSlug}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log(data);
-        setDeleteModalSlug("");
-        const remainingBrands = productBrandsData.filter(product => product.slug !== deleteModalSlug);
-        setProductBrandsData(remainingBrands);
-      });
+    if (res) {
+      setDeleteModalSlug("");
+      const remainingBrands = productBrandsData.filter(
+        (product) => product.slug !== deleteModalSlug
+      );
+      setProductBrandsData(remainingBrands);
+    }
   };
-  
 
   return (
     <div className="w-full">
@@ -88,11 +82,11 @@ const ProductBrands: React.FC<Props> = (props) => {
               setSearchString={setSearchString}
               // handleSetSortBy={handleSetSortBy}
             />
-             <SharedDeleteModal
-                handleDelete={handleDelete}
-                deleteModalSlug={deleteModalSlug}
-                setDeleteModalSlug={setDeleteModalSlug}
-              ></SharedDeleteModal>
+            <SharedDeleteModal
+              handleDelete={handleDelete}
+              deleteModalSlug={deleteModalSlug}
+              setDeleteModalSlug={setDeleteModalSlug}
+            ></SharedDeleteModal>
           </div>
         </div>
       </div>
