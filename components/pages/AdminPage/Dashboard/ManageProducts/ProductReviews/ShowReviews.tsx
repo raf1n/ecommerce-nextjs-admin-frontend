@@ -62,7 +62,7 @@ const ShowReviews: React.FC<Props> = (props) => {
                   <tr>
                     <td className="px-[25px] h-16">Status</td>
                     <td className="px-[25px] pl-96 h-16">
-                      <ToggleButton status={productReview.status} />
+                      <ToggleButton slug="" status={productReview.status} />
                     </td>
                   </tr>
                 </>

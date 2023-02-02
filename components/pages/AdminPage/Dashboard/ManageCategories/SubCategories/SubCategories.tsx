@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { FaEye, FaTrash, FaEdit } from "react-icons/fa";
@@ -6,20 +6,81 @@ import { FaEye, FaTrash, FaEdit } from "react-icons/fa";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import { controller } from "../../../../../../src/state/StateController";
 import { Jsondata } from "../../../../../../src/utils/Jsondata";
-import ToggleButton from "./ToggleButton";
 
 import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import { ISubCategories } from "../../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import ToggleButton from "./ToggleButton";
+
 interface Props {}
 
 const SubCategories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const router = useRouter();
   const { asPath } = router;
-  const [showModal, setShowModal] = useState(false);
+  const [subCategoriesData, setSubCategoriesData] = useState<ISubCategories[]>(
+    []
+  );
+  // const [showModal, setShowModal] = useState(false);
+  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortType, setSortType] = useState("desc");
+  const [searchString, setSearchString] = useState("");
+
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteSubCategories(
+      deleteModalSlug
+    );
+    if (res) {
+      setDeleteModalSlug("");
+      const remainingBrands = subCategoriesData.filter(
+        (product) => product.slug !== deleteModalSlug
+      );
+      setSubCategoriesData(remainingBrands);
+    }
+  };
+
+  // useEffect(() => {
+  //   const fetchAllSubCategoriesData = async () => {
+  //     const { res, err } = await EcommerceApi.allSubCategories();
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       setSubCategoriesData(res);
+  //       console.log(res);
+  //       // console.log(res);
+  //     }
+  //   };
+  //   fetchAllSubCategoriesData();
+  // }, []);
+  useEffect(() => {
+    const fetchAllSubCategoriesAdminData = async () => {
+      const { res, err } = await EcommerceApi.allSubCategoriesAdmin(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
+      if (err) {
+        console.log(err);
+      } else {
+        setSubCategoriesData(res);
+        console.log(res);
+      }
+    };
+    fetchAllSubCategoriesAdminData();
+  }, [searchString, sortBy, sortType]);
+  const tableHeaders = {
+    sn: "sn",
+    "sub category": "subcat_name",
+    slug: "slug",
+    category: "cat_name",
+    // icon: "cat_icon",
+    // type: "type",
+    status: "subcat_status",
+    action: "action",
+  };
   return (
     <div className="w-full">
       <DashboardBreadcrumb
@@ -54,6 +115,7 @@ const SubCategories: React.FC<Props> = (props) => {
                 </label>
                 <div className="flex bg-gray-50 items-center ml-3 p-1 rounded">
                   <input
+                    onChange={(e) => setSearchString(e.target.value)}
                     className="bg-gray-50 outline-none   "
                     type="text"
                     name=""
@@ -68,7 +130,42 @@ const SubCategories: React.FC<Props> = (props) => {
                   <table className="min-w-full leading-normal">
                     <thead>
                       <tr className="h-16">
-                        <th
+                        {Object.keys(tableHeaders).map((header: any) => (
+                          <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            <span className="flex">
+                              <span className="flex-1">{header}</span>
+                              <FaLongArrowAltUp
+                                onClick={() => {
+                                  setSortType("asc");
+                                  //@ts-ignore
+                                  setSortBy(tableHeaders[header]);
+                                }}
+                                className={`${
+                                  //@ts-ignore
+                                  sortBy === tableHeaders[header] &&
+                                  sortType === "asc"
+                                    ? "fill-gray-700"
+                                    : "fill-gray-300"
+                                } w-2 ml-2 cursor-pointer`}
+                              />{" "}
+                              <FaLongArrowAltDown
+                                onClick={() => {
+                                  setSortType("desc");
+                                  //@ts-ignore
+                                  setSortBy(tableHeaders[header]);
+                                }}
+                                className={`${
+                                  //@ts-ignore
+                                  sortBy === tableHeaders[header] &&
+                                  sortType === "desc"
+                                    ? "fill-gray-700"
+                                    : "fill-gray-300"
+                                } w-2 ml-1 cursor-pointer`}
+                              />
+                            </span>
+                          </th>
+                        ))}
+                        {/* <th
                           className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
                         >
                           <span className="flex  space-x-0 space-y-0 opacity-80">
@@ -117,13 +214,13 @@ const SubCategories: React.FC<Props> = (props) => {
                             Action
                             <FaLongArrowAltUp /> <FaLongArrowAltDown />
                           </span>
-                        </th>
+                        </th> */}
                       </tr>
                     </thead>
 
                     <tbody>
-                      {Jsondata.subCategoriesTableData.map(
-                        (tabledata, index) => (
+                      {subCategoriesData.map(
+                        (tabledata: ISubCategories, index) => (
                           <tr className="even:bg-gray-50 odd:bg-white">
                             <td className="px-3 py-3   text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
@@ -132,7 +229,7 @@ const SubCategories: React.FC<Props> = (props) => {
                             </td>
                             <td className="px-3 py-3  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap ">
-                                {tabledata.subCat}
+                                {tabledata.subcat_name}
                               </p>
                             </td>
                             <td className="px-3 py-3 text-sm">
@@ -142,7 +239,7 @@ const SubCategories: React.FC<Props> = (props) => {
                             </td>
                             <td className="px-0 py-3 text-sm">
                               <p className="text-gray-900 whitespace-wrap">
-                                {tabledata.category}
+                                {tabledata?.cat_name}
                               </p>
                             </td>
                             <td className="px-1 py-3 text-sm ">
@@ -159,14 +256,19 @@ const SubCategories: React.FC<Props> = (props) => {
                             {tabledata.status}
                           </span> */}
 
-                                <ToggleButton />
+                                <ToggleButton
+                                  slug={tabledata?.slug}
+                                  status={tabledata.subcat_status}
+                                />
                               </span>
                             </td>
 
                             <td className="px-2 py-3  text-sm">
                               <button
                                 onClick={() =>
-                                  router.push(`${asPath}/${tabledata.id}/edit`)
+                                  router.push(
+                                    `${asPath}/${tabledata.slug}/edit`
+                                  )
                                 }
                               >
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
@@ -178,7 +280,13 @@ const SubCategories: React.FC<Props> = (props) => {
                                   </span>
                                 </span>
                               </button>
-                              <button onClick={() => setShowModal(true)}>
+                              <button
+                                onClick={
+                                  () => setDeleteModalSlug(tabledata.slug)
+
+                                  // setShowModal(true)
+                                }
+                              >
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     style={{ boxShadow: "0 2px 6px #fd9b96" }}
@@ -189,14 +297,19 @@ const SubCategories: React.FC<Props> = (props) => {
                                 </span>
                               </button>
                             </td>
+                            <SharedDeleteModal
+                              deleteModalSlug={deleteModalSlug}
+                              handleDelete={handleDelete}
+                              setDeleteModalSlug={setDeleteModalSlug}
+                            ></SharedDeleteModal>
                           </tr>
                         )
                       )}
                     </tbody>
-                    <SharedDeleteModal
+                    {/* <SharedDeleteModal
                       showModal={showModal}
                       setShowModal={setShowModal}
-                    ></SharedDeleteModal>
+                    ></SharedDeleteModal> */}
                   </table>
                   <div className="px-5 py-5  border-t flex justify-end">
                     <div className="inline-flex mt-2 xs:mt-0">

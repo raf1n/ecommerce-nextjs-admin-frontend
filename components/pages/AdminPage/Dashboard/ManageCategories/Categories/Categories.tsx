@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 
@@ -19,6 +19,8 @@ import Link from "next/link";
 import ToggleButton from "../ToggleButton/ToggleButton";
 import { useRouter } from "next/router";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import { ICategories } from "../../../../../../interfaces/models";
 
 interface Props {}
 
@@ -26,15 +28,66 @@ const Categories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const router = useRouter();
   const { asPath } = router;
+  const [categoriesData, setCategoriesData] = useState<ICategories[]>([]);
+  // const [showModal, setShowModal] = useState(false);
+  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortType, setSortType] = useState("desc");
+  const [searchString, setSearchString] = useState("");
 
-  const [showModal, setShowModal] = useState(false);
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteCategories(deleteModalSlug);
+    if (res) {
+      setDeleteModalSlug("");
+      const remainingBrands = categoriesData.filter(
+        (product) => product.cat_slug !== deleteModalSlug
+      );
+      setCategoriesData(remainingBrands);
+    }
+  };
+  // useEffect(() => {
+  //   const fetchAllCategoriesData = async () => {
+  //     const { res, err } = await EcommerceApi.allCategories();
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       setCategoriesData(res);
+  //       // console.log(res);
+  //     }
+  //   };
+  //   fetchAllCategoriesData();
+  // }, []);
+  useEffect(() => {
+    const fetchAllCategoriesAdminData = async () => {
+      const { res, err } = await EcommerceApi.allCategoriesAdmin(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
+      if (err) {
+        console.log(err);
+      } else {
+        setCategoriesData(res);
+        console.log(res);
+      }
+    };
+    fetchAllCategoriesAdminData();
+  }, [searchString, sortBy, sortType]);
+
+  const tableHeaders = {
+    sn: "sn",
+    name: "cat_name",
+    image: "cat_image",
+    icon: "cat_icon",
+    // type: "type",
+    status: "cat_status",
+    action: "action",
+  };
+
   return (
     <div className="w-full">
       <DashboardBreadcrumb
         headline="Product Category"
         slug="Product Categories"
-        link="/product_categories"
-      ></DashboardBreadcrumb>
+        link="/product_categories"></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <Link className="inline-block" href="product_categories/create">
@@ -49,8 +102,7 @@ const Categories: React.FC<Props> = (props) => {
                 <select
                   name="dataTable_length"
                   aria-controls="dataTable"
-                  className="custom-select custom-select-sm form-control form-control-sm border border-blue-600 text-gray-500"
-                >
+                  className="custom-select custom-select-sm form-control form-control-sm border border-blue-600 text-gray-500">
                   <option value="10">10</option>
                   <option value="25">25</option>
                   <option value="50">50</option>
@@ -64,6 +116,7 @@ const Categories: React.FC<Props> = (props) => {
                 </label>
                 <div className="flex bg-gray-50 items-center ml-3 p-1 rounded">
                   <input
+                    onChange={(e) => setSearchString(e.target.value)}
                     className="bg-gray-50 outline-none   "
                     type="text"
                     name=""
@@ -78,12 +131,74 @@ const Categories: React.FC<Props> = (props) => {
                   <table className="min-w-full leading-normal">
                     <thead>
                       <tr className="h-16">
-                        <th
+                        {Object.keys(tableHeaders).map((header: any) => (
+                          <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            <span className="flex">
+                              <span className="flex-1">{header}</span>
+                              <FaLongArrowAltUp
+                                onClick={() => {
+                                  setSortType("asc");
+                                  //@ts-ignore
+                                  setSortBy(tableHeaders[header]);
+                                }}
+                                className={`${
+                                  //@ts-ignore
+                                  sortBy === tableHeaders[header] &&
+                                  sortType === "asc"
+                                    ? "fill-gray-700"
+                                    : "fill-gray-300"
+                                } w-2 ml-2 cursor-pointer`}
+                              />{" "}
+                              <FaLongArrowAltDown
+                                onClick={() => {
+                                  setSortType("desc");
+                                  //@ts-ignore
+                                  setSortBy(tableHeaders[header]);
+                                }}
+                                className={`${
+                                  //@ts-ignore
+                                  sortBy === tableHeaders[header] &&
+                                  sortType === "desc"
+                                    ? "fill-gray-700"
+                                    : "fill-gray-300"
+                                } w-2 ml-1 cursor-pointer`}
+                              />
+                            </span>
+                          </th>
+                        ))}
+                        {/* <th
                           className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
                         >
                           <span className="flex  space-x-0 space-y-0 opacity-80">
                             SN
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
+                            <FaLongArrowAltUp
+                              onClick={() => {
+                                setSortType("asc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "asc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-2 cursor-pointer`}
+                            />{" "}
+                            <FaLongArrowAltDown
+                              onClick={() => {
+                                setSortType("desc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "desc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-1 cursor-pointer`}
+                            />
                           </span>
                         </th>
                         <th
@@ -91,7 +206,34 @@ const Categories: React.FC<Props> = (props) => {
                         >
                           <span className="flex  space-x-0 space-y-0  opacity-80">
                             Name
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
+                            <FaLongArrowAltUp
+                              onClick={() => {
+                                setSortType("asc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "asc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-2 cursor-pointer`}
+                            />{" "}
+                            <FaLongArrowAltDown
+                              onClick={() => {
+                                setSortType("desc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "desc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-1 cursor-pointer`}
+                            />
                           </span>
                         </th>
                         <th
@@ -99,7 +241,34 @@ const Categories: React.FC<Props> = (props) => {
                         >
                           <span className="flex  space-x-0 space-y-0  opacity-80">
                             Image
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
+                            <FaLongArrowAltUp
+                              onClick={() => {
+                                setSortType("asc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "asc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-2 cursor-pointer`}
+                            />{" "}
+                            <FaLongArrowAltDown
+                              onClick={() => {
+                                setSortType("desc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "desc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-1 cursor-pointer`}
+                            />
                           </span>
                         </th>
                         <th
@@ -107,7 +276,34 @@ const Categories: React.FC<Props> = (props) => {
                         >
                           <span className="flex  space-x-0 space-y-0  opacity-80">
                             Icon
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
+                            <FaLongArrowAltUp
+                              onClick={() => {
+                                setSortType("asc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "asc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-2 cursor-pointer`}
+                            />{" "}
+                            <FaLongArrowAltDown
+                              onClick={() => {
+                                setSortType("desc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "desc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-1 cursor-pointer`}
+                            />
                           </span>
                         </th>
                         <th
@@ -115,7 +311,34 @@ const Categories: React.FC<Props> = (props) => {
                         >
                           <span className="flex  space-x-0 space-y-0  opacity-80">
                             Status
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
+                            <FaLongArrowAltUp
+                              onClick={() => {
+                                setSortType("asc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "asc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-2 cursor-pointer`}
+                            />{" "}
+                            <FaLongArrowAltDown
+                              onClick={() => {
+                                setSortType("desc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "desc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-1 cursor-pointer`}
+                            />
                           </span>
                         </th>
 
@@ -126,13 +349,15 @@ const Categories: React.FC<Props> = (props) => {
                             Action
                             <FaLongArrowAltUp /> <FaLongArrowAltDown />
                           </span>
-                        </th>
+                        </th> */}
                       </tr>
                     </thead>
-                    {/* -----------Plz Attention ,Table body/Row start here -------------- */}
+                    {/* -------Plz Attention ,Table body/Row start here -------------- */}
                     <tbody>
-                      {Jsondata.categoriesTableData.map(
-                        (categoryTableData, index) => (
+                      {/* Jsondata.categoriesTableData */}
+                      {categoriesData.map(
+                        (categoryTableData: ICategories, index) => (
+                          // <div>
                           <tr className="even:bg-gray-50 odd:bg-white">
                             <td className="px-3 py-3    text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
@@ -141,44 +366,45 @@ const Categories: React.FC<Props> = (props) => {
                             </td>
                             <td className="px-3 py-3  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap ">
-                                {categoryTableData.name}
+                                {categoryTableData?.cat_name}
                               </p>
                             </td>
                             <td className="px-3 py-3    ">
                               <img
                                 width="150px"
-                                src={categoryTableData.image}
-                                className=""
-                              ></img>
+                                src={categoryTableData?.cat_image}
+                                className=""></img>
                             </td>
                             <td className="px-0 py-3 text-sm ">
                               <p className="text-gray-900 whitespace-wrap pl-5 ">
-                                <categoryTableData.icon />
+                                {/* <categoryTableData.cat_icon /> */}
+                                <img
+                                  width="150px"
+                                  src={categoryTableData?.cat_icon}
+                                  className=""></img>
                               </p>
                             </td>
                             <td className="px-3 py-3 text-sm">
-                              <ToggleButton status={categoryTableData.status} />
-                              {/* <span className="text-gray-900 whitespace-no-wrap">
-                                   
-                                   
-                                  </span> */}
+                              <ToggleButton
+                                apiUrl="categories"
+                                slug={categoryTableData?.cat_slug}
+                                status={categoryTableData.cat_status}
+                              />
                             </td>
 
                             <td className="px-2 py-3  text-sm">
                               <button
                                 onClick={() =>
                                   router.push(
-                                    `${asPath}/${categoryTableData.id}/edit`
+                                    `${asPath}/${categoryTableData.cat_slug}/edit`
                                   )
-                                }
-                              >
+                                }>
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     style={{
                                       boxShadow: "0 2px 6px #acb5f6",
                                     }}
-                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
-                                  >
+                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center">
                                     <FaEdit />
                                   </span>
                                 </span>
@@ -186,13 +412,16 @@ const Categories: React.FC<Props> = (props) => {
                               <button>
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
-                                    onClick={() => setShowModal(true)}
+                                    onClick={() =>
+                                      setDeleteModalSlug(
+                                        categoryTableData.cat_slug
+                                      )
+                                    }
                                     // onClick={() => openModal()}
                                     style={{
                                       boxShadow: "0 2px 6px #fd9b96",
                                     }}
-                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
-                                  >
+                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center">
                                     <FaTrash />
                                   </span>
                                 </span>
@@ -210,15 +439,19 @@ const Categories: React.FC<Props> = (props) => {
                                     </button> */}
                               {/* </span> */}
                             </td>
+                            <SharedDeleteModal
+                              deleteModalSlug={deleteModalSlug}
+                              handleDelete={handleDelete}
+                              setDeleteModalSlug={
+                                setDeleteModalSlug
+                              }></SharedDeleteModal>
                           </tr>
+                          // </div>
                         )
                       )}
                     </tbody>
                   </table>
-                  <SharedDeleteModal
-                    showModal={showModal}
-                    setShowModal={setShowModal}
-                  ></SharedDeleteModal>
+
                   {/* -------------- */}
                   <div className="px-5 py-5  border-t flex justify-end">
                     <div className="inline-flex mt-2 xs:mt-0">
@@ -229,38 +462,32 @@ const Categories: React.FC<Props> = (props) => {
                       <a
                         href="#"
                         aria-current="page"
-                        className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
-                      >
+                        className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20">
                         1
                       </a>
                       <a
                         href="#"
-                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20"
-                      >
+                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
                         2
                       </a>
                       <a
                         href="#"
-                        className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex"
-                      >
+                        className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex">
                         3
                       </a>
                       <a
                         href="#"
-                        className="relative hidden items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex"
-                      >
+                        className="relative hidden items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex">
                         4
                       </a>
                       <a
                         href="#"
-                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20"
-                      >
+                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
                         5
                       </a>
                       <a
                         href="#"
-                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20"
-                      >
+                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
                         6
                       </a>
                       <button className="ml-3 text-sm text-indigo-500 transition duration-150  font-semibold py-2 px-4 rounded-r">

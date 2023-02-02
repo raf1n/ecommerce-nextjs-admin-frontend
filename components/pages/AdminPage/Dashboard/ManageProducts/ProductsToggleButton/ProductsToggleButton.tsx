@@ -1,18 +1,24 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
-import Styles from "./ToggleButton.module.css";
+import Styles from "../../ManageCategories/ToggleButton/ToggleButton.module.css";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 interface Props {
-  status: string;
-  slug: string;
+  status?: string;
+  slug?: string | any;
 }
 
-const ToggleButton: React.FC<Props> = ({ status, slug }) => {
+const ProductsToggleButton: React.FC<Props> = ({ status, slug }) => {
   const states = useSelector(() => controller.states);
 
   const [toggleStatus, setToggleStatus] = useState(status);
 
-  const handleClick = () => {
+  console.log({
+    status,
+    toggleStatus,
+  });
+
+  const handleClick = async () => {
     let patchStatus;
 
     if (toggleStatus === "active") {
@@ -20,18 +26,11 @@ const ToggleButton: React.FC<Props> = ({ status, slug }) => {
     } else {
       patchStatus = "active";
     }
-    console.log(slug);
-    fetch(`http://localhost:8000/sub-categories/${slug}`, {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ subcat_status: patchStatus }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setToggleStatus(data.subcat_status);
-      });
+    const updatedStatus = { status: patchStatus };
+    const { res, err } = await EcommerceApi.updateStatus(updatedStatus, slug);
+    if (res) {
+      setToggleStatus(res.status);
+    }
   };
 
   return (
@@ -60,4 +59,4 @@ const ToggleButton: React.FC<Props> = ({ status, slug }) => {
   );
 };
 
-export default ToggleButton;
+export default ProductsToggleButton;
