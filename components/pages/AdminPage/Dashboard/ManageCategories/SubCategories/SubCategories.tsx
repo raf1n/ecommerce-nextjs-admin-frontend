@@ -111,10 +111,10 @@ const SubCategories: React.FC<Props> = (props) => {
                 <label htmlFor="" className="text-xs text-gray-500">
                   Search
                 </label>
-                <div className="flex bg-gray-50 items-center ml-3 p-1 rounded">
+                <div className={`flex items-center ml-3   `}>
                   <input
                     onChange={(e) => setSearchString(e.target.value)}
-                    className="bg-gray-50 outline-none   "
+                    className={` rounded outline-none  border hover:border-blue-400 h-[31px] w-[181px] py-[2px] px-[6px]`}
                     type="text"
                     name=""
                     id=""
@@ -163,56 +163,6 @@ const SubCategories: React.FC<Props> = (props) => {
                             </span>
                           </th>
                         ))}
-                        {/* <th
-                          className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                        >
-                          <span className="flex  space-x-0 space-y-0 opacity-80">
-                            SL
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                          </span>
-                        </th>
-                        <th
-                          className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                        >
-                          <span className="flex  space-x-0 space-y-0  opacity-80">
-                            Sub Category
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                          </span>
-                        </th>
-                        <th
-                          className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                        >
-                          <span className="flex  space-x-0 space-y-0  opacity-80">
-                            Slug
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                          </span>
-                        </th>
-                        <th
-                          className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                        >
-                          <span className="flex  space-x-0 space-y-0  opacity-80">
-                            Category
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                          </span>
-                        </th>
-
-                        <th
-                          className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                        >
-                          <span className="flex  space-x-0 space-y-0 opacity-80">
-                            Status
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                          </span>
-                        </th>
-
-                        <th
-                          className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                        >
-                          <span className="flex  space-x-0 space-y-0 opacity-80">
-                            Action
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                          </span>
-                        </th> */}
                       </tr>
                     </thead>
 
@@ -242,18 +192,6 @@ const SubCategories: React.FC<Props> = (props) => {
                             </td>
                             <td className="px-1 py-3 text-sm ">
                               <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight ">
-                                {/* <span
-                            aria-hidden
-                            className={`absolute inset-0 ${
-                              tabledata.status == "active"
-                                ? "bg-red-500"
-                                : "bg-green-500"
-                            }  rounded-full`}
-                          ></span>
-                          <span className="relative text-white text-xs capitalize break-words">
-                            {tabledata.status}
-                          </span> */}
-
                                 <ToggleButton
                                   slug={tabledata?.slug}
                                   status={tabledata.subcat_status}
@@ -306,44 +244,34 @@ const SubCategories: React.FC<Props> = (props) => {
                       setShowModal={setShowModal}
                     ></SharedDeleteModal> */}
                   </table>
-                  <div className="px-5 py-5  border-t flex justify-end">
-                    <div className="inline-flex mt-2 xs:mt-0">
-                      <button className="text-sm text-indigo-500 transition duration-150   font-semibold py-2 px-4 rounded-l">
+                  <div className="px-5 py-5  border-t flex justify-between">
+                    <div>
+                      <span className="text-xs xs:text-sm text-gray-900">
+                        Showing 1 to 10 of 50 Entries
+                      </span>
+                    </div>
+                    <div className="inline-flex  xs:mt-0">
+                      <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-l">
                         Prev
                       </button>
                       &nbsp; &nbsp;
                       <a
                         href="#"
                         aria-current="page"
-                        className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20">
+                        className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white ">
                         1
                       </a>
                       <a
                         href="#"
-                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
+                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20">
                         2
                       </a>
                       <a
                         href="#"
-                        className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex">
+                        className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20 md:inline-flex">
                         3
                       </a>
-                      <a
-                        href="#"
-                        className="relative hidden items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex">
-                        4
-                      </a>
-                      <a
-                        href="#"
-                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
-                        5
-                      </a>
-                      <a
-                        href="#"
-                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
-                        6
-                      </a>
-                      <button className="ml-3 text-sm text-indigo-500 transition duration-150  font-semibold py-2 px-4 rounded-r">
+                      <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-r">
                         Next
                       </button>
                     </div>

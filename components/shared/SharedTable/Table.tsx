@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { FaEye, FaTrash, FaTruck } from "react-icons/fa";
-import Styles from "./Table.module.css";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import { Jsondata } from "../../../src/utils/Jsondata";
 import { controller } from "../../../src/state/StateController";
@@ -26,22 +25,23 @@ const Table: React.FC<Props> = (props) => {
               <option value="50">50</option>
               <option value="100">100</option>
             </select>
-            <span className="text-xs text-gray-500  px-1">Entries</span>
+            <span className="text-xs text-gray-500  px-1">entries</span>
           </div>
+          {/* ***** */}
           <div className="flex items-center justify-between">
             <label htmlFor="" className="text-xs text-gray-500">
               Search
             </label>
-            <div
-              className={`${Styles[" "]}  flex bg-gray-50 items-center ml-3 rounded h-[34px]  `}>
+            <div className={`flex items-center ml-3   `}>
               <input
-                className={`${Styles["form-control-sm"]} bg-gray-50 outline-none  border border-blue-200 `}
+                className={` rounded outline-none  border hover:border-blue-400 h-[31px] w-[181px] py-[2px] px-[6px]`}
                 type="text"
                 name=""
                 id=""
               />
             </div>
           </div>
+          {/* ***** */}
         </div>
         <div>
           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-1 overflow-x-auto">
@@ -221,45 +221,35 @@ const Table: React.FC<Props> = (props) => {
                   ))}
                 </tbody>
               </table>
-              {/* ----------------------------------------- */}
-              <div className="px-5 py-5  border-t flex justify-end">
-                <div className="inline-flex mt-2 xs:mt-0">
-                  <button className="text-sm text-indigo-500 transition duration-150    font-semibold py-2 px-4 rounded-l">
+              {/* ---------- table footer  ------------------------------- */}
+              <div className="px-5 py-5  border-t flex justify-between">
+                <div>
+                  <span className="text-xs xs:text-sm text-gray-900">
+                    Showing 1 to 10 of 50 Entries
+                  </span>
+                </div>
+                <div className="inline-flex  xs:mt-0">
+                  <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-l">
                     Prev
                   </button>
                   &nbsp; &nbsp;
                   <a
                     href="#"
                     aria-current="page"
-                    className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20">
+                    className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white ">
                     1
                   </a>
                   <a
                     href="#"
-                    className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
+                    className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20">
                     2
                   </a>
                   <a
                     href="#"
-                    className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex">
+                    className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20 md:inline-flex">
                     3
                   </a>
-                  <a
-                    href="#"
-                    className="relative hidden items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex">
-                    4
-                  </a>
-                  <a
-                    href="#"
-                    className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
-                    5
-                  </a>
-                  <a
-                    href="#"
-                    className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
-                    6
-                  </a>
-                  <button className="ml-3 text-sm text-indigo-500 transition duration-150  font-semibold py-2 px-4 rounded-r">
+                  <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-r">
                     Next
                   </button>
                 </div>
