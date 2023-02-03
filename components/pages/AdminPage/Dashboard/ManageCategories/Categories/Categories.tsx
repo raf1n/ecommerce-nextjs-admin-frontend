@@ -102,7 +102,7 @@ const Categories: React.FC<Props> = (props) => {
                 <select
                   name="dataTable_length"
                   aria-controls="dataTable"
-                  className="custom-select custom-select-sm form-control form-control-sm border border-blue-600 text-gray-500">
+                  className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center">
                   <option value="10">10</option>
                   <option value="25">25</option>
                   <option value="50">50</option>
@@ -110,6 +110,7 @@ const Categories: React.FC<Props> = (props) => {
                 </select>
                 <span className="text-xs text-gray-500  px-1">Entries</span>
               </div>
+             
               <div className="flex items-center justify-between">
                 <label htmlFor="" className="text-xs text-gray-500">
                   Search

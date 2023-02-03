@@ -66,8 +66,7 @@ const SellerProducts: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Seller Products"
         slug="Seller Products"
-        link="/seller_products"
-      ></DashboardBreadcrumb>
+        link="/seller_products"></DashboardBreadcrumb>
       <div className="mx-[25px]">
         <div className="section-body">
           <Link className="inline-block" href="/products/create">
@@ -77,18 +76,17 @@ const SellerProducts: React.FC<Props> = (props) => {
             <div className="bg-white p-8 rounded-md w-full">
               <div className=" flex items-center justify-between pb-6">
                 <div>
-                  <span className="text-xs px-1">Show </span>
+                  <span className="text-xs text-gray-500 px-1">Show </span>
                   <select
                     name="dataTable_length"
                     aria-controls="dataTable"
-                    className="custom-select custom-select-sm form-control form-control-sm"
-                  >
+                    className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
                   </select>
-                  <span className="text-xs px-1">Entries</span>
+                  <span className="text-xs text-gray-500  px-1">Entries</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex bg-gray-50 items-center p-2 rounded-md">
@@ -96,13 +94,11 @@ const SellerProducts: React.FC<Props> = (props) => {
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5 text-gray-400"
                       viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
+                      fill="currentColor">
                       <path
                         fill-rule="evenodd"
                         d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                        clip-rule="evenodd"
-                      ></path>
+                        clip-rule="evenodd"></path>
                     </svg>
                     <input
                       onChange={(e) => setSearchString(e.target.value)}
@@ -225,15 +221,13 @@ const SellerProducts: React.FC<Props> = (props) => {
                               <button
                                 onClick={() =>
                                   router.push(`${asPath}/${data.slug}/edit`)
-                                }
-                              >
+                                }>
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     style={{
                                       boxShadow: "0 2px 6px #acb5f6",
                                     }}
-                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
-                                  >
+                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center">
                                     <FaEdit />
                                   </span>
                                 </span>
@@ -248,8 +242,7 @@ const SellerProducts: React.FC<Props> = (props) => {
                                     style={{
                                       boxShadow: "0 2px 6px #fd9b96",
                                     }}
-                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
-                                  >
+                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center">
                                     <FaTrash />
                                   </span>
                                 </span>
@@ -274,8 +267,9 @@ const SellerProducts: React.FC<Props> = (props) => {
                     <SharedDeleteModal
                       handleDelete={handleDelete}
                       deleteModalSlug={deleteModalSlug}
-                      setDeleteModalSlug={setDeleteModalSlug}
-                    ></SharedDeleteModal>
+                      setDeleteModalSlug={
+                        setDeleteModalSlug
+                      }></SharedDeleteModal>
                     <div className="px-5 py-5 bg-white border-t flex justify-between">
                       <span className="text-xs xs:text-sm text-gray-900">
                         Showing 1 to 4 of 50 Entries

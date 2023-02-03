@@ -30,8 +30,7 @@ const ProductChildCategory: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Product Child Category"
         slug="Product Category"
-        link="/Product Category"
-      ></DashboardBreadcrumb>
+        link="/Product Category"></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <Link className="inline-block" href="product_child_categories/create">
@@ -46,8 +45,7 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                     <select
                       name="dataTable_length"
                       aria-controls="dataTable"
-                      className="custom-select custom-select-sm form-control form-control-sm border border-blue-600 text-gray-500"
-                    >
+                      className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center">
                       <option value="10">10</option>
                       <option value="25">25</option>
                       <option value="50">50</option>
@@ -76,48 +74,42 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                         <thead>
                           <tr className="h-16">
                             <th
-                              className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
+                              className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
                               <span className="flex  space-x-0 space-y-0 opacity-80">
                                 SN
                                 <FaLongArrowAltUp /> <FaLongArrowAltDown />
                               </span>
                             </th>
                             <th
-                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
+                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
                               <span className="flex  space-x-0 space-y-0  opacity-80">
                                 Child Category
                                 <FaLongArrowAltUp /> <FaLongArrowAltDown />
                               </span>
                             </th>
                             <th
-                              className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
+                              className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
                               <span className="flex  space-x-0 space-y-0  opacity-80">
                                 Slug
                                 <FaLongArrowAltUp /> <FaLongArrowAltDown />
                               </span>
                             </th>
                             <th
-                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
+                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
                               <span className="flex  space-x-0 space-y-0  opacity-80">
                                 Sub Category
                                 <FaLongArrowAltUp /> <FaLongArrowAltDown />
                               </span>
                             </th>
                             <th
-                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
+                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
                               <span className="flex  space-x-0 space-y-0  opacity-80">
                                 Category
                                 <FaLongArrowAltUp /> <FaLongArrowAltDown />
                               </span>
                             </th>
                             <th
-                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
+                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
                               <span className="flex  space-x-0 space-y-0  opacity-80">
                                 Status
                                 <FaLongArrowAltUp /> <FaLongArrowAltDown />
@@ -125,8 +117,7 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                             </th>
 
                             <th
-                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase`}
-                            >
+                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase`}>
                               <span className="flex  space-x-0 space-y-0 opacity-80">
                                 Action
                                 <FaLongArrowAltUp /> <FaLongArrowAltDown />
@@ -140,8 +131,7 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                             (childCategoryTableData, index) => (
                               <tr
                                 key={index}
-                                className="even:bg-gray-50 odd:bg-white"
-                              >
+                                className="even:bg-gray-50 odd:bg-white">
                                 <td className="px-3 py-3    text-sm">
                                   <p className="text-gray-900 whitespace-no-wrap">
                                     {index + 1}
@@ -179,15 +169,13 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                                       router.push(
                                         `${asPath}/${childCategoryTableData.id}/edit`
                                       )
-                                    }
-                                  >
+                                    }>
                                     <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                       <span
                                         style={{
                                           boxShadow: "0 2px 6px #acb5f6",
                                         }}
-                                        className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
-                                      >
+                                        className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center">
                                         <FaEdit />
                                       </span>
                                     </span>
@@ -197,14 +185,12 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                                       // onClick={() =>
                                       //   setId(childCategoryTableData.id)
                                       // }
-                                      className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight"
-                                    >
+                                      className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                       <span
                                         style={{
                                           boxShadow: "0 2px 6px #fd9b96",
                                         }}
-                                        className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
-                                      >
+                                        className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center">
                                         <FaTrash />
                                       </span>
                                     </span>
@@ -229,8 +215,7 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                       </table>
                       <SharedDeleteModal
                         showModal={showModal}
-                        setShowModal={setShowModal}
-                      ></SharedDeleteModal>
+                        setShowModal={setShowModal}></SharedDeleteModal>
                       {/* -------------- */}
                       <div className="px-5 py-5  border-t flex justify-end">
                         <div className="inline-flex mt-2 xs:mt-0">
@@ -241,8 +226,7 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                           <a
                             href="#"
                             aria-current="page"
-                            className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
-                          >
+                            className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20">
                             1
                           </a>
                           {/* <a
