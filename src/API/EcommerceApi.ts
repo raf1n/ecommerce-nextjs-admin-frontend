@@ -601,9 +601,9 @@ export class EcommerceApi {
 
   // toggle status button - shared - dynamic
   static async toggleStatusButton(
-    slug: string,
-    url: string,
-    patchStatus: string
+    slug?: string,
+    url?: string,
+    patchStatus?: string
   ): Promise<IResponseBrandDetail> {
     const myHeaders = new Headers();
 

@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { IProducts } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 
-interface Props {}
+interface Props { }
 
 const ProductEdit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
@@ -344,7 +344,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                       defaultChecked={productData?.isTopProduct}
                       onChange={() => setIsCheckedTop(!isCheckedTop)}
                     />{" "}
-                    <label htmlFor="top_product" className="mr-3">
+                    <label htmlFor="top_product" className="mx-3">
                       Top Product
                     </label>
                     <input
@@ -354,7 +354,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                       onChange={() => setIsCheckedNew(!isCheckedNew)}
                       defaultChecked={productData?.isNewArrival}
                     />{" "}
-                    <label htmlFor="new_arrival" className="mr-3">
+                    <label htmlFor="new_arrival" className="mx-3">
                       New Arrival
                     </label>
                     <input
@@ -364,7 +364,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                       onChange={() => setIsCheckedBest(!isCheckedBest)}
                       defaultChecked={productData?.isBestProduct}
                     />{" "}
-                    <label htmlFor="best_product" className="mr-3">
+                    <label htmlFor="best_product" className="mx-3">
                       Best Product
                     </label>
                     <input
@@ -374,7 +374,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                       onChange={() => setIsCheckedPopular(!isCheckedPopular)}
                       defaultChecked={productData?.isPopular}
                     />
-                    <label htmlFor="is_popular" className="mr-3">
+                    <label htmlFor="is_popular" className="mx-3">
                       Popular Product
                     </label>
                     <input
@@ -384,7 +384,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                       onChange={() => setIsCheckedFeatured(!isCheckedFeatured)}
                       defaultChecked={productData?.isFeatured}
                     />{" "}
-                    <label htmlFor="is_featured" className="mr-3">
+                    <label htmlFor="is_featured" className="mx-3">
                       Featured Product
                     </label>
                   </div>

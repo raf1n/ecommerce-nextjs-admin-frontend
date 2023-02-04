@@ -5,7 +5,7 @@ import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcum
 import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 
-interface Props {}
+interface Props { }
 
 const ProductCreate: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
@@ -239,7 +239,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                       id="top_product"
                       onChange={() => setIsCheckedTop(!isCheckedTop)}
                     />
-                    <label htmlFor="top_product" className="mr-3">
+                    <label htmlFor="top_product" className="mx-3">
                       Top Product
                     </label>
                     <input
@@ -248,7 +248,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                       id="new_arrival"
                       onChange={() => setIsCheckedNew(!isCheckedNew)}
                     />
-                    <label htmlFor="new_arrival" className="mr-3">
+                    <label htmlFor="new_arrival" className="mx-3">
                       New Arrival
                     </label>
                     <input
@@ -257,7 +257,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                       id="best_product"
                       onChange={() => setIsCheckedBest(!isCheckedBest)}
                     />
-                    <label htmlFor="best_product" className="mr-3">
+                    <label htmlFor="best_product" className="mx-3">
                       Best Product
                     </label>
                     <input
@@ -266,7 +266,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                       id="is_popular"
                       onChange={() => setIsCheckedPopular(!isCheckedPopular)}
                     />
-                    <label htmlFor="is_popular" className="mr-3">
+                    <label htmlFor="is_popular" className="mx-3">
                       Popular Product
                     </label>
                     <input
@@ -275,7 +275,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                       id="is_featured"
                       onChange={() => setIsCheckedFeatured(!isCheckedFeatured)}
                     />
-                    <label htmlFor="is_featured" className="mr-3">
+                    <label htmlFor="is_featured" className="mx-3">
                       Featured Product
                     </label>
                   </div>
