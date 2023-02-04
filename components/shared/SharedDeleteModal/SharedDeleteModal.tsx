@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../src/state/StateController";
 import { HiOutlineX } from "react-icons/hi";
 
 interface Props {
-  showModal: boolean;
-  setShowModal: any;
+  deleteModalSlug: string;
+  setDeleteModalSlug: Dispatch<SetStateAction<string>>;
+  handleDelete: () => void;
 }
 
 const SharedDeleteModal: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const { setShowModal, showModal } = props;
+  const { deleteModalSlug, setDeleteModalSlug, handleDelete } = props;
+
   return (
     <>
-      {showModal ? (
+      {deleteModalSlug ? (
         <div className="relative">
           <div className="flex justify-center fixed inset-0 z-50 bg-black bg-opacity-10 backdrop-blur-[1px]">
             <div className="bg-white rounded-md mt-10 shadow h-fit min-w-fit md:w-1/3">
@@ -22,7 +24,7 @@ const SharedDeleteModal: React.FC<Props> = (props) => {
                   <h1 className="text-xl  font-bold text-slate-500">
                     Item Delete Confirmation
                   </h1>
-                  <button onClick={() => setShowModal(false)}>
+                  <button onClick={() => setDeleteModalSlug("")}>
                     <HiOutlineX className="w-6 h-6 text-gray-500"></HiOutlineX>
                   </button>
                 </div>
@@ -33,22 +35,21 @@ const SharedDeleteModal: React.FC<Props> = (props) => {
                         className=" tracking-[.5px]  mt-4	text-sm"
                         htmlFor=""
                       >
-                        Are you sure you want to Delete?
+                        Are you sure you want to Delete - {deleteModalSlug}?
                       </label>
-                      {/* <span className='text-red-500 ml-2'>*</span> */}
                     </div>
                   </div>
                 </div>
               </div>
               <div className="flex justify-end gap-2 px-3 py-4 bg-gray-50 rounded">
                 <button
-                  onClick={() => setShowModal(false)}
+                  onClick={() => setDeleteModalSlug("")}
                   className="bg-red-600 hover:bg-red-500 text-white text-sm py-2 px-4 rounded shadow-[0_2px_6px_#fd9b96]"
                 >
                   Close
                 </button>
                 <button
-                  onClick={() => setShowModal(false)}
+                  onClick={() => handleDelete()}
                   className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded shadow-[0_2px_6px_#acb5f6]"
                 >
                   Yes, Delete

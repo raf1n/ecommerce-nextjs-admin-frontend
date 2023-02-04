@@ -1,38 +1,50 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import Styles from "./ToggleButton.module.css";
+import { IResponseBrandDetail } from "./../../../../../../interfaces/response";
 interface Props {
-  status: string;
+  status?: string | undefined;
+  slug?: string | undefined;
+  apiUrl?: string | undefined;
 }
 
-const ToggleButton: React.FC<Props> = ({ status }) => {
+const ToggleButton: React.FC<Props> = ({ status, slug, apiUrl }) => {
   const states = useSelector(() => controller.states);
 
   const [toggleStatus, setToggleStatus] = useState(status);
 
-  const handleClick = () => {
+  const handleClick = async () => {
+    let patchStatus;
+
     if (toggleStatus === "active") {
-      setToggleStatus("inactive");
+      patchStatus = "inactive";
     } else {
-      setToggleStatus("active");
+      patchStatus = "active";
+    }
+
+    const { res, err } = await EcommerceApi.toggleStatusButton(
+      slug,
+      apiUrl,
+      patchStatus
+    );
+
+    if (res) {
+      setToggleStatus(res?.status);
     }
   };
 
   return (
     <div
-      className={`w-[80px] overflow-hidden border h-8 relative rounded cursor-pointer ${
-        toggleStatus === "active"
+      className={`w-[80px] overflow-hidden border h-8 relative rounded cursor-pointer ${toggleStatus === "active"
           ? Styles["shadow-active"]
           : Styles["shadow-inactive"]
-      }`}
-    >
+        }`}>
       <div
         onClick={() => handleClick()}
-        className={`grid grid-cols-[65px,15px,65px] relative transition-all delay-100 duration-200 ease-in ${
-          toggleStatus === "active" ? "left-[0px]" : "left-[-65px]"
-        }`}
-      >
+        className={`grid grid-cols-[65px,15px,65px] relative transition-all delay-100 duration-200 ease-in ${toggleStatus === "active" ? "left-[0px]" : "left-[-65px]"
+          }`}>
         <span className="bg-green-500 text-xs text-white grid place-items-center">
           Active
         </span>
