@@ -51,6 +51,7 @@ const ProductCreate: React.FC<Props> = (props) => {
         addedBy: "admin",
       };
       EcommerceApi.addProducts(productData);
+      e.target.reset();
     }
   };
   return (

@@ -9,9 +9,7 @@ import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 import { Jsondata } from "../../../../../../src/utils/Jsondata";
 import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
-
 import ToggleButton from "../ToggleButton/ToggleButton";
-
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 import Link from "next/link";
@@ -30,8 +28,7 @@ const ProductChildCategory: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Product Child Category"
         slug="Product Category"
-        link="/Product Category"
-      ></DashboardBreadcrumb>
+        link="/Product Category"></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <Link className="inline-block" href="product_child_categories/create">
@@ -46,8 +43,7 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                     <select
                       name="dataTable_length"
                       aria-controls="dataTable"
-                      className="custom-select custom-select-sm form-control form-control-sm border border-blue-600 text-gray-500"
-                    >
+                      className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center">
                       <option value="10">10</option>
                       <option value="25">25</option>
                       <option value="50">50</option>
@@ -59,9 +55,9 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                     <label htmlFor="" className="text-xs text-gray-500">
                       Search
                     </label>
-                    <div className="flex bg-gray-50 items-center ml-3 p-1 rounded">
+                    <div className={`flex items-center ml-3   `}>
                       <input
-                        className="bg-gray-50 outline-none   "
+                        className={` rounded outline-none  border hover:border-blue-400 h-[31px] w-[181px] py-[2px] px-[6px]`}
                         type="text"
                         name=""
                         id=""
@@ -76,48 +72,42 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                         <thead>
                           <tr className="h-16">
                             <th
-                              className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
+                              className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
                               <span className="flex  space-x-0 space-y-0 opacity-80">
                                 SN
                                 <FaLongArrowAltUp /> <FaLongArrowAltDown />
                               </span>
                             </th>
                             <th
-                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
+                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
                               <span className="flex  space-x-0 space-y-0  opacity-80">
                                 Child Category
                                 <FaLongArrowAltUp /> <FaLongArrowAltDown />
                               </span>
                             </th>
                             <th
-                              className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
+                              className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
                               <span className="flex  space-x-0 space-y-0  opacity-80">
                                 Slug
                                 <FaLongArrowAltUp /> <FaLongArrowAltDown />
                               </span>
                             </th>
                             <th
-                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
+                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
                               <span className="flex  space-x-0 space-y-0  opacity-80">
                                 Sub Category
                                 <FaLongArrowAltUp /> <FaLongArrowAltDown />
                               </span>
                             </th>
                             <th
-                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
+                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
                               <span className="flex  space-x-0 space-y-0  opacity-80">
                                 Category
                                 <FaLongArrowAltUp /> <FaLongArrowAltDown />
                               </span>
                             </th>
                             <th
-                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
+                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
                               <span className="flex  space-x-0 space-y-0  opacity-80">
                                 Status
                                 <FaLongArrowAltUp /> <FaLongArrowAltDown />
@@ -125,8 +115,7 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                             </th>
 
                             <th
-                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase`}
-                            >
+                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase`}>
                               <span className="flex  space-x-0 space-y-0 opacity-80">
                                 Action
                                 <FaLongArrowAltUp /> <FaLongArrowAltDown />
@@ -140,8 +129,7 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                             (childCategoryTableData, index) => (
                               <tr
                                 key={index}
-                                className="even:bg-gray-50 odd:bg-white"
-                              >
+                                className="even:bg-gray-50 odd:bg-white">
                                 <td className="px-3 py-3    text-sm">
                                   <p className="text-gray-900 whitespace-no-wrap">
                                     {index + 1}
@@ -179,15 +167,13 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                                       router.push(
                                         `${asPath}/${childCategoryTableData.id}/edit`
                                       )
-                                    }
-                                  >
+                                    }>
                                     <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                       <span
                                         style={{
                                           boxShadow: "0 2px 6px #acb5f6",
                                         }}
-                                        className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
-                                      >
+                                        className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center">
                                         <FaEdit />
                                       </span>
                                     </span>
@@ -197,30 +183,17 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                                       // onClick={() =>
                                       //   setId(childCategoryTableData.id)
                                       // }
-                                      className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight"
-                                    >
+                                      className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                       <span
                                         style={{
                                           boxShadow: "0 2px 6px #fd9b96",
                                         }}
-                                        className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
-                                      >
+                                        className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center">
                                         <FaTrash />
                                       </span>
                                     </span>
                                   </button>
-                                  <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                    {/* <button>
-                                      <span
-                                        style={{
-                                          boxShadow: "0 2px 6px #ffc473",
-                                        }}
-                                        className="h-8 w-8  inset-0 bg-orange-400   rounded  relative text-white flex justify-center items-center"
-                                      >
-                                        <FaTruck />
-                                      </span>
-                                    </button> */}
-                                  </span>
+                                  <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight"></span>
                                 </td>
                               </tr>
                             )
@@ -229,53 +202,36 @@ const ProductChildCategory: React.FC<Props> = (props) => {
                       </table>
                       <SharedDeleteModal
                         showModal={showModal}
-                        setShowModal={setShowModal}
-                      ></SharedDeleteModal>
+                        setShowModal={setShowModal}></SharedDeleteModal>
                       {/* -------------- */}
-                      <div className="px-5 py-5  border-t flex justify-end">
-                        <div className="inline-flex mt-2 xs:mt-0">
-                          <button className="text-sm text-indigo-500 transition duration-150   font-semibold py-2 px-4 rounded-l">
+                      <div className="px-5 py-5  border-t flex justify-between">
+                        <div>
+                          <span className="text-xs xs:text-sm text-gray-900">
+                            Showing 1 to 10 of 50 Entries
+                          </span>
+                        </div>
+                        <div className="inline-flex  xs:mt-0">
+                          <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-l">
                             Prev
                           </button>
                           &nbsp; &nbsp;
                           <a
                             href="#"
                             aria-current="page"
-                            className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
-                          >
+                            className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white ">
                             1
                           </a>
-                          {/* <a
+                          <a
                             href="#"
-                            className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20"
-                          >
+                            className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20">
                             2
                           </a>
                           <a
                             href="#"
-                            className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex"
-                          >
+                            className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20 md:inline-flex">
                             3
                           </a>
-                          <a
-                            href="#"
-                            className="relative hidden items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex"
-                          >
-                            4
-                          </a>
-                          <a
-                            href="#"
-                            className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20"
-                          >
-                            5
-                          </a>
-                          <a
-                            href="#"
-                            className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20"
-                          >
-                            6
-                          </a> */}
-                          <button className="ml-3 text-sm text-indigo-500 transition duration-150  font-semibold py-2 px-4 rounded-r">
+                          <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-r">
                             Next
                           </button>
                         </div>

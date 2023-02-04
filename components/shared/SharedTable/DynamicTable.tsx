@@ -12,7 +12,6 @@ import {
 import ToggleButton from "../../pages/AdminPage/Dashboard/ManageCategories/ToggleButton/ToggleButton";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import Styles from "./Table.module.css";
 
 interface Props {
   apiUrl: string;
@@ -56,45 +55,6 @@ const DynamicTable: React.FC<Props> = (props) => {
   return (
     <div>
       <div className="bg-white p-4 rounded-md w-full">
-        {/* <div className=" flex items-center justify-between pb-6">
-          <div>
-            <span className="text-xs px-1">Show </span>
-            <select
-              name="dataTable_length"
-              aria-controls="dataTable"
-              className="custom-select custom-select-sm form-control form-control-sm"
-            >
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-            <span className="text-xs  px-1">Entries</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex bg-gray-50 items-center p-2 rounded-md">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-gray-400"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <input
-                className="bg-gray-50 outline-none ml-1 block "
-                type="text"
-                name=""
-                id=""
-                placeholder="search..."
-              />
-            </div>
-          </div>
-        </div> */}
         <div className="flex items-center justify-between pb-6">
           <div>
             <span className="text-xs text-gray-500 px-1">Show </span>
@@ -109,19 +69,16 @@ const DynamicTable: React.FC<Props> = (props) => {
             </select>
             <span className="text-xs text-gray-500  px-1">Entries</span>
           </div>
+
           <div className="flex items-center justify-between">
             <label htmlFor="" className="text-xs text-gray-500">
               Search
             </label>
-            <div
-              className={`${Styles[" "]}  flex bg-gray-50 items-center ml-3 rounded h-[34px]  `}>
+            <div className={`flex items-center ml-3   `}>
               <input
-                className={`${Styles["form-control-sm"]} bg-gray-50 outline-none  border border-blue-200 `}
-                onChange={(e) => {
-                  console.log(e.target.value);
-                  setSearchString(e.target.value);
-                }}
-                type="search"
+                onChange={(e) => setSearchString(e.target.value)}
+                className={` rounded outline-none  border hover:border-blue-400 h-[31px] w-[181px] py-[2px] px-[6px]`}
+                type="text"
                 name=""
                 id=""
               />
@@ -333,8 +290,8 @@ const DynamicTable: React.FC<Props> = (props) => {
                 showModal={showModal}
                 setShowModal={setShowModal}
               ></SharedDeleteModal> */}
-              {/* -------------- */}
-              <div className="px-5 py-5 bg-white border-t flex justify-between">
+              {/* -----  --------- */}
+              {/* <div className="px-5 py-5 bg-white border-t flex justify-between">
                 <span className="text-xs xs:text-sm text-gray-900">
                   Showing 1 to 4 of 50 Entries
                 </span>
@@ -347,7 +304,41 @@ const DynamicTable: React.FC<Props> = (props) => {
                     Next
                   </button>
                 </div>
+              </div> */}
+              {/* ------------ */}
+              <div className="px-5 py-5  border-t flex justify-between">
+                <div>
+                  <span className="text-xs xs:text-sm text-gray-900">
+                    Showing 1 to 10 of 50 Entries
+                  </span>
+                </div>
+                <div className="inline-flex  xs:mt-0">
+                  <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-l">
+                    Prev
+                  </button>
+                  &nbsp; &nbsp;
+                  <a
+                    href="#"
+                    aria-current="page"
+                    className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white ">
+                    1
+                  </a>
+                  <a
+                    href="#"
+                    className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20">
+                    2
+                  </a>
+                  <a
+                    href="#"
+                    className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20 md:inline-flex">
+                    3
+                  </a>
+                  <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-r">
+                    Next
+                  </button>
+                </div>
               </div>
+
               {/* ----------------- */}
             </div>
           </div>
