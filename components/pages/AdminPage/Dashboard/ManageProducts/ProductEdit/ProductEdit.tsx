@@ -88,14 +88,12 @@ const ProductEdit: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Edit Product"
         link="/product_brands/edit"
-        slug="Edit Product"
-      ></DashboardBreadcrumb>
+        slug="Edit Product"></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Products"
-            link="/products"
-          ></SharedGoBackButton>
+            link="/products"></SharedGoBackButton>
         </div>
       </div>
       <div className="px-[25px] w-full relative">
@@ -165,30 +163,25 @@ const ProductEdit: React.FC<Props> = (props) => {
                   <select
                     name="category"
                     id="category"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                  >
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
                     <option
                       selected={productData.catSlug === "electronics_slug"}
-                      value="electronics_slug"
-                    >
+                      value="electronics_slug">
                       Electronics
                     </option>
                     <option
                       selected={productData.catSlug === "game_slug"}
-                      value="game_slug"
-                    >
+                      value="game_slug">
                       Game
                     </option>
                     <option
                       selected={productData.catSlug === "mobile_slug"}
-                      value="game_slug"
-                    >
+                      value="game_slug">
                       Mobile
                     </option>
                     <option
                       selected={productData.catSlug === "television_slug"}
-                      value="television_slug"
-                    >
+                      value="television_slug">
                       Television
                     </option>
                   </select>
@@ -201,30 +194,25 @@ const ProductEdit: React.FC<Props> = (props) => {
                   <select
                     name="sub_category"
                     id="sub_category"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                  >
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
                     <option
                       selected={productData.subCatSlug === "electronics_slug"}
-                      value="electronics_slug"
-                    >
+                      value="electronics_slug">
                       Electronics
                     </option>
                     <option
                       selected={productData.subCatSlug === "game_slug"}
-                      value="game_slug"
-                    >
+                      value="game_slug">
                       Game
                     </option>
                     <option
                       selected={productData.subCatSlug === "mobile_slug"}
-                      value="game_slug"
-                    >
+                      value="game_slug">
                       Mobile
                     </option>
                     <option
                       selected={productData.subCatSlug === "television_slug"}
-                      value="television_slug"
-                    >
+                      value="television_slug">
                       Television
                     </option>
                   </select>
@@ -237,30 +225,25 @@ const ProductEdit: React.FC<Props> = (props) => {
                   <select
                     name="brand"
                     id="brand"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                  >
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
                     <option
                       selected={productData.brandSlug === "electronics_slug"}
-                      value="electronics_slug"
-                    >
+                      value="electronics_slug">
                       Electronics
                     </option>
                     <option
                       selected={productData.brandSlug === "game_slug"}
-                      value="game_slug"
-                    >
+                      value="game_slug">
                       Game
                     </option>
                     <option
                       selected={productData.brandSlug === "mobile_slug"}
-                      value="game_slug"
-                    >
+                      value="game_slug">
                       Mobile
                     </option>
                     <option
                       selected={productData.brandSlug === "television_slug"}
-                      value="television_slug"
-                    >
+                      value="television_slug">
                       Television
                     </option>
                   </select>
@@ -415,18 +398,15 @@ const ProductEdit: React.FC<Props> = (props) => {
                     className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="productStatus"
                     id=""
-                    required
-                  >
+                    required>
                     <option
                       selected={productData.status === "active"}
-                      value="active"
-                    >
+                      value="active">
                       Active
                     </option>
                     <option
                       selected={productData.status === "inactive"}
-                      value="inactive"
-                    >
+                      value="inactive">
                       InActive
                     </option>
                   </select>
