@@ -32,8 +32,7 @@ const ProductReport: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Product Report"
         slug="Product Report"
-        link="/product_report"
-      ></DashboardBreadcrumb>
+        link="/product_report"></DashboardBreadcrumb>
       <div className="mx-[25px]">
         <div className="section-body">
           {/* <Link className="inline-block" href="/products/create">
