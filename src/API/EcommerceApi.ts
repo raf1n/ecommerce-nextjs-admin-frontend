@@ -563,6 +563,17 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/brands?${query}`, requestOptions);
   }
+  static async getAllBrands(): Promise<IResponseAllBrands> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/brands/allbrands`, requestOptions);
+  }
 
   // create new brand from manage products brands
   static async addNewBrand(

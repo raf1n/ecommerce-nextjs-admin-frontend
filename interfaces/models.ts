@@ -19,6 +19,7 @@ export interface ISubCategories {
   subcat_name: string;
   subcat_status: string;
   cat_name: string;
+  cat_slug: string;
 }
 export interface IPopularCategories {
   slug: string;
@@ -59,7 +60,7 @@ export interface IBrand {
   status: string;
   cat_slug: string[];
   sub_cat_slug: string[];
-};
+}
 
 export interface IBrandDetail {
   name?: string;
