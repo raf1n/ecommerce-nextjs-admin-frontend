@@ -76,7 +76,7 @@ const Categories: React.FC<Props> = (props) => {
     sn: "sn",
     name: "cat_name",
     image: "cat_image",
-    icon: "cat_icon",
+    // icon: "cat_icon",
     // type: "type",
     status: "cat_status",
     action: "action",
@@ -194,16 +194,17 @@ const Categories: React.FC<Props> = (props) => {
                                 className=""
                               ></img>
                             </td>
-                            <td className="px-0 py-3 text-sm ">
+                            {/* <categoryTableData.cat_icon /> */}
+                            {/* <td className="px-0 py-3 text-sm ">
                               <p className="text-gray-900 whitespace-wrap pl-5 ">
-                                {/* <categoryTableData.cat_icon /> */}
+                                
                                 <img
                                   width="150px"
                                   src={categoryTableData?.cat_icon}
                                   className=""
                                 ></img>
                               </p>
-                            </td>
+                            </td> */}
                             <td className="px-3 py-3 text-sm">
                               <CatToggleButton
                                 // apiUrl="categories"

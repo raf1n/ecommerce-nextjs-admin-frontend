@@ -31,7 +31,7 @@ const CreateCategories: React.FC<Props> = (props) => {
         // cat_image: e.target.image.value,
 
         cat_image: imageUrl,
-        cat_icon: e.target.icon.value,
+        // cat_icon: e.target.icon.value,
         cat_name: e.target.name.value,
         // cat_slug: e.target.slug.value,
         cat_status: e.target.status.value,
@@ -109,7 +109,7 @@ const CreateCategories: React.FC<Props> = (props) => {
                     />
                   </div>
 
-                  <div className="mt-4">
+                  {/* <div className="mt-4">
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4 text-sm"
@@ -125,7 +125,7 @@ const CreateCategories: React.FC<Props> = (props) => {
                       name="icon"
                       id=""
                     />
-                  </div>
+                  </div> */}
                   <div className="mt-4">
                     <div className="my-2">
                       <label
