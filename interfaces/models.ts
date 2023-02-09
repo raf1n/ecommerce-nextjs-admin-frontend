@@ -57,14 +57,10 @@ export interface IBrand {
   logo: string;
   name: string;
   status: string;
-  cat_slug: string[];
-  sub_cat_slug: string[];
 };
 
 export interface IBrandDetail {
   name?: string;
-  cat_slug?: Array<string>;
-  sub_cat_slug?: Array<string>;
   logo?: string;
   status: string;
   slug?: string;
