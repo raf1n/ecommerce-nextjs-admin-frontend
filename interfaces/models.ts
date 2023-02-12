@@ -78,8 +78,6 @@ export interface IBrand {
 
 export interface IBrandDetail {
   name?: string;
-  cat_slug?: Array<string>;
-  sub_cat_slug?: Array<string>;
   logo?: string;
   status: string;
   slug?: string;
