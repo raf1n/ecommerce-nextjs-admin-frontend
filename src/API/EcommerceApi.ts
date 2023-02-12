@@ -560,6 +560,17 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/brands?${query}`, requestOptions);
   }
+  static async getAllBrands(): Promise<IResponseAllBrands> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/brands/allbrands`, requestOptions);
+  }
 
   // create new brand from manage products brands
   static async addNewBrand(
@@ -598,9 +609,9 @@ export class EcommerceApi {
 
   // toggle status button - shared - dynamic
   static async toggleStatusButton(
-    slug: string,
-    url: string,
-    patchStatus: string
+    slug?: string,
+    url?: string,
+    patchStatus?: string
   ): Promise<IResponseBrandDetail> {
     const myHeaders = new Headers();
 

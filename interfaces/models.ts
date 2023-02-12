@@ -33,6 +33,7 @@ export interface ISubCategories {
   subcat_name: string;
   subcat_status: string;
   cat_name: string;
+  cat_slug: string;
 }
 export interface IPopularCategories {
   slug: string;

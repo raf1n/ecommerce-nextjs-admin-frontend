@@ -5,9 +5,9 @@ import { controller } from "../../../../../../src/state/StateController";
 import Styles from "./ToggleButton.module.css";
 import { IResponseBrandDetail } from "./../../../../../../interfaces/response";
 interface Props {
-  status: string;
-  slug: string;
-  apiUrl: string;
+  status?: string | undefined;
+  slug?: string | undefined;
+  apiUrl?: string | undefined;
 }
 
 const ToggleButton: React.FC<Props> = ({ status, slug, apiUrl }) => {
@@ -37,16 +37,14 @@ const ToggleButton: React.FC<Props> = ({ status, slug, apiUrl }) => {
 
   return (
     <div
-      className={`w-[80px] overflow-hidden border h-8 relative rounded cursor-pointer ${
-        toggleStatus === "active"
+      className={`w-[80px] overflow-hidden border h-8 relative rounded cursor-pointer ${toggleStatus === "active"
           ? Styles["shadow-active"]
           : Styles["shadow-inactive"]
-      }`}>
+        }`}>
       <div
         onClick={() => handleClick()}
-        className={`grid grid-cols-[65px,15px,65px] relative transition-all delay-100 duration-200 ease-in ${
-          toggleStatus === "active" ? "left-[0px]" : "left-[-65px]"
-        }`}>
+        className={`grid grid-cols-[65px,15px,65px] relative transition-all delay-100 duration-200 ease-in ${toggleStatus === "active" ? "left-[0px]" : "left-[-65px]"
+          }`}>
         <span className="bg-green-500 text-xs text-white grid place-items-center">
           Active
         </span>
