@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "./../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import {
+  IBrand,
+  IBrandDetail,
+  ICategories,
+  ISubCategories,
+} from "../../../../../../interfaces/models";
 
-interface Props { }
+interface Props {}
 
 const ProductCreate: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
@@ -14,7 +20,31 @@ const ProductCreate: React.FC<Props> = (props) => {
   const [isCheckedBest, setIsCheckedBest] = useState(false);
   const [isCheckedFeatured, setIsCheckedFeatured] = useState(false);
   const [isCheckedPopular, setIsCheckedPopular] = useState(false);
+  const [categories, setCategories] = useState<ICategories[]>([]);
+  const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
+  const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
+  const [brands, setBrands] = useState<IBrandDetail[]>([]);
+
   // const [imageLink, setImageLink] = useState("");
+
+  useEffect(() => {
+    const fetchAllCategoriesSubCatBrand = async () => {
+      const allCat = await EcommerceApi.allCategories();
+      if (allCat.res) {
+        setCategories(allCat.res);
+      }
+      const allSubCat = await EcommerceApi.allSubCategories();
+      if (allSubCat.res) {
+        setSubCategories(allSubCat.res);
+      }
+      const brand = await EcommerceApi.getAllBrands();
+      if (brand.res) {
+        setBrands(brand.res);
+      }
+    };
+    fetchAllCategoriesSubCatBrand();
+  }, []);
+
   const handleProductAdd = async (e: any) => {
     e.preventDefault();
     // console.log(productData);
@@ -54,6 +84,7 @@ const ProductCreate: React.FC<Props> = (props) => {
       e.target.reset();
     }
   };
+
   return (
     <div className="w-full ">
       <DashboardBreadcrumb
@@ -118,15 +149,26 @@ const ProductCreate: React.FC<Props> = (props) => {
                     Category <span className="text-red-500">*</span>
                   </label>
                   <select
+                    onChange={(e) => {
+                      const filteredSubCat = subCategories?.filter(
+                        (subcat) => subcat?.cat_slug === e.target.value
+                      );
+                      console.log(filteredSubCat);
+                      setFilteredSubCat(filteredSubCat);
+                    }}
                     required
                     name="category"
                     id="category"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                   >
-                    <option value="electronics_slug">Electronics</option>
-                    <option value="game_slug">Game</option>
-                    <option value="mobile_slug">Mobile</option>
-                    <option value="television_slug">Television</option>
+                    <option value="">Select Category</option>
+                    {categories.map((cat: ICategories, indx) => (
+                      <>
+                        <option key={indx} value={cat.cat_slug}>
+                          {cat.cat_name}
+                        </option>
+                      </>
+                    ))}
                   </select>
                 </div>
 
@@ -139,10 +181,14 @@ const ProductCreate: React.FC<Props> = (props) => {
                     id="sub_category"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                   >
-                    <option value="electronics_slug">Electronics</option>
-                    <option value="game_slug">Game</option>
-                    <option value="mobile_slug">Mobile</option>
-                    <option value="television_slug">Television</option>
+                    <option value="">Select Sub Category</option>
+                    {filteredSubCat.map((subCat, indx) => (
+                      <>
+                        <option key={indx} value={subCat.slug}>
+                          {subCat.subcat_name}
+                        </option>
+                      </>
+                    ))}
                   </select>
                 </div>
 
@@ -155,10 +201,9 @@ const ProductCreate: React.FC<Props> = (props) => {
                     id="brand"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                   >
-                    <option value="electronics_slug">Electronics</option>
-                    <option value="game_slug">Game</option>
-                    <option value="mobile_slug">Mobile</option>
-                    <option value="television_slug">Television</option>
+                    {brands.map((brand) => (
+                      <option value={brand.slug}>{brand.name}</option>
+                    ))}
                   </select>
                 </div>
                 <div className="form-group col-12 flex flex-col mb-[25px]">
