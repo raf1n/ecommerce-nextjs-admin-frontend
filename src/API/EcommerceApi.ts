@@ -4,9 +4,11 @@ import {
   ICategories,
   IPopularCategories,
   ISubCategories,
+  IUser,
 } from "../../interfaces/models";
 import {
   IResponseAllBrands,
+  ILoginResponse,
   IProductResponse,
   IResponseBrandDetail,
   ISingleProductResponse,
@@ -377,26 +379,21 @@ export class EcommerceApi {
   }
 
   //DEMO API CALLING STRUCTURE
-  // static async login(token: string, email: string, fullName: string, avatar: string, tokenType: "google" | "facebook"): Promise<ILoginResponse> {
-  //     console.log(token);
-  //     console.log(API_ENDPOINT)
-  //     const myHeaders = new Headers();
-  //     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-  //     const urlencoded = new URLSearchParams();
-  //     urlencoded.append("token", token);
-  //     urlencoded.append("tokenType", tokenType);
-  //     urlencoded.append("email", email);
-  //     urlencoded.append("fullName", fullName);
-  //     urlencoded.append("avatar", avatar);
-  //     const requestOptions = {
-  //         method: 'POST',
-  //         headers: myHeaders,
-  //         body: urlencoded,
-  //         redirect: 'follow'
-  //     };
+  static async login(data: Partial<IUser>): Promise<ILoginResponse> {
+    console.log(data.token);
+    console.log(API_ENDPOINT)
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
-  //     return await callFetch(`${API_ENDPOINT}/users/login`, requestOptions)
-  // }
+    const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+        redirect: 'follow'
+    };
+
+    return await callFetch(`${API_ENDPOINT}/users/login`, requestOptions)
+}
   // test
   static async allProducts(): Promise<IProductResponse> {
     console.log(API_ENDPOINT);
@@ -562,6 +559,17 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/brands?${query}`, requestOptions);
+  }
+  static async getAllBrands(): Promise<IResponseAllBrands> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/brands/allbrands`, requestOptions);
   }
 
   // create new brand from manage products brands

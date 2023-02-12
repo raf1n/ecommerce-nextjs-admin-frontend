@@ -51,8 +51,6 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
       logo: imageUrl,
       name: e.target.name.value,
       slug: e.target.slug.value,
-      cat_slug: [e.target.categories.value],
-      sub_cat_slug: [e.target.sub_categories.value],
       status: e.target.status.value,
     };
 
@@ -157,60 +155,6 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                       defaultValue={brandData?.slug}
                       id=""
                     />
-                  </div>
-
-                  {/* brand categories */}
-                  <div className="mt-4">
-                    <div className="my-2">
-                      <label
-                        className="text-[#34395e] tracking-[.5px] font-semibold mt-4 text-sm"
-                        htmlFor=""
-                      >
-                        Brand Categories
-                      </label>
-                    </div>
-                    {brandData?.cat_slug && (
-                      <select
-                        className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                        name="categories"
-                        id=""
-                        defaultValue={brandData?.cat_slug[0]}
-                        // required
-                      >
-                        <option value="Electronics_slug">Electronics</option>
-                        <option value="lifestyle_slug">Lifestyle</option>
-                        <option value="accessories_slug">Accessories</option>
-                        <option value="mens_clothes_slug">Men's clothes</option>
-                        <option value="womens_clothes_slug">
-                          Women's clothes
-                        </option>
-                      </select>
-                    )}
-                  </div>
-
-                  {/* brand sub-categories */}
-                  <div className="mt-4">
-                    <div className="my-2">
-                      <label
-                        className="text-[#34395e] tracking-[.5px] font-semibold mt-4 text-sm"
-                        htmlFor=""
-                      >
-                        Brand Sub-Categories
-                      </label>
-                    </div>
-                    {brandData?.sub_cat_slug && (
-                      <select
-                        className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                        name="sub_categories"
-                        id=""
-                        defaultValue={brandData?.sub_cat_slug[0]}
-                        // required
-                      >
-                        <option value="mobiles_slug">Mobiles</option>
-                        <option value="monitor_slug">Monitor</option>
-                        <option value="headphone_slug">Headphone</option>
-                      </select>
-                    )}
                   </div>
 
                   {/* Brand status */}
