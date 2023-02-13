@@ -4,16 +4,25 @@ import { controller } from "./../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import { useRouter } from "next/router";
-import { IProducts } from "../../../../../../interfaces/models";
+import {
+  IBrandDetail,
+  ICategories,
+  IProducts,
+  ISubCategories,
+} from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 
-interface Props { }
+interface Props {}
 
 const ProductEdit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [productData, setProductData] = useState<IProducts>({});
   const [isCheckedTop, setIsCheckedTop] = useState(productData?.isTopProduct);
   const [isCheckedNew, setIsCheckedNew] = useState(productData?.isNewArrival);
+  const [categories, setCategories] = useState<ICategories[]>([]);
+  const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
+  const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
+  const [brands, setBrands] = useState<IBrandDetail[]>([]);
   const [isCheckedBest, setIsCheckedBest] = useState(
     productData?.isBestProduct
   );
@@ -29,12 +38,6 @@ const ProductEdit: React.FC<Props> = (props) => {
   useEffect(() => {
     const getSingleProduct = async () => {
       if (productSlug !== "[id]") {
-        // fetch(`http://localhost:8000/products/${productSlug}`)
-        //   .then((res) => res.json())
-        //   .then((data) => {
-        //     console.log(data);
-        //     setProductData(data);
-        //   });
         const { res, err } = await EcommerceApi.getSingleProduct(productSlug);
         if (res) {
           setProductData(res);
@@ -43,8 +46,29 @@ const ProductEdit: React.FC<Props> = (props) => {
         }
       }
     };
+
     getSingleProduct();
   }, [productSlug]);
+
+  useEffect(() => {
+    const fetchAllCategoriesSubCatBrand = async () => {
+      const allCat = await EcommerceApi.allCategories();
+      if (allCat.res) {
+        setCategories(allCat.res);
+      }
+      const allSubCat = await EcommerceApi.allSubCategories();
+      if (allSubCat.res) {
+        setSubCategories(allSubCat.res);
+      }
+      const brand = await EcommerceApi.getAllBrands();
+      if (brand.res) {
+        setBrands(brand.res);
+      }
+    };
+
+    fetchAllCategoriesSubCatBrand();
+  }, []);
+
   const handleProductUpdate = async (e: any) => {
     e.preventDefault();
 
@@ -88,14 +112,12 @@ const ProductEdit: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Edit Product"
         link="/product_brands/edit"
-        slug="Edit Product"
-      ></DashboardBreadcrumb>
+        slug="Edit Product"></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Products"
-            link="/products"
-          ></SharedGoBackButton>
+            link="/products"></SharedGoBackButton>
         </div>
       </div>
       <div className="px-[25px] w-full relative">
@@ -163,34 +185,28 @@ const ProductEdit: React.FC<Props> = (props) => {
                     Category <span className="text-red-500">*</span>
                   </label>
                   <select
+                    onChange={(e) => {
+                      const filteredSubCat = subCategories?.filter(
+                        (subcat) => subcat?.cat_slug === e.target.value
+                      );
+                      console.log(filteredSubCat);
+                      setFilteredSubCat(filteredSubCat);
+                    }}
                     name="category"
                     id="category"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                   >
-                    <option
-                      selected={productData.catSlug === "electronics_slug"}
-                      value="electronics_slug"
-                    >
-                      Electronics
-                    </option>
-                    <option
-                      selected={productData.catSlug === "game_slug"}
-                      value="game_slug"
-                    >
-                      Game
-                    </option>
-                    <option
-                      selected={productData.catSlug === "mobile_slug"}
-                      value="game_slug"
-                    >
-                      Mobile
-                    </option>
-                    <option
-                      selected={productData.catSlug === "television_slug"}
-                      value="television_slug"
-                    >
-                      Television
-                    </option>
+                    {categories.map((cat: ICategories, indx) => (
+                      <>
+                        <option
+                          selected={productData.catSlug === cat.cat_slug}
+                          key={indx}
+                          value={cat.cat_slug}
+                        >
+                          {cat.cat_name}
+                        </option>
+                      </>
+                    ))}
                   </select>
                 </div>
 
@@ -203,30 +219,38 @@ const ProductEdit: React.FC<Props> = (props) => {
                     id="sub_category"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                   >
-                    <option
-                      selected={productData.subCatSlug === "electronics_slug"}
-                      value="electronics_slug"
-                    >
-                      Electronics
-                    </option>
-                    <option
-                      selected={productData.subCatSlug === "game_slug"}
-                      value="game_slug"
-                    >
-                      Game
-                    </option>
-                    <option
-                      selected={productData.subCatSlug === "mobile_slug"}
-                      value="game_slug"
-                    >
-                      Mobile
-                    </option>
-                    <option
-                      selected={productData.subCatSlug === "television_slug"}
-                      value="television_slug"
-                    >
-                      Television
-                    </option>
+                    {
+                      filteredSubCat.length === 0
+                        ? subCategories.map((subCat, indx) => (
+                            <option
+                              selected={
+                                productData?.subCatSlug === subCat?.slug
+                              }
+                              key={indx}
+                              value={subCat.slug}
+                            >
+                              {subCat.subcat_name}
+                            </option>
+                          ))
+                        : filteredSubCat.map((subCat, indx) => (
+                            <option
+                              selected={productData.subCatSlug === subCat.slug}
+                              key={indx}
+                              value={subCat.slug}
+                            >
+                              {subCat.subcat_name}
+                            </option>
+                          ))
+                      // filteredSubCat.map((subCat, indx) => (
+                      //   <option
+                      //     selected={productData.subCatSlug === subCat.slug}
+                      //     key={indx}
+                      //     value={subCat.slug}
+                      //   >
+                      //     {subCat.subcat_name}
+                      //   </option>
+                      // ))}
+                    }
                   </select>
                 </div>
 
@@ -239,30 +263,15 @@ const ProductEdit: React.FC<Props> = (props) => {
                     id="brand"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                   >
-                    <option
-                      selected={productData.brandSlug === "electronics_slug"}
-                      value="electronics_slug"
-                    >
-                      Electronics
-                    </option>
-                    <option
-                      selected={productData.brandSlug === "game_slug"}
-                      value="game_slug"
-                    >
-                      Game
-                    </option>
-                    <option
-                      selected={productData.brandSlug === "mobile_slug"}
-                      value="game_slug"
-                    >
-                      Mobile
-                    </option>
-                    <option
-                      selected={productData.brandSlug === "television_slug"}
-                      value="television_slug"
-                    >
-                      Television
-                    </option>
+                    {brands.map((brand, indx) => (
+                      <option
+                        key={indx}
+                        selected={productData.brandSlug === brand.slug}
+                        value={brand.slug}
+                      >
+                        {brand.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="form-group col-12 flex flex-col mb-[25px]">
@@ -415,18 +424,15 @@ const ProductEdit: React.FC<Props> = (props) => {
                     className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="productStatus"
                     id=""
-                    required
-                  >
+                    required>
                     <option
                       selected={productData.status === "active"}
-                      value="active"
-                    >
+                      value="active">
                       Active
                     </option>
                     <option
                       selected={productData.status === "inactive"}
-                      value="inactive"
-                    >
+                      value="inactive">
                       InActive
                     </option>
                   </select>

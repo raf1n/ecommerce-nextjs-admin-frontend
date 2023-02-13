@@ -103,8 +103,12 @@ const Categories: React.FC<Props> = (props) => {
                 <select
                   name="dataTable_length"
                   aria-controls="dataTable"
+<<<<<<< HEAD
                   className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center"
                 >
+=======
+                  className="custom-select custom-select-sm form-control form-control-sm bg-gray-50  border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center">
+>>>>>>> ad92fc45ab07050e5eb554278bb0e3dd6dcba397
                   <option value="10">10</option>
                   <option value="25">25</option>
                   <option value="50">50</option>
