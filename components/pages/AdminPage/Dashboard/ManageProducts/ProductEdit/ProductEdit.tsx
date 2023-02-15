@@ -50,16 +50,11 @@ const ProductEdit: React.FC<Props> = (props) => {
     };
 
     getSingleProduct();
-  }, [productSlug]);
+  }, [productSlug, brands]);
 
   const defaultValueSelected = brands.find(
     (brand) => brand.slug === productData.brandSlug
   );
-
-  let selectedValue = {
-    label: defaultValueSelected?.name,
-    value: defaultValueSelected?.slug,
-  };
 
   useEffect(() => {
     const fetchAllCategoriesSubCatBrand = async () => {
@@ -102,6 +97,14 @@ const ProductEdit: React.FC<Props> = (props) => {
       fontSize: "13px",
     }),
   };
+  let selectedValue;
+  const handleChange = (e: any) => {
+    selectedValue = {
+      label: e.label,
+      value: e.value,
+    };
+    console.log(selectedValue);
+  };
   const handleProductUpdate = async (e: any) => {
     e.preventDefault();
 
@@ -109,8 +112,9 @@ const ProductEdit: React.FC<Props> = (props) => {
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
     formData.append("image", image);
+    console.log(formData);
     const { res, err } = await EcommerceApi.uploadProductImage(formData);
-    if (res?.data?.url || !res?.data?.url) {
+    if (res?.data?.url || !res?.data?.url || res.error.code === 120) {
       let imageUrl;
       imageUrl = [res?.data?.url];
       // setImageLink(data?.data?.url);
@@ -140,12 +144,7 @@ const ProductEdit: React.FC<Props> = (props) => {
       EcommerceApi.editProducts(newProductData, productSlug);
     }
   };
-  const handleChange = (e: any) => {
-    selectedValue = {
-      label: e.label,
-      value: e.value,
-    };
-  };
+  console.log(selectedValue);
   return (
     <div className="w-full ">
       <DashboardBreadcrumb
@@ -303,11 +302,16 @@ const ProductEdit: React.FC<Props> = (props) => {
                     <Select
                       name="brand"
                       id="brand"
-                      defaultValue={selectedValue}
-                      // defaultValue={{ value: "slug", label: "slug" }}
-                      // value={selectedOption}
+                      defaultValue={
+                        selectedValue === undefined
+                          ? {
+                              label: defaultValueSelected?.name,
+                              value: defaultValueSelected?.slug,
+                            }
+                          : selectedValue
+                      }
                       onChange={(e) => handleChange(e)}
-                      onBlur={(e) => handleChange(e)}
+                      // onBlur={(e) => handleChange(e)}
                       options={brands.map((brand) => {
                         return {
                           value: brand.slug,
