@@ -25,6 +25,15 @@ const ProductCreate: React.FC<Props> = (props) => {
   const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
   const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
   const [brands, setBrands] = useState<IBrandDetail[]>([]);
+  const [selectedImage, setSelectedImage] = useState();
+
+  // This function will be triggered when the file field change
+  const imageChange = (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+      console.log(selectedImage);
+    }
+  };
   const reactSelectStyle = {
     control: (base: any) => ({
       ...base,
@@ -104,6 +113,7 @@ const ProductCreate: React.FC<Props> = (props) => {
       };
       EcommerceApi.addProducts(productData);
       e.target.reset();
+      setSelectedImage();
     }
   };
 
@@ -131,16 +141,29 @@ const ProductCreate: React.FC<Props> = (props) => {
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Thumbnail Image Preview
                   </label>
-                  <div>
-                    <picture>
-                      <img
-                        id="preview-img"
-                        className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
-                        src="https://api.websolutionus.com/shopo/uploads/website-images/preview.png"
-                        alt=""
-                      />
-                    </picture>
-                  </div>
+                  {selectedImage ? (
+                    <div>
+                      <picture>
+                        <img
+                          id="preview-img"
+                          className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
+                          src={URL.createObjectURL(selectedImage)}
+                          alt=""
+                        />
+                      </picture>
+                    </div>
+                  ) : (
+                    <div>
+                      <picture>
+                        <img
+                          id="preview-img"
+                          className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
+                          src="https://api.websolutionus.com/shopo/uploads/website-images/preview.png"
+                          alt=""
+                        />
+                      </picture>
+                    </div>
+                  )}
                 </div>
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
@@ -151,6 +174,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     required
                     name="imageURL"
                     type="file"
+                    onChange={imageChange}
                     className="form-control-file"
                   />
                 </div>
