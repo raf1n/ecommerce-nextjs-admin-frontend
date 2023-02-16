@@ -72,8 +72,6 @@ export interface IBrand {
   logo: string;
   name: string;
   status: string;
-  cat_slug: string[];
-  sub_cat_slug: string[];
 }
 
 export interface IBrandDetail {
