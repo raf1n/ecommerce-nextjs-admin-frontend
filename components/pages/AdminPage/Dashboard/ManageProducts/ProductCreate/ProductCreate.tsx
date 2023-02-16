@@ -25,7 +25,7 @@ const ProductCreate: React.FC<Props> = (props) => {
   const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
   const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
   const [brands, setBrands] = useState<IBrandDetail[]>([]);
-  const [selectedImage, setSelectedImage] = useState();
+  const [selectedImage, setSelectedImage] = useState(null);
 
   // This function will be triggered when the file field change
   const imageChange = (e: any) => {
@@ -113,7 +113,7 @@ const ProductCreate: React.FC<Props> = (props) => {
       };
       EcommerceApi.addProducts(productData);
       e.target.reset();
-      setSelectedImage();
+      setSelectedImage(null);
     }
   };
 
