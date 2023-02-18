@@ -29,16 +29,6 @@ const EditCategories: React.FC<Props> = (props) => {
     };
     getSingleCategory();
   }, [catSlug]);
-  // if (catSlug !== "[slug]") {
-  //   fetch(`http://localhost:8000/categories/${catSlug}`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       if (data) {
-  //         setCatData(data);
-  //       }
-  //     });
-  // }
 
   const handleEdit = async (e: any) => {
     e.preventDefault();
@@ -53,49 +43,17 @@ const EditCategories: React.FC<Props> = (props) => {
       if (res.data?.url === undefined) {
         imageUrl = "";
       }
-      const categories = {
-        // cat_image: e.target.image.value,
 
+      const categories = {
         cat_image: imageUrl,
-        cat_icon: e.target.icon.value,
         cat_name: e.target.name.value,
-        // cat_slug: e.target.slug.value,
         cat_status: e.target.status.value,
       };
+
       EcommerceApi.editCategories(categories, catSlug);
       e.target.reset();
     }
   };
-  // fetch(
-  //   `https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024`,
-  //   {
-  //     method: "POST",
-  //     body: formData,
-  //   }
-  // )
-  //   .then((res) => res.json())
-  //   .then((data) => {
-  //     const categories = {
-  //       // cat_image: e.target.image.value,
-
-  //       cat_image: data?.data?.url,
-  //       cat_icon: e.target.icon.value,
-  //       cat_name: e.target.name.value,
-  //       // slug: e.target.slug.value,
-  //       cat_status: e.target.status.value,
-  //     };
-  //     console.log(data?.data?.url);
-
-  //     fetch(`http://localhost:8000/categories/${catSlug}`, {
-  //       method: "PATCH",
-  //       headers: {
-  //         "content-type": "application/json",
-  //       },
-  //       body: JSON.stringify(categories),
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => console.log(data), e.target.reset());
-  //   });
 
   return (
     <div className="w-full ">
@@ -124,8 +82,7 @@ const EditCategories: React.FC<Props> = (props) => {
                   <img
                     style={{ width: "200px" }}
                     className="mt-4 "
-                    src=""
-                    // https://api.websolutionus.com/shopo/uploads/custom-images/electronics-2022-11-19-02-48-28-5548.png
+                    src={catData?.cat_image}
                     alt=""
                   />
                 </picture>
@@ -156,24 +113,6 @@ const EditCategories: React.FC<Props> = (props) => {
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
                         htmlFor=""
                       >
-                        Icon
-                      </label>
-                      <span className="text-red-500 ml-2">*</span>
-                    </div>
-                    <input
-                      className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      type="text"
-                      name="icon"
-                      id=""
-                      required
-                    />
-                  </div>
-                  <div className="mt-4">
-                    <div className="my-2">
-                      <label
-                        className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
                         Name
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -185,23 +124,6 @@ const EditCategories: React.FC<Props> = (props) => {
                       defaultValue={catData?.cat_name}
                       id=""
                       required
-                    />
-                  </div>
-                  <div className="mt-4">
-                    <div className="my-2">
-                      <label
-                        className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
-                        Slug
-                      </label>
-                    </div>
-                    <input
-                      className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      type="text"
-                      name="slug"
-                      // defaultValue=
-                      id=""
                     />
                   </div>
                   <div className="mt-4">

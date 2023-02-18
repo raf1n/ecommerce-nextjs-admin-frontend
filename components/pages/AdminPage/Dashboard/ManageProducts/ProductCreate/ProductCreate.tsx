@@ -10,6 +10,7 @@ import {
   ICategories,
   ISubCategories,
 } from "../../../../../../interfaces/models";
+import Select from "react-select";
 
 interface Props {}
 
@@ -24,7 +25,37 @@ const ProductCreate: React.FC<Props> = (props) => {
   const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
   const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
   const [brands, setBrands] = useState<IBrandDetail[]>([]);
+  const [selectedImage, setSelectedImage] = useState(null);
 
+  // This function will be triggered when the file field change
+  const imageChange = (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+      console.log(selectedImage);
+    }
+  };
+  const reactSelectStyle = {
+    control: (base: any) => ({
+      ...base,
+      height: "42px",
+      width: "100%",
+      margin: "0",
+      fontColor: "#495057",
+      paddingLeft: "5px",
+      paddingRight: "5px",
+      fontSize: "14px",
+      borderRadius: 5,
+      borderColor: "#e4e6fc",
+      backgroundColor: "#fdfdff",
+      // This line disable the blue border
+      cursor: "pointer",
+      // h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]
+    }),
+    menuList: (styles: any) => ({
+      ...styles,
+      fontSize: "13px",
+    }),
+  };
   // const [imageLink, setImageLink] = useState("");
 
   useEffect(() => {
@@ -82,6 +113,7 @@ const ProductCreate: React.FC<Props> = (props) => {
       };
       EcommerceApi.addProducts(productData);
       e.target.reset();
+      setSelectedImage(null);
     }
   };
 
@@ -109,16 +141,29 @@ const ProductCreate: React.FC<Props> = (props) => {
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Thumbnail Image Preview
                   </label>
-                  <div>
-                    <picture>
-                      <img
-                        id="preview-img"
-                        className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
-                        src="https://api.websolutionus.com/shopo/uploads/website-images/preview.png"
-                        alt=""
-                      />
-                    </picture>
-                  </div>
+                  {selectedImage ? (
+                    <div>
+                      <picture>
+                        <img
+                          id="preview-img"
+                          className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
+                          src={URL.createObjectURL(selectedImage)}
+                          alt=""
+                        />
+                      </picture>
+                    </div>
+                  ) : (
+                    <div>
+                      <picture>
+                        <img
+                          id="preview-img"
+                          className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
+                          src="https://api.websolutionus.com/shopo/uploads/website-images/preview.png"
+                          alt=""
+                        />
+                      </picture>
+                    </div>
+                  )}
                 </div>
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
@@ -129,6 +174,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     required
                     name="imageURL"
                     type="file"
+                    onChange={imageChange}
                     className="form-control-file"
                   />
                 </div>
@@ -196,15 +242,23 @@ const ProductCreate: React.FC<Props> = (props) => {
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Brand
                   </label>
-                  <select
+                  <Select
                     name="brand"
                     id="brand"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                  >
-                    {brands.map((brand) => (
-                      <option value={brand.slug}>{brand.name}</option>
-                    ))}
-                  </select>
+                    // value={selectedOption}
+                    // onChange={handleChange}
+                    options={brands.map((brand) => {
+                      return {
+                        value: brand.slug,
+                        label: brand.name,
+                      };
+                    })}
+                    styles={reactSelectStyle}
+                    components={{
+                      // Menu,
+                      IndicatorSeparator: () => null,
+                    }}
+                  />
                 </div>
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">

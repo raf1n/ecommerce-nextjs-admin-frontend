@@ -50,7 +50,6 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
     const editBrandData: IBrand = {
       logo: imageUrl,
       name: e.target.name.value,
-      slug: e.target.slug.value,
       status: e.target.status.value,
     };
 
@@ -137,23 +136,6 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                       defaultValue={brandData?.name}
                       id=""
                       // required
-                    />
-                  </div>
-                  <div className="mt-4">
-                    <div className="my-2">
-                      <label
-                        className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
-                        Slug
-                      </label>
-                    </div>
-                    <input
-                      className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      type="text"
-                      name="slug"
-                      defaultValue={brandData?.slug}
-                      id=""
                     />
                   </div>
 

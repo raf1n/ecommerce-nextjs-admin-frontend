@@ -11,6 +11,7 @@ import {
   ISubCategories,
 } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import Select from "react-select";
 
 interface Props {}
 
@@ -32,6 +33,7 @@ const ProductEdit: React.FC<Props> = (props) => {
   const [isCheckedPopular, setIsCheckedPopular] = useState(
     productData?.isPopular
   );
+  // const [selectValue, setSelectValue] = useState({});
   const { asPath } = useRouter();
   const productSlug = asPath.split("/")[2];
 
@@ -48,7 +50,11 @@ const ProductEdit: React.FC<Props> = (props) => {
     };
 
     getSingleProduct();
-  }, [productSlug]);
+  }, [productSlug, brands]);
+
+  const defaultValueSelected = brands.find(
+    (brand) => brand.slug === productData.brandSlug
+  );
 
   useEffect(() => {
     const fetchAllCategoriesSubCatBrand = async () => {
@@ -69,6 +75,36 @@ const ProductEdit: React.FC<Props> = (props) => {
     fetchAllCategoriesSubCatBrand();
   }, []);
 
+  const reactSelectStyle = {
+    control: (base: any) => ({
+      ...base,
+      height: "42px",
+      width: "100%",
+      margin: "0",
+      fontColor: "#495057",
+      paddingLeft: "5px",
+      paddingRight: "5px",
+      fontSize: "14px",
+      borderRadius: 5,
+      borderColor: "#e4e6fc",
+      backgroundColor: "#fdfdff",
+      // This line disable the blue border
+      cursor: "pointer",
+      // h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]
+    }),
+    menuList: (styles: any) => ({
+      ...styles,
+      fontSize: "13px",
+    }),
+  };
+  let selectedValue;
+  const handleChange = (e: any) => {
+    selectedValue = {
+      label: e.label,
+      value: e.value,
+    };
+    console.log(selectedValue);
+  };
   const handleProductUpdate = async (e: any) => {
     e.preventDefault();
 
@@ -76,8 +112,9 @@ const ProductEdit: React.FC<Props> = (props) => {
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
     formData.append("image", image);
+    console.log(formData);
     const { res, err } = await EcommerceApi.uploadProductImage(formData);
-    if (res?.data?.url || !res?.data?.url) {
+    if (res?.data?.url || !res?.data?.url || res.error.code === 120) {
       let imageUrl;
       imageUrl = [res?.data?.url];
       // setImageLink(data?.data?.url);
@@ -107,17 +144,20 @@ const ProductEdit: React.FC<Props> = (props) => {
       EcommerceApi.editProducts(newProductData, productSlug);
     }
   };
+  console.log(selectedValue);
   return (
     <div className="w-full ">
       <DashboardBreadcrumb
         headline="Edit Product"
         link="/product_brands/edit"
-        slug="Edit Product"></DashboardBreadcrumb>
+        slug="Edit Product"
+      ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Products"
-            link="/products"></SharedGoBackButton>
+            link="/products"
+          ></SharedGoBackButton>
         </div>
       </div>
       <div className="px-[25px] w-full relative">
@@ -258,21 +298,33 @@ const ProductEdit: React.FC<Props> = (props) => {
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Brand
                   </label>
-                  <select
-                    name="brand"
-                    id="brand"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                  >
-                    {brands.map((brand, indx) => (
-                      <option
-                        key={indx}
-                        selected={productData.brandSlug === brand.slug}
-                        value={brand.slug}
-                      >
-                        {brand.name}
-                      </option>
-                    ))}
-                  </select>
+                  {productData && brands.length !== 0 && (
+                    <Select
+                      name="brand"
+                      id="brand"
+                      defaultValue={
+                        selectedValue === undefined
+                          ? {
+                              label: defaultValueSelected?.name,
+                              value: defaultValueSelected?.slug,
+                            }
+                          : selectedValue
+                      }
+                      onChange={(e) => handleChange(e)}
+                      // onBlur={(e) => handleChange(e)}
+                      options={brands.map((brand) => {
+                        return {
+                          value: brand.slug,
+                          label: brand.name,
+                        };
+                      })}
+                      styles={reactSelectStyle}
+                      components={{
+                        // Menu,
+                        IndicatorSeparator: () => null,
+                      }}
+                    />
+                  )}
                 </div>
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
@@ -424,15 +476,18 @@ const ProductEdit: React.FC<Props> = (props) => {
                     className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="productStatus"
                     id=""
-                    required>
+                    required
+                  >
                     <option
                       selected={productData.status === "active"}
-                      value="active">
+                      value="active"
+                    >
                       Active
                     </option>
                     <option
                       selected={productData.status === "inactive"}
-                      value="inactive">
+                      value="inactive"
+                    >
                       InActive
                     </option>
                   </select>
