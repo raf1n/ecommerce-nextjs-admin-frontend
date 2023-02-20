@@ -99,6 +99,7 @@ export interface IOrder {
   transaction_id: string;
   payment_status?: string;
   order_status: string;
+  userData?: IUser;
   address: {
     country?: string;
     state?: string;
