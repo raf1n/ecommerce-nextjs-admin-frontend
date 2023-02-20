@@ -54,8 +54,13 @@ const DeliveredOrders: React.FC<Props> = (props) => {
       ></DashboardBreadcrumb>
 
       <Table
+        sortBy={sortBy}
+        sortType={sortType}
+        setSearchString={setSearchString}
+        setSortBy={setSortBy}
+        setSortType={setSortBy}
         tableHeaders={tableHeaders}
-        deliveredOrdersData={deliveredOrdersData}
+        ordersData={deliveredOrdersData}
       />
     </div>
   );
