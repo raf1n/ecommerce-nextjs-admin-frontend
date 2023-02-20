@@ -43,7 +43,7 @@ export interface IPopularCategories {
   cat_name: string;
   cat_image: string;
 }
-export interface IProducts {
+export interface IProduct {
   productName?: string;
   slug?: string;
   catSlug?: string;
@@ -79,4 +79,30 @@ export interface IBrandDetail {
   logo?: string;
   status: string;
   slug?: string;
+}
+
+export interface ICartProduct extends IProduct {
+  cart_slug: string;
+  quantity: number;
+}
+
+export interface IOrder {
+  subTotal: number;
+  discount: number;
+  shippingCost: number;
+  total: number;
+  slug?: string;
+  createdAt?: string;
+  product_list: ICartProduct[];
+  payment_method: string;
+  user_slug: string;
+  transaction_id: string;
+  payment_status?: string;
+  order_status: string;
+  address: {
+    country?: string;
+    state?: string;
+    city?: string;
+    address?: string;
+  };
 }

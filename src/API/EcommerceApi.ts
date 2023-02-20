@@ -17,9 +17,10 @@ import {
   ISingleSubCategoryResponse,
   ISingleCategoryResponse,
   ISubCategoriesResponse,
+  IOrderResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
-import { IProducts } from "../../interfaces/models";
+import { IProduct } from "../../interfaces/models";
 import { callFetch } from "../utils/CallFetch";
 
 // import { callFetch, MyFetchInterface } from "../utils/CallFetch"
@@ -381,19 +382,19 @@ export class EcommerceApi {
   //DEMO API CALLING STRUCTURE
   static async login(data: Partial<IUser>): Promise<ILoginResponse> {
     console.log(data.token);
-    console.log(API_ENDPOINT)
+    console.log(API_ENDPOINT);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(data),
-        redirect: 'follow'
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/users/login`, requestOptions)
-}
+    return await callFetch(`${API_ENDPOINT}/users/login`, requestOptions);
+  }
   // test
   static async allProducts(): Promise<IProductResponse> {
     console.log(API_ENDPOINT);
@@ -456,9 +457,7 @@ export class EcommerceApi {
   }
 
   // add products
-  static async addProducts(
-    data: Partial<IProducts>
-  ): Promise<IProductResponse> {
+  static async addProducts(data: Partial<IProduct>): Promise<IProductResponse> {
     console.log(data);
     console.log(API_ENDPOINT);
     const myHeaders = new Headers();
@@ -476,7 +475,7 @@ export class EcommerceApi {
 
   //  edit products
   static async editProducts(
-    data: Partial<IProducts>,
+    data: Partial<IProduct>,
     slug: string
   ): Promise<IProductResponse> {
     console.log(data);
@@ -638,5 +637,22 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/${url}/${slug}`, requestOptions);
+  }
+
+  // Get all orders admin
+
+  static async allOrdersAdmin(query: string): Promise<IOrderResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/orders/admin?${query}`,
+      requestOptions
+    );
   }
 }

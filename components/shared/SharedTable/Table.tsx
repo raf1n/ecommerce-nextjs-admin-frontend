@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { FaEye, FaTrash, FaTruck } from "react-icons/fa";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import { Jsondata } from "../../../src/utils/Jsondata";
 import { controller } from "../../../src/state/StateController";
 import Link from "next/link";
-interface Props {}
+interface Props {
+  deliveredOrdersData: any;
+  tableHeaders: any;
+}
 
 const Table: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-
+  const { deliveredOrdersData, tableHeaders } = props;
+  console.log(deliveredOrdersData);
   return (
     <div style={{ margin: "25px", backgroundColor: "white" }}>
       <div className="p-4 rounded w-full">
@@ -19,7 +23,8 @@ const Table: React.FC<Props> = (props) => {
             <select
               name="dataTable_length"
               aria-controls="dataTable"
-              className="custom-select custom-select-sm form-control form-control-sm border bg-gray-50  hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center">
+              className="custom-select custom-select-sm form-control form-control-sm border bg-gray-50  hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center"
+            >
               <option value="10">10</option>
               <option value="25">25</option>
               <option value="50">50</option>
@@ -49,17 +54,22 @@ const Table: React.FC<Props> = (props) => {
               <table className="min-w-full leading-normal">
                 <thead>
                   <tr className="h-16">
-                    <th
-                      className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
-                      <span className="flex  space-x-0 space-y-0 ">
-                        SL
-                        <span className="opacity-50 flex">
-                          <FaLongArrowAltUp /> <FaLongArrowAltDown />
+                    {Object.keys(tableHeaders).map((header: any) => (
+                      <th
+                        className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
+                      >
+                        <span className="flex  space-x-0 space-y-0 ">
+                          {header}
+                          <span className="opacity-50 flex">
+                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
+                          </span>
                         </span>
-                      </span>
-                    </th>
-                    <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                      </th>
+                    ))}
+
+                    {/* <th
+                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
+                    >
                       <span className="flex  space-x-0 space-y-0  ">
                         Customer
                         <span className="opacity-50 flex">
@@ -68,7 +78,8 @@ const Table: React.FC<Props> = (props) => {
                       </span>
                     </th>
                     <th
-                      className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                      className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
+                    >
                       <span className="flex  space-x-0 space-y-0 ">
                         Order Id
                         <span className="opacity-50 flex">
@@ -77,7 +88,8 @@ const Table: React.FC<Props> = (props) => {
                       </span>
                     </th>
                     <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase  `}>
+                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase  `}
+                    >
                       <span className="flex  space-x-0 space-y-0 ">
                         Date
                         <span className="opacity-50 flex">
@@ -86,7 +98,8 @@ const Table: React.FC<Props> = (props) => {
                       </span>
                     </th>
                     <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
+                    >
                       <span className="flex  space-x-0 space-y-0 ">
                         Quantity
                         <span className="opacity-50 flex">
@@ -95,7 +108,8 @@ const Table: React.FC<Props> = (props) => {
                       </span>
                     </th>
                     <th
-                      className={` px-1 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                      className={` px-1 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
+                    >
                       <span className="flex  space-x-0 space-y-0">
                         Amount
                         <span className="opacity-50 flex">
@@ -104,7 +118,8 @@ const Table: React.FC<Props> = (props) => {
                       </span>
                     </th>
                     <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
+                    >
                       <span className="flex  space-x-0 space-y-0 ">
                         Order Status
                         <span className="opacity-50 flex">
@@ -113,7 +128,8 @@ const Table: React.FC<Props> = (props) => {
                       </span>
                     </th>
                     <th
-                      className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                      className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
+                    >
                       <span className="flex  space-x-0 space-y-0">
                         Payment
                         <span className="opacity-50 flex">
@@ -122,14 +138,15 @@ const Table: React.FC<Props> = (props) => {
                       </span>
                     </th>
                     <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
+                    >
                       <span className="flex  space-x-0 space-y-0">
                         Action
                         <span className="opacity-50 flex">
                           <FaLongArrowAltUp /> <FaLongArrowAltDown />
                         </span>
                       </span>
-                    </th>
+                    </th> */}
                   </tr>
                 </thead>
                 {/* -----------Plz Attention ,Table body/Row start here -------------- */}
@@ -163,7 +180,8 @@ const Table: React.FC<Props> = (props) => {
                               tabledata.OrderStatus == "pending"
                                 ? "bg-red-500"
                                 : "bg-green-500"
-                            }  rounded-full`}></span>
+                            }  rounded-full`}
+                          ></span>
                           <span className="relative text-white text-xs capitalize break-words">
                             {tabledata.OrderStatus}
                           </span>
@@ -179,7 +197,8 @@ const Table: React.FC<Props> = (props) => {
                               tabledata.Payment == "success"
                                 ? " bg-green-500 "
                                 : "bg-red-500 "
-                            }`}></span>
+                            }`}
+                          ></span>
                           <span className="relative text-white text-xs capitalize">
                             {tabledata.Payment}
                           </span>
@@ -191,7 +210,8 @@ const Table: React.FC<Props> = (props) => {
                           <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                             <span
                               style={{ boxShadow: "0 2px 6px #acb5f6" }}
-                              className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center">
+                              className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
+                            >
                               <Link href={`/show_order/${tabledata.id}`}>
                                 <FaEye />
                               </Link>
@@ -202,7 +222,8 @@ const Table: React.FC<Props> = (props) => {
                           <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                             <span
                               style={{ boxShadow: "0 2px 6px #fd9b96" }}
-                              className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center">
+                              className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                            >
                               <FaTrash />
                             </span>
                           </span>
@@ -211,7 +232,8 @@ const Table: React.FC<Props> = (props) => {
                           <button>
                             <span
                               style={{ boxShadow: "0 2px 6px #ffc473" }}
-                              className="h-8 w-8  inset-0 bg-orange-400   rounded  relative text-white flex justify-center items-center">
+                              className="h-8 w-8  inset-0 bg-orange-400   rounded  relative text-white flex justify-center items-center"
+                            >
                               <FaTruck />
                             </span>
                           </button>
@@ -236,17 +258,20 @@ const Table: React.FC<Props> = (props) => {
                   <a
                     href="#"
                     aria-current="page"
-                    className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white ">
+                    className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white "
+                  >
                     1
                   </a>
                   <a
                     href="#"
-                    className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20">
+                    className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20"
+                  >
                     2
                   </a>
                   <a
                     href="#"
-                    className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20 md:inline-flex">
+                    className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20 md:inline-flex"
+                  >
                     3
                   </a>
                   <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-r">

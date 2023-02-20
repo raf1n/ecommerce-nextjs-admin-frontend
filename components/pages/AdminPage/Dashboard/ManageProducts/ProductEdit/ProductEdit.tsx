@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import {
   IBrandDetail,
   ICategories,
-  IProducts,
+  IProduct,
   ISubCategories,
 } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
@@ -17,7 +17,7 @@ interface Props {}
 
 const ProductEdit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [productData, setProductData] = useState<IProducts>({});
+  const [productData, setProductData] = useState<IProduct>({});
   const [isCheckedTop, setIsCheckedTop] = useState(productData?.isTopProduct);
   const [isCheckedNew, setIsCheckedNew] = useState(productData?.isNewArrival);
   const [categories, setCategories] = useState<ICategories[]>([]);

@@ -1,8 +1,13 @@
-import { ICategories, IPopularCategories, ISubCategories } from "./models";
+import {
+  ICategories,
+  IOrder,
+  IPopularCategories,
+  ISubCategories,
+} from "./models";
 //here we will declare our response interfaces or in easy way type of our all response in our website
 
 import { MyFetchInterface } from "../src/utils/CallFetch";
-import { IProducts, IBrandDetail } from "./models";
+import { IProduct, IBrandDetail } from "./models";
 
 export interface IResponseCategories extends MyFetchInterface {
   res: Array<ICategories>;
@@ -34,19 +39,23 @@ export interface IPopularCategoriesResponse extends MyFetchInterface {
 }
 export interface IProductResponse extends MyFetchInterface {
   res: {
-    allProductData: Array<IProducts>;
-    bestProducts: Array<IProducts>;
-    featuredProducts: Array<IProducts>;
-    newProducts: Array<IProducts>;
-    popularProducts: Array<IProducts>;
-    stockOutProducts: Array<IProducts>;
-    topProducts: Array<IProducts>;
-    sellerProducts: Array<IProducts>;
-    sellerPendingProducts: Array<IProducts>;
+    allProductData: Array<IProduct>;
+    bestProducts: Array<IProduct>;
+    featuredProducts: Array<IProduct>;
+    newProducts: Array<IProduct>;
+    popularProducts: Array<IProduct>;
+    stockOutProducts: Array<IProduct>;
+    topProducts: Array<IProduct>;
+    sellerProducts: Array<IProduct>;
+    sellerPendingProducts: Array<IProduct>;
   };
 }
+
+export interface IOrderResponse extends MyFetchInterface {
+  res: { allOrdersData: Array<IOrder>; filteredOrdersData: Array<IOrder> };
+}
 export interface ISingleProductResponse extends MyFetchInterface {
-  res: IProducts;
+  res: IProduct;
 }
 
 export interface IResponseAllBrands extends MyFetchInterface {
