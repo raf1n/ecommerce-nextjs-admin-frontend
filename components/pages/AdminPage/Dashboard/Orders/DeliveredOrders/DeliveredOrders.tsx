@@ -14,6 +14,21 @@ const DeliveredOrders: React.FC<Props> = (props) => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
+  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteByModal(
+      deleteModalSlug,
+      "orders"
+    );
+    if (res) {
+      setDeleteModalSlug("");
+      const remainingOrders = deliveredOrdersData.filter(
+        (order) => order.slug !== deleteModalSlug
+      );
+      setDeliveredOrdersData(remainingOrders);
+    }
+  };
 
   useEffect(() => {
     const findAllOrdersAdmin = async () => {
@@ -54,6 +69,9 @@ const DeliveredOrders: React.FC<Props> = (props) => {
       ></DashboardBreadcrumb>
 
       <Table
+        handleDelete={handleDelete}
+        deleteModalSlug={deleteModalSlug}
+        setDeleteModalSlug={setDeleteModalSlug}
         sortBy={sortBy}
         sortType={sortType}
         setSearchString={setSearchString}
