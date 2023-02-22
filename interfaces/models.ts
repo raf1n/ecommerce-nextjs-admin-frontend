@@ -107,3 +107,15 @@ export interface IOrder {
     address?: string;
   };
 }
+
+export interface ICoupon {
+  slug: string;
+  name: string;
+  code: string;
+  discount: number;
+  items_number: number;
+  apply_qty: number;
+  expired_date: string;
+  status: string;
+  action: string;
+}

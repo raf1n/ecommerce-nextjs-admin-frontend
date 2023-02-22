@@ -2,6 +2,7 @@ import {
   IBrand,
   IBrandDetail,
   ICategories,
+  ICoupon,
   IPopularCategories,
   ISubCategories,
   IUser,
@@ -18,6 +19,7 @@ import {
   ISingleCategoryResponse,
   ISubCategoriesResponse,
   IOrderResponse,
+  ICouponResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -654,5 +656,55 @@ export class EcommerceApi {
       `${API_ENDPOINT}/orders/admin?${query}`,
       requestOptions
     );
+  }
+
+  //create Coupon
+  static async createCoupon(data: Partial<ICoupon>): Promise<ICouponResponse> {
+    console.log(data);
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/coupon`, requestOptions);
+  }
+
+  // get all coupons
+
+  static async allCouponsAdmin(query: string): Promise<ICouponResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/coupon/admin?${query}`,
+      requestOptions
+    );
+  }
+
+  //Delete Coupon
+
+  static async deleteCoupon(slug: string): Promise<MyFetchInterface> {
+    console.log(API_ENDPOINT);
+    console.log(slug);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/coupon/${slug}`, requestOptions);
   }
 }

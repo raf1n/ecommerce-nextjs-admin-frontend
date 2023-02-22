@@ -1,11 +1,22 @@
 import Link from "next/link";
-import React, { useState } from "react";
-import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
+import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
+import {
+  FaEdit,
+  FaLongArrowAltDown,
+  FaLongArrowAltUp,
+  FaTrash,
+} from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { ICoupon } from "../../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import CatToggleButton from "../../ManageCategories/Categories/CatToggleButton";
+
+import AddNewCoupon from "./AddNewCoupon/AddNewCoupon";
 
 interface Props {}
 
@@ -15,20 +26,50 @@ const Coupon: React.FC<Props> = (props) => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [couponData, setCouponData] = useState<ICoupon[]>([]);
+  const router = useRouter();
+  const { asPath } = router;
 
   const tableHeaders = {
     sn: "sn",
-    Name: "cat_name",
-    Code: "cat_name",
-    Discount: "cat_image",
+    Name: "name",
+    Code: "code",
+    Discount: "discount",
     // icon: "cat_icon",
     // type: "type",
-    "Number of times": "cat_status",
-    "Apply Qty": "cat_status",
-    "Expired Date": "action",
-    Status: "active",
+    "Number of times": "items_number",
+    "Apply Qty": "apply_qty",
+    "Expired Date": "expired_date",
+    Status: "status",
     Action: "action",
   };
+
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteCoupon(deleteModalSlug);
+    if (res) {
+      setDeleteModalSlug("");
+      const remainingCoupons = couponData.filter(
+        (coupon) => coupon.slug !== deleteModalSlug
+      );
+      setCouponData(remainingCoupons);
+    }
+  };
+
+  useEffect(() => {
+    const fetchAllCouponAdminData = async () => {
+      const { res, err } = await EcommerceApi.allCouponsAdmin(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
+      if (err) {
+        console.log(err);
+      } else {
+        setCouponData(res);
+        console.log(res);
+      }
+    };
+    fetchAllCouponAdminData();
+  }, [searchString, sortBy, sortType]);
 
   return (
     <div className="w-full">
@@ -38,10 +79,16 @@ const Coupon: React.FC<Props> = (props) => {
         link="/coupon"
       ></DashboardBreadcrumb>
       <div className="m-6">
-        <div className="section-body">
-          <Link className="inline-block" href="product_categories/create">
-            <SharedAddNewButton></SharedAddNewButton>
-          </Link>
+        <div onClick={() => setShowAddModal(true)} className="section-body">
+          {/* <Link className="inline-block" href="product_categories/create"> */}
+          <SharedAddNewButton></SharedAddNewButton>
+          <AddNewCoupon
+            // categoriesData={categoriesData}
+            title="Coupon"
+            setShowModal={setShowAddModal}
+            showModal={showAddModal}
+          ></AddNewCoupon>
+          {/* </Link> */}
         </div>
         <div style={{ marginTop: "25px", backgroundColor: "white" }}>
           <div className="p-4 rounded w-full">
@@ -120,85 +167,99 @@ const Coupon: React.FC<Props> = (props) => {
                       </tr>
                     </thead>
                     {/* -------Plz Attention ,Table body/Row start here -------------- */}
-                    {/* <tbody>
-                      {categoriesData.map(
-                        (categoryTableData: ICategories, index) => (
-                          // <div>
-                          <tr className="even:bg-gray-50 odd:bg-white">
-                            <td className="px-3 py-3    text-sm">
-                              <p className="text-gray-900 whitespace-no-wrap">
-                                {index + 1}
-                              </p>
-                            </td>
-                            <td className="px-3 py-3  text-sm">
-                              <p className="text-gray-900 whitespace-no-wrap ">
-                                {categoryTableData?.cat_name}
-                              </p>
-                            </td>
-                            <td className="px-3 py-3    ">
-                              <img
-                                width="150px"
-                                src={categoryTableData?.cat_image}
-                                className=""
-                              ></img>
-                            </td>
-                            
-                            <td className="px-3 py-3 text-sm">
-                              <CatToggleButton
-                                // apiUrl="categories"
-                                slug={categoryTableData?.cat_slug}
-                                status={categoryTableData.cat_status}
-                              />
-                            </td>
+                    <tbody>
+                      {couponData.map((couponableData: ICoupon, index) => (
+                        // <div>
+                        <tr className="even:bg-gray-50 odd:bg-white">
+                          <td className="px-3 py-3    text-sm">
+                            <p className="text-gray-900 whitespace-no-wrap">
+                              {index + 1}
+                            </p>
+                          </td>
+                          <td className="px-3 py-3  text-sm">
+                            <p className="text-gray-900 whitespace-no-wrap ">
+                              {couponableData?.name}
+                            </p>
+                          </td>
+                          <td className="px-3 py-3  text-sm">
+                            <p className="text-gray-900 whitespace-no-wrap ">
+                              {couponableData?.code}
+                            </p>
+                          </td>
+                          <td className="px-3 py-3  text-sm">
+                            <p className="text-gray-900 whitespace-no-wrap ">
+                              {couponableData?.discount}
+                            </p>
+                          </td>
+                          <td className="px-3 py-3  text-sm">
+                            <p className="text-gray-900 whitespace-no-wrap ">
+                              {couponableData?.items_number}
+                            </p>
+                          </td>
+                          <td className="px-3 py-3  text-sm">
+                            <p className="text-gray-900 whitespace-no-wrap ">
+                              {couponableData?.apply_qty}
+                            </p>
+                          </td>
+                          <td className="px-3 py-3  text-sm">
+                            <p className="text-gray-900 whitespace-no-wrap ">
+                              {couponableData?.expired_date}
+                            </p>
+                          </td>
 
-                            <td className="px-2 py-3  text-sm">
-                              <button
-                                onClick={() =>
-                                  router.push(
-                                    `${asPath}/${categoryTableData.cat_slug}/edit`
-                                  )
-                                }
-                              >
-                                <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                  <span
-                                    style={{
-                                      boxShadow: "0 2px 6px #acb5f6",
-                                    }}
-                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
-                                  >
-                                    <FaEdit />
-                                  </span>
+                          <td className="px-3 py-3 text-sm">
+                            <CatToggleButton
+                              // apiUrl="coupon"
+                              slug={couponableData?.slug}
+                              status={couponableData.status}
+                            />
+                          </td>
+
+                          <td className="px-2 py-3  text-sm">
+                            <button
+                              onClick={() =>
+                                router.push(
+                                  `${asPath}/${couponableData.slug}/edit`
+                                )
+                              }
+                            >
+                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                                <span
+                                  style={{
+                                    boxShadow: "0 2px 6px #acb5f6",
+                                  }}
+                                  className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
+                                >
+                                  <FaEdit />
                                 </span>
-                              </button>
-                              <button>
-                                <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                  <span
-                                    onClick={() =>
-                                      setDeleteModalSlug(
-                                        categoryTableData.cat_slug
-                                      )
-                                    }
-                                    // onClick={() => openModal()}
-                                    style={{
-                                      boxShadow: "0 2px 6px #fd9b96",
-                                    }}
-                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
-                                  >
-                                    <FaTrash />
-                                  </span>
+                              </span>
+                            </button>
+                            <button>
+                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                                <span
+                                  onClick={() =>
+                                    setDeleteModalSlug(couponableData.slug)
+                                  }
+                                  // onClick={() => openModal()}
+                                  style={{
+                                    boxShadow: "0 2px 6px #fd9b96",
+                                  }}
+                                  className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                                >
+                                  <FaTrash />
                                 </span>
-                              </button>
-                            </td>
-                            <SharedDeleteModal
-                              deleteModalSlug={deleteModalSlug}
-                              handleDelete={handleDelete}
-                              setDeleteModalSlug={setDeleteModalSlug}
-                            ></SharedDeleteModal>
-                          </tr>
-                          // </div>
-                        )
-                      )}
-                    </tbody> */}
+                              </span>
+                            </button>
+                          </td>
+                          <SharedDeleteModal
+                            deleteModalSlug={deleteModalSlug}
+                            handleDelete={handleDelete}
+                            setDeleteModalSlug={setDeleteModalSlug}
+                          ></SharedDeleteModal>
+                        </tr>
+                        // </div>
+                      ))}
+                    </tbody>
                   </table>
 
                   {/* -------------- */}

@@ -1,5 +1,6 @@
 import {
   ICategories,
+  ICoupon,
   IOrder,
   IPopularCategories,
   ISubCategories,
@@ -56,6 +57,10 @@ export interface IOrderResponse extends MyFetchInterface {
 }
 export interface ISingleProductResponse extends MyFetchInterface {
   res: IProduct;
+}
+
+export interface ICouponResponse extends MyFetchInterface {
+  res: Array<ICoupon>;
 }
 
 export interface IResponseAllBrands extends MyFetchInterface {
