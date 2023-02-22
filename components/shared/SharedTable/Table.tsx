@@ -79,11 +79,6 @@ const Table: React.FC<Props> = (props) => {
     return order?.name;
   };
 
-  // <option value="pending">Pending</option>
-  // <option value="in_progress">In Progress</option>
-  // <option value="delivered">Delivered</option>
-  // <option value="completed">Completed</option>
-  // <option value="declined">Declined</option>
   return (
     <div style={{ margin: "25px", backgroundColor: "white" }}>
       <div className="p-4 rounded w-full">
@@ -226,7 +221,7 @@ const Table: React.FC<Props> = (props) => {
                           <span className="relative text-white text-xs capitalize">
                             {tabledata.payment_status === "pending"
                               ? "Pending"
-                              : "Completed"}
+                              : "Success"}
                           </span>
                         </span>
                       </td>
