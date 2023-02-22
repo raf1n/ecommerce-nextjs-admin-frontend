@@ -54,6 +54,10 @@ export interface IProductResponse extends MyFetchInterface {
 export interface IOrderResponse extends MyFetchInterface {
   res: { allOrdersData: Array<IOrder>; filteredOrdersData: Array<IOrder> };
 }
+
+export interface ISingleOrderResponse extends MyFetchInterface {
+  res: IOrder;
+}
 export interface ISingleProductResponse extends MyFetchInterface {
   res: IProduct;
 }

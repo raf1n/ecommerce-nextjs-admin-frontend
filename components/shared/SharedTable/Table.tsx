@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { FaEye, FaTrash, FaTruck } from "react-icons/fa";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
@@ -8,7 +8,11 @@ import Link from "next/link";
 import { ICartProduct, IOrder } from "../../../interfaces/models";
 import { CartHandler } from "../../../src/utils/CartHandler";
 import SharedDeleteModal from "../SharedDeleteModal/SharedDeleteModal";
+import SharedOrderStatusUpdateModal from "../SharedOrderStatusUpdateModal/SharedOrderStatusUpdateModal";
+import { EcommerceApi } from "../../../src/API/EcommerceApi";
 interface Props {
+  setShowUpdateModal: Dispatch<SetStateAction<string | any>>;
+  showUpdateModal: string;
   setDeleteModalSlug: Dispatch<SetStateAction<string | any>>;
   deleteModalSlug: string;
   handleDelete: () => void;
@@ -42,6 +46,44 @@ const Table: React.FC<Props> = (props) => {
 
     return quantity;
   };
+  const orderStatus = [
+    {
+      value: "in_progress",
+      name: "In Progress",
+    },
+    {
+      value: "pending",
+      name: "Pending",
+    },
+    {
+      value: "delivered",
+      name: "Delivered",
+    },
+    {
+      value: "completed",
+      name: "Completed",
+    },
+    {
+      value: "declined",
+      name: "Declined",
+    },
+  ];
+
+  const handleOrder = (order_status: string) => {
+    const order = orderStatus.find((order) => {
+      if (order.value === order_status) {
+        return order;
+      }
+    });
+
+    return order?.name;
+  };
+
+  // <option value="pending">Pending</option>
+  // <option value="in_progress">In Progress</option>
+  // <option value="delivered">Delivered</option>
+  // <option value="completed">Completed</option>
+  // <option value="declined">Declined</option>
   return (
     <div style={{ margin: "25px", backgroundColor: "white" }}>
       <div className="p-4 rounded w-full">
@@ -165,7 +207,7 @@ const Table: React.FC<Props> = (props) => {
                             }  rounded-full`}
                           ></span>
                           <span className="relative text-white text-xs capitalize break-words">
-                            {tabledata.order_status}
+                            {handleOrder(tabledata.order_status)}
                           </span>
                         </span>
                       </td>
@@ -182,7 +224,9 @@ const Table: React.FC<Props> = (props) => {
                             }`}
                           ></span>
                           <span className="relative text-white text-xs capitalize">
-                            {tabledata.payment_status}
+                            {tabledata.payment_status === "pending"
+                              ? "Pending"
+                              : "Completed"}
                           </span>
                         </span>
                       </td>
@@ -216,7 +260,11 @@ const Table: React.FC<Props> = (props) => {
                           </span>
                         </button>
                         <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                          <button>
+                          <button
+                            onClick={() =>
+                              props.setShowUpdateModal(tabledata.slug)
+                            }
+                          >
                             <span
                               style={{ boxShadow: "0 2px 6px #ffc473" }}
                               className="h-8 w-8  inset-0 bg-orange-400   rounded  relative text-white flex justify-center items-center"
@@ -226,6 +274,11 @@ const Table: React.FC<Props> = (props) => {
                           </button>
                         </span>
                       </td>
+                      <SharedOrderStatusUpdateModal
+                        singleOrderData={tabledata}
+                        showUpdateModal={props.showUpdateModal}
+                        setShowUpdateModal={props.setShowUpdateModal}
+                      ></SharedOrderStatusUpdateModal>
                     </tr>
                   ))}
                 </tbody>
@@ -271,7 +324,6 @@ const Table: React.FC<Props> = (props) => {
                 handleDelete={props.handleDelete}
                 setDeleteModalSlug={props.setDeleteModalSlug}
               ></SharedDeleteModal>
-              {/* ----------------- */}
             </div>
           </div>
         </div>
