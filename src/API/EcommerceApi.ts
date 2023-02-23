@@ -20,6 +20,7 @@ import {
   ISubCategoriesResponse,
   IOrderResponse,
   ICouponResponse,
+  ISingleOrderResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -654,6 +655,42 @@ export class EcommerceApi {
 
     return await callFetch(
       `${API_ENDPOINT}/orders/admin?${query}`,
+      requestOptions
+    );
+  }
+  // Update Order Status
+  static async orderStatusUpdate(
+    slug: string,
+    order: { payment_status: string; order_status: string }
+  ): Promise<IOrderResponse> {
+    const myHeaders = new Headers();
+    console.log(slug);
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify({
+        payment_status: order.payment_status,
+        order_status: order.order_status,
+      }),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/orders/${slug}`, requestOptions);
+  }
+  // Get Single order Data
+  static async getSingleOrderData(slug: string): Promise<ISingleOrderResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/orders/admin?${slug}`,
       requestOptions
     );
   }

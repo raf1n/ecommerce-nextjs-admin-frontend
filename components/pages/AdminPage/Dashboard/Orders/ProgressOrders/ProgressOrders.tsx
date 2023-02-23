@@ -15,6 +15,7 @@ const ProgressOrders: React.FC<Props> = (props) => {
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
 
   const handleDelete = async () => {
     const { res, err } = await EcommerceApi.deleteByModal(
@@ -33,7 +34,7 @@ const ProgressOrders: React.FC<Props> = (props) => {
   useEffect(() => {
     const findProgressOrdersAdmin = async () => {
       const { res, err } = await EcommerceApi.allOrdersAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&order_status=progress`
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&order_status=in_progress`
       );
       if (err) {
         console.log(err);
@@ -44,7 +45,7 @@ const ProgressOrders: React.FC<Props> = (props) => {
     };
 
     findProgressOrdersAdmin();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, showUpdateModal]);
 
   console.log({ searchString, sortBy, sortType });
 
@@ -69,6 +70,8 @@ const ProgressOrders: React.FC<Props> = (props) => {
       ></DashboardBreadcrumb>
 
       <Table
+        showUpdateModal={showUpdateModal}
+        setShowUpdateModal={setShowUpdateModal}
         handleDelete={handleDelete}
         deleteModalSlug={deleteModalSlug}
         setDeleteModalSlug={setDeleteModalSlug}
