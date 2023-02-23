@@ -26,6 +26,16 @@ export interface ICategories {
   cat_status: string;
   cat_icon: string;
 }
+export interface IReview {
+  // slug?: string;
+
+  product_slug?: string;
+  title?: string;
+  note?: string;
+  rating: number;
+  user?: IUser;
+  reviewProducts: IProducts;
+}
 
 export interface ISubCategories {
   slug: string;
