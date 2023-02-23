@@ -1,3 +1,4 @@
+import { ISingleCouponResponse } from "./../../interfaces/response";
 import {
   IBrand,
   IBrandDetail,
@@ -711,6 +712,7 @@ export class EcommerceApi {
   }
 
   //create Coupon
+
   static async createCoupon(data: Partial<ICoupon>): Promise<ICouponResponse> {
     console.log(data);
     console.log(API_ENDPOINT);
@@ -725,6 +727,27 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/coupon`, requestOptions);
+  }
+
+  //update Coupon
+
+  static async updateCoupon(
+    slug: string,
+    data: Partial<ICoupon>
+  ): Promise<ICouponResponse> {
+    console.log(data);
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/coupon/${slug}`, requestOptions);
   }
 
   // get all coupons
@@ -742,6 +765,20 @@ export class EcommerceApi {
       `${API_ENDPOINT}/coupon/admin?${query}`,
       requestOptions
     );
+  }
+
+  //get single  coupon data
+
+  static async getSingleCoupon(slug: string): Promise<ISingleCouponResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/coupon/${slug}`, requestOptions);
   }
 
   //Delete Coupon
