@@ -718,7 +718,7 @@ export class EcommerceApi {
   static async allCouponsAdmin(query: string): Promise<ICouponResponse> {
     console.log(API_ENDPOINT);
     const myHeaders = new Headers();
-
+    console.log(query);
     const requestOptions = {
       headers: myHeaders,
       redirect: "follow",
