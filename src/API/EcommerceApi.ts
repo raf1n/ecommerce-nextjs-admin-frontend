@@ -18,9 +18,10 @@ import {
   ISingleSubCategoryResponse,
   ISingleCategoryResponse,
   ISubCategoriesResponse,
+  IReviewProductsResponse,
   IOrderResponse,
-  ICouponResponse,
   ISingleOrderResponse,
+  ICouponResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -48,6 +49,19 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/categories`, requestOptions);
+  }
+  //get all Reviews
+  static async getAllReviews(): Promise<IReviewProductsResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/reviews/findAllForAdmin`,
+      requestOptions
+    );
   }
 
   //get all categories admin
