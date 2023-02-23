@@ -27,13 +27,13 @@ export interface ICategories {
   cat_icon: string;
 }
 export interface IReview {
-  // slug?: string;
-
+  slug?: string;
   product_slug?: string;
   title?: string;
   note?: string;
   rating: number;
   user?: IUser;
+  status?: string;
   reviewProducts: IProduct;
 }
 

@@ -42,12 +42,14 @@ const ProductReview: React.FC<Props> = (props) => {
     getAllReviews();
   }, []);
 
+  console.log("reviewDatas--", reviewDatas);
   return (
     <div className="w-full">
       <DashboardBreadcrumb
         headline="Product Reviews"
         slug="Product Reviews"
-        link="/product_reviews"></DashboardBreadcrumb>
+        link="/product_reviews"
+      ></DashboardBreadcrumb>
       <div className="mx-[25px]">
         <div className="section-body">
           <div className="mt-7">

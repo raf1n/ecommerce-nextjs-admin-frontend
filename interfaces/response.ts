@@ -78,3 +78,6 @@ export interface IResponseAllBrands extends MyFetchInterface {
 export interface IResponseBrandDetail extends MyFetchInterface {
   res: IBrandDetail;
 }
+export interface ISigleReviewResponse extends MyFetchInterface {
+  res: IReview;
+}
