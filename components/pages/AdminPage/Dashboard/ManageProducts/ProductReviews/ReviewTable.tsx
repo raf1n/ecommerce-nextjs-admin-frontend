@@ -118,7 +118,7 @@ const ReviewTable: React.FC<Props> = (props) => {
                           <p className="text-gray-900 ">{index + 1}</p>
                         </td>
                         <td className="px-3 py-3  text-sm">
-                          <p className="text-gray-900 ">
+                          <p className="text-gray-900 capitalize">
                             {tabledata.user?.fullName}
                           </p>
                         </td>
@@ -131,7 +131,9 @@ const ReviewTable: React.FC<Props> = (props) => {
                           </p>
                         </td>
                         <td className="px-0 py-3  text-sm">
-                          <p className="text-gray-900 ">{tabledata.rating}</p>
+                          <p className="text-gray-900 capitalize">
+                            {tabledata.rating}
+                          </p>
                         </td>
                         <td className="px-3 py-3  text-sm">
                           <ToggleButton />
