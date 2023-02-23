@@ -679,6 +679,7 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/orders/${slug}`, requestOptions);
   }
+
   // Get Single order Data
   static async getSingleOrderData(slug: string): Promise<ISingleOrderResponse> {
     console.log(API_ENDPOINT);
