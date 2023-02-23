@@ -243,25 +243,9 @@ const Coupon: React.FC<Props> = (props) => {
                               </span>
                             </button>
                           </td>
-
-                          <SharedDeleteModal
-                            deleteModalSlug={deleteModalSlug}
-                            handleDelete={handleDelete}
-                            setDeleteModalSlug={setDeleteModalSlug}
-                          ></SharedDeleteModal>
                         </tr>
                       ))}
                     </tbody>
-                    <AddNewCoupon
-                      title="Coupon"
-                      setShowModal={setShowAddModal}
-                      showModal={showAddModal}
-                    ></AddNewCoupon>
-                    <UpdateCoupon
-                      title="Coupon"
-                      setUpdateModalSlug={setUpdateModalSlug}
-                      updateModalSlug={updateModalSlug}
-                    ></UpdateCoupon>
                   </table>
                   <div className="px-5 py-5  border-t flex justify-between">
                     <div>
@@ -303,6 +287,21 @@ const Coupon: React.FC<Props> = (props) => {
             </div>
           </div>
         </div>
+        <AddNewCoupon
+          title="Coupon"
+          setShowModal={setShowAddModal}
+          showModal={showAddModal}
+        ></AddNewCoupon>
+        <UpdateCoupon
+          title="Coupon"
+          setUpdateModalSlug={setUpdateModalSlug}
+          updateModalSlug={updateModalSlug}
+        ></UpdateCoupon>
+        <SharedDeleteModal
+          deleteModalSlug={deleteModalSlug}
+          handleDelete={handleDelete}
+          setDeleteModalSlug={setDeleteModalSlug}
+        ></SharedDeleteModal>
       </div>
     </div>
   );

@@ -734,7 +734,7 @@ export class EcommerceApi {
   static async updateCoupon(
     slug: string,
     data: Partial<ICoupon>
-  ): Promise<ICouponResponse> {
+  ): Promise<ISingleCouponResponse> {
     console.log(data);
     console.log(API_ENDPOINT);
     const myHeaders = new Headers();

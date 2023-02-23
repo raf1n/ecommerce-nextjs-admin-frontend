@@ -17,9 +17,9 @@ const UpdateCoupon: React.FC<Props> = (props) => {
   const [singleCouponData, setSingleCouponData] = useState<ICoupon | null>(
     null
   );
-
+  console.log(props.updateModalSlug);
   const { updateModalSlug, setUpdateModalSlug } = props;
-  console.log(updateModalSlug);
+
   useEffect(() => {
     if (updateModalSlug) {
       const handleGetCouponData = async () => {
@@ -33,6 +33,7 @@ const UpdateCoupon: React.FC<Props> = (props) => {
       handleGetCouponData();
     }
   }, [updateModalSlug]);
+
   const handleUpdate = async (e: any) => {
     e.preventDefault();
     // console.log("eeee");
@@ -54,6 +55,7 @@ const UpdateCoupon: React.FC<Props> = (props) => {
     if (res) {
       setUpdateModalSlug("");
     } else console.log(err);
+    e.target.reset();
   };
 
   return (
