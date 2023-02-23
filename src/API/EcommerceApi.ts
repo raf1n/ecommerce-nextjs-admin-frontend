@@ -17,6 +17,7 @@ import {
   ISingleSubCategoryResponse,
   ISingleCategoryResponse,
   ISubCategoriesResponse,
+  IReviewProductsResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProducts } from "../../interfaces/models";
@@ -44,6 +45,19 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/categories`, requestOptions);
+  }
+  //get all Reviews
+  static async getAllReviews(): Promise<IReviewProductsResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/reviews/findAllForAdmin`,
+      requestOptions
+    );
   }
 
   //get all categories admin
@@ -381,19 +395,19 @@ export class EcommerceApi {
   //DEMO API CALLING STRUCTURE
   static async login(data: Partial<IUser>): Promise<ILoginResponse> {
     console.log(data.token);
-    console.log(API_ENDPOINT)
+    console.log(API_ENDPOINT);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(data),
-        redirect: 'follow'
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/users/login`, requestOptions)
-}
+    return await callFetch(`${API_ENDPOINT}/users/login`, requestOptions);
+  }
   // test
   static async allProducts(): Promise<IProductResponse> {
     console.log(API_ENDPOINT);

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { controller } from "../../../../../src/state/StateController";
 import Styles from "./AdminDetailsSummary.module.css";
 import { Jsondata } from "../../../../../src/utils/Jsondata";
+import Table from "../../../../shared/SharedTable/Table";
 interface Props {}
 
 const AdminDetailsSummary: React.FC<Props> = (props) => {
@@ -17,7 +18,7 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
           <h1 className="text-2xl font-semibold">Dashboard</h1>
         </div>
       </div>
-      <div className="section-body mx-2">
+      <div className="section-body mx-2  pb-10">
         <div className="px-4 w-full">
           <div className="grid grid-cols-12 gap-4">
             {Jsondata.dashboardSummaryData.map((data) => (
@@ -37,6 +38,9 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
             ))}
           </div>
         </div>
+      </div>
+      <div>
+        <Table />
       </div>
     </div>
   );

@@ -50,7 +50,7 @@ const Table: React.FC<Props> = (props) => {
                 <thead>
                   <tr className="h-16">
                     <th
-                      className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                      className={` px-3 py-3  bg-gray-100 text-left text-xs  text-gray-600 uppercase font-bold`}>
                       <span className="flex  space-x-0 space-y-0 ">
                         SL
                         <span className="opacity-50 flex">
@@ -59,7 +59,7 @@ const Table: React.FC<Props> = (props) => {
                       </span>
                     </th>
                     <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}>
                       <span className="flex  space-x-0 space-y-0  ">
                         Customer
                         <span className="opacity-50 flex">
@@ -68,7 +68,7 @@ const Table: React.FC<Props> = (props) => {
                       </span>
                     </th>
                     <th
-                      className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                      className={`px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}>
                       <span className="flex  space-x-0 space-y-0 ">
                         Order Id
                         <span className="opacity-50 flex">
@@ -77,7 +77,7 @@ const Table: React.FC<Props> = (props) => {
                       </span>
                     </th>
                     <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase  `}>
+                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase  `}>
                       <span className="flex  space-x-0 space-y-0 ">
                         Date
                         <span className="opacity-50 flex">
@@ -86,7 +86,7 @@ const Table: React.FC<Props> = (props) => {
                       </span>
                     </th>
                     <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}>
                       <span className="flex  space-x-0 space-y-0 ">
                         Quantity
                         <span className="opacity-50 flex">
@@ -95,7 +95,7 @@ const Table: React.FC<Props> = (props) => {
                       </span>
                     </th>
                     <th
-                      className={` px-1 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                      className={` px-1 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}>
                       <span className="flex  space-x-0 space-y-0">
                         Amount
                         <span className="opacity-50 flex">
@@ -104,7 +104,7 @@ const Table: React.FC<Props> = (props) => {
                       </span>
                     </th>
                     <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}>
                       <span className="flex  space-x-0 space-y-0 ">
                         Order Status
                         <span className="opacity-50 flex">
@@ -113,7 +113,7 @@ const Table: React.FC<Props> = (props) => {
                       </span>
                     </th>
                     <th
-                      className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                      className={`px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}>
                       <span className="flex  space-x-0 space-y-0">
                         Payment
                         <span className="opacity-50 flex">
@@ -122,7 +122,7 @@ const Table: React.FC<Props> = (props) => {
                       </span>
                     </th>
                     <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
+                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}>
                       <span className="flex  space-x-0 space-y-0">
                         Action
                         <span className="opacity-50 flex">

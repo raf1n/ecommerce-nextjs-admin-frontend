@@ -83,6 +83,7 @@ const ProductBrands: React.FC<Props> = (props) => {
               setSearchString={setSearchString}
               // handleSetSortBy={handleSetSortBy}
             />
+
             <SharedDeleteModal
               handleDelete={handleDelete}
               deleteModalSlug={deleteModalSlug}
