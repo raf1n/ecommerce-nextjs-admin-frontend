@@ -27,14 +27,14 @@ export interface ICategories {
   cat_icon: string;
 }
 export interface IReview {
-  // slug?: string;
-
+  slug?: string;
   product_slug?: string;
   title?: string;
   note?: string;
   rating: number;
+  name: string;
   user?: IUser;
-  reviewProducts: IProducts;
+  reviewProducts: IProduct;
 }
 
 export interface ISubCategories {
@@ -53,7 +53,7 @@ export interface IPopularCategories {
   cat_name: string;
   cat_image: string;
 }
-export interface IProducts {
+export interface IProduct {
   productName?: string;
   slug?: string;
   catSlug?: string;

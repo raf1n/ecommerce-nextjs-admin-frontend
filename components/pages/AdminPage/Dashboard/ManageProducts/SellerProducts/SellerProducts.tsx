@@ -12,7 +12,7 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
-import { IProducts } from "../../../../../../interfaces/models";
+import { IProduct } from "../../../../../../interfaces/models";
 import ProductsToggleButton from "../ProductsToggleButton/ProductsToggleButton";
 import { useRouter } from "next/router";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
@@ -23,7 +23,7 @@ const SellerProducts: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const router = useRouter();
   const { asPath } = router;
-  const [sellerProducts, setSellerProducts] = useState<IProducts[]>([]);
+  const [sellerProducts, setSellerProducts] = useState<IProduct[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
@@ -148,7 +148,7 @@ const SellerProducts: React.FC<Props> = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {sellerProducts.map((data: IProducts, indx) => (
+                        {sellerProducts.map((data: IProduct, indx) => (
                           <tr className="even:bg-gray-100 odd:bg-white">
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">

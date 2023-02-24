@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 import { FaEye, FaTrash, FaTruck } from "react-icons/fa";
@@ -9,10 +9,31 @@ import ToggleButton from "../../ManageCategories/ToggleButton/ToggleButton";
 
 interface Props {
   reviewDatas: Array<IReview>;
+  sortBy: string;
+  setSortBy: Dispatch<SetStateAction<string>>;
+  sortType: string;
+  setSortType: Dispatch<SetStateAction<string>>;
+  setSearchString: Dispatch<SetStateAction<string>>;
 }
 
 const ReviewTable: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const { sortBy, sortType, setSortType, setSortBy } = props;
+
+  // const [sortBy, setSortBy] = useState("createdAt");
+  // const [sortType, setSortType] = useState("desc");
+  // const [searchString, setSearchString] = useState("");
+
+  const tableHeaders = {
+    sn: "sn",
+    //  for testing porpuse using slug coz user only one !!
+    name: "slug",
+    // name: "user.fullName",
+    products: "reviewProducts.productName",
+    rating: "rating",
+    status: "status",
+    action: "action",
+  };
 
   return (
     <div>
@@ -39,6 +60,7 @@ const ReviewTable: React.FC<Props> = (props) => {
               </label>
               <div className={`flex items-center ml-3   `}>
                 <input
+                  // onChange={(e) => setSearchString(e.target.value)}
                   className={` rounded outline-none  border hover:border-blue-400 h-[31px] w-[181px] py-[2px] px-[6px]`}
                   type="text"
                   name=""
@@ -54,62 +76,44 @@ const ReviewTable: React.FC<Props> = (props) => {
                 <table className="min-w-full leading-normal">
                   <thead>
                     <tr className="h-16">
-                      <th
-                        className={` px-3 py-3  bg-gray-100 text-left text-xs  text-gray-600 uppercase font-bold`}>
-                        <span className="flex  space-x-0 space-y-0 ">
-                          SL
-                          <span className="opacity-50 flex">
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
+                      {Object.keys(tableHeaders).map((header: any) => (
+                        <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <span className="flex">
+                            <span className="flex-1">{header}</span>
+                            <FaLongArrowAltUp
+                              onClick={() => {
+                                setSortType("asc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "asc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-2 cursor-pointer`}
+                            />{" "}
+                            <FaLongArrowAltDown
+                              onClick={() => {
+                                setSortType("desc");
+                                //@ts-ignore
+                                setSortBy(tableHeaders[header]);
+                              }}
+                              className={`${
+                                //@ts-ignore
+                                sortBy === tableHeaders[header] &&
+                                sortType === "desc"
+                                  ? "fill-gray-700"
+                                  : "fill-gray-300"
+                              } w-2 ml-1 cursor-pointer`}
+                            />
                           </span>
-                        </span>
-                      </th>
-                      <th
-                        className={` px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}>
-                        <span className="flex  space-x-0 space-y-0  ">
-                          Name
-                          <span className="opacity-50 flex">
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                          </span>
-                        </span>
-                      </th>
-                      <th
-                        className={`px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}>
-                        <span className="flex  space-x-0 space-y-0 ">
-                          Product
-                          <span className="opacity-50 flex">
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                          </span>
-                        </span>
-                      </th>
-                      <th
-                        className={` px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase  `}>
-                        <span className="flex  space-x-0 space-y-0 ">
-                          Rating
-                          <span className="opacity-50 flex">
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                          </span>
-                        </span>
-                      </th>
-                      <th
-                        className={` px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}>
-                        <span className="flex  space-x-0 space-y-0 ">
-                          Status
-                          <span className="opacity-50 flex">
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                          </span>
-                        </span>
-                      </th>
-                      <th
-                        className={` px-1 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}>
-                        <span className="flex  space-x-0 space-y-0">
-                          Action
-                          <span className="opacity-50 flex">
-                            <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                          </span>
-                        </span>
-                      </th>
+                        </th>
+                      ))}
                     </tr>
                   </thead>
+
                   {/* -----------Plz Attention ,Table body/Row start here -------------- */}
                   <tbody>
                     {props.reviewDatas.map((tabledata: IReview, index) => (
@@ -119,7 +123,9 @@ const ReviewTable: React.FC<Props> = (props) => {
                         </td>
                         <td className="px-3 py-3  text-sm">
                           <p className="text-gray-900 capitalize">
-                            {tabledata.user?.fullName}
+                            {tabledata?.slug}
+                            {/* for testing porpuse */}
+                            {/* {tabledata?.user?.fullName} */}
                           </p>
                         </td>
                         <td className="px-3 py-3    text-sm">
@@ -136,7 +142,7 @@ const ReviewTable: React.FC<Props> = (props) => {
                           </p>
                         </td>
                         <td className="px-3 py-3  text-sm">
-                          <ToggleButton />
+                          <ToggleButton apiUrl="" slug="" status="" />
                         </td>
 
                         <td className="px-2 py-3  text-sm">

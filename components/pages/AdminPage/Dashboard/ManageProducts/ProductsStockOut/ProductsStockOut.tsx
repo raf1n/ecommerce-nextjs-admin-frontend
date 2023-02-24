@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "./../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
-import { IProducts } from "../../../../../../interfaces/models";
+import { IProduct } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import {
   FaEdit,
@@ -17,7 +17,7 @@ interface Props {}
 
 const ProductsStockOut: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [stockoutProducts, setStockoutProducts] = useState<IProducts[]>([]);
+  const [stockoutProducts, setStockoutProducts] = useState<IProduct[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
@@ -140,7 +140,7 @@ const ProductsStockOut: React.FC<Props> = (props) => {
                           </tr>
                         </thead>
                         <tbody>
-                          {stockoutProducts.map((product: IProducts, indx) => (
+                          {stockoutProducts.map((product: IProduct, indx) => (
                             <tr className="border-b border-gray-200">
                               <td className="px-5 py-5 bg-white text-sm">
                                 <p className="text-gray-900 whitespace-no-wrap">

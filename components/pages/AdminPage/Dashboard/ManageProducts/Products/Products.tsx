@@ -5,7 +5,7 @@ import { controller } from "./../../../../../../src/state/StateController";
 
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedAddNewButton from "./../../../../../shared/SharedAddNewButton/SharedAddNewButton";
-import { IProducts } from "../../../../../../interfaces/models";
+import { IProduct } from "../../../../../../interfaces/models";
 import {
   FaEdit,
   FaLongArrowAltDown,
@@ -21,7 +21,7 @@ interface Props {}
 
 const Products: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [productsData, setProductsData] = useState<IProducts[]>([]);
+  const [productsData, setProductsData] = useState<IProduct[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
@@ -161,7 +161,7 @@ const Products: React.FC<Props> = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {productsData.map((data: IProducts, indx) => (
+                        {productsData.map((data: IProduct, indx) => (
                           <tr className="even:bg-gray-100 odd:bg-white">
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">

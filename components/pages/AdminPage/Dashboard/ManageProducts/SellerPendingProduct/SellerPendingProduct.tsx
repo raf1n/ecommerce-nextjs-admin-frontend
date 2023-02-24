@@ -6,7 +6,7 @@ import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedA
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import { useRouter } from "next/router";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
-import { IProducts } from "../../../../../../interfaces/models";
+import { IProduct } from "../../../../../../interfaces/models";
 import {
   FaEdit,
   FaLongArrowAltDown,
@@ -24,7 +24,7 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
   const router = useRouter();
   const { asPath } = router;
   const [sellerPendingProducts, setSellerPendingProducts] = useState<
-    IProducts[]
+    IProduct[]
   >([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [refresh, setRefresh] = useState(false);
@@ -155,7 +155,7 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {sellerPendingProducts.map((data: IProducts, indx) => (
+                        {sellerPendingProducts.map((data: IProduct, indx) => (
                           <tr className="even:bg-gray-100 odd:bg-white">
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
