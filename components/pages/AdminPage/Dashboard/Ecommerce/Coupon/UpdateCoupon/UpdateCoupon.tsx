@@ -197,9 +197,10 @@ const UpdateCoupon: React.FC<Props> = (props) => {
                       className="w-full border rounded p-2 border-gray-200 bg-[#fdfdff] focus:outline-none"
                       name="status"
                       id=""
+                      defaultValue={singleCouponData?.status}
                     >
-                      <option value="electronics">Active</option>
-                      <option value="electronics">Inactive</option>
+                      <option value="active">Active</option>
+                      <option value="inactive">InActive</option>
                     </select>
                   </div>
                   <div className="mt-4">

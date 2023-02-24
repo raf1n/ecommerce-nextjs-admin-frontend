@@ -178,8 +178,8 @@ const AddNewCoupon: React.FC<Props> = (props) => {
                       name="status"
                       id=""
                     >
-                      <option value="electronics">Active</option>
-                      <option value="electronics">Inactive</option>
+                      <option value="active">Active</option>
+                      <option value="inactive">InActive</option>
                     </select>
                   </div>
                   <div className="mt-4">
