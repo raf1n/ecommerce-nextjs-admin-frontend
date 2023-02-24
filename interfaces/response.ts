@@ -70,6 +70,9 @@ export interface ISingleProductResponse extends MyFetchInterface {
 export interface ICouponResponse extends MyFetchInterface {
   res: Array<ICoupon>;
 }
+export interface ISingleCouponResponse extends MyFetchInterface {
+  res: ICoupon;
+}
 
 export interface IResponseAllBrands extends MyFetchInterface {
   res: Array<IBrandDetail>;

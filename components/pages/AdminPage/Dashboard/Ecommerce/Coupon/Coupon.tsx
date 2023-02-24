@@ -15,19 +15,23 @@ import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedA
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 import CatToggleButton from "../../ManageCategories/Categories/CatToggleButton";
+import ToggleButton from "../../ManageCategories/ToggleButton/ToggleButton";
 
 import AddNewCoupon from "./AddNewCoupon/AddNewCoupon";
+import UpdateCoupon from "./UpdateCoupon/UpdateCoupon";
 
 interface Props {}
 
 const Coupon: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [updateModalSlug, setUpdateModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [couponData, setCouponData] = useState<ICoupon[]>([]);
+
   const router = useRouter();
   const { asPath } = router;
 
@@ -69,7 +73,7 @@ const Coupon: React.FC<Props> = (props) => {
       }
     };
     fetchAllCouponAdminData();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, showAddModal, updateModalSlug]);
 
   return (
     <div className="w-full">
@@ -80,15 +84,7 @@ const Coupon: React.FC<Props> = (props) => {
       ></DashboardBreadcrumb>
       <div className="m-6">
         <div onClick={() => setShowAddModal(true)} className="section-body">
-          {/* <Link className="inline-block" href="product_categories/create"> */}
           <SharedAddNewButton></SharedAddNewButton>
-          <AddNewCoupon
-            // categoriesData={categoriesData}
-            title="Coupon"
-            setShowModal={setShowAddModal}
-            showModal={showAddModal}
-          ></AddNewCoupon>
-          {/* </Link> */}
         </div>
         <div style={{ marginTop: "25px", backgroundColor: "white" }}>
           <div className="p-4 rounded w-full">
@@ -146,7 +142,7 @@ const Coupon: React.FC<Props> = (props) => {
                                     ? "fill-gray-700"
                                     : "fill-gray-300"
                                 } w-2 ml-2 cursor-pointer`}
-                              />{" "}
+                              />
                               <FaLongArrowAltDown
                                 onClick={() => {
                                   setSortType("desc");
@@ -166,7 +162,6 @@ const Coupon: React.FC<Props> = (props) => {
                         ))}
                       </tr>
                     </thead>
-                    {/* -------Plz Attention ,Table body/Row start here -------------- */}
                     <tbody>
                       {couponData.map((couponableData: ICoupon, index) => (
                         // <div>
@@ -208,8 +203,8 @@ const Coupon: React.FC<Props> = (props) => {
                           </td>
 
                           <td className="px-3 py-3 text-sm">
-                            <CatToggleButton
-                              // apiUrl="coupon"
+                            <ToggleButton
+                              apiUrl="coupon"
                               slug={couponableData?.slug}
                               status={couponableData.status}
                             />
@@ -218,9 +213,7 @@ const Coupon: React.FC<Props> = (props) => {
                           <td className="px-2 py-3  text-sm">
                             <button
                               onClick={() =>
-                                router.push(
-                                  `${asPath}/${couponableData.slug}/edit`
-                                )
+                                setUpdateModalSlug(couponableData.slug)
                               }
                             >
                               <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
@@ -251,18 +244,10 @@ const Coupon: React.FC<Props> = (props) => {
                               </span>
                             </button>
                           </td>
-                          <SharedDeleteModal
-                            deleteModalSlug={deleteModalSlug}
-                            handleDelete={handleDelete}
-                            setDeleteModalSlug={setDeleteModalSlug}
-                          ></SharedDeleteModal>
                         </tr>
-                        // </div>
                       ))}
                     </tbody>
                   </table>
-
-                  {/* -------------- */}
                   <div className="px-5 py-5  border-t flex justify-between">
                     <div>
                       <span className="text-xs xs:text-sm text-gray-900">
@@ -303,6 +288,21 @@ const Coupon: React.FC<Props> = (props) => {
             </div>
           </div>
         </div>
+        <AddNewCoupon
+          title="Coupon"
+          setShowModal={setShowAddModal}
+          showModal={showAddModal}
+        ></AddNewCoupon>
+        <UpdateCoupon
+          title="Coupon"
+          setUpdateModalSlug={setUpdateModalSlug}
+          updateModalSlug={updateModalSlug}
+        ></UpdateCoupon>
+        <SharedDeleteModal
+          deleteModalSlug={deleteModalSlug}
+          handleDelete={handleDelete}
+          setDeleteModalSlug={setDeleteModalSlug}
+        ></SharedDeleteModal>
       </div>
     </div>
   );

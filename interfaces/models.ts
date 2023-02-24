@@ -127,5 +127,5 @@ export interface ICoupon {
   apply_qty: number;
   expired_date: string;
   status: string;
-  action: string;
+  minimum_purchase: number;
 }
