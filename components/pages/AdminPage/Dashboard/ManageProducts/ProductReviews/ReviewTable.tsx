@@ -13,20 +13,24 @@ interface Props {
   setSortBy: Dispatch<SetStateAction<string>>;
   sortType: string;
   setSortType: Dispatch<SetStateAction<string>>;
+  searchString: string;
   setSearchString: Dispatch<SetStateAction<string>>;
 }
 
 const ReviewTable: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const { sortBy, sortType, setSortType, setSortBy } = props;
-
-  // const [sortBy, setSortBy] = useState("createdAt");
-  // const [sortType, setSortType] = useState("desc");
-  // const [searchString, setSearchString] = useState("");
+  const {
+    sortBy,
+    sortType,
+    setSortType,
+    setSortBy,
+    searchString,
+    setSearchString,
+  } = props;
 
   const tableHeaders = {
     sn: "sn",
-    //  for testing porpuse using slug coz user only one !!
+    //  for testing porpuse using "slug" coz user only one !!
     name: "slug",
     // name: "user.fullName",
     products: "reviewProducts.productName",
@@ -60,7 +64,7 @@ const ReviewTable: React.FC<Props> = (props) => {
               </label>
               <div className={`flex items-center ml-3   `}>
                 <input
-                  // onChange={(e) => setSearchString(e.target.value)}
+                  onChange={(e) => setSearchString(e.target.value)}
                   className={` rounded outline-none  border hover:border-blue-400 h-[31px] w-[181px] py-[2px] px-[6px]`}
                   type="text"
                   name=""

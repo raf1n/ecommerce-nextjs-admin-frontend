@@ -60,7 +60,7 @@ const ProductReview: React.FC<Props> = (props) => {
               setSortBy={setSortBy}
               sortType={sortType}
               setSortType={setSortType}
-              // searchString={searchString}
+              searchString={searchString}
               setSearchString={setSearchString}
             />
             {/* <DynamicTable
