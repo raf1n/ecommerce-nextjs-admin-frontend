@@ -10,6 +10,7 @@ interface Props {}
 
 const ProgressOrders: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+
   const [progressOrdersData, setProgressOrdersData] = useState<IOrder[]>([]);
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
@@ -66,8 +67,7 @@ const ProgressOrders: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Progress Orders"
         slug="Progress Orders"
-        link="/progress-orders"
-      ></DashboardBreadcrumb>
+        link="/progress-orders"></DashboardBreadcrumb>
 
       <Table
         showUpdateModal={showUpdateModal}
