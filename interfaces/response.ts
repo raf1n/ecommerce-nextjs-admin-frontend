@@ -1,5 +1,7 @@
 import {
   ICategories,
+  ICoupon,
+  IOrder,
   IPopularCategories,
   IReview,
   ISubCategories,
@@ -53,8 +55,23 @@ export interface IProductResponse extends MyFetchInterface {
     sellerPendingProducts: Array<IProduct>;
   };
 }
+
+export interface IOrderResponse extends MyFetchInterface {
+  res: { allOrdersData: Array<IOrder>; filteredOrdersData: Array<IOrder> };
+}
+
+export interface ISingleOrderResponse extends MyFetchInterface {
+  res: IOrder;
+}
 export interface ISingleProductResponse extends MyFetchInterface {
   res: IProduct;
+}
+
+export interface ICouponResponse extends MyFetchInterface {
+  res: Array<ICoupon>;
+}
+export interface ISingleCouponResponse extends MyFetchInterface {
+  res: ICoupon;
 }
 
 export interface IResponseAllBrands extends MyFetchInterface {
@@ -63,4 +80,7 @@ export interface IResponseAllBrands extends MyFetchInterface {
 
 export interface IResponseBrandDetail extends MyFetchInterface {
   res: IBrandDetail;
+}
+export interface ISigleReviewResponse extends MyFetchInterface {
+  res: IReview;
 }

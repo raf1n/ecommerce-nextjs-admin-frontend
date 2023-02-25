@@ -937,7 +937,33 @@ export class Jsondata {
         },
       ],
     },
-    { title: "Ecommerce", icon: FaShoppingCart },
+    {
+      title: "Ecommerce",
+      icon: FaShoppingCart,
+      nestedRoutes: [
+        {
+          title: "Flash Sale",
+          link: "/flash_sale",
+        },
+        {
+          title: "Flash Sale Product",
+          link: "/flash_sale_product",
+        },
+
+        {
+          title: "Coupon",
+          link: "/coupon",
+        },
+        {
+          title: "Shipping Rule",
+          link: "/shipping",
+        },
+        {
+          title: "Payment Method",
+          link: "/payment_method",
+        },
+      ],
+    },
     { title: "Advertisements", icon: FaAdversal },
     { title: "Withdraw Payment", icon: FaNewspaper },
     { title: "Users", icon: FaUserAlt },

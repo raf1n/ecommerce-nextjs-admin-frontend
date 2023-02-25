@@ -6,6 +6,8 @@ import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import Link from "next/link";
 import { IReview } from "../../../../../../interfaces/models";
 import ToggleButton from "../../ManageCategories/ToggleButton/ToggleButton";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 
 interface Props {
   reviewDatas: Array<IReview>;
@@ -37,6 +39,19 @@ const ReviewTable: React.FC<Props> = (props) => {
     rating: "rating",
     status: "status",
     action: "action",
+  };
+  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [reviewData, setReviewData] = useState<IReview[]>([]);
+
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteReview(deleteModalSlug);
+    if (res) {
+      setDeleteModalSlug("");
+      const remainingReviews = reviewData.filter(
+        (review) => review.slug !== deleteModalSlug
+      );
+      setReviewData(remainingReviews);
+    }
   };
 
   return (
@@ -146,7 +161,11 @@ const ReviewTable: React.FC<Props> = (props) => {
                           </p>
                         </td>
                         <td className="px-3 py-3  text-sm">
-                          <ToggleButton apiUrl="" slug="" status="" />
+                          <ToggleButton
+                            apiUrl="reviews"
+                            slug={tabledata.slug}
+                            status={tabledata?.status}
+                          />
                         </td>
 
                         <td className="px-2 py-3  text-sm">
@@ -162,6 +181,9 @@ const ReviewTable: React.FC<Props> = (props) => {
                           <button>
                             <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                               <span
+                                onClick={() =>
+                                  setDeleteModalSlug(tabledata.slug)
+                                }
                                 style={{ boxShadow: "0 2px 6px #fd9b96" }}
                                 className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center">
                                 <FaTrash />
@@ -169,6 +191,12 @@ const ReviewTable: React.FC<Props> = (props) => {
                             </span>
                           </button>
                         </td>
+                        <SharedDeleteModal
+                          deleteModalSlug={deleteModalSlug}
+                          handleDelete={handleDelete}
+                          setDeleteModalSlug={
+                            setDeleteModalSlug
+                          }></SharedDeleteModal>
                       </tr>
                     ))}
                   </tbody>

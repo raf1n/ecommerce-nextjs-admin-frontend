@@ -34,6 +34,7 @@ export interface IReview {
   rating: number;
   name: string;
   user?: IUser;
+  status?: string;
   reviewProducts: IProduct;
 }
 
@@ -89,4 +90,43 @@ export interface IBrandDetail {
   logo?: string;
   status: string;
   slug?: string;
+}
+
+export interface ICartProduct extends IProduct {
+  cart_slug: string;
+  quantity: number;
+}
+
+export interface IOrder {
+  subTotal: number;
+  discount: number;
+  shippingCost: number;
+  total: number;
+  slug?: string;
+  createdAt?: string;
+  product_list: ICartProduct[];
+  payment_method: string;
+  user_slug: string;
+  transaction_id: string;
+  payment_status?: string;
+  order_status: string;
+  userData?: IUser;
+  address: {
+    country?: string;
+    state?: string;
+    city?: string;
+    address?: string;
+  };
+}
+
+export interface ICoupon {
+  slug: string;
+  name: string;
+  code: string;
+  discount: number;
+  items_number: number;
+  apply_qty: number;
+  expired_date: string;
+  status: string;
+  minimum_purchase: number;
 }
