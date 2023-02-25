@@ -15,6 +15,7 @@ import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedA
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 import CatToggleButton from "../../ManageCategories/Categories/CatToggleButton";
+import ToggleButton from "../../ManageCategories/ToggleButton/ToggleButton";
 
 import AddNewCoupon from "./AddNewCoupon/AddNewCoupon";
 import UpdateCoupon from "./UpdateCoupon/UpdateCoupon";
@@ -202,8 +203,8 @@ const Coupon: React.FC<Props> = (props) => {
                           </td>
 
                           <td className="px-3 py-3 text-sm">
-                            <CatToggleButton
-                              // apiUrl="coupon"
+                            <ToggleButton
+                              apiUrl="coupon"
                               slug={couponableData?.slug}
                               status={couponableData.status}
                             />
