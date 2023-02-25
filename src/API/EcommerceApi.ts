@@ -1,4 +1,3 @@
-import { ISingleCouponResponse } from "./../../interfaces/response";
 import {
   IBrand,
   IBrandDetail,
@@ -24,6 +23,7 @@ import {
   ISingleOrderResponse,
   ICouponResponse,
   ISigleReviewResponse,
+  ISingleCouponResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -42,9 +42,7 @@ export interface LoginInterface {
 export class EcommerceApi {
   //get all categories
   static async allCategories(): Promise<IResponseCategories> {
-    console.log(API_ENDPOINT);
     const myHeaders = new Headers();
-
     const requestOptions = {
       headers: myHeaders,
       redirect: "follow",
@@ -53,24 +51,22 @@ export class EcommerceApi {
     return await callFetch(`${API_ENDPOINT}/categories`, requestOptions);
   }
   //get all Reviews  admin
-  static async getAllReviews(): Promise<IReviewProductsResponse> {
+  static async getAllReviews(query: string): Promise<IReviewProductsResponse> {
     const myHeaders = new Headers();
     const requestOptions = {
       headers: myHeaders,
       redirect: "follow",
     };
     return await callFetch(
-      `${API_ENDPOINT}/reviews/findAllForAdmin`,
+      `${API_ENDPOINT}/reviews/findAllForAdmin?${query}`,
       requestOptions
     );
   }
 
   //get all categories admin
-
   static async allCategoriesAdmin(query: string): Promise<IResponseCategories> {
     console.log(API_ENDPOINT);
     const myHeaders = new Headers();
-
     const requestOptions = {
       headers: myHeaders,
       redirect: "follow",
@@ -85,10 +81,9 @@ export class EcommerceApi {
   static async uploadCategoryImage(
     data: Partial<any>
   ): Promise<MyFetchInterface> {
-    console.log(data);
-    console.log(API_ENDPOINT);
+    // console.log(data);
+    // console.log(API_ENDPOINT);
     const myHeaders = new Headers();
-
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
@@ -105,11 +100,10 @@ export class EcommerceApi {
   static async createCategories(
     data: Partial<ICategories>
   ): Promise<IResponseCategories> {
-    console.log(data);
-    console.log(API_ENDPOINT);
+    // console.log(data);
+    // console.log(API_ENDPOINT);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
@@ -121,10 +115,9 @@ export class EcommerceApi {
   }
   //delete categories
   static async deleteCategories(slug: string): Promise<MyFetchInterface> {
-    console.log(API_ENDPOINT);
+    // console.log(API_ENDPOINT);
     console.log(slug);
     const myHeaders = new Headers();
-
     const requestOptions = {
       method: "DELETE",
       headers: myHeaders,
@@ -140,7 +133,7 @@ export class EcommerceApi {
   static async getSingleCategory(
     slug: string
   ): Promise<ISingleCategoryResponse> {
-    console.log(API_ENDPOINT);
+    // console.log(API_ENDPOINT);
     const myHeaders = new Headers();
 
     const requestOptions = {
@@ -161,7 +154,7 @@ export class EcommerceApi {
     slug: string
   ): Promise<ISingleCategoryResponse> {
     console.log(data);
-    console.log(API_ENDPOINT);
+    // console.log(API_ENDPOINT);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -181,9 +174,8 @@ export class EcommerceApi {
   // get all SubCategories
 
   static async allSubCategories(): Promise<ISubCategoriesResponse> {
-    console.log(API_ENDPOINT);
+    // console.log(API_ENDPOINT);
     const myHeaders = new Headers();
-
     const requestOptions = {
       headers: myHeaders,
       redirect: "follow",
@@ -197,9 +189,8 @@ export class EcommerceApi {
   static async allSubCategoriesAdmin(
     query: string
   ): Promise<ISubCategoriesResponse> {
-    console.log(API_ENDPOINT);
+    // console.log(API_ENDPOINT);
     const myHeaders = new Headers();
-
     const requestOptions = {
       headers: myHeaders,
       redirect: "follow",
@@ -213,7 +204,7 @@ export class EcommerceApi {
 
   //Delete Sub Categories
   static async deleteSubCategories(slug: string): Promise<MyFetchInterface> {
-    console.log(API_ENDPOINT);
+    // console.log(API_ENDPOINT);
     console.log(slug);
     const myHeaders = new Headers();
 
@@ -234,7 +225,7 @@ export class EcommerceApi {
     data: Partial<ISubCategories>
   ): Promise<ISubCategoriesResponse> {
     console.log(data);
-    console.log(API_ENDPOINT);
+    // console.log(API_ENDPOINT);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -255,7 +246,7 @@ export class EcommerceApi {
     slug: string
   ): Promise<ISubCategoriesResponse> {
     console.log(data);
-    console.log(API_ENDPOINT);
+    // console.log(API_ENDPOINT);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -276,9 +267,8 @@ export class EcommerceApi {
   static async getSingleSubCategory(
     slug: string
   ): Promise<ISingleSubCategoryResponse> {
-    console.log(API_ENDPOINT);
+    // console.log(API_ENDPOINT);
     const myHeaders = new Headers();
-
     const requestOptions = {
       headers: myHeaders,
       redirect: "follow",
@@ -293,9 +283,8 @@ export class EcommerceApi {
   //get all popular categories
 
   static async allPopularCategories(): Promise<IPopularCategoriesResponse> {
-    console.log(API_ENDPOINT);
+    // console.log(API_ENDPOINT);
     const myHeaders = new Headers();
-
     const requestOptions = {
       headers: myHeaders,
       redirect: "follow",

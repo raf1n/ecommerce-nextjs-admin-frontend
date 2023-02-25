@@ -32,6 +32,7 @@ export interface IReview {
   title?: string;
   note?: string;
   rating: number;
+  name: string;
   user?: IUser;
   status?: string;
   reviewProducts: IProduct;

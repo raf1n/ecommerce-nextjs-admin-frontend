@@ -24,6 +24,7 @@ const ProductReview: React.FC<Props> = (props) => {
   const { productReviews } = Jsondata;
 
   const [deleteModalSlug, setDeleteModalSlug] = useState("");
+
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
@@ -31,7 +32,9 @@ const ProductReview: React.FC<Props> = (props) => {
   const [reviewDatas, setReviewDatas] = useState<IReview[]>([]);
 
   const getAllReviews = async () => {
-    const { res, err } = await EcommerceApi.getAllReviews();
+    const { res, err } = await EcommerceApi.getAllReviews(
+      `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+    );
     if (res) {
       setReviewDatas(res);
     } else {
@@ -40,7 +43,7 @@ const ProductReview: React.FC<Props> = (props) => {
   };
   useEffect(() => {
     getAllReviews();
-  }, []);
+  }, [searchString, sortBy, sortType]);
 
   console.log("reviewDatas--", reviewDatas);
   return (
@@ -53,7 +56,15 @@ const ProductReview: React.FC<Props> = (props) => {
       <div className="mx-[25px]">
         <div className="section-body">
           <div className="mt-7">
-            <ReviewTable reviewDatas={reviewDatas} />
+            <ReviewTable
+              reviewDatas={reviewDatas}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              sortType={sortType}
+              setSortType={setSortType}
+              searchString={searchString}
+              setSearchString={setSearchString}
+            />
             {/* <DynamicTable
               apiUrl=""
               setSearchString={setSearchString}
