@@ -269,13 +269,13 @@ const Table: React.FC<Props> = (props) => {
                           </button>
                         </span>
                       </td>
-                      <SharedOrderStatusUpdateModal
-                        singleOrderData={tabledata}
-                        showUpdateModal={props.showUpdateModal}
-                        setShowUpdateModal={props.setShowUpdateModal}
-                      ></SharedOrderStatusUpdateModal>
                     </tr>
                   ))}
+                  <SharedOrderStatusUpdateModal
+                    ordersData={ordersData}
+                    showUpdateModal={props.showUpdateModal}
+                    setShowUpdateModal={props.setShowUpdateModal}
+                  ></SharedOrderStatusUpdateModal>
                 </tbody>
               </table>
               {/* ---------- table footer  ------------------------------- */}

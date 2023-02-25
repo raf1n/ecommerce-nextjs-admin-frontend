@@ -11,7 +11,7 @@ interface Props {}
 const AllOrders: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
-  const [pendingOrdersData, setPendingOrdersData] = useState<IOrder[]>([]);
+  const [allOrdersData, setAllOrdersData] = useState<IOrder[]>([]);
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
@@ -25,10 +25,10 @@ const AllOrders: React.FC<Props> = (props) => {
     );
     if (res) {
       setDeleteModalSlug("");
-      const remaining = pendingOrdersData.filter(
+      const remaining = allOrdersData.filter(
         (order) => order.slug !== deleteModalSlug
       );
-      setPendingOrdersData(remaining);
+      setAllOrdersData(remaining);
     }
   };
 
@@ -40,7 +40,7 @@ const AllOrders: React.FC<Props> = (props) => {
       if (err) {
         console.log(err);
       } else {
-        setPendingOrdersData(res.filteredOrdersData);
+        setAllOrdersData(res.allOrdersData);
         console.log(res);
       }
     };
@@ -65,7 +65,8 @@ const AllOrders: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="All Orders"
         slug="All Orders"
-        link="/all-orders"></DashboardBreadcrumb>
+        link="/all-orders"
+      ></DashboardBreadcrumb>
 
       <Table
         showUpdateModal={showUpdateModal}
@@ -78,7 +79,7 @@ const AllOrders: React.FC<Props> = (props) => {
         setSortBy={setSortBy}
         setSortType={setSortType}
         setSearchString={setSearchString}
-        ordersData={pendingOrdersData}
+        ordersData={allOrdersData}
         tableHeaders={tableHeaders}
       />
     </div>

@@ -7,15 +7,15 @@ import { EcommerceApi } from "../../../src/API/EcommerceApi";
 import { IOrder } from "../../../interfaces/models";
 
 interface Props {
-  singleOrderData: IOrder | null;
+  ordersData: IOrder[];
   showUpdateModal: string;
   setShowUpdateModal: any;
 }
 
 const SharedOrderStatusUpdateModal: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const { showUpdateModal, setShowUpdateModal, singleOrderData } = props;
-  console.log(singleOrderData);
+  const { showUpdateModal, setShowUpdateModal } = props;
+  const [singleOrderData, setSingleOrderData] = useState<IOrder | undefined>();
   const handleUpdate = async (e: any) => {
     e.preventDefault();
     console.log("eeee");
@@ -37,7 +37,12 @@ const SharedOrderStatusUpdateModal: React.FC<Props> = (props) => {
 
     e.target.reset();
   };
-
+  useEffect(() => {
+    const orderData = props?.ordersData?.find(
+      (data) => data.slug === showUpdateModal
+    );
+    setSingleOrderData(orderData);
+  }, [showUpdateModal]);
   return (
     <>
       {showUpdateModal ? (
