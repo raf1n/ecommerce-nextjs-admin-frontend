@@ -44,12 +44,11 @@ const PendingOrders: React.FC<Props> = (props) => {
         console.log(res);
       }
     };
-
     findPendingOrdersAdmin();
   }, [searchString, sortBy, sortType, showUpdateModal]);
 
   // console.log({ searchString, sortBy, sortType });
-  console.log("pendingOrdersData-", pendingOrdersData);
+  console.log("pendingOrdersData-", pendingOrdersData.length);
 
   const tableHeaders = {
     SN: "sn",
@@ -68,7 +67,8 @@ const PendingOrders: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Pending Orders"
         slug="Pending Orders"
-        link="/pending-orders"></DashboardBreadcrumb>
+        link="/pending-orders"
+      />
 
       <Table
         showUpdateModal={showUpdateModal}

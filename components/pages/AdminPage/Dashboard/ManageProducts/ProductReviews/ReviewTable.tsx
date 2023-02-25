@@ -33,8 +33,8 @@ const ReviewTable: React.FC<Props> = (props) => {
   const tableHeaders = {
     sn: "sn",
     //  for testing porpuse using "slug" coz user only one !!
-    name: "slug",
-    // name: "user.fullName",
+    // name: "slug",
+    name: "user.fullName",
     products: "reviewProducts.productName",
     rating: "rating",
     status: "status",
@@ -142,15 +142,15 @@ const ReviewTable: React.FC<Props> = (props) => {
                         </td>
                         <td className="px-3 py-3  text-sm">
                           <p className="text-gray-900 capitalize">
-                            {tabledata?.slug}
+                            {/* {tabledata?.slug} */}
                             {/* for testing porpuse */}
-                            {/* {tabledata?.user?.fullName} */}
+                            {tabledata?.user?.fullName}
                           </p>
                         </td>
                         <td className="px-3 py-3    text-sm">
-                          <p className="text-gray-900 ">
+                          <p className="text-[#6777ef] ">
                             <Link
-                              href={`/${tabledata.reviewProducts.productName}`}>
+                              href={`http://localhost:3000/single_product?slug=${tabledata.reviewProducts.slug}`}>
                               {tabledata.reviewProducts.productName}
                             </Link>
                           </p>
