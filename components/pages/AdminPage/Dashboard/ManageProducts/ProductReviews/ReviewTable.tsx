@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 import { FaEye, FaTrash, FaTruck } from "react-icons/fa";
@@ -6,6 +6,8 @@ import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import Link from "next/link";
 import { IReview } from "../../../../../../interfaces/models";
 import ToggleButton from "../../ManageCategories/ToggleButton/ToggleButton";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 
 interface Props {
   reviewDatas: Array<IReview>;
@@ -13,6 +15,19 @@ interface Props {
 
 const ReviewTable: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [reviewData, setReviewData] = useState<IReview[]>([]);
+
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteReview(deleteModalSlug);
+    if (res) {
+      setDeleteModalSlug("");
+      const remainingReviews = reviewData.filter(
+        (review) => review.slug !== deleteModalSlug
+      );
+      setReviewData(remainingReviews);
+    }
+  };
 
   return (
     <div>
@@ -24,7 +39,8 @@ const ReviewTable: React.FC<Props> = (props) => {
               <select
                 name="dataTable_length"
                 aria-controls="dataTable"
-                className="custom-select custom-select-sm form-control form-control-sm border bg-gray-50  hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center">
+                className="custom-select custom-select-sm form-control form-control-sm border bg-gray-50  hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center"
+              >
                 <option value="10">10</option>
                 <option value="25">25</option>
                 <option value="50">50</option>
@@ -55,7 +71,8 @@ const ReviewTable: React.FC<Props> = (props) => {
                   <thead>
                     <tr className="h-16">
                       <th
-                        className={` px-3 py-3  bg-gray-100 text-left text-xs  text-gray-600 uppercase font-bold`}>
+                        className={` px-3 py-3  bg-gray-100 text-left text-xs  text-gray-600 uppercase font-bold`}
+                      >
                         <span className="flex  space-x-0 space-y-0 ">
                           SL
                           <span className="opacity-50 flex">
@@ -64,7 +81,8 @@ const ReviewTable: React.FC<Props> = (props) => {
                         </span>
                       </th>
                       <th
-                        className={` px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}>
+                        className={` px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}
+                      >
                         <span className="flex  space-x-0 space-y-0  ">
                           Name
                           <span className="opacity-50 flex">
@@ -73,7 +91,8 @@ const ReviewTable: React.FC<Props> = (props) => {
                         </span>
                       </th>
                       <th
-                        className={`px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}>
+                        className={`px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}
+                      >
                         <span className="flex  space-x-0 space-y-0 ">
                           Product
                           <span className="opacity-50 flex">
@@ -82,7 +101,8 @@ const ReviewTable: React.FC<Props> = (props) => {
                         </span>
                       </th>
                       <th
-                        className={` px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase  `}>
+                        className={` px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase  `}
+                      >
                         <span className="flex  space-x-0 space-y-0 ">
                           Rating
                           <span className="opacity-50 flex">
@@ -91,7 +111,8 @@ const ReviewTable: React.FC<Props> = (props) => {
                         </span>
                       </th>
                       <th
-                        className={` px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}>
+                        className={` px-3 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}
+                      >
                         <span className="flex  space-x-0 space-y-0 ">
                           Status
                           <span className="opacity-50 flex">
@@ -100,7 +121,8 @@ const ReviewTable: React.FC<Props> = (props) => {
                         </span>
                       </th>
                       <th
-                        className={` px-1 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}>
+                        className={` px-1 py-3  bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase `}
+                      >
                         <span className="flex  space-x-0 space-y-0">
                           Action
                           <span className="opacity-50 flex">
@@ -125,7 +147,8 @@ const ReviewTable: React.FC<Props> = (props) => {
                         <td className="px-3 py-3    text-sm">
                           <p className="text-gray-900 ">
                             <Link
-                              href={`/${tabledata.reviewProducts.productName}`}>
+                              href={`/${tabledata.reviewProducts.productName}`}
+                            >
                               {tabledata.reviewProducts.productName}
                             </Link>
                           </p>
@@ -136,7 +159,11 @@ const ReviewTable: React.FC<Props> = (props) => {
                           </p>
                         </td>
                         <td className="px-3 py-3  text-sm">
-                          <ToggleButton />
+                          <ToggleButton
+                            apiUrl="reviews"
+                            slug={tabledata.slug}
+                            status={tabledata.status}
+                          />
                         </td>
 
                         <td className="px-2 py-3  text-sm">
@@ -144,7 +171,8 @@ const ReviewTable: React.FC<Props> = (props) => {
                             <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                               <span
                                 style={{ boxShadow: "0 2px 6px #acb5f6" }}
-                                className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center">
+                                className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
+                              >
                                 <FaEye />
                               </span>
                             </span>
@@ -152,13 +180,22 @@ const ReviewTable: React.FC<Props> = (props) => {
                           <button>
                             <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                               <span
+                                onClick={() =>
+                                  setDeleteModalSlug(tabledata.slug)
+                                }
                                 style={{ boxShadow: "0 2px 6px #fd9b96" }}
-                                className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center">
+                                className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                              >
                                 <FaTrash />
                               </span>
                             </span>
                           </button>
                         </td>
+                        <SharedDeleteModal
+                          deleteModalSlug={deleteModalSlug}
+                          handleDelete={handleDelete}
+                          setDeleteModalSlug={setDeleteModalSlug}
+                        ></SharedDeleteModal>
                       </tr>
                     ))}
                   </tbody>
@@ -178,17 +215,20 @@ const ReviewTable: React.FC<Props> = (props) => {
                     <a
                       href="#"
                       aria-current="page"
-                      className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white ">
+                      className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white "
+                    >
                       1
                     </a>
                     <a
                       href="#"
-                      className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20">
+                      className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20"
+                    >
                       2
                     </a>
                     <a
                       href="#"
-                      className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20 md:inline-flex">
+                      className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20 md:inline-flex"
+                    >
                       3
                     </a>
                     <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-r">

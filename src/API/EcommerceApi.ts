@@ -23,6 +23,7 @@ import {
   IOrderResponse,
   ISingleOrderResponse,
   ICouponResponse,
+  ISigleReviewResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -51,9 +52,8 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/categories`, requestOptions);
   }
-  //get all Reviews
+  //get all Reviews  admin
   static async getAllReviews(): Promise<IReviewProductsResponse> {
-    console.log(API_ENDPOINT);
     const myHeaders = new Headers();
     const requestOptions = {
       headers: myHeaders,
@@ -795,5 +795,21 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/coupon/${slug}`, requestOptions);
+  }
+
+  //Delete Review
+
+  // delete products
+  static async deleteReview(slug: string): Promise<ISigleReviewResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/reviews/${slug}`, requestOptions);
   }
 }
