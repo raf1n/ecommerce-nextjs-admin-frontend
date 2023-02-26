@@ -12,6 +12,7 @@ const PendingOrders: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
   const [pendingOrdersData, setPendingOrdersData] = useState<IOrder[]>([]);
+
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
@@ -48,7 +49,7 @@ const PendingOrders: React.FC<Props> = (props) => {
   }, [searchString, sortBy, sortType, showUpdateModal]);
 
   // console.log({ searchString, sortBy, sortType });
-  console.log("pendingOrdersData-", pendingOrdersData.length);
+  // console.log("pendingOrdersData-", pendingOrdersData.length);
 
   const tableHeaders = {
     SN: "sn",

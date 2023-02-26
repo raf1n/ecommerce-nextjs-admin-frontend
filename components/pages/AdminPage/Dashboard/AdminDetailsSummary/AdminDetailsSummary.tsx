@@ -30,25 +30,37 @@ import {
   FaCogs,
 } from "react-icons/fa";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
+import Table from "../../../../shared/SharedTable/Table";
+import { IOrder } from "../../../../../interfaces/models";
 interface Props {}
 
 const AdminDetailsSummary: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortType, setSortType] = useState("desc");
+  const [searchString, setSearchString] = useState("");
+  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
+
   const [count, setCount] = useState<any>({});
+  const [todayOrdersData, setTodayOrdersData] = useState<IOrder[]>([]);
 
   useEffect(() => {
     const allDashboardCount = async () => {
-      const { res, err } = await EcommerceApi.allDashboardCount();
+      const { res, err } = await EcommerceApi.allDashboardCount(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
       if (res) {
         setCount(res);
         console.log(res);
+        setTodayOrdersData(res.todayNewOrders);
       } else {
         console.log(err);
       }
     };
     allDashboardCount();
-  }, []);
+  }, [searchString, sortBy, sortType, showUpdateModal]);
 
   const dashboardSummaryData = [
     {
@@ -56,7 +68,7 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
       title: "Today Order",
       icons: FaShoppingCart,
       bgColor: "#2563eb",
-      value: "0",
+      value: count?.todayNewOrders?.length,
     },
     {
       id: 2,
@@ -221,6 +233,32 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
     },
   ];
 
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteByModal(
+      deleteModalSlug,
+      "orders"
+    );
+    if (res) {
+      setDeleteModalSlug("");
+      const remaining = todayOrdersData.filter(
+        (order) => order.slug !== deleteModalSlug
+      );
+      setTodayOrdersData(remaining);
+    }
+  };
+
+  const tableHeaders = {
+    SN: "sn",
+    Customer: "userData.fullName",
+    "Order Id": "slug",
+    Date: "createdAt",
+    Quantity: "quantity",
+    Amount: "subTotal",
+    "Order Status": "order_status",
+    Payment: "payment_status",
+    Action: "action",
+  };
+
   return (
     <div>
       <div
@@ -249,6 +287,27 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+      <div>
+        <div className=" p-4  m-7 bg-white">
+          <h1 className="mb-10 text-2xl font-bold ">Today New Order</h1>
+          <hr />
+
+          <Table
+            showUpdateModal={showUpdateModal}
+            setShowUpdateModal={setShowUpdateModal}
+            handleDelete={handleDelete}
+            deleteModalSlug={deleteModalSlug}
+            setDeleteModalSlug={setDeleteModalSlug}
+            sortBy={sortBy}
+            sortType={sortType}
+            setSortBy={setSortBy}
+            setSortType={setSortType}
+            setSearchString={setSearchString}
+            ordersData={todayOrdersData}
+            tableHeaders={tableHeaders}
+          />
         </div>
       </div>
     </div>
