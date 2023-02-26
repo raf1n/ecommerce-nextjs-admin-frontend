@@ -40,6 +40,17 @@ export interface LoginInterface {
 }
 
 export class EcommerceApi {
+  //get all dashboard counter
+  static async allDashboardCount(): Promise<MyFetchInterface> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/dashboard`, requestOptions);
+  }
+
   //get all categories
   static async allCategories(): Promise<IResponseCategories> {
     const myHeaders = new Headers();

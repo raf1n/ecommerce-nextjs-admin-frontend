@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../src/state/StateController";
 import Styles from "./AdminDetailsSummary.module.css";
@@ -35,6 +35,21 @@ interface Props {}
 const AdminDetailsSummary: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
+  const [count, setCount] = useState<any>({});
+
+  useEffect(() => {
+    const allDashboardCount = async () => {
+      const { res, err } = await EcommerceApi.allDashboardCount();
+      if (res) {
+        setCount(res);
+        console.log(res);
+      } else {
+        console.log(err);
+      }
+    };
+    allDashboardCount();
+  }, []);
+
   const dashboardSummaryData = [
     {
       id: 1,
@@ -55,28 +70,28 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
       title: "Total Order",
       icons: FaShoppingCart,
       bgColor: "#2563eb",
-      value: "2",
+      value: count.allOrdersCount,
     },
     {
       id: 4,
       title: "Total Pending Order",
       icons: FaShoppingCart,
       bgColor: "#2563eb",
-      value: "62",
+      value: count.pendingOrdersCount,
     },
     {
       id: 5,
       title: "Total Declined Order",
       icons: FaShoppingCart,
       bgColor: "#c2410c",
-      value: "0",
+      value: count.declinedOrdersCount,
     },
     {
       id: 6,
       title: "Total Complete Order",
       icons: FaShoppingCart,
       bgColor: "#c2410c",
-      value: "6",
+      value: count.completedOrdersCount,
     },
     {
       id: 7,
@@ -146,7 +161,7 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
       title: "Total Product",
       icons: FaCheckCircle,
       bgColor: "#dc2626",
-      value: "0",
+      value: count.productCount,
     },
     {
       id: 17,
@@ -171,10 +186,10 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
     },
     {
       id: 20,
-      title: "Total Seller",
+      title: "Total User",
       icons: FaUser,
       bgColor: "#16a34a",
-      value: "0",
+      value: count.usersCount,
     },
     {
       id: 21,
@@ -195,14 +210,14 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
       title: "Product Category",
       icons: FaCheckCircle,
       bgColor: "#2563eb",
-      value: "0",
+      value: count.categoryCount,
     },
     {
       id: 24,
       title: "Total Brand",
       icons: FaCheckCircle,
       bgColor: "#2563eb",
-      value: "40",
+      value: count.brandCount,
     },
   ];
 
