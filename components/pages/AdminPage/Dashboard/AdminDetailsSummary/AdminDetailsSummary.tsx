@@ -1,13 +1,263 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../src/state/StateController";
 import Styles from "./AdminDetailsSummary.module.css";
 import { Jsondata } from "../../../../../src/utils/Jsondata";
+import {
+  FaFire,
+  FaTrash,
+  FaCog,
+  FaEnvelope,
+  FaColumns,
+  FaGlobe,
+  FaUserAlt,
+  FaNewspaper,
+  FaShoppingCart,
+  FaMapMarkerAlt,
+  FaHome,
+  FaAdversal,
+  FaCircle,
+  FaCheckCircle,
+  FaUser,
+  FaAnchor,
+  FaGamepad,
+  FaMobileAlt,
+  FaBasketballBall,
+  FaBicycle,
+  FaStreetView,
+  FaAndroid,
+  FaAdjust,
+  FaCogs,
+} from "react-icons/fa";
+import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import Table from "../../../../shared/SharedTable/Table";
+import { IOrder } from "../../../../../interfaces/models";
 interface Props {}
 
 const AdminDetailsSummary: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortType, setSortType] = useState("desc");
+  const [searchString, setSearchString] = useState("");
+  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
+
+  const [count, setCount] = useState<any>({});
+  const [todayOrdersData, setTodayOrdersData] = useState<IOrder[]>([]);
+
+  useEffect(() => {
+    const allDashboardCount = async () => {
+      const { res, err } = await EcommerceApi.allDashboardCount(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
+      if (res) {
+        setCount(res);
+        console.log(res);
+        setTodayOrdersData(res.todayNewOrders);
+      } else {
+        console.log(err);
+      }
+    };
+    allDashboardCount();
+  }, [searchString, sortBy, sortType, showUpdateModal]);
+
+  const dashboardSummaryData = [
+    {
+      id: 1,
+      title: "Today Order",
+      icons: FaShoppingCart,
+      bgColor: "#2563eb",
+      value: count?.todayNewOrders?.length,
+    },
+    {
+      id: 2,
+      title: "Today Pending Order",
+      icons: FaShoppingCart,
+      bgColor: "#2563eb",
+      value: "7",
+    },
+    {
+      id: 3,
+      title: "Total Order",
+      icons: FaShoppingCart,
+      bgColor: "#2563eb",
+      value: count.allOrdersCount,
+    },
+    {
+      id: 4,
+      title: "Total Pending Order",
+      icons: FaShoppingCart,
+      bgColor: "#2563eb",
+      value: count.pendingOrdersCount,
+    },
+    {
+      id: 5,
+      title: "Total Declined Order",
+      icons: FaShoppingCart,
+      bgColor: "#c2410c",
+      value: count.declinedOrdersCount,
+    },
+    {
+      id: 6,
+      title: "Total Complete Order",
+      icons: FaShoppingCart,
+      bgColor: "#c2410c",
+      value: count.completedOrdersCount,
+    },
+    {
+      id: 7,
+      title: "Total Earning",
+      icons: FaNewspaper,
+      bgColor: "#c2410c",
+      value: "$0",
+    },
+    {
+      id: 8,
+      title: "Today Pending Earning",
+      icons: FaNewspaper,
+      bgColor: "#c2410c",
+      value: "$0",
+    },
+    {
+      id: 9,
+      title: "This Month Earning",
+      icons: FaNewspaper,
+      bgColor: "#16a34a",
+      value: "$0",
+    },
+    {
+      id: 10,
+      title: "This Year Earning",
+      icons: FaNewspaper,
+      bgColor: "#16a34a",
+      value: "$0",
+    },
+    {
+      id: 11,
+      title: "Total Earning",
+      icons: FaNewspaper,
+      bgColor: "#16a34a",
+      value: "$0",
+    },
+    {
+      id: 12,
+      title: "Today Product Sale",
+      icons: FaCircle,
+      bgColor: "#16a34a",
+      value: "0",
+    },
+    {
+      id: 13,
+      title: "This Month Product Sale",
+      icons: FaCircle,
+      bgColor: "#dc2626",
+      value: "0",
+    },
+    {
+      id: 14,
+      title: "This Year Product Sale",
+      icons: FaCircle,
+      bgColor: "#dc2626",
+      value: "0",
+    },
+    {
+      id: 15,
+      title: "Total Product Sale",
+      icons: FaCircle,
+      bgColor: "#dc2626",
+      value: "0",
+    },
+    {
+      id: 16,
+      title: "Total Product",
+      icons: FaCheckCircle,
+      bgColor: "#dc2626",
+      value: count.productCount,
+    },
+    {
+      id: 17,
+      title: "Total Product Report",
+      icons: FaCheckCircle,
+      bgColor: "#16a34a",
+      value: "0",
+    },
+    {
+      id: 18,
+      title: "Total Product Review",
+      icons: FaCheckCircle,
+      bgColor: "#16a34a",
+      value: "0",
+    },
+    {
+      id: 19,
+      title: "Total Seller",
+      icons: FaUser,
+      bgColor: "#16a34a",
+      value: "0",
+    },
+    {
+      id: 20,
+      title: "Total User",
+      icons: FaUser,
+      bgColor: "#16a34a",
+      value: count.usersCount,
+    },
+    {
+      id: 21,
+      title: "Total Subscriber",
+      icons: FaUser,
+      bgColor: "#2563eb",
+      value: "0",
+    },
+    {
+      id: 22,
+      title: "Total Blog",
+      icons: FaCheckCircle,
+      bgColor: "#2563eb",
+      value: "0",
+    },
+    {
+      id: 23,
+      title: "Product Category",
+      icons: FaCheckCircle,
+      bgColor: "#2563eb",
+      value: count.categoryCount,
+    },
+    {
+      id: 24,
+      title: "Total Brand",
+      icons: FaCheckCircle,
+      bgColor: "#2563eb",
+      value: count.brandCount,
+    },
+  ];
+
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteByModal(
+      deleteModalSlug,
+      "orders"
+    );
+    if (res) {
+      setDeleteModalSlug("");
+      const remaining = todayOrdersData.filter(
+        (order) => order.slug !== deleteModalSlug
+      );
+      setTodayOrdersData(remaining);
+    }
+  };
+
+  const tableHeaders = {
+    SN: "sn",
+    Customer: "userData.fullName",
+    "Order Id": "slug",
+    Date: "createdAt",
+    Quantity: "quantity",
+    Amount: "subTotal",
+    "Order Status": "order_status",
+    Payment: "payment_status",
+    Action: "action",
+  };
 
   return (
     <div>
@@ -21,7 +271,7 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
       <div className="section-body mx-2  pb-10">
         <div className="px-4 w-full">
           <div className="grid grid-cols-12 gap-4">
-            {Jsondata.dashboardSummaryData.map((data) => (
+            {dashboardSummaryData.map((data) => (
               <div className="col-span-12 sm:col-span-6 md:col-span-3">
                 <div className="flex flex-row bg-white shadow-sm rounded p-2 justify-center items-center">
                   <div
@@ -40,7 +290,25 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
         </div>
       </div>
       <div>
-        <Table />
+        <div className=" p-4  m-7 bg-white">
+          <h1 className="mb-10 text-2xl font-bold ">Today New Order</h1>
+          <hr />
+
+          <Table
+            showUpdateModal={showUpdateModal}
+            setShowUpdateModal={setShowUpdateModal}
+            handleDelete={handleDelete}
+            deleteModalSlug={deleteModalSlug}
+            setDeleteModalSlug={setDeleteModalSlug}
+            sortBy={sortBy}
+            sortType={sortType}
+            setSortBy={setSortBy}
+            setSortType={setSortType}
+            setSearchString={setSearchString}
+            ordersData={todayOrdersData}
+            tableHeaders={tableHeaders}
+          />
+        </div>
       </div>
     </div>
   );

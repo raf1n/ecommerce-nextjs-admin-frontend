@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "./../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
-import { IProducts } from "../../../../../../interfaces/models";
+import { IProduct } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import {
   FaEdit,
@@ -17,7 +17,7 @@ interface Props {}
 
 const ProductsStockOut: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [stockoutProducts, setStockoutProducts] = useState<IProducts[]>([]);
+  const [stockoutProducts, setStockoutProducts] = useState<IProduct[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
@@ -58,7 +58,8 @@ const ProductsStockOut: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Stock Out Products"
         slug="Stock Out"
-        link="/stock_out"></DashboardBreadcrumb>
+        link="/stock_out"
+      ></DashboardBreadcrumb>
       <div className="mx-[25px]">
         <div className="section-body">
           {/* <Link className="inline-block" href="/products/create">
@@ -73,7 +74,8 @@ const ProductsStockOut: React.FC<Props> = (props) => {
                     <select
                       name="dataTable_length"
                       aria-controls="dataTable"
-                      className="custom-select custom-select-sm form-control form-control-sm bg-gray-50  border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center">
+                      className="custom-select custom-select-sm form-control form-control-sm bg-gray-50  border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center"
+                    >
                       <option value="10">10</option>
                       <option value="25">25</option>
                       <option value="50">50</option>
@@ -140,7 +142,7 @@ const ProductsStockOut: React.FC<Props> = (props) => {
                           </tr>
                         </thead>
                         <tbody>
-                          {stockoutProducts.map((product: IProducts, indx) => (
+                          {stockoutProducts.map((product: IProduct, indx) => (
                             <tr className="border-b border-gray-200">
                               <td className="px-5 py-5 bg-white text-sm">
                                 <p className="text-gray-900 whitespace-no-wrap">
@@ -173,7 +175,8 @@ const ProductsStockOut: React.FC<Props> = (props) => {
                                         `/products/${product.slug}/edit`
                                       )
                                     }
-                                    className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center">
+                                    className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center"
+                                  >
                                     <FaEdit></FaEdit>
                                   </span>
                                 </span>
@@ -182,7 +185,8 @@ const ProductsStockOut: React.FC<Props> = (props) => {
                                     onClick={() =>
                                       setDeleteModalSlug(product?.slug)
                                     }
-                                    className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-red-500 rounded relative text-white flex justify-center items-center">
+                                    className="h-8 w-8 shadow-[0_2px_6px_#fd9b96] inset-0 bg-red-500 rounded relative text-white flex justify-center items-center"
+                                  >
                                     <FaTrash></FaTrash>
                                   </span>
                                 </span>
@@ -194,9 +198,8 @@ const ProductsStockOut: React.FC<Props> = (props) => {
                       <SharedDeleteModal
                         handleDelete={handleDelete}
                         deleteModalSlug={deleteModalSlug}
-                        setDeleteModalSlug={
-                          setDeleteModalSlug
-                        }></SharedDeleteModal>
+                        setDeleteModalSlug={setDeleteModalSlug}
+                      ></SharedDeleteModal>
                       {/* <div className="px-5 py-5 bg-white border-t flex justify-between">
                         <span className="text-xs xs:text-sm text-gray-900">
                           Showing 1 to 4 of 50 Entries
@@ -225,17 +228,20 @@ const ProductsStockOut: React.FC<Props> = (props) => {
                           <a
                             href="#"
                             aria-current="page"
-                            className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white ">
+                            className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white "
+                          >
                             1
                           </a>
                           <a
                             href="#"
-                            className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20">
+                            className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20"
+                          >
                             2
                           </a>
                           <a
                             href="#"
-                            className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20 md:inline-flex">
+                            className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20 md:inline-flex"
+                          >
                             3
                           </a>
                           <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-r">

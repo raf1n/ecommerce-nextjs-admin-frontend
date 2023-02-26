@@ -27,14 +27,15 @@ export interface ICategories {
   cat_icon: string;
 }
 export interface IReview {
-  // slug?: string;
-
+  slug?: string;
   product_slug?: string;
   title?: string;
   note?: string;
   rating: number;
+  name: string;
   user?: IUser;
-  reviewProducts: IProducts;
+  status?: string;
+  reviewProducts: IProduct;
 }
 
 export interface ISubCategories {
@@ -53,7 +54,7 @@ export interface IPopularCategories {
   cat_name: string;
   cat_image: string;
 }
-export interface IProducts {
+export interface IProduct {
   productName?: string;
   slug?: string;
   catSlug?: string;
@@ -89,4 +90,43 @@ export interface IBrandDetail {
   logo?: string;
   status: string;
   slug?: string;
+}
+
+export interface ICartProduct extends IProduct {
+  cart_slug: string;
+  quantity: number;
+}
+
+export interface IOrder {
+  subTotal: number;
+  discount: number;
+  shippingCost: number;
+  total: number;
+  slug?: string;
+  createdAt?: string;
+  product_list: ICartProduct[];
+  payment_method: string;
+  user_slug: string;
+  transaction_id: string;
+  payment_status?: string;
+  order_status: string;
+  userData?: IUser;
+  address: {
+    country?: string;
+    state?: string;
+    city?: string;
+    address?: string;
+  };
+}
+
+export interface ICoupon {
+  slug: string;
+  name: string;
+  code: string;
+  discount: number;
+  items_number: number;
+  apply_qty: number;
+  expired_date: string;
+  status: string;
+  minimum_purchase: number;
 }
