@@ -1,6 +1,6 @@
 import { state, action, createStore } from "usm-redux";
 import { compose } from "redux";
-import { IOrder } from "../../interfaces/models";
+import { ICoupon, IOrder } from "../../interfaces/models";
 
 const composeEnhancers =
   // @ts-ignore
@@ -14,6 +14,7 @@ const composeEnhancers =
 export interface IStates {
   counter: number;
   orders: Array<IOrder>;
+  couponData: Array<ICoupon>;
 }
 
 export class Controller {
@@ -21,6 +22,7 @@ export class Controller {
   states: IStates = {
     counter: 0,
     orders: [],
+    couponData: [],
   };
 
   @action
@@ -34,6 +36,11 @@ export class Controller {
   @action
   setOrders(order: IOrder[]) {
     this.states.orders = order;
+  }
+
+  @action
+  setCouponData(couponData: ICoupon[]) {
+    this.states.couponData = couponData;
   }
 
   // @action

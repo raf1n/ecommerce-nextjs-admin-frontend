@@ -14,24 +14,17 @@ interface Props {
 const UpdateCoupon: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
-  const [singleCouponData, setSingleCouponData] = useState<ICoupon | null>(
-    null
-  );
+  const [singleCouponData, setSingleCouponData] = useState<
+    ICoupon | undefined
+  >();
   console.log(props.updateModalSlug);
   const { updateModalSlug, setUpdateModalSlug } = props;
 
   useEffect(() => {
-    if (updateModalSlug) {
-      const handleGetCouponData = async () => {
-        const { res, err } = await EcommerceApi.getSingleCoupon(
-          updateModalSlug
-        );
-        if (res) {
-          setSingleCouponData(res);
-        }
-      };
-      handleGetCouponData();
-    }
+    const singleCoupon = states.couponData.find(
+      (data) => data.slug === updateModalSlug
+    );
+    setSingleCouponData(singleCoupon);
   }, [updateModalSlug]);
 
   const handleUpdate = async (e: any) => {

@@ -69,6 +69,7 @@ const Coupon: React.FC<Props> = (props) => {
         console.log(err);
       } else {
         setCouponData(res);
+        controller.setCouponData(res);
         console.log(res);
       }
     };
