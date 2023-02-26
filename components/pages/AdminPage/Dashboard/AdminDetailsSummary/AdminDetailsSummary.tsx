@@ -180,14 +180,14 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
       title: "Total Product Report",
       icons: FaCheckCircle,
       bgColor: "#16a34a",
-      value: "0",
+      value: count.reportedCount,
     },
     {
       id: 18,
       title: "Total Product Review",
       icons: FaCheckCircle,
       bgColor: "#16a34a",
-      value: "0",
+      value: count.reviewCount,
     },
     {
       id: 19,
