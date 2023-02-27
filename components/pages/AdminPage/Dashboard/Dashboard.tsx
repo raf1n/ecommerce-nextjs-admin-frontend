@@ -64,8 +64,6 @@ const Dashboard: React.FC<Props> = (props) => {
     isDeletable: true,
   };
 
-  // const { testDynamicTableDataOne, testDynamicTableDataTwo } = Jsondata;
-
   return (
     <div className="flex-1  overflow-y-auto relative">
       <div className="flex flex-row justify-between h-[115px] relative bg-[#6777ef]">

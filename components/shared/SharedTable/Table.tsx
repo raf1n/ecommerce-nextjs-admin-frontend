@@ -2,14 +2,12 @@ import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { FaEye, FaTrash, FaTruck } from "react-icons/fa";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
-import { Jsondata } from "../../../src/utils/Jsondata";
 import { controller } from "../../../src/state/StateController";
 import Link from "next/link";
 import { ICartProduct, IOrder } from "../../../interfaces/models";
-import { CartHandler } from "../../../src/utils/CartHandler";
 import SharedDeleteModal from "../SharedDeleteModal/SharedDeleteModal";
 import SharedOrderStatusUpdateModal from "../SharedOrderStatusUpdateModal/SharedOrderStatusUpdateModal";
-import { EcommerceApi } from "../../../src/API/EcommerceApi";
+
 interface Props {
   setShowUpdateModal: Dispatch<SetStateAction<string | any>>;
   showUpdateModal: string;

@@ -1,33 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../src/state/StateController";
-import Styles from "./AdminDetailsSummary.module.css";
-import { Jsondata } from "../../../../../src/utils/Jsondata";
+
 import {
-  FaFire,
-  FaTrash,
-  FaCog,
-  FaEnvelope,
-  FaColumns,
-  FaGlobe,
-  FaUserAlt,
   FaNewspaper,
   FaShoppingCart,
-  FaMapMarkerAlt,
-  FaHome,
-  FaAdversal,
   FaCircle,
   FaCheckCircle,
   FaUser,
-  FaAnchor,
-  FaGamepad,
-  FaMobileAlt,
-  FaBasketballBall,
-  FaBicycle,
-  FaStreetView,
-  FaAndroid,
-  FaAdjust,
-  FaCogs,
 } from "react-icons/fa";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import Table from "../../../../shared/SharedTable/Table";
@@ -42,7 +22,6 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
   const [searchString, setSearchString] = useState("");
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
-
   const [count, setCount] = useState<any>({});
   const [todayOrdersData, setTodayOrdersData] = useState<IOrder[]>([]);
 

@@ -443,23 +443,6 @@ const ProductEdit: React.FC<Props> = (props) => {
                     </label>
                   </div>
                 </div>
-                {/* {actions?.isSeller && (
-                  <div className="form-group col-12 flex flex-col mb-[25px]">
-                    <label className="inline-block text-sm tracking-wide mb-2">
-                      Products Request from seller
-                      <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name="status"
-                      id=""
-                      required
-                    >
-                      <option value="active">Approved</option>
-                      <option value="inactive">Pending</option>
-                    </select>
-                  </div>
-                )} */}
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
