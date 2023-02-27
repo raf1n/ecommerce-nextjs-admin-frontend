@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Slider from "../components/pages/AdminPage/Dashboard/ManageWebsite/Slider/Slider";
-import { controller } from "../src/state/StateController";
+import Slider from "../../components/pages/AdminPage/Dashboard/ManageWebsite/Slider/Slider";
+import { controller } from "../../src/state/StateController";
 
 interface Props {}
 
