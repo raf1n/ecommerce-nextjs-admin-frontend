@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { controller } from "../../../../../src/state/StateController";
-
 import {
   FaNewspaper,
   FaShoppingCart,
@@ -9,18 +7,17 @@ import {
   FaCheckCircle,
   FaUser,
 } from "react-icons/fa";
-import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
-import Table from "../../../../shared/SharedTable/Table";
-import { IOrder } from "../../../../../interfaces/models";
+import { controller } from "../../../../src/state/StateController";
+import { IOrder } from "../../../../interfaces/models";
+import { EcommerceApi } from "../../../../src/API/EcommerceApi";
+import Table from "../Shared/Table";
 interface Props {}
 
-const AdminDetailsSummary: React.FC<Props> = (props) => {
+const SellerDetailsSummary: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
-  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
   const [count, setCount] = useState<any>({});
   const [todayOrdersData, setTodayOrdersData] = useState<IOrder[]>([]);
@@ -39,7 +36,7 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
       }
     };
     allDashboardCount();
-  }, [searchString, sortBy, sortType, showUpdateModal]);
+  }, [searchString, sortBy, sortType]);
 
   const dashboardSummaryData = [
     {
@@ -47,7 +44,7 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
       title: "Today Order",
       icons: FaShoppingCart,
       bgColor: "#6777ef",
-      value: count?.todayNewOrders?.length,
+      value: "5",
     },
     {
       id: 2,
@@ -170,61 +167,19 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
     },
     {
       id: 19,
-      title: "Total Seller",
+      title: "Total Withdraw",
       icons: FaUser,
       bgColor: "#47c363",
       value: "0",
     },
     {
       id: 20,
-      title: "Total User",
+      title: "Pending Withraw",
       icons: FaUser,
       bgColor: "#47c363",
       value: count.usersCount,
     },
-    {
-      id: 21,
-      title: "Total Subscriber",
-      icons: FaUser,
-      bgColor: "#2563eb",
-      value: "0",
-    },
-    {
-      id: 22,
-      title: "Total Blog",
-      icons: FaCheckCircle,
-      bgColor: "#2563eb",
-      value: "0",
-    },
-    {
-      id: 23,
-      title: "Product Category",
-      icons: FaCheckCircle,
-      bgColor: "#2563eb",
-      value: count.categoryCount,
-    },
-    {
-      id: 24,
-      title: "Total Brand",
-      icons: FaCheckCircle,
-      bgColor: "#2563eb",
-      value: count.brandCount,
-    },
   ];
-
-  const handleDelete = async () => {
-    const { res, err } = await EcommerceApi.deleteByModal(
-      deleteModalSlug,
-      "orders"
-    );
-    if (res) {
-      setDeleteModalSlug("");
-      const remaining = todayOrdersData.filter(
-        (order) => order.slug !== deleteModalSlug
-      );
-      setTodayOrdersData(remaining);
-    }
-  };
 
   const tableHeaders = {
     SN: "sn",
@@ -240,9 +195,11 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <div className="flex justify-between  bg-white  rounded-[3px] m-[25px] p-[20px] h-[72px]">
+      <div
+        className="flex justify-between  bg-white my-12 rounded-[3px]"
+        style={{ margin: "25px", padding: "20px", height: "72px" }}>
         <div>
-          <h1 className="text-2xl font-semibold">Dashboard</h1>
+          <h1 className="text-2xl font-semibold">Dashboard : Seller</h1>
         </div>
       </div>
 
@@ -250,7 +207,7 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
         <div className="px-4 w-full">
           <div className="grid grid-cols-12 gap-4">
             {dashboardSummaryData.map((data) => (
-              <div className="col-span-12 sm:col-span-6 md:col-span-3 mb-3 px-2">
+              <div className="col-span-12 sm:col-span-6 md:col-span-3">
                 <div className="flex flex-row bg-white shadow-sm rounded p-2 justify-center items-center">
                   <div
                     className={`flex items-center justify-center flex-shrink-0 h-20 w-20 p-6 rounded  border`}
@@ -269,17 +226,13 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
       </div>
 
       <div>
-        <div className="p-4  m-7 bg-white">
-          <h1 className="pb-10 text-2xl font-bold ">Today New Order</h1>
-
+        <div className=" p-4  m-7 bg-white">
+          <h1 className="mb-10 text-2xl font-bold ">
+            Today New Order for seller
+          </h1>
           <hr />
 
           <Table
-            showUpdateModal={showUpdateModal}
-            setShowUpdateModal={setShowUpdateModal}
-            handleDelete={handleDelete}
-            deleteModalSlug={deleteModalSlug}
-            setDeleteModalSlug={setDeleteModalSlug}
             sortBy={sortBy}
             sortType={sortType}
             setSortBy={setSortBy}
@@ -294,4 +247,4 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
   );
 };
 
-export default AdminDetailsSummary;
+export default SellerDetailsSummary;

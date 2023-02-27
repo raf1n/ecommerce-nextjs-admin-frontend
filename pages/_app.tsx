@@ -21,12 +21,12 @@ export default function MyApp(props: AppProps) {
   return (
     <Provider store={store}>
       <React.Fragment>
-        <LayoutForSeller>
+        {/* <LayoutForSeller>
           <Component {...pageProps} />
-        </LayoutForSeller>
-        {/* <Layout>
+        </LayoutForSeller> */}
+        <Layout>
           <Component {...pageProps} />
-        </Layout> */}
+        </Layout>
       </React.Fragment>
     </Provider>
   );

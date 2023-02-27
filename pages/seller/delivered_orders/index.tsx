@@ -1,14 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import SellerDetailsSummary from "../../components/pages/SellerPage/SellerDetailsSummary/SellerDetailsSummary";
-import { controller } from "../../src/state/StateController";
+import DeliveredOrders from "../../../components/pages/SellerPage/Dashboard/Orders/DeliveredOrders/DeliveredOrders";
+import { controller } from "../../../src/state/StateController";
 
 interface Props {}
 
 const index: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
-  return <SellerDetailsSummary />;
+  return <DeliveredOrders />;
 };
 
 export default index;

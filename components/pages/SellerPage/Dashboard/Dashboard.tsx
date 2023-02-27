@@ -15,6 +15,10 @@ interface Props {
   responsiveOpen: boolean;
   setResponsiveOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+// *******************************************
+// notice notice notice notice notice
+// ei dashboard kono jaygay  call  hoy ni
+// ******************************************
 
 const Dashboard: React.FC<Props> = (props) => {
   const { open, setOpen, responsiveOpen, setResponsiveOpen } = props;

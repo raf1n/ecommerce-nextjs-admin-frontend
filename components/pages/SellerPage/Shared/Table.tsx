@@ -1,19 +1,12 @@
-import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { useSelector } from "react-redux";
-import { FaEye, FaTrash, FaTruck } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
-import { controller } from "../../../src/state/StateController";
 import Link from "next/link";
-import { ICartProduct, IOrder } from "../../../interfaces/models";
-import SharedDeleteModal from "../SharedDeleteModal/SharedDeleteModal";
-import SharedOrderStatusUpdateModal from "../SharedOrderStatusUpdateModal/SharedOrderStatusUpdateModal";
+import { ICartProduct, IOrder } from "../../../../interfaces/models";
+import { controller } from "../../../../src/state/StateController";
 
 interface Props {
-  setShowUpdateModal: Dispatch<SetStateAction<string | any>>;
-  showUpdateModal: string;
-  setDeleteModalSlug: Dispatch<SetStateAction<string | any>>;
-  deleteModalSlug: string;
-  handleDelete: () => void;
   ordersData: IOrder[];
   tableHeaders: any;
   sortType: string;
@@ -33,7 +26,6 @@ const Table: React.FC<Props> = (props) => {
     sortBy,
     sortType,
     ordersData,
-    setDeleteModalSlug,
   } = props;
 
   const handleQuantity = (product_list: ICartProduct[]) => {
@@ -67,16 +59,6 @@ const Table: React.FC<Props> = (props) => {
     },
   ];
 
-  const handleOrder = (order_status: string) => {
-    const order = orderStatus.find((order) => {
-      if (order.value === order_status) {
-        return order;
-      }
-    });
-
-    return order?.name;
-  };
-
   return (
     <div className="m-[25px] bg-white">
       <div className="p-5 rounded w-full">
@@ -94,7 +76,7 @@ const Table: React.FC<Props> = (props) => {
             </select>
             <span className="text-xs text-gray-500  px-1">entries</span>
           </div>
-          {/*********************************************/}
+          {/* ******************************* */}
           <div className="flex items-center justify-between">
             <label htmlFor="" className="text-xs text-gray-500">
               Search
@@ -110,10 +92,10 @@ const Table: React.FC<Props> = (props) => {
               />
             </div>
           </div>
-          {/*******************************************/}
+          {/************************************** */}
         </div>
         <div>
-          <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-1 overflow-x-auto">
+          <div className="mx-4 sm:-mx-8 px-4 sm:px-8  overflow-x-auto">
             <div className="inline-block min-w-full shadow  overflow-hidden">
               <table className="min-w-full leading-normal">
                 <thead>
@@ -155,7 +137,7 @@ const Table: React.FC<Props> = (props) => {
                     ))}
                   </tr>
                 </thead>
-                {/* -----------Plz Attention ,Table body/Row start here -------------- */}
+                {/* -----------Plz Attention ,Table body start here -------------- */}
                 <tbody>
                   {ordersData.map((tabledata: IOrder, index: number) => (
                     <tr key={index} className="even:bg-gray-50 odd:bg-white">
@@ -198,7 +180,7 @@ const Table: React.FC<Props> = (props) => {
                                 : "bg-green-500"
                             }  rounded-full`}></span>
                           <span className="relative text-white text-xs capitalize break-words">
-                            {handleOrder(tabledata.order_status)}
+                            {tabledata.order_status}
                           </span>
                         </span>
                       </td>
@@ -233,41 +215,9 @@ const Table: React.FC<Props> = (props) => {
                             </span>
                           </span>
                         </button>
-                        <button>
-                          <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                            {tabledata && tabledata.slug && (
-                              <span
-                                onClick={() =>
-                                  setDeleteModalSlug(tabledata.slug)
-                                }
-                                style={{ boxShadow: "0 2px 6px #fd9b96" }}
-                                className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center">
-                                <FaTrash />
-                              </span>
-                            )}
-                          </span>
-                        </button>
-                        <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                          <button
-                            onClick={() =>
-                              props.setShowUpdateModal(tabledata.slug)
-                            }>
-                            <span
-                              style={{ boxShadow: "0 2px 6px #ffc473" }}
-                              className="h-8 w-8  inset-0 bg-orange-400   rounded  relative text-white flex justify-center items-center">
-                              <FaTruck />
-                            </span>
-                          </button>
-                        </span>
                       </td>
                     </tr>
                   ))}
-                  <SharedOrderStatusUpdateModal
-                    ordersData={ordersData}
-                    showUpdateModal={props.showUpdateModal}
-                    setShowUpdateModal={
-                      props.setShowUpdateModal
-                    }></SharedOrderStatusUpdateModal>
                 </tbody>
               </table>
               {/* ---------- table footer  ------------------------------- */}
@@ -293,22 +243,11 @@ const Table: React.FC<Props> = (props) => {
                     className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20">
                     2
                   </a>
-                  <a
-                    href="#"
-                    className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20 md:inline-flex">
-                    3
-                  </a>
                   <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-r">
                     Next
                   </button>
                 </div>
               </div>
-              <SharedDeleteModal
-                deleteModalSlug={props.deleteModalSlug}
-                handleDelete={props.handleDelete}
-                setDeleteModalSlug={
-                  props.setDeleteModalSlug
-                }></SharedDeleteModal>
             </div>
           </div>
         </div>

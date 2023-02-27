@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../src/state/StateController";
-import Sidebar from "../pages/AdminPage/Sidebar/Sidebar";
-import { FaBars, FaHome, FaSignOutAlt } from "react-icons/fa";
+import { FaBars, FaHome, FaLock, FaSignOutAlt, FaStore } from "react-icons/fa";
 import { MdArrowDropDown } from "react-icons/md";
 import { HiOutlineUser } from "react-icons/hi";
 import styles from "../pages/AdminPage/Dashboard/Dashboard.module.css";
 import Link from "next/link";
+import Sidebar from "../pages/SellerPage/Sidebar/Sidebar";
+import { AiFillShop } from "react-icons/ai";
 interface Props {
   children: any;
 }
@@ -85,7 +86,7 @@ const LayoutForSeller: React.FC<Props> = ({ children }) => {
                   className={`${styles["img-style"]}`}
                 />
                 <span className="text-sm pt-1 pl-2 hidden lg:block">
-                  Mr Seller
+                  Kelsey Conrad
                 </span>
                 <span className="text-xl pt-1">
                   <MdArrowDropDown />
@@ -96,35 +97,34 @@ const LayoutForSeller: React.FC<Props> = ({ children }) => {
         </div>
 
         <div className={` ${show ? "block" : "hidden"} relative`}>
-          <div className={`${styles["dropdown-menu"]} -mt-14 mr-2`}>
+          <div className={`${styles["dropdown-menu"]} -mt-14 mr-2 `}>
             <div>
-              <Link href="/profile" className="flex text-xs">
-                <span className="pr-2">
+              <Link href="/profile" className="flex text-[13px]">
+                <span className="pr-2  text-[15px]">
                   <HiOutlineUser />
                 </span>
-                Profile
+                My Profile
               </Link>
-
-              <Link href="/" className="flex text-xs font-medium">
-                <span className="pr-2 text-black">
-                  <FaSignOutAlt />
+              <Link href="/" className="flex text-[13px] font-medium">
+                <span className="pr-2 text-[15px] ">
+                  <FaStore />
                 </span>
-                <span className="text-black"> Shop Profile</span>
+                <span> Shop Profile</span>
               </Link>
-
-              <Link href="/" className="flex text-xs font-medium">
-                <span className="pr-2 text-black">
-                  <FaSignOutAlt />
+              <Link href="/" className="flex text-[13px] font-medium">
+                <span className="pr-2  text-[15px]">
+                  <FaLock />
                 </span>
-                <span className="text-black"> Change Password</span>
+                <span> Change Password</span>
               </Link>
-
               <div className="border-t"></div>
-              <Link href="/logout" className="flex text-xs font-medium">
-                <span className="pr-2 text-red-600">
+              <Link
+                href="/logout"
+                className="flex text-[13px] text-[#fc544b] my-3 font-medium">
+                <span className="pr-2  text-[15px]">
                   <FaSignOutAlt />
                 </span>
-                <span className="text-red-400"> Logout</span>
+                <span> Logout</span>
               </Link>
             </div>
           </div>

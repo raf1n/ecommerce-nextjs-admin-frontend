@@ -22,6 +22,7 @@ import {
   FaAndroid,
   FaAdjust,
   FaCogs,
+  FaRegNewspaper,
 } from "react-icons/fa";
 import { AiFillAppstore } from "react-icons/ai";
 
@@ -979,7 +980,7 @@ export class Jsondata {
     { title: "Admin List", icon: FaUserAlt },
   ];
 
-  //-------------   for seller side   ---------------------
+  //-------------   for seller side menu item    ---------------------//
 
   static menusForSeller = [
     {
@@ -1023,37 +1024,7 @@ export class Jsondata {
         },
       ],
     },
-    // {
-    //   title: "Manage Categories",
-    //   icon: AiFillAppstore,
-    //   height: "218px",
-    //   nestedRoutes: [
-    //     {
-    //       title: "Categories",
-    //       link: "/seller/product_categories",
-    //     },
-    //     {
-    //       title: "Sub Categories",
-    //       link: "/seller/product_sub_categories",
-    //     },
-    //     {
-    //       title: "Child Categories",
-    //       link: "/seller/product_child_categories",
-    //     },
-    //     {
-    //       title: "Mega Menu Category",
-    //       link: "/seller/mega_menu_category",
-    //     },
-    //     {
-    //       title: "Popular Category",
-    //       link: "/seller/popular_category",
-    //     },
-    //     {
-    //       title: "Featured Category",
-    //       link: "/seller/featured_category",
-    //     },
-    //   ],
-    // },
+
     {
       title: "Manage Products ",
       icon: AiFillAppstore,
@@ -1097,48 +1068,13 @@ export class Jsondata {
         },
       ],
     },
-    // {
-    //   title: "Ecommerce",
-    //   icon: FaShoppingCart,
-    //   nestedRoutes: [
-    //     {
-    //       title: "Flash Sale",
-    //       link: "/seller/flash_sale",
-    //     },
-    //     {
-    //       title: "Flash Sale Product",
-    //       link: "/seller/flash_sale_product",
-    //     },
-
-    //     {
-    //       title: "Coupon",
-    //       link: "/seller/coupon",
-    //     },
-    //     {
-    //       title: "Shipping Rule",
-    //       link: "/seller/shipping",
-    //     },
-    //     {
-    //       title: "Payment Method",
-    //       link: "/seller/payment_method",
-    //     },
-    //   ],
-    // },
-    { title: "Inventory", icon: FaAdversal },
+    { title: "Inventory", icon: AiFillAppstore },
     { title: "My Withdraw", icon: FaNewspaper },
-    { title: "Message", icon: FaGlobe },
+    { title: "Message", icon: FaNewspaper },
     { title: "Visit Users  Dashboard", icon: FaUserAlt },
-    // { title: "Website Footer", icon: AiFillAppstore },
-    // { title: "Pages", icon: FaColumns },
-    // { title: "Blogs", icon: AiFillAppstore },
-    // { title: "Email Configuration", icon: FaEnvelope },
-    // { title: "Language", icon: AiFillAppstore },
-    // { title: "Setting", icon: FaCog },
-    // { title: "Clear Database", icon: FaTrash },
-    // { title: "Subscribers", icon: FaFire },
-    // { title: "Contact Message", icon: FaEnvelope },
-    // { title: "Admin List", icon: FaUserAlt },
   ];
+  //----------------------------------------------------------//
+
   //Categories Table Data
   static categoriesTableData = [
     {

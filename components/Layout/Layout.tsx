@@ -98,23 +98,26 @@ const Layout: React.FC<Props> = ({ children }) => {
         <div className={` ${show ? "block" : "hidden"} relative`}>
           <div className={`${styles["dropdown-menu"]} -mt-14 mr-2`}>
             <div>
-              <Link href="/profile" className="flex text-xs">
-                <span className="pr-2">
+              <Link href="/profile" className="flex text-[13px]">
+                <span className="pr-2  text-[15px]">
                   <HiOutlineUser />
                 </span>
                 Profile
               </Link>
 
               <div className="border-t"></div>
-              <a href="/logout" className="flex text-xs font-medium">
-                <span className="pr-2 text-red-600">
+              <Link
+                href="/logout"
+                className="flex text-[13px] text-[#fc544b] my-3 font-medium">
+                <span className="pr-2  text-[15px]">
                   <FaSignOutAlt />
                 </span>
-                <span className="text-red-400"> Logout</span>
-              </a>
+                <span> Logout</span>
+              </Link>
             </div>
           </div>
         </div>
+
         <div className="mt-[-55px] w-full">{children}</div>
       </div>
     </div>
