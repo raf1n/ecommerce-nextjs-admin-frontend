@@ -1,13 +1,19 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
-import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
+import {
+  FaEdit,
+  FaLongArrowAltDown,
+  FaLongArrowAltUp,
+  FaTrash,
+} from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { ISlider } from "../../../../../../interfaces/models";
 import { controller } from "../../../../../../src/state/StateController";
 import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import ToggleButton from "../../ManageCategories/ToggleButton/ToggleButton";
 
 interface Props {}
 
@@ -129,83 +135,79 @@ const Slider: React.FC<Props> = (props) => {
                     </thead>
                     {/* -------Plz Attention ,Table body/Row start here -------------- */}
                     <tbody>
-                      {/* {categoriesData.map(
-                        (categoryTableData: ICategories, index) => (
-                          // <div>
-                          <tr className="even:bg-gray-50 odd:bg-white">
-                            <td className="px-3 py-3    text-sm">
+                      {sliderData.map((sliderTableData: ISlider, index) => (
+                        // <div>
+                        <tr className="even:bg-gray-50 odd:bg-white">
+                          {/* <td className="px-3 py-3    text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
                                 {index + 1}
                               </p>
-                            </td>
-                            <td className="px-3 py-3  text-sm">
+                            </td> */}
+                          {/* <td className="px-3 py-3  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap ">
                                 {categoryTableData?.cat_name}
                               </p>
-                            </td>
-                            <td className="px-3 py-3    ">
-                              <img
-                                width="150px"
-                                src={categoryTableData?.cat_image}
-                                className=""
-                              ></img>
-                            </td>
-                            
-                            <td className="px-3 py-3 text-sm">
-                              <CatToggleButton
-                                // apiUrl="categories"
-                                slug={categoryTableData?.cat_slug}
-                                status={categoryTableData.cat_status}
-                              />
-                            </td>
+                            </td> */}
+                          <td className="px-3 py-3    ">
+                            <img
+                              width="150px"
+                              src={sliderTableData?.image}
+                              className=""
+                            ></img>
+                          </td>
 
-                            <td className="px-2 py-3  text-sm">
-                              <button
-                                onClick={() =>
-                                  router.push(
-                                    `${asPath}/${categoryTableData.cat_slug}/edit`
-                                  )
-                                }
-                              >
-                                <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                  <span
-                                    style={{
-                                      boxShadow: "0 2px 6px #acb5f6",
-                                    }}
-                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
-                                  >
-                                    <FaEdit />
-                                  </span>
+                          <td className="px-3 py-3 text-sm">
+                            <ToggleButton
+                              // apiUrl="categories"
+                              slug={sliderTableData?.slug}
+                              status={sliderTableData.status}
+                            />
+                          </td>
+
+                          <td className="px-2 py-3  text-sm">
+                            <button
+                              onClick={() =>
+                                router.push(
+                                  `${asPath}/${sliderTableData.slug}/edit`
+                                )
+                              }
+                            >
+                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                                <span
+                                  style={{
+                                    boxShadow: "0 2px 6px #acb5f6",
+                                  }}
+                                  className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
+                                >
+                                  <FaEdit />
                                 </span>
-                              </button>
-                              <button>
-                                <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                  <span
-                                    onClick={() =>
-                                      setDeleteModalSlug(
-                                        categoryTableData.cat_slug
-                                      )
-                                    }
-                                    // onClick={() => openModal()}
-                                    style={{
-                                      boxShadow: "0 2px 6px #fd9b96",
-                                    }}
-                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
-                                  >
-                                    <FaTrash />
-                                  </span>
+                              </span>
+                            </button>
+                            <button>
+                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                                <span
+                                  onClick={() =>
+                                    setDeleteModalSlug(sliderTableData.slug)
+                                  }
+                                  // onClick={() => openModal()}
+                                  style={{
+                                    boxShadow: "0 2px 6px #fd9b96",
+                                  }}
+                                  className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                                >
+                                  <FaTrash />
                                 </span>
-                              </button>
-                            </td>
-                            <SharedDeleteModal
-                              deleteModalSlug={deleteModalSlug}
-                              handleDelete={handleDelete}
-                              setDeleteModalSlug={setDeleteModalSlug}
-                            ></SharedDeleteModal>
-                          </tr>
-                          // </div>
-                        )
-                      )} */}
+                              </span>
+                            </button>
+                          </td>
+                          {/* <SharedDeleteModal
+                            deleteModalSlug={deleteModalSlug}
+                            handleDelete={handleDelete}
+                            setDeleteModalSlug={setDeleteModalSlug}
+                          ></SharedDeleteModal> */}
+                        </tr>
+                        // </div>
+                      ))}
                     </tbody>
                   </table>
 

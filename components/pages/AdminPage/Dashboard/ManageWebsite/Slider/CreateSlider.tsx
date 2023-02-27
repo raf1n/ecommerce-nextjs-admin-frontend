@@ -76,8 +76,7 @@ const CreateSlider: React.FC<Props> = (props) => {
         <div className="mt-4">
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6">
-              <form action="">
-                {/* onSubmit={handleSave} */}
+              <form onSubmit={handleSave} action="">
                 <div>
                   <div className="form-group grid text-sm">
                     <label
@@ -186,7 +185,7 @@ const CreateSlider: React.FC<Props> = (props) => {
                     </div>
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      type="text"
+                      type="number"
                       name="serial"
                       id=""
                     />
