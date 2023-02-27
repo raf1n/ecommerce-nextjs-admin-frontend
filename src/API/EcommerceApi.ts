@@ -1,4 +1,5 @@
 import {
+  IAd,
   IBrand,
   IBrandDetail,
   ICategories,
@@ -24,6 +25,8 @@ import {
   ICouponResponse,
   ISigleReviewResponse,
   ISingleCouponResponse,
+  IAdResponse,
+  ISingleAdResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -458,9 +461,7 @@ export class EcommerceApi {
   }
 
   //  product image add
-  static async uploadProductImage(
-    data: Partial<any>
-  ): Promise<MyFetchInterface> {
+  static async uploadImage(data: Partial<any>): Promise<MyFetchInterface> {
     console.log(data);
     console.log(API_ENDPOINT);
 
@@ -814,5 +815,52 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/reviews/${slug}`, requestOptions);
+  }
+
+  // get all ad
+
+  static async getAllAds(): Promise<IAdResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/advertisements`, requestOptions);
+  }
+  static async getAd(name: string | undefined): Promise<ISingleAdResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/advertisements/${name}`,
+      requestOptions
+    );
+  }
+
+  static async updateAd(
+    slug: string | undefined,
+    data: Partial<IAd>
+  ): Promise<ISingleAdResponse> {
+    console.log(slug, data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/advertisements/${slug}`,
+      requestOptions
+    );
   }
 }

@@ -1,4 +1,5 @@
 import {
+  IAd,
   ICategories,
   ICoupon,
   IOrder,
@@ -83,4 +84,12 @@ export interface IResponseBrandDetail extends MyFetchInterface {
 }
 export interface ISigleReviewResponse extends MyFetchInterface {
   res: IReview;
+}
+
+export interface IAdResponse extends MyFetchInterface {
+  res: IAd[];
+}
+
+export interface ISingleAdResponse extends MyFetchInterface {
+  res: IAd;
 }

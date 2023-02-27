@@ -130,3 +130,15 @@ export interface ICoupon {
   status: string;
   minimum_purchase: number;
 }
+
+export interface IAd {
+  slug?: string;
+  adName?: string;
+  adImage?: string;
+  title?: string;
+  title_one?: string;
+  title_two?: string;
+  badge?: string;
+  category_link?: string;
+  status?: string;
+}

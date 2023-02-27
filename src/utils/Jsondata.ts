@@ -964,7 +964,12 @@ export class Jsondata {
         },
       ],
     },
-    { title: "Advertisements", icon: FaAdversal },
+    {
+      title: "Advertisements",
+      icon: FaAdversal,
+      gap: false,
+      link: "/advertisement",
+    },
     { title: "Withdraw Payment", icon: FaNewspaper },
     { title: "Users", icon: FaUserAlt },
     { title: "Manage Website", icon: FaGlobe },

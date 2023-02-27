@@ -97,7 +97,8 @@ const Dashboard: React.FC<Props> = (props) => {
           <button
             onClick={() => {
               setShow(!show);
-            }}>
+            }}
+          >
             <div className={`flex text-white  pl-6`}>
               <img
                 src={`https://api.websolutionus.com/shopo/uploads/website-images/ibrahim-khalil-2022-01-30-02-48-50-5743.jpg`}
@@ -134,17 +135,15 @@ const Dashboard: React.FC<Props> = (props) => {
         </div>
       </div>
 
-      {/* <Login /> */}
-      <div className="mt-[-50px] absolute w-full">
-        <AllOrders></AllOrders>
+      {/* <div className="mt-[-50px] absolute w-full">
+        <AllOrders />
         <PendingOrders />
         <ProgressOrders />
         <DeliveredOrders />
-        <CompletedOrders></CompletedOrders>
-        <DeclinedOrders></DeclinedOrders>
-        <CashOnDelivery></CashOnDelivery>
+        <CompletedOrders />
+        <DeclinedOrders />
+        <CashOnDelivery />
         <AdminProfile />
-        {/* <Table /> */}
         <AdminLogin />
         <AdminDetailsSummary />
         <Categories />
@@ -153,14 +152,7 @@ const Dashboard: React.FC<Props> = (props) => {
         <MegaMenuCategory />
         <FeaturedCaategoryAdmin />
         <PopularCategoryAdmin />
-      </div>
-
-      {/* <PendingOrders></PendingOrders>
-      <ProgressOrders></ProgressOrders>
-      <DeliveredOrders></DeliveredOrders>
-      <CompletedOrders></CompletedOrders>
-      <DeclinedOrders></DeclinedOrders>
-      <CashOnDelivery></CashOnDelivery> */}
+      </div> */}
     </div>
   );
 };
