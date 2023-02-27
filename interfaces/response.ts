@@ -1,6 +1,7 @@
 import {
   ICategories,
   ICoupon,
+  IMegaCategory,
   IOrder,
   IPopularCategories,
   IReview,
@@ -83,4 +84,12 @@ export interface IResponseBrandDetail extends MyFetchInterface {
 }
 export interface ISigleReviewResponse extends MyFetchInterface {
   res: IReview;
+}
+
+export interface IMegaCategoryResponse extends MyFetchInterface {
+  res: IMegaCategory[];
+}
+
+export interface IMegaCategoryPostResponse extends MyFetchInterface {
+  res: IMegaCategory;
 }

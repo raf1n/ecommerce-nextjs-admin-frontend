@@ -3,6 +3,7 @@ import {
   IBrandDetail,
   ICategories,
   ICoupon,
+  IMegaCategory,
   IPopularCategories,
   ISubCategories,
   IUser,
@@ -24,6 +25,8 @@ import {
   ICouponResponse,
   ISigleReviewResponse,
   ISingleCouponResponse,
+  IMegaCategoryResponse,
+  IMegaCategoryPostResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -814,5 +817,32 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/reviews/${slug}`, requestOptions);
+  }
+
+  // get all mega menu categories
+  static async getMegaMenuCategories(): Promise<IMegaCategoryResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/mega-menu-categories`, requestOptions);
+  }
+
+  static async postMegaMenuCategory(data: IMegaCategory): Promise<IMegaCategoryPostResponse> {
+    console.log(data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/mega-menu-categories`, requestOptions);
   }
 }

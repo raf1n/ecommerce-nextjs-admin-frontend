@@ -1,13 +1,85 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import {
+  ICategories,
+  ISubCategories,
+} from "../../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import Select from 'react-select';
 
 interface Props {}
 
+const reactSelectStyle = {
+    control: (base: any) => ({
+      ...base,
+      height: "42px",
+      width: "100%",
+      margin: "0",
+      fontColor: "#495057",
+      paddingLeft: "5px",
+      paddingRight: "5px",
+      fontSize: "14px",
+      borderRadius: 5,
+      borderColor: "#e4e6fc",
+      backgroundColor: "#fdfdff",
+      // This line disable the blue border
+      cursor: "pointer",
+      // h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]
+    }),
+    menuList: (styles: any) => ({
+      ...styles,
+      fontSize: "13px",
+    }),
+  };
+
 const CreateMegaMenuCategory: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+
+  const [categories, setCategories] = useState<ICategories[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<ICategories | undefined>(undefined)
+  const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
+  const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
+  const handleMultiSelect = (selected: any) => {
+    setSelectedOptions(selected);
+  };
+
+  useEffect(() => {
+    const fetchAllCategoriesSubCatBrand = async () => {
+      const allCat = await EcommerceApi.allCategories();
+      if (allCat.res) {
+        setCategories(allCat.res);
+      }
+      const allSubCat = await EcommerceApi.allSubCategories();
+      if (allSubCat.res) {
+        setSubCategories(allSubCat.res);
+      }
+    };
+    fetchAllCategoriesSubCatBrand();
+  }, []);
+
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    console.log(e)
+    const cat_name = selectedCategory?.cat_name;
+    const cat_slug = selectedCategory?.cat_slug;
+    const serial = parseInt(e.target.serial.value);
+    const sub_cat_list = selectedOptions;
+    const status = e.target.status.value;
+
+    console.log({cat_name, cat_slug, serial, sub_cat_list, status});
+    const megaCategory = {cat_name, cat_slug, serial, sub_cat_list, status};
+
+    const { res, err } = await EcommerceApi.postMegaMenuCategory(megaCategory);
+    if (res) {
+      e.target.reset();
+    }
+  }
 
   return (
     <div className="w-full">
@@ -28,7 +100,7 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
         <div className="mt-4">
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="px-5 py-1 leading-6">
-              <form action="">
+              <form onSubmit={handleSubmit}>
                 <div>
                   <div className="mt-4">
                     <div className="my-2">
@@ -41,15 +113,24 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
                       <span className="text-red-500 ml-2">*</span>
                     </div>
                     <select
-                      className="w-full border text-gray-500 rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name=""
-                      id=""
+                      onChange={(e) => {
+                        const filteredSubCat = subCategories?.filter(
+                          (subCat) => subCat?.cat_slug === e.target.value
+                        );
+                        setSelectedCategory(categories.find(cat => cat.cat_slug === e.target.value));
+                        setFilteredSubCat(filteredSubCat);
+                      }}
+                      required
+                      name="category"
+                      id="category"
+                      className="w-full form-control h-[42px] rounded text-[#495057] text-sm p-3  bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     >
                       <option value="">Select Category</option>
-                      <option value="active">Electronics</option>
-                      <option value="inactive">Game</option>
-                      <option value="inactive">Mobile</option>
-                      <option value="inactive">Lifestyles</option>
+                      {categories.map((cat: ICategories, indx) => (
+                        <option key={indx} value={cat.cat_slug}>
+                          {cat.cat_name}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
@@ -66,8 +147,32 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
                     <input
                       className="w-full p-3 border text-gray-500 border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
-                      name="name"
+                      name="serial"
                       id=""
+                    />
+                  </div>
+
+                  <div className="my-4 mb-[25px]">
+                    <label className="inline-block text-sm tracking-wide mb-2">
+                      Sub Category
+                    </label>
+                    <Select
+                      isMulti
+                      name="sub_cat_list"
+                      id="sub_cat_list"
+                      options={filteredSubCat.map(subCat => {
+                        return {
+                          value: subCat.slug,
+                        label: subCat.subcat_name
+                        }
+                      })}
+                      styles={reactSelectStyle}
+                      components={{
+                        IndicatorSeparator: () => null,
+                      }}
+                      onChange={handleMultiSelect}
+                      // getValue={(e) => console.log(e)}
+                      // getOptionValue={(option) => `${option['value']}`}
                     />
                   </div>
 
@@ -83,7 +188,7 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
                     </div>
                     <select
                       className="w-full text-gray-500 border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name=""
+                      name="status"
                       id=""
                     >
                       <option value="active">Active</option>
