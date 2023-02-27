@@ -978,6 +978,167 @@ export class Jsondata {
     { title: "Contact Message", icon: FaEnvelope },
     { title: "Admin List", icon: FaUserAlt },
   ];
+
+  //-------------   for seller side   ---------------------
+
+  static menusForSeller = [
+    {
+      title: "Dashboard For Seller",
+      icon: FaHome,
+      gap: false,
+      link: "/seller",
+    },
+    {
+      title: "Orders",
+      icon: FaShoppingCart,
+      height: "253px",
+      nestedRoutes: [
+        {
+          title: "All Orders",
+          link: "/seller/all_orders",
+        },
+        {
+          title: "Pending Orders",
+          link: "/seller/pending_orders",
+        },
+        {
+          title: "Progress Orders",
+          link: "/seller/progress_orders",
+        },
+        {
+          title: "Delivered Orders",
+          link: "/seller/delivered_orders",
+        },
+        {
+          title: "Completed Orders",
+          link: "/seller/completed_orders",
+        },
+        {
+          title: "Declined Orders",
+          link: "/seller/declined_orders",
+        },
+        {
+          title: "Cash On Delivery",
+          link: "/seller/cash_on_delivery",
+        },
+      ],
+    },
+    // {
+    //   title: "Manage Categories",
+    //   icon: AiFillAppstore,
+    //   height: "218px",
+    //   nestedRoutes: [
+    //     {
+    //       title: "Categories",
+    //       link: "/seller/product_categories",
+    //     },
+    //     {
+    //       title: "Sub Categories",
+    //       link: "/seller/product_sub_categories",
+    //     },
+    //     {
+    //       title: "Child Categories",
+    //       link: "/seller/product_child_categories",
+    //     },
+    //     {
+    //       title: "Mega Menu Category",
+    //       link: "/seller/mega_menu_category",
+    //     },
+    //     {
+    //       title: "Popular Category",
+    //       link: "/seller/popular_category",
+    //     },
+    //     {
+    //       title: "Featured Category",
+    //       link: "/seller/featured_category",
+    //     },
+    //   ],
+    // },
+    {
+      title: "Manage Products ",
+      icon: AiFillAppstore,
+      height: "323px",
+      nestedRoutes: [
+        {
+          title: "Brands",
+          link: "/seller/product_brands",
+        },
+        {
+          title: "Create Product",
+          link: "/seller/products/create",
+        },
+        {
+          title: "Products",
+          link: "/seller/products",
+        },
+        {
+          title: "Stock Out",
+          link: "/seller/stock_out",
+        },
+        {
+          title: "Seller Products",
+          link: "/seller/seller_products",
+        },
+        {
+          title: "Seller Pending Products",
+          link: "/seller/seller_pending_products",
+        },
+        {
+          title: "Specification Key",
+          link: "/seller/specification_key",
+        },
+        {
+          title: "Product Reviews",
+          link: "/seller/product_reviews",
+        },
+        {
+          title: "Product Report",
+          link: "/seller/product_report",
+        },
+      ],
+    },
+    // {
+    //   title: "Ecommerce",
+    //   icon: FaShoppingCart,
+    //   nestedRoutes: [
+    //     {
+    //       title: "Flash Sale",
+    //       link: "/seller/flash_sale",
+    //     },
+    //     {
+    //       title: "Flash Sale Product",
+    //       link: "/seller/flash_sale_product",
+    //     },
+
+    //     {
+    //       title: "Coupon",
+    //       link: "/seller/coupon",
+    //     },
+    //     {
+    //       title: "Shipping Rule",
+    //       link: "/seller/shipping",
+    //     },
+    //     {
+    //       title: "Payment Method",
+    //       link: "/seller/payment_method",
+    //     },
+    //   ],
+    // },
+    { title: "Inventory", icon: FaAdversal },
+    { title: "My Withdraw", icon: FaNewspaper },
+    { title: "Message", icon: FaGlobe },
+    { title: "Visit Users  Dashboard", icon: FaUserAlt },
+    // { title: "Website Footer", icon: AiFillAppstore },
+    // { title: "Pages", icon: FaColumns },
+    // { title: "Blogs", icon: AiFillAppstore },
+    // { title: "Email Configuration", icon: FaEnvelope },
+    // { title: "Language", icon: AiFillAppstore },
+    // { title: "Setting", icon: FaCog },
+    // { title: "Clear Database", icon: FaTrash },
+    // { title: "Subscribers", icon: FaFire },
+    // { title: "Contact Message", icon: FaEnvelope },
+    // { title: "Admin List", icon: FaUserAlt },
+  ];
   //Categories Table Data
   static categoriesTableData = [
     {

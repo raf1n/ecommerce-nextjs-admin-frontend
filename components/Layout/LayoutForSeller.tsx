@@ -11,7 +11,7 @@ interface Props {
   children: any;
 }
 
-const Layout: React.FC<Props> = ({ children }) => {
+const LayoutForSeller: React.FC<Props> = ({ children }) => {
   const states = useSelector(() => controller.states);
   const [open, setOpen] = useState(true);
   const [responsiveOpen, setResponsiveOpen] = useState(false);
@@ -80,12 +80,12 @@ const Layout: React.FC<Props> = ({ children }) => {
               }}>
               <div className={`flex text-white  pl-6`}>
                 <img
-                  src={`https://api.websolutionus.com/shopo/uploads/website-images/ibrahim-khalil-2022-01-30-02-48-50-5743.jpg`}
+                  src={`https://api.websolutionus.com/shopo/uploads/custom-images/kelsey-conrad-2022-12-28-04-55-51-8312.jpg`}
                   alt="pic"
                   className={`${styles["img-style"]}`}
                 />
                 <span className="text-sm pt-1 pl-2 hidden lg:block">
-                  Mr Admin
+                  Mr Seller
                 </span>
                 <span className="text-xl pt-1">
                   <MdArrowDropDown />
@@ -105,13 +105,27 @@ const Layout: React.FC<Props> = ({ children }) => {
                 Profile
               </Link>
 
+              <Link href="/" className="flex text-xs font-medium">
+                <span className="pr-2 text-black">
+                  <FaSignOutAlt />
+                </span>
+                <span className="text-black"> Shop Profile</span>
+              </Link>
+
+              <Link href="/" className="flex text-xs font-medium">
+                <span className="pr-2 text-black">
+                  <FaSignOutAlt />
+                </span>
+                <span className="text-black"> Change Password</span>
+              </Link>
+
               <div className="border-t"></div>
-              <a href="/logout" className="flex text-xs font-medium">
+              <Link href="/logout" className="flex text-xs font-medium">
                 <span className="pr-2 text-red-600">
                   <FaSignOutAlt />
                 </span>
                 <span className="text-red-400"> Logout</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -121,4 +135,4 @@ const Layout: React.FC<Props> = ({ children }) => {
   );
 };
 
-export default Layout;
+export default LayoutForSeller;
