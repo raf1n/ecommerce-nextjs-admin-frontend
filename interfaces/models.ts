@@ -26,6 +26,17 @@ export interface ICategories {
   cat_status: string;
   cat_icon: string;
 }
+export interface IReview {
+  slug?: string;
+  product_slug?: string;
+  title?: string;
+  note?: string;
+  rating: number;
+  name: string;
+  user?: IUser;
+  status?: string;
+  reviewProducts: IProduct;
+}
 
 export interface ISubCategories {
   slug: string;
@@ -106,4 +117,16 @@ export interface IOrder {
     city?: string;
     address?: string;
   };
+}
+
+export interface ICoupon {
+  slug: string;
+  name: string;
+  code: string;
+  discount: number;
+  items_number: number;
+  apply_qty: number;
+  expired_date: string;
+  status: string;
+  minimum_purchase: number;
 }

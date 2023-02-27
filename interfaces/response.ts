@@ -1,7 +1,9 @@
 import {
   ICategories,
+  ICoupon,
   IOrder,
   IPopularCategories,
+  IReview,
   ISubCategories,
 } from "./models";
 //here we will declare our response interfaces or in easy way type of our all response in our website
@@ -11,6 +13,9 @@ import { IProduct, IBrandDetail } from "./models";
 
 export interface IResponseCategories extends MyFetchInterface {
   res: Array<ICategories>;
+}
+export interface IReviewProductsResponse extends MyFetchInterface {
+  res: Array<IReview>;
 }
 
 export interface ILoginResponse extends MyFetchInterface {
@@ -62,10 +67,20 @@ export interface ISingleProductResponse extends MyFetchInterface {
   res: IProduct;
 }
 
+export interface ICouponResponse extends MyFetchInterface {
+  res: Array<ICoupon>;
+}
+export interface ISingleCouponResponse extends MyFetchInterface {
+  res: ICoupon;
+}
+
 export interface IResponseAllBrands extends MyFetchInterface {
   res: Array<IBrandDetail>;
 }
 
 export interface IResponseBrandDetail extends MyFetchInterface {
   res: IBrandDetail;
+}
+export interface ISigleReviewResponse extends MyFetchInterface {
+  res: IReview;
 }

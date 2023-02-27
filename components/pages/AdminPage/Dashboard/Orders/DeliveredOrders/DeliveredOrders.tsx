@@ -15,26 +15,32 @@ const DeliveredOrders: React.FC<Props> = (props) => {
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
 
   const handleDelete = async () => {
     const { res, err } = await EcommerceApi.deleteByModal(
       deleteModalSlug,
       "orders"
     );
+
     if (res) {
       setDeleteModalSlug("");
+
       const remainingOrders = deliveredOrdersData.filter(
         (order) => order.slug !== deleteModalSlug
       );
+
       setDeliveredOrdersData(remainingOrders);
     }
   };
 
   useEffect(() => {
-    const findAllOrdersAdmin = async () => {
+    const findProgressOrdersAdmin = async () => {
+
       const { res, err } = await EcommerceApi.allOrdersAdmin(
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&order_status=delivered`
       );
+
       if (err) {
         console.log(err);
       } else {
@@ -43,18 +49,19 @@ const DeliveredOrders: React.FC<Props> = (props) => {
       }
     };
 
-    findAllOrdersAdmin();
-  }, [searchString, sortBy, sortType]);
+    findProgressOrdersAdmin();
+    
+  }, [searchString, sortBy, sortType, showUpdateModal]);
 
   console.log({ searchString, sortBy, sortType });
 
   const tableHeaders = {
     SN: "sn",
-    Customer: "customer",
+    Customer: "userData.fullName",
     "Order Id": "slug",
     Date: "createdAt",
     Quantity: "quantity",
-    Amount: "amount",
+    Amount: "subTotal",
     "Order Status": "order_status",
     Payment: "payment_status",
     Action: "action",
@@ -68,18 +75,21 @@ const DeliveredOrders: React.FC<Props> = (props) => {
         link="/delivered-orders"
       ></DashboardBreadcrumb>
 
-      <Table
+       <Table
+        showUpdateModal={showUpdateModal}
+        setShowUpdateModal={setShowUpdateModal}
         handleDelete={handleDelete}
         deleteModalSlug={deleteModalSlug}
         setDeleteModalSlug={setDeleteModalSlug}
         sortBy={sortBy}
         sortType={sortType}
-        setSearchString={setSearchString}
         setSortBy={setSortBy}
-        setSortType={setSortBy}
-        tableHeaders={tableHeaders}
+        setSortType={setSortType}
+        setSearchString={setSearchString}
         ordersData={deliveredOrdersData}
+        tableHeaders={tableHeaders}
       />
+
     </div>
   );
 };
