@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import FeaturedCaategoryAdmin from "../../components/pages/AdminPage/Dashboard/ManageCategories/FeaturedCategoryAdmin/FeaturedCategoryAdmin";
+import AllOrders from "../../components/pages/SellerPage/Dashboard/Orders/AllOrders/AllOrders";
 import { controller } from "../../src/state/StateController";
 
 interface Props {}
@@ -8,7 +8,11 @@ interface Props {}
 const index: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
-  return <FeaturedCaategoryAdmin />;
+  return (
+    <div>
+      <AllOrders />
+    </div>
+  );
 };
 
 export default index;

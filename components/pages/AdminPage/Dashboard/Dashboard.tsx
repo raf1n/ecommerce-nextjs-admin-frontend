@@ -136,23 +136,23 @@ const Dashboard: React.FC<Props> = (props) => {
 
       {/* <Login /> */}
       <div className="mt-[-50px] absolute w-full">
-        <AllOrders></AllOrders>
+        {/* <AllOrders></AllOrders>
         <PendingOrders />
         <ProgressOrders />
         <DeliveredOrders />
         <CompletedOrders></CompletedOrders>
         <DeclinedOrders></DeclinedOrders>
         <CashOnDelivery></CashOnDelivery>
-        <AdminProfile />
+        <AdminProfile /> */}
         {/* <Table /> */}
-        <AdminLogin />
+        {/* <AdminLogin />
         <AdminDetailsSummary />
         <Categories />
         <SubCategories />
         <ProductChildCategory />
         <MegaMenuCategory />
         <FeaturedCaategoryAdmin />
-        <PopularCategoryAdmin />
+        <PopularCategoryAdmin /> */}
       </div>
 
       {/* <PendingOrders></PendingOrders>
