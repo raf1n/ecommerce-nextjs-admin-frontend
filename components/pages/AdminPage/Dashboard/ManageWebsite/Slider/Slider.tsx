@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { ISlider } from "../../../../../../interfaces/models";
 import { controller } from "../../../../../../src/state/StateController";
 import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
@@ -18,7 +19,7 @@ const Slider: React.FC<Props> = (props) => {
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
-  // const [couponData, setCouponData] = useState<ICoupon[]>([]);
+  const [sliderData, setSliderData] = useState<ISlider[]>([]);
 
   const router = useRouter();
   const { asPath } = router;

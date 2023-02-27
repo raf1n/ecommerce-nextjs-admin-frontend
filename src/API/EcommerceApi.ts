@@ -4,6 +4,7 @@ import {
   ICategories,
   ICoupon,
   IPopularCategories,
+  ISlider,
   ISubCategories,
   IUser,
 } from "../../interfaces/models";
@@ -24,6 +25,7 @@ import {
   ICouponResponse,
   ISigleReviewResponse,
   ISingleCouponResponse,
+  ISliderResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -110,6 +112,27 @@ export class EcommerceApi {
       requestOptions
     );
   }
+
+  //
+  static async uploadSliderImage(
+    data: Partial<any>
+  ): Promise<MyFetchInterface> {
+    // console.log(data);
+    // console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: data,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      "https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024",
+      requestOptions
+    );
+  }
+
   //create categories
   static async createCategories(
     data: Partial<ICategories>
@@ -814,5 +837,21 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/reviews/${slug}`, requestOptions);
+  }
+
+  //Create Sliders
+  static async createSlider(data: Partial<ISlider>): Promise<ISliderResponse> {
+    // console.log(data);
+    // console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/slider`, requestOptions);
   }
 }

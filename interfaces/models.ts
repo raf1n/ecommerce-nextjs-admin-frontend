@@ -26,6 +26,16 @@ export interface ICategories {
   cat_status: string;
   cat_icon: string;
 }
+export interface ISlider {
+  slug?: string;
+  image: string;
+  badge: string;
+  titleOne: string;
+  titleTWo: string;
+  productLink: string;
+  serial: number;
+  status: string;
+}
 export interface IReview {
   slug?: string;
   product_slug?: string;

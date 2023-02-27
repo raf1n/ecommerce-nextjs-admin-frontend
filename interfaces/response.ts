@@ -4,6 +4,7 @@ import {
   IOrder,
   IPopularCategories,
   IReview,
+  ISlider,
   ISubCategories,
 } from "./models";
 //here we will declare our response interfaces or in easy way type of our all response in our website
@@ -83,4 +84,8 @@ export interface IResponseBrandDetail extends MyFetchInterface {
 }
 export interface ISigleReviewResponse extends MyFetchInterface {
   res: IReview;
+}
+
+export interface ISliderResponse extends MyFetchInterface {
+  res: Array<ISlider>;
 }
