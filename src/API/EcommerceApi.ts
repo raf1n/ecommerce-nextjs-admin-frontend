@@ -820,7 +820,7 @@ export class EcommerceApi {
   }
 
   // get all mega menu categories
-  static async getMegaMenuCategories(): Promise<IMegaCategoryResponse> {
+  static async getMegaMenuCategories(query: string): Promise<IMegaCategoryResponse> {
     const myHeaders = new Headers();
 
     const requestOptions = {
@@ -828,7 +828,7 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/mega-menu-categories`, requestOptions);
+    return await callFetch(`${API_ENDPOINT}/mega-menu-categories?${query}`, requestOptions);
   }
 
   static async postMegaMenuCategory(data: IMegaCategory): Promise<IMegaCategoryPostResponse> {
