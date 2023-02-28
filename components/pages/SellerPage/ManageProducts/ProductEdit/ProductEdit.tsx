@@ -20,21 +20,21 @@ interface Props {}
 const ProductEdit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [productData, setProductData] = useState<IProduct>();
-  const [isCheckedTop, setIsCheckedTop] = useState(productData?.isTopProduct);
-  const [isCheckedNew, setIsCheckedNew] = useState(productData?.isNewArrival);
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
   const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
   const [brands, setBrands] = useState<IBrandDetail[]>([]);
-  const [isCheckedBest, setIsCheckedBest] = useState(
-    productData?.isBestProduct
-  );
-  const [isCheckedFeatured, setIsCheckedFeatured] = useState(
-    productData?.isFeatured
-  );
-  const [isCheckedPopular, setIsCheckedPopular] = useState(
-    productData?.isPopular
-  );
+  // const [isCheckedTop, setIsCheckedTop] = useState(productData?.isTopProduct);
+  // const [isCheckedNew, setIsCheckedNew] = useState(productData?.isNewArrival);
+  // const [isCheckedBest, setIsCheckedBest] = useState(
+  //   productData?.isBestProduct
+  // );
+  // const [isCheckedFeatured, setIsCheckedFeatured] = useState(
+  //   productData?.isFeatured
+  // );
+  // const [isCheckedPopular, setIsCheckedPopular] = useState(
+  //   productData?.isPopular
+  // );
   // const [selectValue, setSelectValue] = useState({});
   const { asPath } = useRouter();
   console.log(asPath);
@@ -139,11 +139,11 @@ const ProductEdit: React.FC<Props> = (props) => {
         weight: parseFloat(e.target.weight.value),
         seoTitle: e.target.seo_title.value,
         seoDescription: e.target.seo_description.value,
-        isTopProduct: isCheckedTop,
-        isNewArrival: isCheckedNew,
-        isBestProduct: isCheckedBest,
-        isFeatured: isCheckedFeatured,
-        isPopular: isCheckedPopular,
+        // isTopProduct: isCheckedTop,
+        // isNewArrival: isCheckedNew,
+        // isBestProduct: isCheckedBest,
+        // isFeatured: isCheckedFeatured,
+        // isPopular: isCheckedPopular,
       };
       EcommerceApi.editProducts(newProductData, productSlug);
     }

@@ -16,11 +16,11 @@ interface Props {}
 
 const ProductCreate: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [isCheckedTop, setIsCheckedTop] = useState(false);
-  const [isCheckedNew, setIsCheckedNew] = useState(false);
-  const [isCheckedBest, setIsCheckedBest] = useState(false);
-  const [isCheckedFeatured, setIsCheckedFeatured] = useState(false);
-  const [isCheckedPopular, setIsCheckedPopular] = useState(false);
+  // const [isCheckedTop, setIsCheckedTop] = useState(false);
+  // const [isCheckedNew, setIsCheckedNew] = useState(false);
+  // const [isCheckedBest, setIsCheckedBest] = useState(false);
+  // const [isCheckedFeatured, setIsCheckedFeatured] = useState(false);
+  // const [isCheckedPopular, setIsCheckedPopular] = useState(false);
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
   const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
@@ -102,11 +102,11 @@ const ProductCreate: React.FC<Props> = (props) => {
         imageURL: imageUrl,
         stock: parseFloat(e.target.stock_quantity.value),
         weight: parseFloat(e.target.weight.value),
-        isTopProduct: isCheckedTop,
-        isNewArrival: isCheckedNew,
-        isBestProduct: isCheckedBest,
-        isFeatured: isCheckedFeatured,
-        isPopular: isCheckedPopular,
+        // isTopProduct: isCheckedTop,
+        // isNewArrival: isCheckedNew,
+        // isBestProduct: isCheckedBest,
+        // isFeatured: isCheckedFeatured,
+        // isPopular: isCheckedPopular,
         seoTitle: e.target.seo_title.value,
         seoDescription: e.target.seo_description.value,
         addedBy: "seller",
