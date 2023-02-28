@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import {
   ICategories,
@@ -35,6 +35,8 @@ const reactSelectStyle = {
 
 const CreateMegaMenuCategory: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+
+  const selectRef = useRef(null);
 
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<ICategories | undefined>(undefined)
@@ -117,6 +119,8 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
                         );
                         setSelectedCategory(categories.find(cat => cat.cat_slug === e.target.value));
                         setFilteredSubCat(filteredSubCat);
+                        //@ts-ignore
+                        selectRef.current.clearValue();
                       }}
                       required
                       name="category"
@@ -159,6 +163,7 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
                       isMulti
                       name="sub_cat_list"
                       id="sub_cat_list"
+                      ref={selectRef}
                       options={filteredSubCat.map(subCat => {
                         return {
                           value: subCat.slug,
