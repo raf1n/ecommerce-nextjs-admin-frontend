@@ -64,8 +64,6 @@ const Dashboard: React.FC<Props> = (props) => {
     isDeletable: true,
   };
 
-  // const { testDynamicTableDataOne, testDynamicTableDataTwo } = Jsondata;
-
   return (
     <div className="flex-1  overflow-y-auto relative">
       <div className="flex flex-row justify-between h-[115px] relative bg-[#6777ef]">
@@ -135,24 +133,33 @@ const Dashboard: React.FC<Props> = (props) => {
         </div>
       </div>
 
-      {/* <div className="mt-[-50px] absolute w-full">
-        <AllOrders />
+      {/* <Login /> */}
+      <div className="mt-[-50px] absolute w-full">
+        {/* <AllOrders></AllOrders>
         <PendingOrders />
         <ProgressOrders />
         <DeliveredOrders />
-        <CompletedOrders />
-        <DeclinedOrders />
-        <CashOnDelivery />
-        <AdminProfile />
-        <AdminLogin />
+        <CompletedOrders></CompletedOrders>
+        <DeclinedOrders></DeclinedOrders>
+        <CashOnDelivery></CashOnDelivery>
+        <AdminProfile /> */}
+        {/* <Table /> */}
+        {/* <AdminLogin />
         <AdminDetailsSummary />
         <Categories />
         <SubCategories />
         <ProductChildCategory />
         <MegaMenuCategory />
         <FeaturedCaategoryAdmin />
-        <PopularCategoryAdmin />
-      </div> */}
+        <PopularCategoryAdmin /> */}
+      </div>
+
+      {/* <PendingOrders></PendingOrders>
+      <ProgressOrders></ProgressOrders>
+      <DeliveredOrders></DeliveredOrders>
+      <CompletedOrders></CompletedOrders>
+      <DeclinedOrders></DeclinedOrders>
+      <CashOnDelivery></CashOnDelivery> */}
     </div>
   );
 };

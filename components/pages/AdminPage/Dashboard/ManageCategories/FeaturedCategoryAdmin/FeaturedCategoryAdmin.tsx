@@ -21,8 +21,7 @@ const FeaturedCaategoryAdmin: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Featured Category"
         slug="Featured Category"
-        link="/Featured Category"
-      ></DashboardBreadcrumb>
+        link="/Featured Category"></DashboardBreadcrumb>
       <div className="m-6">
         <div className={`${styles["card"]}`}>
           <div className={`${styles["card-body"]}`}>
@@ -61,8 +60,7 @@ const FeaturedCaategoryAdmin: React.FC<Props> = (props) => {
         <SharedAddNewModal
           title="Featured"
           setShowModal={setShowAddModal}
-          showModal={showAddModal}
-        ></SharedAddNewModal>
+          showModal={showAddModal}></SharedAddNewModal>
         <div onClick={() => setShowAddModal(true)} className="my-5">
           <SharedAddNewButton />
         </div>
@@ -73,16 +71,14 @@ const FeaturedCaategoryAdmin: React.FC<Props> = (props) => {
                 <thead>
                   <tr className="h-16">
                     <th
-                      className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                    >
+                      className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
                       <span className="flex  space-x-0 space-y-0 opacity-80">
                         Name
                       </span>
                     </th>
 
                     <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase`}
-                    >
+                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase`}>
                       <span className="flex  space-x-0 space-y-0 opacity-80">
                         Action
                         {/* <FaLongArrowAltUp /> <FaLongArrowAltDown /> */}
@@ -109,16 +105,14 @@ const FeaturedCaategoryAdmin: React.FC<Props> = (props) => {
                                 style={{
                                   boxShadow: "0 2px 6px #fd9b96",
                                 }}
-                                className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
-                              >
+                                className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center">
                                 <FaTrash />
                               </span>
                             </span>
                           </button>
                           <SharedDeleteModal
                             setShowModal={setShowDeleteModal}
-                            showModal={showDeleteModal}
-                          ></SharedDeleteModal>
+                            showModal={showDeleteModal}></SharedDeleteModal>
                           <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                             {/* <button>
                                     <span

@@ -8,7 +8,6 @@ import {
   FaUserAlt,
   FaNewspaper,
   FaShoppingCart,
-  FaMapMarkerAlt,
   FaHome,
   FaAdversal,
   FaCircle,
@@ -23,6 +22,7 @@ import {
   FaAndroid,
   FaAdjust,
   FaCogs,
+  FaRegNewspaper,
 } from "react-icons/fa";
 import { AiFillAppstore } from "react-icons/ai";
 
@@ -827,7 +827,7 @@ export class Jsondata {
   ];
 
   static menus = [
-    { title: "Dashboard", icon: FaHome, gap: false, link: "/" },
+    { title: "Dashboard", icon: FaHome, gap: false, link: "/admin" },
     {
       title: "Orders",
       icon: FaShoppingCart,
@@ -835,31 +835,31 @@ export class Jsondata {
       nestedRoutes: [
         {
           title: "All Orders",
-          link: "/all_orders",
+          link: "/admin/all_orders",
         },
         {
           title: "Pending Orders",
-          link: "/pending_orders",
+          link: "/admin/pending_orders",
         },
         {
           title: "Progress Orders",
-          link: "/progress_orders",
+          link: "/admin/progress_orders",
         },
         {
           title: "Delivered Orders",
-          link: "/delivered_orders",
+          link: "/admin/delivered_orders",
         },
         {
           title: "Completed Orders",
-          link: "/completed_orders",
+          link: "/admin/completed_orders",
         },
         {
           title: "Declined Orders",
-          link: "/declined_orders",
+          link: "/admin/declined_orders",
         },
         {
           title: "Cash On Delivery",
-          link: "/cash_on_delivery",
+          link: "/admin/cash_on_delivery",
         },
       ],
     },
@@ -870,27 +870,27 @@ export class Jsondata {
       nestedRoutes: [
         {
           title: "Categories",
-          link: "/product_categories",
+          link: "/admin/product_categories",
         },
         {
           title: "Sub Categories",
-          link: "/product_sub_categories",
+          link: "/admin/product_sub_categories",
         },
         {
           title: "Child Categories",
-          link: "/product_child_categories",
+          link: "/admin/product_child_categories",
         },
         {
           title: "Mega Menu Category",
-          link: "/mega_menu_category",
+          link: "/admin/mega_menu_category",
         },
         {
           title: "Popular Category",
-          link: "/popular_category",
+          link: "/admin/popular_category",
         },
         {
           title: "Featured Category",
-          link: "/featured_category",
+          link: "/admin/featured_category",
         },
       ],
     },
@@ -901,39 +901,39 @@ export class Jsondata {
       nestedRoutes: [
         {
           title: "Brands",
-          link: "/product_brands",
+          link: "/admin/product_brands",
         },
         {
           title: "Create Product",
-          link: "/products/create",
+          link: "/admin/products/create",
         },
         {
           title: "Products",
-          link: "/products",
+          link: "/admin/products",
         },
         {
           title: "Stock Out",
-          link: "/stock_out",
+          link: "/admin/stock_out",
         },
         {
           title: "Seller Products",
-          link: "/seller_products",
+          link: "/admin/seller_products",
         },
         {
           title: "Seller Pending Products",
-          link: "/seller_pending_products",
+          link: "/admin/seller_pending_products",
         },
         {
           title: "Specification Key",
-          link: "/specification_key",
+          link: "/admin/specification_key",
         },
         {
           title: "Product Reviews",
-          link: "/product_reviews",
+          link: "/admin/product_reviews",
         },
         {
           title: "Product Report",
-          link: "/product_report",
+          link: "/admin/product_report",
         },
       ],
     },
@@ -943,24 +943,24 @@ export class Jsondata {
       nestedRoutes: [
         {
           title: "Flash Sale",
-          link: "/flash_sale",
+          link: "/admin/flash_sale",
         },
         {
           title: "Flash Sale Product",
-          link: "/flash_sale_product",
+          link: "/admin/flash_sale_product",
         },
 
         {
           title: "Coupon",
-          link: "/coupon",
+          link: "/admin/coupon",
         },
         {
           title: "Shipping Rule",
-          link: "/shipping",
+          link: "/admin/shipping",
         },
         {
           title: "Payment Method",
-          link: "/payment_method",
+          link: "/admin/payment_method",
         },
       ],
     },
@@ -984,6 +984,102 @@ export class Jsondata {
     { title: "Contact Message", icon: FaEnvelope },
     { title: "Admin List", icon: FaUserAlt },
   ];
+
+  //-------------   for seller side menu item    ---------------------//
+
+  static menusForSeller = [
+    {
+      title: "Dashboard For Seller",
+      icon: FaHome,
+      gap: false,
+      link: "/seller",
+    },
+    {
+      title: "Orders",
+      icon: FaShoppingCart,
+      height: "253px",
+      nestedRoutes: [
+        {
+          title: "All Orders",
+          link: "/seller/all_orders",
+        },
+        {
+          title: "Pending Orders",
+          link: "/seller/pending_orders",
+        },
+        {
+          title: "Progress Orders",
+          link: "/seller/progress_orders",
+        },
+        {
+          title: "Delivered Orders",
+          link: "/seller/delivered_orders",
+        },
+        {
+          title: "Completed Orders",
+          link: "/seller/completed_orders",
+        },
+        {
+          title: "Declined Orders",
+          link: "/seller/declined_orders",
+        },
+        {
+          title: "Cash On Delivery",
+          link: "/seller/cash_on_delivery",
+        },
+      ],
+    },
+
+    {
+      title: "Manage Products ",
+      icon: AiFillAppstore,
+      height: "323px",
+      nestedRoutes: [
+        {
+          title: "Brands",
+          link: "/seller/product_brands",
+        },
+        {
+          title: "Create Product",
+          link: "/seller/products/create",
+        },
+        {
+          title: "Products",
+          link: "/seller/products",
+        },
+        {
+          title: "Stock Out",
+          link: "/seller/stock_out",
+        },
+        {
+          title: "Seller Products",
+          link: "/seller/seller_products",
+        },
+        {
+          title: "Seller Pending Products",
+          link: "/seller/seller_pending_products",
+        },
+        {
+          title: "Specification Key",
+          link: "/seller/specification_key",
+        },
+        {
+          title: "Product Reviews",
+          link: "/seller/product_reviews",
+        },
+        {
+          title: "Product Report",
+          link: "/seller/product_report",
+        },
+      ],
+    },
+    { title: "Inventory", icon: AiFillAppstore },
+    { title: "My Withdraw", icon: FaNewspaper },
+    { title: "Message", icon: FaNewspaper },
+    { title: "Visit Users  Dashboard", icon: FaUserAlt },
+  ];
+  //----------------------------------------------------------//
+
   //Categories Table Data
   static categoriesTableData = [
     {
