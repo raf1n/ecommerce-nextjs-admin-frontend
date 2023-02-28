@@ -270,7 +270,7 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
 
       <div>
         <div className="p-4  m-7 bg-white">
-          <h1 className="pb-10 text-2xl font-bold ">Today New Order</h1>
+          <h1 className="mb-10 text-2xl font-bold ">Today New Order</h1>
 
           <hr />
 
