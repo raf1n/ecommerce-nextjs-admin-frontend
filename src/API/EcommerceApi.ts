@@ -26,6 +26,7 @@ import {
   ISigleReviewResponse,
   ISingleCouponResponse,
   ISliderResponse,
+  ISingleSliderResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -399,7 +400,7 @@ export class EcommerceApi {
 
   //Update Popular Categories
 
-  //Edit Categories
+  //Edit Popular Categories
 
   static async editPopularCategories(
     data: Partial<IPopularCategories>,
@@ -874,7 +875,7 @@ export class EcommerceApi {
 
   //get single  slider data
 
-  static async getSingleSlider(slug: string): Promise<ISingleCouponResponse> {
+  static async getSingleSlider(slug: string): Promise<ISingleSliderResponse> {
     console.log(API_ENDPOINT);
     const myHeaders = new Headers();
 
@@ -883,7 +884,7 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/coupon/${slug}`, requestOptions);
+    return await callFetch(`${API_ENDPOINT}/slider/${slug}`, requestOptions);
   }
 
   //Delete Slider
@@ -896,6 +897,27 @@ export class EcommerceApi {
     const requestOptions = {
       method: "DELETE",
       headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/slider/${slug}`, requestOptions);
+  }
+
+  //Edit Slider
+
+  static async editSlider(
+    data: Partial<ISlider>,
+    slug: string
+  ): Promise<ISingleSliderResponse> {
+    console.log(data);
+    // console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
       redirect: "follow",
     };
 
