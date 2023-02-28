@@ -33,7 +33,6 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
   const [categoriesData, setCategoriesData] = useState<IMegaCategory[]>([]);
-  const [showModal, setShowModal] = useState(false);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
 
   const [sortBy, setSortBy] = useState("createdAt");
@@ -57,12 +56,23 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
     fetchAllCategoriesAdminData();
   }, [searchString, sortBy, sortType]);
 
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteMegaMenuCategory(deleteModalSlug);
+    if (res) {
+      setDeleteModalSlug("");
+      const remainingCategories = categoriesData.filter(
+        (category) => category.slug !== deleteModalSlug
+      );
+      setCategoriesData(remainingCategories);
+    }
+  }
+
   return (
     <div className="w-full">
       <DashboardBreadcrumb
         headline="Mega Menu Category"
-        slug="Product Category"
-        link="/Product Category"
+        slug="Mega Menu Category"
+        link="/mega-menu-category"
       ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
@@ -107,48 +117,6 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
                     <div className="inline-block min-w-full shadow  overflow-hidden">
                       <table className="min-w-full leading-normal">
                         <thead>
-                          {/* <tr className="h-16">
-                            <th
-                              className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
-                              <span className="flex  space-x-0 space-y-0 opacity-80">
-                                SN
-                                <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                              </span>
-                            </th>
-                            <th
-                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
-                              <span className="flex  space-x-0 space-y-0  opacity-80">
-                                Name
-                                <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                              </span>
-                            </th>
-                            <th
-                              className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
-                              <span className="flex  space-x-0 space-y-0  opacity-80">
-                                Serial
-                                <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                              </span>
-                            </th>
-                            <th
-                              className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
-                              <span className="flex  space-x-0 space-y-0  opacity-80">
-                                Status
-                                <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                              </span>
-                            </th>
-                            <th
-                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase`}
-                            >
-                              <span className="flex  space-x-0 space-y-0 opacity-80">
-                                Action
-                                <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                              </span>
-                            </th>
-                          </tr> */}
                           <tr className="h-16">
                             {Object.keys(tableHeaders).map((header: any) => (
                               <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -211,7 +179,7 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
                               </td>
                               <td className="px-3 py-3  text-sm">
                                 <span className="text-gray-900 whitespace-no-wrap">
-                                  <ToggleButton status={megaCat.status} />
+                                  <ToggleButton status={megaCat.status} slug={megaCat.slug} apiUrl="mega-menu-categories" />
                                 </span>
                               </td>
 
@@ -240,7 +208,7 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
                                     </span>
                                   </span>
                                 </button>
-                                <button onClick={() => setShowModal(true)}>
+                                <button onClick={() => setDeleteModalSlug(megaCat.slug)}>
                                   <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                     <span
                                       style={{
@@ -259,8 +227,9 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
                         </tbody>
                       </table>
                       <SharedDeleteModal
-                        setShowModal={setShowModal}
-                        showModal={showModal}
+                        deleteModalSlug={deleteModalSlug}
+                        setDeleteModalSlug={setDeleteModalSlug}
+                        handleDelete={handleDelete}
                       ></SharedDeleteModal>
                       {/* -------------- */}
                       <div className="px-5 py-5  border-t flex justify-between">
