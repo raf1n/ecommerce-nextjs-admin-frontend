@@ -13,7 +13,7 @@ const EditCategories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
   const { asPath } = useRouter();
-  const catSlug = asPath.split("/")[2];
+  const catSlug = asPath.split("/")[3];
   const [catData, setCatData] = useState<ICategories | null>(null);
   useEffect(() => {
     console.log(catSlug);
@@ -60,12 +60,14 @@ const EditCategories: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Edit Product Category"
         link="/product_categories/edit"
-        slug="Edit Product Category"></DashboardBreadcrumb>
+        slug="Edit Product Category"
+      ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Product Categories"
-            link="/product_categories"></SharedGoBackButton>
+            link="/product_categories"
+          ></SharedGoBackButton>
         </div>
       </div>
       <div className="px-[25px] w-full relative">
@@ -91,7 +93,8 @@ const EditCategories: React.FC<Props> = (props) => {
                   <div className="form-group grid text-sm mt-4">
                     <label
                       className="text-sm tracking-[.5px] text-[#34395e] font-semibold"
-                      htmlFor="">
+                      htmlFor=""
+                    >
                       Image
                       <span className=" text-red-500 ml-2">*</span>
                     </label>
@@ -108,7 +111,8 @@ const EditCategories: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Name
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -126,7 +130,8 @@ const EditCategories: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Status
                       </label>
                     </div>
@@ -134,7 +139,8 @@ const EditCategories: React.FC<Props> = (props) => {
                       className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                       name="status"
                       id=""
-                      required>
+                      required
+                    >
                       <option value="active" selected>
                         Active
                       </option>
@@ -144,7 +150,8 @@ const EditCategories: React.FC<Props> = (props) => {
                   <div className="mt-4">
                     <button
                       type="submit"
-                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
+                    >
                       Save
                     </button>
                   </div>

@@ -35,7 +35,8 @@ const ProductEdit: React.FC<Props> = (props) => {
   );
   // const [selectValue, setSelectValue] = useState({});
   const { asPath } = useRouter();
-  const productSlug = asPath.split("/")[2];
+  console.log(asPath);
+  const productSlug = asPath.split("/")[3];
 
   useEffect(() => {
     const getSingleProduct = async () => {

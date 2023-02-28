@@ -19,7 +19,7 @@ const Sidebar: React.FC<Props> = (props) => {
   const { open, responsiveOpen, menuOpen, handleMenuClick } = props;
   const states = useSelector(() => controller.states);
   const { asPath } = useRouter();
-  console.log(asPath);
+
   // const [menuOpen, setMenuOpen] = useState(0);
   const menus = asPath.includes("/admin")
     ? Jsondata.menus
@@ -29,14 +29,16 @@ const Sidebar: React.FC<Props> = (props) => {
     <div
       className={` ${open ? "w-[250px]" : "w-[65px] "} ${
         responsiveOpen ? "left-0" : "left-[-250px]"
-      } h-screen fixed z-50 lg:left-0 lg:relative bg-white duration-500`}>
+      } h-screen fixed z-50 lg:left-0 lg:relative bg-white duration-500`}
+    >
       <div className="text-center h-[60px] leading-[60px]">
         <Link href="/" className="font-bold text-sm tracking-widest">
           {open ? "SHOPO" : "SP"}
         </Link>
       </div>
       <ul
-        className={`${styles["scrollbar"]} h-[calc(100vh-60px)] text-[#78828a] overflow-y-scroll overflow-x-hidden`}>
+        className={`${styles["scrollbar"]} h-[calc(100vh-60px)] text-[#78828a] overflow-y-scroll overflow-x-hidden`}
+      >
         {menus.map((menu, index) => (
           <MenuItem
             key={index}

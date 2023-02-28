@@ -15,7 +15,7 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
   const [brandData, setBrandData] = useState<IBrandDetail | null>(null);
 
   const { asPath } = useRouter();
-  const brandSlug = asPath.split("/")[2];
+  const brandSlug = asPath.split("/")[3];
 
   useEffect(() => {
     if (brandSlug !== "[id]") {
