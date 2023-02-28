@@ -1,89 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { controller } from "./../../../../../../src/state/StateController";
-import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
-import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
-import { useRouter } from "next/router";
+
+import Select from "react-select";
+import { controller } from "../../../../../src/state/StateController";
 import {
   IBrandDetail,
   ICategories,
-  IProduct,
   ISubCategories,
-} from "../../../../../../interfaces/models";
-import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
-import Select from "react-select";
+} from "../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
+import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
 
 interface Props {}
 
-const ProductEdit: React.FC<Props> = (props) => {
+const ProductCreate: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [productData, setProductData] = useState<IProduct>();
+  const [isCheckedTop, setIsCheckedTop] = useState(false);
+  const [isCheckedNew, setIsCheckedNew] = useState(false);
+  const [isCheckedBest, setIsCheckedBest] = useState(false);
+  const [isCheckedFeatured, setIsCheckedFeatured] = useState(false);
+  const [isCheckedPopular, setIsCheckedPopular] = useState(false);
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
   const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
   const [brands, setBrands] = useState<IBrandDetail[]>([]);
-  const [isCheckedTop, setIsCheckedTop] = useState<boolean>();
-  const [isCheckedNew, setIsCheckedNew] = useState<boolean>();
-  const [isCheckedBest, setIsCheckedBest] = useState<boolean>();
-  const [isCheckedFeatured, setIsCheckedFeatured] = useState<boolean>();
-  const [isCheckedPopular, setIsCheckedPopular] = useState<boolean>();
-  // const [selectValue, setSelectValue] = useState({});
-  const { asPath } = useRouter();
-  console.log(asPath);
-  const productSlug = asPath.split("/")[3];
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  useEffect(() => {
-    const getSingleProduct = async () => {
-      if (productSlug !== "[id]") {
-        const { res, err } = await EcommerceApi.getSingleProduct(productSlug);
-        if (res) {
-          console.log(res);
-          setProductData(res);
-          if (productData) {
-            setIsCheckedTop(productData?.isTopProduct);
-            setIsCheckedNew(productData?.isNewArrival);
-            setIsCheckedBest(productData?.isBestProduct);
-            setIsCheckedFeatured(productData?.isFeatured);
-            setIsCheckedPopular(productData?.isPopular);
-          }
-        } else {
-          console.log(err);
-        }
-      }
-    };
-
-    getSingleProduct();
-  }, [productSlug, brands]);
-
-  const defaultValueSelected = brands.find(
-    (brand) => brand.slug === productData?.brandSlug
-  );
-  console.log(
-    isCheckedBest,
-    isCheckedFeatured,
-    isCheckedNew,
-    isCheckedPopular,
-    isCheckedTop
-  );
-  useEffect(() => {
-    const fetchAllCategoriesSubCatBrand = async () => {
-      const allCat = await EcommerceApi.allCategories();
-      if (allCat.res) {
-        setCategories(allCat.res);
-      }
-      const allSubCat = await EcommerceApi.allSubCategories();
-      if (allSubCat.res) {
-        setSubCategories(allSubCat.res);
-      }
-      const brand = await EcommerceApi.getAllBrands();
-      if (brand.res) {
-        setBrands(brand.res);
-      }
-    };
-
-    fetchAllCategoriesSubCatBrand();
-  }, []);
-
+  // This function will be triggered when the file field change
+  const imageChange = (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+      console.log(selectedImage);
+    }
+  };
   const reactSelectStyle = {
     control: (base: any) => ({
       ...base,
@@ -106,31 +56,41 @@ const ProductEdit: React.FC<Props> = (props) => {
       fontSize: "13px",
     }),
   };
-  let selectedValue;
-  const handleChange = (e: any) => {
-    selectedValue = {
-      label: e.label,
-      value: e.value,
-    };
-    console.log(selectedValue);
-  };
-  const handleProductUpdate = async (e: any) => {
-    e.preventDefault();
+  // const [imageLink, setImageLink] = useState("");
 
+  useEffect(() => {
+    const fetchAllCategoriesSubCatBrand = async () => {
+      const allCat = await EcommerceApi.allCategories();
+      if (allCat.res) {
+        setCategories(allCat.res);
+      }
+      const allSubCat = await EcommerceApi.allSubCategories();
+      if (allSubCat.res) {
+        setSubCategories(allSubCat.res);
+      }
+      const brand = await EcommerceApi.getAllBrands();
+      if (brand.res) {
+        setBrands(brand.res);
+      }
+    };
+    fetchAllCategoriesSubCatBrand();
+  }, []);
+
+  const handleProductAdd = async (e: any) => {
+    e.preventDefault();
     // console.log(productData);
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
     formData.append("image", image);
-    console.log(formData);
     const { res, err } = await EcommerceApi.uploadImage(formData);
-    if (res?.data?.url || !res?.data?.url || res.error.code === 120) {
+    if (res?.data?.url || !res?.data?.url) {
       let imageUrl;
       imageUrl = [res?.data?.url];
       // setImageLink(data?.data?.url);
       if (res?.data?.url === undefined || null) {
-        imageUrl = productData?.imageURL;
+        imageUrl = [""];
       }
-      const newProductData = {
+      const productData = {
         productName: e.target.productName.value,
         price: parseFloat(e.target.productPrice.value),
         offerPrice: parseFloat(e.target.offer_price.value),
@@ -142,39 +102,34 @@ const ProductEdit: React.FC<Props> = (props) => {
         imageURL: imageUrl,
         stock: parseFloat(e.target.stock_quantity.value),
         weight: parseFloat(e.target.weight.value),
-        seoTitle: e.target.seo_title.value,
-        seoDescription: e.target.seo_description.value,
         isTopProduct: isCheckedTop,
         isNewArrival: isCheckedNew,
         isBestProduct: isCheckedBest,
         isFeatured: isCheckedFeatured,
         isPopular: isCheckedPopular,
+        seoTitle: e.target.seo_title.value,
+        seoDescription: e.target.seo_description.value,
+        addedBy: "seller",
+        seller_slug: "seller_slug_1",
       };
-      console.log(newProductData);
-      console.log(
-        isCheckedBest,
-        isCheckedFeatured,
-        isCheckedNew,
-        isCheckedPopular,
-        isCheckedTop
-      );
-      EcommerceApi.editProducts(newProductData, productSlug);
+      EcommerceApi.addProducts(productData);
+      e.target.reset();
+      setSelectedImage(null);
     }
   };
 
-  console.log(selectedValue);
   return (
     <div className="w-full ">
       <DashboardBreadcrumb
-        headline="Edit Product"
-        link="/product_brands/edit"
-        slug="Edit Product"
+        headline="Create Product"
+        link="/product_brands/create"
+        slug="Create Product"
       ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Products"
-            link="/products"
+            link="/seller/products"
           ></SharedGoBackButton>
         </div>
       </div>
@@ -182,24 +137,34 @@ const ProductEdit: React.FC<Props> = (props) => {
         <div className="mt-4">
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6 mt-7">
-              <form onSubmit={handleProductUpdate}>
+              <form onSubmit={handleProductAdd}>
                 <div className="form-group col-12 mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Thumbnail Image Preview
                   </label>
-                  <div>
-                    <picture>
-                      {productData && productData?.imageURL && (
+                  {selectedImage ? (
+                    <div>
+                      <picture>
                         <img
                           id="preview-img"
                           className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
-                          // src="https://api.websolutionus.com/shopo/uploads/website-images/preview.png"
-                          src={productData?.imageURL[0]}
+                          src={URL.createObjectURL(selectedImage)}
                           alt=""
                         />
-                      )}
-                    </picture>
-                  </div>
+                      </picture>
+                    </div>
+                  ) : (
+                    <div>
+                      <picture>
+                        <img
+                          id="preview-img"
+                          className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
+                          src="https://api.websolutionus.com/shopo/uploads/website-images/preview.png"
+                          alt=""
+                        />
+                      </picture>
+                    </div>
+                  )}
                 </div>
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
@@ -207,9 +172,11 @@ const ProductEdit: React.FC<Props> = (props) => {
                     Thumbnail Image <span className="text-red-500">*</span>
                   </label>
                   <input
-                    type="file"
-                    className="form-control-file"
+                    required
                     name="imageURL"
+                    type="file"
+                    onChange={imageChange}
+                    className="form-control-file"
                   />
                 </div>
                 <div className="form-group col-12 flex flex-col mb-[25px]">
@@ -217,27 +184,13 @@ const ProductEdit: React.FC<Props> = (props) => {
                     Name <span className="text-red-500">*</span>
                   </label>
                   <input
+                    required
                     type="text"
                     id="name"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="productName"
-                    defaultValue={productData?.productName}
                   />
                 </div>
-
-                <div className="form-group col-12 flex flex-col mb-[25px]">
-                  <label className="inline-block text-sm tracking-wide mb-2">
-                    Slug <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="slug"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                    name="slug"
-                    defaultValue={productData?.slug}
-                  />
-                </div>
-
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Category <span className="text-red-500">*</span>
@@ -250,17 +203,15 @@ const ProductEdit: React.FC<Props> = (props) => {
                       console.log(filteredSubCat);
                       setFilteredSubCat(filteredSubCat);
                     }}
+                    required
                     name="category"
                     id="category"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                   >
+                    <option value="">Select Category</option>
                     {categories.map((cat: ICategories, indx) => (
                       <>
-                        <option
-                          selected={productData?.catSlug === cat.cat_slug}
-                          key={indx}
-                          value={cat.cat_slug}
-                        >
+                        <option key={indx} value={cat.cat_slug}>
                           {cat.cat_name}
                         </option>
                       </>
@@ -277,38 +228,14 @@ const ProductEdit: React.FC<Props> = (props) => {
                     id="sub_category"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                   >
-                    {
-                      filteredSubCat.length === 0
-                        ? subCategories.map((subCat, indx) => (
-                            <option
-                              selected={
-                                productData?.subCatSlug === subCat?.slug
-                              }
-                              key={indx}
-                              value={subCat.slug}
-                            >
-                              {subCat.subcat_name}
-                            </option>
-                          ))
-                        : filteredSubCat.map((subCat, indx) => (
-                            <option
-                              selected={productData?.subCatSlug === subCat.slug}
-                              key={indx}
-                              value={subCat.slug}
-                            >
-                              {subCat.subcat_name}
-                            </option>
-                          ))
-                      // filteredSubCat.map((subCat, indx) => (
-                      //   <option
-                      //     selected={productData?.subCatSlug === subCat.slug}
-                      //     key={indx}
-                      //     value={subCat.slug}
-                      //   >
-                      //     {subCat.subcat_name}
-                      //   </option>
-                      // ))}
-                    }
+                    <option value="">Select Sub Category</option>
+                    {filteredSubCat.map((subCat, indx) => (
+                      <>
+                        <option key={indx} value={subCat.slug}>
+                          {subCat.subcat_name}
+                        </option>
+                      </>
+                    ))}
                   </select>
                 </div>
 
@@ -316,58 +243,48 @@ const ProductEdit: React.FC<Props> = (props) => {
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Brand
                   </label>
-                  {productData && brands.length !== 0 && (
-                    <Select
-                      name="brand"
-                      id="brand"
-                      defaultValue={
-                        selectedValue === undefined
-                          ? {
-                              label: defaultValueSelected?.name,
-                              value: defaultValueSelected?.slug,
-                            }
-                          : selectedValue
-                      }
-                      onChange={(e) => handleChange(e)}
-                      // onBlur={(e) => handleChange(e)}
-                      options={brands.map((brand) => {
-                        return {
-                          value: brand.slug,
-                          label: brand.name,
-                        };
-                      })}
-                      styles={reactSelectStyle}
-                      components={{
-                        // Menu,
-                        IndicatorSeparator: () => null,
-                      }}
-                    />
-                  )}
+                  <Select
+                    name="brand"
+                    id="brand"
+                    // value={selectedOption}
+                    // onChange={handleChange}
+                    options={brands.map((brand) => {
+                      return {
+                        value: brand.slug,
+                        label: brand.name,
+                      };
+                    })}
+                    styles={reactSelectStyle}
+                    components={{
+                      // Menu,
+                      IndicatorSeparator: () => null,
+                    }}
+                  />
                 </div>
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Price <span className="text-red-500">*</span>
                   </label>
                   <input
+                    required
                     min={0}
                     type="number"
                     id="price"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="productPrice"
-                    defaultValue={productData?.price}
                   />
                 </div>
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
-                    Offer Price <span className="text-red-500">*</span>
+                    Offer Price
                   </label>
                   <input
+                    min={0}
                     type="number"
                     id="offer_price"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="offer_price"
-                    defaultValue={productData?.offerPrice}
                   />
                 </div>
 
@@ -376,12 +293,12 @@ const ProductEdit: React.FC<Props> = (props) => {
                     Stock Quantity <span className="text-red-500">*</span>
                   </label>
                   <input
+                    required
                     min={0}
                     type="number"
                     id="stock_quantity"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="stock_quantity"
-                    defaultValue={productData?.stock}
                   />
                 </div>
 
@@ -390,12 +307,12 @@ const ProductEdit: React.FC<Props> = (props) => {
                     Weight <span className="text-red-500">*</span>
                   </label>
                   <input
+                    required
                     min={0}
                     type="number"
                     id="weight"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="weight"
-                    defaultValue={productData?.weight}
                   />
                 </div>
 
@@ -404,71 +321,11 @@ const ProductEdit: React.FC<Props> = (props) => {
                     Short Description <span className="text-red-500">*</span>
                   </label>
                   <textarea
+                    required
                     id="short_description"
                     className="form-control h-[100px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="short_description"
-                    defaultValue={productData?.description}
                   />
-                </div>
-
-                <div className="form-group col-12 flex flex-col mb-[25px]">
-                  <label className="inline-block text-sm tracking-wide mb-2">
-                    Highlight
-                  </label>
-                  <div className="text-[#495057]">
-                    <input
-                      type="checkbox"
-                      name="top_product"
-                      id="top_product"
-                      defaultChecked={productData?.isTopProduct}
-                      onChange={() => setIsCheckedTop(!isCheckedTop)}
-                    />{" "}
-                    <label htmlFor="top_product" className="mx-3">
-                      Top Product
-                    </label>
-                    <input
-                      type="checkbox"
-                      name="new_arrival"
-                      id="new_arrival"
-                      defaultChecked={productData?.isNewArrival}
-                      onChange={() => setIsCheckedNew(!isCheckedNew)}
-                    />{" "}
-                    <label htmlFor="new_arrival" className="mx-3">
-                      New Arrival
-                    </label>
-                    <input
-                      type="checkbox"
-                      name="best_product"
-                      id="best_product"
-                      defaultChecked={productData?.isBestProduct}
-                      onChange={() => setIsCheckedBest(!isCheckedBest)}
-                    />{" "}
-                    <label htmlFor="best_product" className="mx-3">
-                      Best Product
-                    </label>
-                    <input
-                      type="checkbox"
-                      name="is_popular"
-                      id="is_popular"
-                      defaultChecked={productData?.isPopular}
-                      onChange={() => setIsCheckedPopular(!isCheckedPopular)}
-                    />
-                    <label htmlFor="is_popular" className="mx-3">
-                      Popular Product
-                    </label>
-                    <input
-                      type="checkbox"
-                      name="is_featured"
-                      id="is_featured"
-                      defaultChecked={productData?.isFeatured}
-                      onChange={() =>
-                        setIsCheckedFeatured(!productData?.isFeatured)
-                      }
-                    />{" "}
-                    <label htmlFor="is_featured" className="mx-3">
-                      Featured Product
-                    </label>
-                  </div>
                 </div>
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
@@ -481,49 +338,37 @@ const ProductEdit: React.FC<Props> = (props) => {
                     id=""
                     required
                   >
-                    <option
-                      selected={productData?.status === "active"}
-                      value="active"
-                    >
-                      Active
-                    </option>
-                    <option
-                      selected={productData?.status === "inactive"}
-                      value="inactive"
-                    >
-                      InActive
-                    </option>
+                    <option value="active">Active</option>
+                    <option value="inactive">InActive</option>
                   </select>
                 </div>
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
-                    SEO Title <span className="text-red-500">*</span>
+                    SEO Title
                   </label>
                   <input
                     type="text"
                     id="seo_title"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="seo_title"
-                    defaultValue={productData?.seoTitle}
                   />
                 </div>
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
-                    SEO Description <span className="text-red-500">*</span>
+                    SEO Description
                   </label>
                   <textarea
                     id="seo_description"
                     className="form-control h-[100px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="seo_description"
-                    defaultValue={productData?.seoDescription}
                   />
                 </div>
 
                 <div className="col-12">
                   <button className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]">
-                    Update
+                    Save
                   </button>
                 </div>
               </form>
@@ -535,4 +380,4 @@ const ProductEdit: React.FC<Props> = (props) => {
   );
 };
 
-export default ProductEdit;
+export default ProductCreate;

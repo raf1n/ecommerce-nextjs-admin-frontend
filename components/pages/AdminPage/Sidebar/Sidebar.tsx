@@ -25,6 +25,8 @@ const Sidebar: React.FC<Props> = (props) => {
     ? Jsondata.menus
     : Jsondata.menusForSeller;
 
+  const link = asPath.includes("/admin") ? "/admin" : "/seller";
+
   return (
     <div
       className={` ${open ? "w-[250px]" : "w-[65px] "} ${
@@ -32,7 +34,7 @@ const Sidebar: React.FC<Props> = (props) => {
       } h-screen fixed z-50 lg:left-0 lg:relative bg-white duration-500`}
     >
       <div className="text-center h-[60px] leading-[60px]">
-        <Link href="/" className="font-bold text-sm tracking-widest">
+        <Link href={link} className="font-bold text-sm tracking-widest">
           {open ? "SHOPO" : "SP"}
         </Link>
       </div>

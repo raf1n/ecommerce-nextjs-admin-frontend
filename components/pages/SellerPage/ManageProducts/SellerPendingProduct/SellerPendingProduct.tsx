@@ -1,92 +1,88 @@
-import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { controller } from "./../../../../../../src/state/StateController";
 
-import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
-import SharedAddNewButton from "./../../../../../shared/SharedAddNewButton/SharedAddNewButton";
-import { IProduct } from "../../../../../../interfaces/models";
 import {
   FaEdit,
   FaLongArrowAltDown,
   FaLongArrowAltUp,
   FaTrash,
 } from "react-icons/fa";
-import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 import { useRouter } from "next/router";
-import ProductsToggleButton from "../ProductsToggleButton/ProductsToggleButton";
-import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import { controller } from "../../../../../src/state/StateController";
+import { IProduct } from "../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
+import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import SharedAddNewButton from "../../../../shared/SharedAddNewButton/SharedAddNewButton";
+import ApprovalToggleButton from "../../../AdminPage/Dashboard/ManageProducts/ApprovalToggleButton/ApprovalToggleButton";
+import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
 
 interface Props {}
 
-const Products: React.FC<Props> = (props) => {
+const SellerPendingProduct: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [productsData, setProductsData] = useState<IProduct[]>([]);
+
+  const router = useRouter();
+  const { asPath } = router;
+  const [sellerPendingProducts, setSellerPendingProducts] = useState<
+    IProduct[]
+  >([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [refresh, setRefresh] = useState(false);
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
-
-  // const [showModal, setShowModal] = useState(false);
-  // const { adminProductsData } = Jsondata;
-  const router = useRouter();
-  const { asPath } = router;
+  // const refreshPage = () => {
+  //   setTimeout(() => {
+  //     setRefresh(!refresh);
+  //   }, 1500);
+  // };
   const handleDelete = async () => {
     const { res, err } = await EcommerceApi.deleteProduct(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
-      const remainingProducts = productsData.filter(
+      const remainingProducts = sellerPendingProducts.filter(
         (product) => product.slug !== deleteModalSlug
       );
-      setProductsData(remainingProducts);
+      setSellerPendingProducts(remainingProducts);
     }
   };
-
   useEffect(() => {
     const fetchAllProducts = async () => {
-      const { res, err } = await EcommerceApi.allProductsAdmin(
+      const { res, err } = await EcommerceApi.allProductsSeller(
+        "seller_slug_1",
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
       if (err) {
         console.log(err);
       } else {
-        setProductsData(res.allProductData);
+        setSellerPendingProducts(res.sellerPendingProducts);
       }
     };
 
     fetchAllProducts();
-  }, [searchString, sortBy, sortType]);
-
-  console.log({ searchString, sortBy, sortType });
-
+  }, [searchString, sortBy, sortType, refresh]);
   const tableHeaders = {
     sn: "sn",
     name: "productName",
     price: "price",
     photo: "imageURL",
-    type: "type",
-    status: "status",
+    status: "approvalStatus",
     action: "action",
   };
-
   return (
     <div className="w-full">
       <DashboardBreadcrumb
-        headline="Products"
-        slug="Products"
-        link="/products"
+        headline="Pending Products"
+        slug="Pending Products"
+        link="/seller_pending_products"
       ></DashboardBreadcrumb>
       <div className="mx-[25px]">
         <div className="section-body">
-          <Link className="inline-block" href="/admin/products/create">
+          <Link className="inline-block" href="/products/create">
             <SharedAddNewButton></SharedAddNewButton>
           </Link>
           <div className="mt-7">
-            {/* <DynamicTable
-              tableHeaders={tableHeaders}
-              actions={actions}
-              testDynamicTableData={adminProductsData}
-            /> */}
             <div className="bg-white p-8 rounded-md w-full">
               <div className=" flex items-center justify-between pb-6">
                 <div>
@@ -94,7 +90,7 @@ const Products: React.FC<Props> = (props) => {
                   <select
                     name="dataTable_length"
                     aria-controls="dataTable"
-                    className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center"
+                    className="custom-select custom-select-sm form-control form-control-sm bg-gray-50  border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center"
                   >
                     <option value="10">10</option>
                     <option value="25">25</option>
@@ -103,7 +99,6 @@ const Products: React.FC<Props> = (props) => {
                   </select>
                   <span className="text-xs text-gray-500  px-1">entries</span>
                 </div>
-
                 <div className="flex items-center justify-between">
                   <label htmlFor="" className="text-xs text-gray-500">
                     Search
@@ -128,7 +123,7 @@ const Products: React.FC<Props> = (props) => {
                           {Object.keys(tableHeaders).map((header: any) => (
                             <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                               <span className="flex">
-                                <span className="flex-1">{header}</span>
+                                {header}
                                 <FaLongArrowAltUp
                                   onClick={() => {
                                     setSortType("asc");
@@ -163,10 +158,11 @@ const Products: React.FC<Props> = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {productsData.map((data: IProduct, indx) => (
+                        {sellerPendingProducts.map((data: IProduct, indx) => (
                           <tr className="even:bg-gray-100 odd:bg-white">
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
+                                {/* {data?.slug?.split("_")[2]} */}
                                 {indx + 1}
                               </p>
                             </td>
@@ -188,7 +184,7 @@ const Products: React.FC<Props> = (props) => {
                                 />
                               )}
                             </td>
-                            <td className="px-5 py-5  text-sm">
+                            {/* <td className="px-5 py-5  text-sm">
                               <span className="flex gap-2">
                                 {data.isNewArrival && (
                                   <span className="bg-green-500 rounded-xl py-1 px-2 text-white">
@@ -217,17 +213,28 @@ const Products: React.FC<Props> = (props) => {
                                   </span>
                                 )}
                               </span>
-                            </td>
+                            </td> */}
                             <td className="px-3 py-3 text-sm ">
-                              <ProductsToggleButton
+                              {/* <ApprovalToggleButton
                                 slug={data?.slug}
-                                status={data?.status}
-                              />
+                                status={data?.approvalStatus}
+                              /> */}
+                              <span className="flex gap-2">
+                                {data.approvalStatus === "pending" ? (
+                                  <span className="bg-red-500 rounded-xl py-1 px-2 text-white">
+                                    Pending
+                                  </span>
+                                ) : (
+                                  <span className="bg-green-500 rounded-xl py-1 px-2 text-white">
+                                    Approved
+                                  </span>
+                                )}
+                              </span>
                             </td>
                             <td className="px-2 py-3  text-sm">
                               <button
                                 onClick={() =>
-                                  router.push(`${asPath}/${data.slug}/edit`)
+                                  router.push(`products/${data.slug}/edit`)
                                 }
                               >
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
@@ -281,19 +288,19 @@ const Products: React.FC<Props> = (props) => {
                         <a
                           href="#"
                           aria-current="page"
-                          className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
+                          className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white "
                         >
                           1
                         </a>
                         <a
                           href="#"
-                          className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20"
+                          className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20"
                         >
                           2
                         </a>
                         <a
                           href="#"
-                          className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex"
+                          className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20 md:inline-flex"
                         >
                           3
                         </a>
@@ -313,4 +320,4 @@ const Products: React.FC<Props> = (props) => {
   );
 };
 
-export default Products;
+export default SellerPendingProduct;

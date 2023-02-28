@@ -968,7 +968,7 @@ export class Jsondata {
       title: "Advertisements",
       icon: FaAdversal,
       gap: false,
-      link: "/advertisement",
+      link: "/admin/advertisement",
     },
     { title: "Withdraw Payment", icon: FaNewspaper },
     { title: "Users", icon: FaUserAlt },
@@ -1036,10 +1036,6 @@ export class Jsondata {
       height: "323px",
       nestedRoutes: [
         {
-          title: "Brands",
-          link: "/seller/product_brands",
-        },
-        {
           title: "Create Product",
           link: "/seller/products/create",
         },
@@ -1052,16 +1048,8 @@ export class Jsondata {
           link: "/seller/stock_out",
         },
         {
-          title: "Seller Products",
-          link: "/seller/seller_products",
-        },
-        {
-          title: "Seller Pending Products",
+          title: "Pending Products",
           link: "/seller/seller_pending_products",
-        },
-        {
-          title: "Specification Key",
-          link: "/seller/specification_key",
         },
         {
           title: "Product Reviews",

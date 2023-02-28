@@ -1,51 +1,52 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { controller } from "./../../../../../../src/state/StateController";
-import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
-import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+
 import { useRouter } from "next/router";
+
+import Select from "react-select";
+import { controller } from "../../../../../src/state/StateController";
 import {
   IBrandDetail,
   ICategories,
   IProduct,
   ISubCategories,
-} from "../../../../../../interfaces/models";
-import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
-import Select from "react-select";
+} from "../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
+import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
 
 interface Props {}
 
 const ProductEdit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [productData, setProductData] = useState<IProduct>();
+  const [isCheckedTop, setIsCheckedTop] = useState(productData?.isTopProduct);
+  const [isCheckedNew, setIsCheckedNew] = useState(productData?.isNewArrival);
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
   const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
   const [brands, setBrands] = useState<IBrandDetail[]>([]);
-  const [isCheckedTop, setIsCheckedTop] = useState<boolean>();
-  const [isCheckedNew, setIsCheckedNew] = useState<boolean>();
-  const [isCheckedBest, setIsCheckedBest] = useState<boolean>();
-  const [isCheckedFeatured, setIsCheckedFeatured] = useState<boolean>();
-  const [isCheckedPopular, setIsCheckedPopular] = useState<boolean>();
+  const [isCheckedBest, setIsCheckedBest] = useState(
+    productData?.isBestProduct
+  );
+  const [isCheckedFeatured, setIsCheckedFeatured] = useState(
+    productData?.isFeatured
+  );
+  const [isCheckedPopular, setIsCheckedPopular] = useState(
+    productData?.isPopular
+  );
   // const [selectValue, setSelectValue] = useState({});
   const { asPath } = useRouter();
   console.log(asPath);
   const productSlug = asPath.split("/")[3];
-
+  console.log(productSlug);
   useEffect(() => {
     const getSingleProduct = async () => {
       if (productSlug !== "[id]") {
         const { res, err } = await EcommerceApi.getSingleProduct(productSlug);
         if (res) {
-          console.log(res);
           setProductData(res);
-          if (productData) {
-            setIsCheckedTop(productData?.isTopProduct);
-            setIsCheckedNew(productData?.isNewArrival);
-            setIsCheckedBest(productData?.isBestProduct);
-            setIsCheckedFeatured(productData?.isFeatured);
-            setIsCheckedPopular(productData?.isPopular);
-          }
+          console.log(productData);
         } else {
           console.log(err);
         }
@@ -58,13 +59,7 @@ const ProductEdit: React.FC<Props> = (props) => {
   const defaultValueSelected = brands.find(
     (brand) => brand.slug === productData?.brandSlug
   );
-  console.log(
-    isCheckedBest,
-    isCheckedFeatured,
-    isCheckedNew,
-    isCheckedPopular,
-    isCheckedTop
-  );
+
   useEffect(() => {
     const fetchAllCategoriesSubCatBrand = async () => {
       const allCat = await EcommerceApi.allCategories();
@@ -150,18 +145,9 @@ const ProductEdit: React.FC<Props> = (props) => {
         isFeatured: isCheckedFeatured,
         isPopular: isCheckedPopular,
       };
-      console.log(newProductData);
-      console.log(
-        isCheckedBest,
-        isCheckedFeatured,
-        isCheckedNew,
-        isCheckedPopular,
-        isCheckedTop
-      );
       EcommerceApi.editProducts(newProductData, productSlug);
     }
   };
-
   console.log(selectedValue);
   return (
     <div className="w-full ">
@@ -189,7 +175,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                   </label>
                   <div>
                     <picture>
-                      {productData && productData?.imageURL && (
+                      {productData && productData.imageURL && (
                         <img
                           id="preview-img"
                           className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
@@ -301,7 +287,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                           ))
                       // filteredSubCat.map((subCat, indx) => (
                       //   <option
-                      //     selected={productData?.subCatSlug === subCat.slug}
+                      //     selected={productData.subCatSlug === subCat.slug}
                       //     key={indx}
                       //     value={subCat.slug}
                       //   >
@@ -411,7 +397,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                   />
                 </div>
 
-                <div className="form-group col-12 flex flex-col mb-[25px]">
+                {/* <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Highlight
                   </label>
@@ -430,8 +416,8 @@ const ProductEdit: React.FC<Props> = (props) => {
                       type="checkbox"
                       name="new_arrival"
                       id="new_arrival"
-                      defaultChecked={productData?.isNewArrival}
                       onChange={() => setIsCheckedNew(!isCheckedNew)}
+                      defaultChecked={productData?.isNewArrival}
                     />{" "}
                     <label htmlFor="new_arrival" className="mx-3">
                       New Arrival
@@ -440,8 +426,8 @@ const ProductEdit: React.FC<Props> = (props) => {
                       type="checkbox"
                       name="best_product"
                       id="best_product"
-                      defaultChecked={productData?.isBestProduct}
                       onChange={() => setIsCheckedBest(!isCheckedBest)}
+                      defaultChecked={productData?.isBestProduct}
                     />{" "}
                     <label htmlFor="best_product" className="mx-3">
                       Best Product
@@ -450,8 +436,8 @@ const ProductEdit: React.FC<Props> = (props) => {
                       type="checkbox"
                       name="is_popular"
                       id="is_popular"
-                      defaultChecked={productData?.isPopular}
                       onChange={() => setIsCheckedPopular(!isCheckedPopular)}
+                      defaultChecked={productData?.isPopular}
                     />
                     <label htmlFor="is_popular" className="mx-3">
                       Popular Product
@@ -460,16 +446,14 @@ const ProductEdit: React.FC<Props> = (props) => {
                       type="checkbox"
                       name="is_featured"
                       id="is_featured"
+                      onChange={() => setIsCheckedFeatured(!isCheckedFeatured)}
                       defaultChecked={productData?.isFeatured}
-                      onChange={() =>
-                        setIsCheckedFeatured(!productData?.isFeatured)
-                      }
                     />{" "}
                     <label htmlFor="is_featured" className="mx-3">
                       Featured Product
                     </label>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">

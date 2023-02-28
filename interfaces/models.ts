@@ -76,6 +76,7 @@ export interface IProduct {
   isPopular?: boolean;
   addedBy?: string;
   approvalStatus?: string;
+  seller_slug: string;
 }
 
 export interface IBrand {

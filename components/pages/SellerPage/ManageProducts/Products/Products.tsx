@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { controller } from "./../../../../../../src/state/StateController";
 
-import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
-import SharedAddNewButton from "./../../../../../shared/SharedAddNewButton/SharedAddNewButton";
-import { IProduct } from "../../../../../../interfaces/models";
 import {
   FaEdit,
   FaLongArrowAltDown,
   FaLongArrowAltUp,
   FaTrash,
 } from "react-icons/fa";
-import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
+
 import { useRouter } from "next/router";
-import ProductsToggleButton from "../ProductsToggleButton/ProductsToggleButton";
-import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import { controller } from "../../../../../src/state/StateController";
+import { IProduct } from "../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
+import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import SharedAddNewButton from "../../../../shared/SharedAddNewButton/SharedAddNewButton";
+import ProductsToggleButton from "../../../AdminPage/Dashboard/ManageProducts/ProductsToggleButton/ProductsToggleButton";
+import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
 
 interface Props {}
 
@@ -44,7 +45,8 @@ const Products: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchAllProducts = async () => {
-      const { res, err } = await EcommerceApi.allProductsAdmin(
+      const { res, err } = await EcommerceApi.allProductsSeller(
+        "seller_slug_1",
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
       if (err) {
@@ -64,7 +66,7 @@ const Products: React.FC<Props> = (props) => {
     name: "productName",
     price: "price",
     photo: "imageURL",
-    type: "type",
+    // type: "type",
     status: "status",
     action: "action",
   };
@@ -78,7 +80,7 @@ const Products: React.FC<Props> = (props) => {
       ></DashboardBreadcrumb>
       <div className="mx-[25px]">
         <div className="section-body">
-          <Link className="inline-block" href="/admin/products/create">
+          <Link className="inline-block" href="/seller/products/create">
             <SharedAddNewButton></SharedAddNewButton>
           </Link>
           <div className="mt-7">
@@ -188,7 +190,7 @@ const Products: React.FC<Props> = (props) => {
                                 />
                               )}
                             </td>
-                            <td className="px-5 py-5  text-sm">
+                            {/* <td className="px-5 py-5  text-sm">
                               <span className="flex gap-2">
                                 {data.isNewArrival && (
                                   <span className="bg-green-500 rounded-xl py-1 px-2 text-white">
@@ -217,7 +219,7 @@ const Products: React.FC<Props> = (props) => {
                                   </span>
                                 )}
                               </span>
-                            </td>
+                            </td> */}
                             <td className="px-3 py-3 text-sm ">
                               <ProductsToggleButton
                                 slug={data?.slug}

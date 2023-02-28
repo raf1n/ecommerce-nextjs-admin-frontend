@@ -446,6 +446,25 @@ export class EcommerceApi {
       requestOptions
     );
   }
+  //  seller all products
+
+  static async allProductsSeller(
+    sellerSlug: string,
+    query: string
+  ): Promise<IProductResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/products/seller/${sellerSlug}?${query}`,
+      requestOptions
+    );
+  }
 
   // get single products
   static async getSingleProduct(slug: string): Promise<ISingleProductResponse> {
