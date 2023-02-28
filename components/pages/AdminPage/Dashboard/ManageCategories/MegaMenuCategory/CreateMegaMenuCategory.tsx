@@ -25,9 +25,7 @@ const reactSelectStyle = {
       borderRadius: 5,
       borderColor: "#e4e6fc",
       backgroundColor: "#fdfdff",
-      // This line disable the blue border
       cursor: "pointer",
-      // h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]
     }),
     menuList: (styles: any) => ({
       ...styles,
@@ -85,7 +83,7 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
     <div className="w-full">
       <DashboardBreadcrumb
         headline="Create Mega Menu Category"
-        link="/create"
+        link="/mega_menu_category/create"
         slug="Create Mega Menu Category"
       ></DashboardBreadcrumb>
       <div className="m-6">
@@ -124,6 +122,7 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
                       name="category"
                       id="category"
                       className="w-full form-control h-[42px] rounded text-[#495057] text-sm p-3  bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
+                      placeholder="Select Category"
                     >
                       <option value="">Select Category</option>
                       {categories.map((cat: ICategories, indx) => (
@@ -171,8 +170,6 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
                         IndicatorSeparator: () => null,
                       }}
                       onChange={handleMultiSelect}
-                      // getValue={(e) => console.log(e)}
-                      // getOptionValue={(option) => `${option['value']}`}
                     />
                   </div>
 
@@ -200,7 +197,7 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
                       type="submit"
                       className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
                     >
-                      Update
+                      Save
                     </button>
                   </div>
                 </div>

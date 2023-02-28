@@ -25,8 +25,8 @@ import {
   ICouponResponse,
   ISigleReviewResponse,
   ISingleCouponResponse,
-  IMegaCategoryResponse,
-  IMegaCategoryPostResponse,
+  IMegaCategoriesResponse,
+  ISingleMegaCategoryResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -822,7 +822,7 @@ export class EcommerceApi {
   // get all mega menu categories
   static async getMegaMenuCategories(
     query: string
-  ): Promise<IMegaCategoryResponse> {
+  ): Promise<IMegaCategoriesResponse> {
     const myHeaders = new Headers();
 
     const requestOptions = {
@@ -836,9 +836,25 @@ export class EcommerceApi {
     );
   }
 
+  static async getSingleMegaMenuCategory(
+    slug: string
+  ): Promise<ISingleMegaCategoryResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/mega-menu-categories/${slug}`,
+      requestOptions
+    );
+  }
+
   static async postMegaMenuCategory(
     data: IMegaCategory
-  ): Promise<IMegaCategoryPostResponse> {
+  ): Promise<ISingleMegaCategoryResponse> {
     console.log(data);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -856,9 +872,30 @@ export class EcommerceApi {
     );
   }
 
+  static async updateMegaMenuCategory(
+    slug: string,
+    data: IMegaCategory
+  ): Promise<ISingleMegaCategoryResponse> {
+    console.log(data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/mega-menu-categories/${slug}`,
+      requestOptions
+    );
+  }
+
   static async deleteMegaMenuCategory(
     slug: string
-  ): Promise<IMegaCategoryPostResponse> {
+  ): Promise<ISingleMegaCategoryResponse> {
     // console.log(API_ENDPOINT);
     console.log(slug);
     const myHeaders = new Headers();

@@ -72,7 +72,7 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Mega Menu Category"
         slug="Mega Menu Category"
-        link="/mega-menu-category"
+        link="/mega_menu_category"
       ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
@@ -196,18 +196,7 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
                                     </span>
                                   </span>
                                 </Link>
-                                <button>
-                                  <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                    <span
-                                      style={{
-                                        boxShadow: "0 2px 6px #acb5f6",
-                                      }}
-                                      className="h-8 w-8  inset-0 bg-green-500   rounded  relative text-white flex justify-center items-center"
-                                    >
-                                      <FaPlus />
-                                    </span>
-                                  </span>
-                                </button>
+
                                 <button onClick={() => setDeleteModalSlug(megaCat.slug)}>
                                   <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                     <span

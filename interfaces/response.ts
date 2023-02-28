@@ -86,10 +86,10 @@ export interface ISigleReviewResponse extends MyFetchInterface {
   res: IReview;
 }
 
-export interface IMegaCategoryResponse extends MyFetchInterface {
+export interface IMegaCategoriesResponse extends MyFetchInterface {
   res: IMegaCategory[];
 }
 
-export interface IMegaCategoryPostResponse extends MyFetchInterface {
+export interface ISingleMegaCategoryResponse extends MyFetchInterface {
   res: IMegaCategory;
 }
