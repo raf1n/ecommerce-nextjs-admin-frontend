@@ -51,8 +51,7 @@ const ProductReview: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Product Reviews"
         slug="Product Reviews"
-        link="/product_reviews"
-      ></DashboardBreadcrumb>
+        link="/product_reviews"></DashboardBreadcrumb>
       <div className="mx-[25px]">
         <div className="section-body">
           <div className="mt-7">
@@ -65,18 +64,6 @@ const ProductReview: React.FC<Props> = (props) => {
               searchString={searchString}
               setSearchString={setSearchString}
             />
-            {/* <DynamicTable
-              apiUrl=""
-              setSearchString={setSearchString}
-              setSortBy={setSortBy}
-              sortType={sortType}
-              setDeleteModalSlug={setDeleteModalSlug}
-              setSortType={setSortType}
-              sortBy={sortBy}
-              tableHeaders={tableHeaders}
-              actions={actions}
-              testDynamicTableData={reviewDatas}
-            /> */}
           </div>
         </div>
       </div>
