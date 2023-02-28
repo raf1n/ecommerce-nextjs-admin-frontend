@@ -89,3 +89,7 @@ export interface ISigleReviewResponse extends MyFetchInterface {
 export interface ISliderResponse extends MyFetchInterface {
   res: Array<ISlider>;
 }
+
+export interface ISingleSliderResponse extends MyFetchInterface {
+  res: ISlider;
+}

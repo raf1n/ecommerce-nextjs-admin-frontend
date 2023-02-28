@@ -854,4 +854,51 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/slider`, requestOptions);
   }
+
+  // get all sliders
+
+  static async allSlidersAdmin(query: string): Promise<ISliderResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    console.log(query);
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/slider/admin?${query}`,
+      requestOptions
+    );
+  }
+
+  //get single  slider data
+
+  static async getSingleSlider(slug: string): Promise<ISingleCouponResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/coupon/${slug}`, requestOptions);
+  }
+
+  //Delete Slider
+
+  static async deleteSlider(slug: string): Promise<MyFetchInterface> {
+    console.log(API_ENDPOINT);
+    console.log(slug);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/slider/${slug}`, requestOptions);
+  }
 }

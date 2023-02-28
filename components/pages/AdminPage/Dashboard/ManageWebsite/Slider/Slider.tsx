@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { ISlider } from "../../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
@@ -42,6 +43,33 @@ const Slider: React.FC<Props> = (props) => {
     Status: "status",
     Action: "action",
   };
+
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteSlider(deleteModalSlug);
+    if (res) {
+      setDeleteModalSlug("");
+      const remainingSlider = sliderData.filter(
+        (slider) => slider.slug !== deleteModalSlug
+      );
+      setSliderData(remainingSlider);
+    }
+  };
+
+  useEffect(() => {
+    const fetchAllSliderAdminData = async () => {
+      const { res, err } = await EcommerceApi.allSlidersAdmin(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
+      if (err) {
+        console.log(err);
+      } else {
+        setSliderData(res);
+        controller.setSliderData(res);
+        console.log(res);
+      }
+    };
+    fetchAllSliderAdminData();
+  }, [searchString, sortBy, sortType, showAddModal, updateModalSlug]);
 
   return (
     <div className="w-full">
@@ -155,10 +183,15 @@ const Slider: React.FC<Props> = (props) => {
                               className=""
                             ></img>
                           </td>
+                          <td className="px-3 py-3  text-sm">
+                            <p className="text-gray-900 whitespace-no-wrap ">
+                              {sliderTableData?.serial}
+                            </p>
+                          </td>
 
                           <td className="px-3 py-3 text-sm">
                             <ToggleButton
-                              // apiUrl="categories"
+                              apiUrl="slider"
                               slug={sliderTableData?.slug}
                               status={sliderTableData.status}
                             />
@@ -200,11 +233,11 @@ const Slider: React.FC<Props> = (props) => {
                               </span>
                             </button>
                           </td>
-                          {/* <SharedDeleteModal
+                          <SharedDeleteModal
                             deleteModalSlug={deleteModalSlug}
                             handleDelete={handleDelete}
                             setDeleteModalSlug={setDeleteModalSlug}
-                          ></SharedDeleteModal> */}
+                          ></SharedDeleteModal>
                         </tr>
                         // </div>
                       ))}
