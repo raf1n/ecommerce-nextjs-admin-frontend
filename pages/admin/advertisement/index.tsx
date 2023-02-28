@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { controller } from "../../src/state/StateController";
-import Advertisement from "../../components/pages/AdminPage/Dashboard/Advertisement/Advertisement";
+import { controller } from "../../../src/state/StateController";
+import Advertisement from "../../../components/pages/AdminPage/Dashboard/Advertisement/Advertisement";
 
 interface Props {}
 
