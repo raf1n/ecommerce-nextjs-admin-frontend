@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../src/state/StateController";
 import Sidebar from "../pages/AdminPage/Sidebar/Sidebar";
-import { FaBars, FaHome, FaSignOutAlt } from "react-icons/fa";
+import { FaBars, FaHome, FaLock, FaSignOutAlt, FaStore } from "react-icons/fa";
 import { MdArrowDropDown } from "react-icons/md";
 import { HiOutlineUser } from "react-icons/hi";
 import styles from "../pages/AdminPage/Dashboard/Dashboard.module.css";
 import Link from "next/link";
+import { useRouter } from "next/router";
 interface Props {
   children: any;
 }
@@ -17,6 +18,8 @@ const Layout: React.FC<Props> = ({ children }) => {
   const [responsiveOpen, setResponsiveOpen] = useState(false);
   const [show, setShow] = useState(false);
   const [menuOpen, setMenuOpen] = useState<null | number>(null);
+
+  const { asPath } = useRouter();
 
   const handleMenuClick = (menuOpen: number, idx: number) => {
     if (menuOpen === idx) {
@@ -67,57 +70,122 @@ const Layout: React.FC<Props> = ({ children }) => {
               }}
             />
           </div>
-          <div className="flex items-center px-8 text-white">
-            <button className="flex text-[#f2f2f2]">
-              <span className="text-xl">
-                <FaHome />
-              </span>
-              <span className="text-sm pl-1 ">Visit Website</span>
-            </button>
-            <button
-              onClick={() => {
-                setShow(!show);
-              }}>
-              <div className={`flex text-white  pl-6`}>
-                <img
-                  src={`https://api.websolutionus.com/shopo/uploads/website-images/ibrahim-khalil-2022-01-30-02-48-50-5743.jpg`}
-                  alt="pic"
-                  className={`${styles["img-style"]}`}
-                />
-                <span className="text-sm pt-1 pl-2 hidden lg:block">
-                  Mr Admin
+
+          {asPath.includes("/admin") ? (
+            <div className="flex items-center px-8 text-white">
+              <button className="flex text-[#f2f2f2]">
+                <span className="text-xl">
+                  <FaHome />
                 </span>
-                <span className="text-xl pt-1">
-                  <MdArrowDropDown />
+                <span className="text-sm pl-1 ">Visit Website</span>
+              </button>
+              <button
+                onClick={() => {
+                  setShow(!show);
+                }}>
+                <div className={`flex text-white  pl-6`}>
+                  <img
+                    src={`https://api.websolutionus.com/shopo/uploads/website-images/ibrahim-khalil-2022-01-30-02-48-50-5743.jpg`}
+                    alt="pic"
+                    className={`${styles["img-style"]}`}
+                  />
+                  <span className="text-sm pt-1 pl-2 hidden lg:block">
+                    Mr Admin
+                  </span>
+                  <span className="text-xl pt-1">
+                    <MdArrowDropDown />
+                  </span>
+                </div>
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center px-8 text-white">
+              <button className="flex text-[#f2f2f2]">
+                <span className="text-xl">
+                  <FaHome />
                 </span>
-              </div>
-            </button>
-          </div>
+                <span className="text-sm pl-1 ">Visit Website</span>
+              </button>
+              <button
+                onClick={() => {
+                  setShow(!show);
+                }}>
+                <div className={`flex text-white  pl-6`}>
+                  <img
+                    src={`https://api.websolutionus.com/shopo/uploads/custom-images/kelsey-conrad-2022-12-28-04-55-51-8312.jpg`}
+                    alt="pic"
+                    className={`${styles["img-style"]}`}
+                  />
+                  <span className="text-sm pt-1 pl-2 hidden lg:block">
+                    Seller Conrad
+                  </span>
+                  <span className="text-xl pt-1">
+                    <MdArrowDropDown />
+                  </span>
+                </div>
+              </button>
+            </div>
+          )}
         </div>
 
-        <div className={` ${show ? "block" : "hidden"} relative`}>
-          <div className={`${styles["dropdown-menu"]} -mt-14 mr-2`}>
-            <div>
-              <Link href="/profile" className="flex text-[13px]">
-                <span className="pr-2  text-[15px]">
-                  <HiOutlineUser />
-                </span>
-                Profile
-              </Link>
+        {asPath.includes("/admin") ? (
+          <div className={` ${show ? "block" : "hidden"} relative`}>
+            <div className={`${styles["dropdown-menu"]} -mt-14 mr-2`}>
+              <div>
+                <Link href="/profile" className="flex text-[13px]">
+                  <span className="pr-2  text-[15px]">
+                    <HiOutlineUser />
+                  </span>
+                  Profile
+                </Link>
 
-              <div className="border-t"></div>
-              <Link
-                href="/logout"
-                className="flex text-[13px] text-[#fc544b] my-3 font-medium">
-                <span className="pr-2  text-[15px]">
-                  <FaSignOutAlt />
-                </span>
-                <span> Logout</span>
-              </Link>
+                <div className="border-t"></div>
+                <Link
+                  href="/logout"
+                  className="flex text-[13px] text-[#fc544b] my-3 font-medium">
+                  <span className="pr-2  text-[15px]">
+                    <FaSignOutAlt />
+                  </span>
+                  <span> Logout</span>
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-
+        ) : (
+          <div className={` ${show ? "block" : "hidden"} relative`}>
+            <div className={`${styles["dropdown-menu"]} -mt-14 mr-2 `}>
+              <div>
+                <Link href="/profile" className="flex text-[13px]">
+                  <span className="pr-2  text-[15px]">
+                    <HiOutlineUser />
+                  </span>
+                  My Profile
+                </Link>
+                <Link href="/" className="flex text-[13px] font-medium">
+                  <span className="pr-2 text-[15px] ">
+                    <FaStore />
+                  </span>
+                  <span> Shop Profile</span>
+                </Link>
+                <Link href="/" className="flex text-[13px] font-medium">
+                  <span className="pr-2  text-[15px]">
+                    <FaLock />
+                  </span>
+                  <span> Change Password</span>
+                </Link>
+                <div className="border-t"></div>
+                <Link
+                  href="/logout"
+                  className="flex text-[13px] text-[#fc544b] my-3 font-medium">
+                  <span className="pr-2  text-[15px]">
+                    <FaSignOutAlt />
+                  </span>
+                  <span> Logout</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="mt-[-55px] w-full">{children}</div>
       </div>
     </div>

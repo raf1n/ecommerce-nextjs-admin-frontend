@@ -19,8 +19,6 @@ const Sidebar: React.FC<Props> = (props) => {
   const { open, responsiveOpen, menuOpen, handleMenuClick } = props;
   const states = useSelector(() => controller.states);
   const { asPath } = useRouter();
-  console.log(asPath);
-  // const [menuOpen, setMenuOpen] = useState(0);
   const menus = asPath.includes("/admin")
     ? Jsondata.menus
     : Jsondata.menusForSeller;
