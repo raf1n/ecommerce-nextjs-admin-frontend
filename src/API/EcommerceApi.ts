@@ -432,6 +432,7 @@ export class EcommerceApi {
 
   //DEMO API CALLING STRUCTURE
   static async login(data: Partial<IUser>): Promise<ILoginResponse> {
+    console.log(data);
     console.log(data.token);
     console.log(API_ENDPOINT);
     const myHeaders = new Headers();
