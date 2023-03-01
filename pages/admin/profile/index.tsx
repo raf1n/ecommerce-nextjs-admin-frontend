@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import AdminProfile from "../../components/pages/AdminPage/AdminProfile/AdminProfile";
-import { controller } from "../../src/state/StateController";
+import AdminProfile from "../../../components/pages/AdminPage/AdminProfile/AdminProfile";
+import { controller } from "../../../src/state/StateController";
 
 interface Props {}
 
