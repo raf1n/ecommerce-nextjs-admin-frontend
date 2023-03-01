@@ -4,6 +4,7 @@ import {
   IBrandDetail,
   ICategories,
   ICoupon,
+  IMegaCategory,
   IPopularCategories,
   ISlider,
   ISubCategories,
@@ -30,6 +31,8 @@ import {
   ISingleSliderResponse,
   IAdResponse,
   ISingleAdResponse,
+  ISingleMegaCategoryResponse,
+  IMegaCategoriesResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -987,6 +990,97 @@ export class EcommerceApi {
 
     return await callFetch(
       `${API_ENDPOINT}/advertisements/${slug}`,
+      requestOptions
+    );
+  }
+
+  static async getMegaMenuCategories(
+    query: string
+  ): Promise<IMegaCategoriesResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/mega-menu-categories?${query}`,
+      requestOptions
+    );
+  }
+
+  static async getSingleMegaMenuCategory(
+    slug: string
+  ): Promise<ISingleMegaCategoryResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/mega-menu-categories/${slug}`,
+      requestOptions
+    );
+  }
+
+  static async postMegaMenuCategory(
+    data: IMegaCategory
+  ): Promise<ISingleMegaCategoryResponse> {
+    console.log(data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/mega-menu-categories`,
+      requestOptions
+    );
+  }
+
+  static async updateMegaMenuCategory(
+    slug: string,
+    data: IMegaCategory
+  ): Promise<ISingleMegaCategoryResponse> {
+    console.log(data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/mega-menu-categories/${slug}`,
+      requestOptions
+    );
+  }
+
+  static async deleteMegaMenuCategory(
+    slug: string
+  ): Promise<ISingleMegaCategoryResponse> {
+    // console.log(API_ENDPOINT);
+    console.log(slug);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/mega-menu-categories/${slug}`,
       requestOptions
     );
   }

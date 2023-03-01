@@ -2,6 +2,7 @@ import {
   IAd,
   ICategories,
   ICoupon,
+  IMegaCategory,
   IOrder,
   IPopularCategories,
   IReview,
@@ -87,6 +88,18 @@ export interface ISigleReviewResponse extends MyFetchInterface {
   res: IReview;
 }
 
+<<<<<<< HEAD
+=======
+
+export interface IMegaCategoriesResponse extends MyFetchInterface {
+  res: IMegaCategory[];
+}
+
+export interface ISingleMegaCategoryResponse extends MyFetchInterface {
+  res: IMegaCategory;
+}
+
+>>>>>>> 3e5d481c8adfa7d1924e14763b5810354d5c30f6
 export interface ISliderResponse extends MyFetchInterface {
   res: Array<ISlider>;
 }
@@ -94,6 +107,10 @@ export interface ISliderResponse extends MyFetchInterface {
 export interface ISingleSliderResponse extends MyFetchInterface {
   res: ISlider;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3e5d481c8adfa7d1924e14763b5810354d5c30f6
 export interface IAdResponse extends MyFetchInterface {
   res: IAd[];
 }

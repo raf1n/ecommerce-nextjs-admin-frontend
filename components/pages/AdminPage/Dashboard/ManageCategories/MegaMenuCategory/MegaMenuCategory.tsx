@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaEdit,
   FaLongArrowAltDown,
@@ -16,21 +16,63 @@ import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/
 import Link from "next/link";
 import { useRouter } from "next/router";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import { IMegaCategory } from "../../../../../../interfaces/models";
 
 interface Props {}
 
+const tableHeaders = {
+  sn: "sn",
+  name: "cat_name",
+  serial: "serial",
+  status: "cat_status",
+  action: "action",
+};
+
 const MegaMenuCategory: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [showModal, setShowModal] = useState(false);
+
+  const [categoriesData, setCategoriesData] = useState<IMegaCategory[]>([]);
+  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortType, setSortType] = useState("desc");
+  const [searchString, setSearchString] = useState("");
   const router = useRouter();
   const { asPath } = router;
+
+  useEffect(() => {
+    const fetchAllCategoriesAdminData = async () => {
+      const { res, err } = await EcommerceApi.getMegaMenuCategories(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
+      if (err) {
+        console.log(err);
+      } else {
+        setCategoriesData(res);
+        console.log(res);
+      }
+    };
+    fetchAllCategoriesAdminData();
+  }, [searchString, sortBy, sortType]);
+
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteMegaMenuCategory(deleteModalSlug);
+    if (res) {
+      setDeleteModalSlug("");
+      const remainingCategories = categoriesData.filter(
+        (category) => category.slug !== deleteModalSlug
+      );
+      setCategoriesData(remainingCategories);
+    }
+  }
 
   return (
     <div className="w-full">
       <DashboardBreadcrumb
         headline="Mega Menu Category"
-        slug="Product Category"
-        link="/Product Category"
+        slug="Mega Menu Category"
+        link="/mega_menu_category"
       ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
@@ -59,10 +101,11 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
                     <label htmlFor="" className="text-xs text-gray-500">
                       Search
                     </label>
-                    <div className={`flex items-center ml-3   `}>
+                    <div className={`flex items-center ml-3`}>
                       <input
+                        onChange={(e) => setSearchString(e.target.value)}
                         className={` rounded outline-none  border hover:border-blue-400 h-[31px] w-[181px] py-[2px] px-[6px]`}
-                        type="text"
+                        type="search"
                         name=""
                         id=""
                       />
@@ -75,132 +118,107 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
                       <table className="min-w-full leading-normal">
                         <thead>
                           <tr className="h-16">
-                            <th
-                              className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
-                              <span className="flex  space-x-0 space-y-0 opacity-80">
-                                SN
-                                <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                              </span>
-                            </th>
-                            <th
-                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
-                              <span className="flex  space-x-0 space-y-0  opacity-80">
-                                Name
-                                <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                              </span>
-                            </th>
-                            <th
-                              className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
-                              <span className="flex  space-x-0 space-y-0  opacity-80">
-                                Serial
-                                <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                              </span>
-                            </th>
-                            <th
-                              className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}
-                            >
-                              <span className="flex  space-x-0 space-y-0  opacity-80">
-                                Status
-                                <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                              </span>
-                            </th>
-                            <th
-                              className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase`}
-                            >
-                              <span className="flex  space-x-0 space-y-0 opacity-80">
-                                Action
-                                <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                              </span>
-                            </th>
+                            {Object.keys(tableHeaders).map((header: any) => (
+                              <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                <span className="flex">
+                                  <span className="flex-1">{header}</span>
+                                  <FaLongArrowAltUp
+                                    onClick={() => {
+                                      setSortType("asc");
+                                      //@ts-ignore
+                                      setSortBy(tableHeaders[header]);
+                                    }}
+                                    className={`${
+                                      //@ts-ignore
+                                      sortBy === tableHeaders[header] &&
+                                      sortType === "asc"
+                                        ? "fill-gray-700"
+                                        : "fill-gray-300"
+                                    } w-2 ml-2 cursor-pointer`}
+                                  />{" "}
+                                  <FaLongArrowAltDown
+                                    onClick={() => {
+                                      setSortType("desc");
+                                      //@ts-ignore
+                                      setSortBy(tableHeaders[header]);
+                                    }}
+                                    className={`${
+                                      //@ts-ignore
+                                      sortBy === tableHeaders[header] &&
+                                      sortType === "desc"
+                                        ? "fill-gray-700"
+                                        : "fill-gray-300"
+                                    } w-2 ml-1 cursor-pointer`}
+                                  />
+                                </span>
+                              </th>
+                            ))}
                           </tr>
                         </thead>
                         {/* -----------Plz Attention ,Table body/Row start here -------------- */}
                         <tbody>
-                          {Jsondata.categoriesTableData
-                            .slice(0, 3)
-                            .map((categoryTableData, indx) => (
-                              <tr
-                                key={indx}
-                                className="even:bg-gray-50 odd:bg-white"
-                              >
-                                <td className="px-3 py-3    text-sm">
-                                  <p className="text-gray-900 whitespace-no-wrap">
-                                    {indx + 1}
-                                  </p>
-                                </td>
-                                <td className="px-3 py-3  text-sm">
-                                  <p className="text-gray-900 whitespace-no-wrap ">
-                                    {categoryTableData.name}
-                                  </p>
-                                </td>
-                                <td className="px-3 py-3    text-sm">
-                                  <p className="text-gray-900 whitespace-no-wrap">
-                                    {indx + 1}
-                                  </p>
-                                </td>
-                                <td className="px-3 py-3  text-sm">
-                                  <span className="text-gray-900 whitespace-no-wrap">
-                                    <ToggleButton
-                                      status={categoryTableData.status}
-                                    />
-                                  </span>
-                                </td>
+                          {categoriesData.map((megaCat, indx) => (
+                            <tr
+                              key={indx}
+                              className="even:bg-gray-50 odd:bg-white"
+                            >
+                              <td className="px-3 py-3    text-sm">
+                                <p className="text-gray-900 whitespace-no-wrap">
+                                  {indx + 1}
+                                </p>
+                              </td>
+                              <td className="px-3 py-3  text-sm">
+                                <p className="text-gray-900 whitespace-no-wrap ">
+                                  {megaCat.cat_name}
+                                </p>
+                              </td>
+                              <td className="px-3 py-3    text-sm">
+                                <p className="text-gray-900 whitespace-no-wrap">
+                                  {megaCat.serial}
+                                </p>
+                              </td>
+                              <td className="px-3 py-3  text-sm">
+                                <span className="text-gray-900 whitespace-no-wrap">
+                                  <ToggleButton status={megaCat.status} slug={megaCat.slug} apiUrl="mega-menu-categories" />
+                                </span>
+                              </td>
 
-                                <td className="px-2 py-3  text-sm">
-                                  <button
-                                    onClick={() =>
-                                      router.push(
-                                        `${asPath}/${categoryTableData.id}/edit`
-                                      )
-                                    }
-                                  >
-                                    <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                      <span
-                                        style={{
-                                          boxShadow: "0 2px 6px #acb5f6",
-                                        }}
-                                        className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
-                                      >
-                                        <FaEdit />
-                                      </span>
+                              <td className="px-2 py-3  text-sm">
+                                <Link href={`${asPath}/${megaCat.slug}/edit`}>
+                                  <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                                    <span
+                                      style={{
+                                        boxShadow: "0 2px 6px #acb5f6",
+                                      }}
+                                      className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
+                                    >
+                                      <FaEdit />
                                     </span>
-                                  </button>
-                                  <button>
-                                    <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                      <span
-                                        style={{
-                                          boxShadow: "0 2px 6px #acb5f6",
-                                        }}
-                                        className="h-8 w-8  inset-0 bg-green-500   rounded  relative text-white flex justify-center items-center"
-                                      >
-                                        <FaPlus />
-                                      </span>
+                                  </span>
+                                </Link>
+
+                                <button onClick={() => setDeleteModalSlug(megaCat.slug)}>
+                                  <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                                    <span
+                                      style={{
+                                        boxShadow: "0 2px 6px #fd9b96",
+                                      }}
+                                      className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                                    >
+                                      <FaTrash />
                                     </span>
-                                  </button>
-                                  <button onClick={() => setShowModal(true)}>
-                                    <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                      <span
-                                        style={{
-                                          boxShadow: "0 2px 6px #fd9b96",
-                                        }}
-                                        className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
-                                      >
-                                        <FaTrash />
-                                      </span>
-                                    </span>
-                                  </button>
-                                  <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight"></span>
-                                </td>
-                              </tr>
-                            ))}
+                                  </span>
+                                </button>
+                                <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight"></span>
+                              </td>
+                            </tr>
+                          ))}
                         </tbody>
                       </table>
                       <SharedDeleteModal
-                        setShowModal={setShowModal}
-                        showModal={showModal}
+                        deleteModalSlug={deleteModalSlug}
+                        setDeleteModalSlug={setDeleteModalSlug}
+                        handleDelete={handleDelete}
                       ></SharedDeleteModal>
                       {/* -------------- */}
                       <div className="px-5 py-5  border-t flex justify-between">
