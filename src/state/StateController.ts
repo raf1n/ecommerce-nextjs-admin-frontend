@@ -1,3 +1,4 @@
+import { IUser } from "./../../interfaces/models";
 import { state, action, createStore } from "usm-redux";
 import { compose } from "redux";
 import { ICoupon, IOrder } from "../../interfaces/models";
@@ -15,6 +16,7 @@ export interface IStates {
   counter: number;
   orders: Array<IOrder>;
   couponData: Array<ICoupon>;
+  currentUser: IUser | undefined;
 }
 
 export class Controller {
@@ -23,6 +25,7 @@ export class Controller {
     counter: 0,
     orders: [],
     couponData: [],
+    currentUser: undefined,
   };
 
   @action
@@ -31,6 +34,11 @@ export class Controller {
       ...this.states,
       ...states,
     };
+  }
+
+  @action
+  setCurrentUser(user: IUser) {
+    this.states.currentUser = user;
   }
 
   @action

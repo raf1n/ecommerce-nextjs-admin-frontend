@@ -89,6 +89,7 @@ const AdminLogin: React.FC<Props> = (props) => {
                 //   setErrorLogin(true);
                 //   setErrorTextLogin("Already registered as Seller");
               } else if (res.slug && res.access_token) {
+                controller.setCurrentUser(res);
                 setErrorLogin(false);
                 setSuccessLogin(true);
                 CookiesHandler.setAccessToken(res.access_token);

@@ -17,6 +17,8 @@ import {
 import { initializeApp } from "firebase/app";
 import { MyFetchInterface } from "../../interfaces/models";
 import { CookiesHandler } from "../../src/utils/CookiesHandler";
+import { EcommerceApi } from "../../src/API/EcommerceApi";
+import { controller } from "../../src/state/StateController";
 
 export class SocialLogin {
   static initFirebase() {
@@ -107,24 +109,31 @@ export class SocialLogin {
     });
   }
 
-  static async updateLoggedInAdminProfile(userProfile: {
-    displayName: string;
-    photoURL: string;
-  }) {
+  static async updateLoggedInAdminProfile(
+    slug: string | undefined,
+    userProfile: {
+      fullName: string;
+      avatar: string;
+    }
+  ) {
     const auth = getAuth();
     if (!auth.currentUser) {
       return;
     }
     updateProfile(auth.currentUser, {
-      displayName: userProfile.displayName,
-      photoURL: userProfile.photoURL,
+      displayName: userProfile.fullName,
+      photoURL: userProfile.avatar,
     })
-      .then((result) => {
-        console.log(result);
+      .then((resilt) => {
+        console.log(auth.currentUser);
+
+        // console.log({ res, err });
+        return resilt;
       })
       .catch((error) => {
         console.log("error", error);
-      });
+      })
+      .finally(() => {});
   }
 
   static async logOut(): Promise<void> {

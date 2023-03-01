@@ -5,18 +5,20 @@ export interface MyFetchInterface {
   err: any;
 }
 export interface IUser {
-  _id: string;
-  email?: string;
-  avatar: string;
-  token: string;
-  tokenType: string;
-  displayName: string;
-  password: string;
-  role: string;
-  fullName: string;
-  slug: string;
+  _id?: string;
+
+  token?: string;
+  tokenType?: string;
+  displayName?: string;
+  password?: string;
+  role?: string;
+
+  slug?: string;
   createdAt?: string;
-  updatedAt: string;
+  updatedAt?: string;
+  fullName: string | null;
+  avatar: string | null;
+  email: string | null;
 }
 
 export interface ICategories {

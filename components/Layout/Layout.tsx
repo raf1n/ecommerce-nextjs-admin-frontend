@@ -107,7 +107,7 @@ const Layout: React.FC<Props> = ({ children }) => {
           <div className={` ${show ? "block" : "hidden"} relative`}>
             <div className={`${styles["dropdown-menu"]} -mt-14 mr-2`}>
               <div>
-                <Link href="/profile" className="flex text-[13px]">
+                <Link href="/admin/profile" className="flex text-[13px]">
                   <span className="pr-2  text-[15px]">
                     <HiOutlineUser />
                   </span>

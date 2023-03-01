@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import DashboardBreadcrumb from "../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import styles from "./AdminProfile.module.css";
 import { controller } from "../../../../src/state/StateController";
+import { SocialLogin } from "../../../helpers/SocialLogin";
+import { EcommerceApi } from "../../../../src/API/EcommerceApi";
 
 interface Props {
   // slug: string;
@@ -12,7 +14,39 @@ interface Props {
 
 const AdminProfile: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const handleUpdateProfile = async (e: any) => {
+    e.preventDefault();
+    const image = e.target.imageURL.files[0];
+    const formData = new FormData();
+    formData.append("image", image);
+    const { res, err } = await EcommerceApi.uploadImage(formData);
+    if (res?.data?.url || !res?.data?.url) {
+      let imageUrl;
+      imageUrl = res?.data?.url;
+      // setImageLink(data?.data?.url);
+      if (res?.data?.url === undefined || null) {
+        imageUrl = "";
+      }
+      const newProfileData = {
+        fullName: e.target.name.value,
+        avatar: imageUrl,
+      };
+      const result = await SocialLogin.updateLoggedInAdminProfile(
+        states.currentUser?.slug,
+        newProfileData
+      );
 
+      if (result === undefined) {
+        const { res, err } = await EcommerceApi.updateAdminProfile(
+          states.currentUser?.slug,
+          newProfileData
+        );
+        if (res) {
+          controller.setCurrentUser(res);
+        }
+      }
+    }
+  };
   return (
     <div>
       <div className="">
@@ -20,33 +54,39 @@ const AdminProfile: React.FC<Props> = (props) => {
           <DashboardBreadcrumb
             headline="My Profile"
             slug="My Profile"
-            link="/AdminProfile"></DashboardBreadcrumb>
+            link="/admin/AdminProfile"
+          ></DashboardBreadcrumb>
 
           <div className={`${styles["main-content"]}`}>
             <div className={`${styles["row"]} mt-4`}>
               <div>
-                <div
-                  className={`${styles["card"]} ${styles["profile-widget"]}`}>
+                <form
+                  onSubmit={handleUpdateProfile}
+                  className={`${styles["card"]} ${styles["profile-widget"]}`}
+                >
                   <div className={`${styles["profile-widget-header"]} `}>
-                    <img
-                      className={`rounded-full ml-4   ${styles["profile-widget-picture"]} `}
-                      src="https://api.websolutionus.com/shopo/uploads/website-images/ibrahim-khalil-2022-01-30-02-48-50-5743.jpg"
-                      alt=""
-                    />
+                    {states && states.currentUser?.avatar && (
+                      <img
+                        className={`rounded-full ml-4   ${styles["profile-widget-picture"]} `}
+                        src={states.currentUser?.avatar}
+                        alt=""
+                      />
+                    )}
                   </div>
                   <div className={`${styles["profile-widget-description"]}`}>
-                    <form action="">
+                    <div>
                       <div className={`${styles["row"]} `}>
                         <div className="form-group grid text-sm">
                           <label
                             className="text-sm text-qgray font-semibold"
-                            htmlFor="">
+                            htmlFor=""
+                          >
                             New Image
                           </label>
                           <input
                             className="mt-4"
                             type="file"
-                            name="image"
+                            name="imageURL"
                             id=""
                           />
                         </div>
@@ -55,77 +95,92 @@ const AdminProfile: React.FC<Props> = (props) => {
                           <div className="my-4 ">
                             <label
                               className="text-qgray font-semibold mt-4	text-sm"
-                              htmlFor="">
+                              htmlFor=""
+                            >
                               Name
                             </label>
                             <span className="text-red-500 ml-2">*</span>
                           </div>
-                          <input
-                            className="w-full px-3 py-3 focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc] rounded-md text-sm text-qgray"
-                            type="text"
-                            value="Admin"
-                            name="name"
-                            id=""
-                          />
+                          {states.currentUser?.fullName && (
+                            <input
+                              className="w-full px-3 py-3 focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc] rounded-md text-sm text-qgray"
+                              type="text"
+                              defaultValue={
+                                states.currentUser?.fullName
+                                  ? states.currentUser?.fullName
+                                  : ""
+                              }
+                              name="name"
+                              id="name"
+                            />
+                          )}
                         </div>
                         <div className="mt-4">
                           <div className="my-4">
                             <label
                               className="text-qgray font-semibold mt-4	text-sm"
-                              htmlFor="">
+                              htmlFor=""
+                            >
                               Email
                             </label>
                             <span className="text-red-500 ml-2">*</span>
                           </div>
-                          <input
-                            className="w-full px-3 py-3 focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc] rounded-md text-sm text-qgray"
-                            type="email"
-                            value="admin@gmail.com"
-                            name="name"
-                            id=""
-                          />
+                          {states.currentUser?.email && (
+                            <input
+                              className="w-full px-3 py-3 focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc] rounded-md text-sm text-qgray"
+                              type="email"
+                              defaultValue={states.currentUser.email}
+                              name="email"
+                              id="email"
+                            />
+                          )}
                         </div>
                         <div className="mt-4">
                           <div className="my-4">
                             <label
                               className="text-qgray font-semibold mt-4	text-sm"
-                              htmlFor="">
-                              Password
+                              htmlFor=""
+                            >
+                              New Password
                             </label>
                             {/* <span className='text-red-500 ml-2'>*</span> */}
                           </div>
                           <input
                             className="w-full px-3 py-3 focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]  rounded-md text-sm"
                             type="password"
-                            name=""
-                            id=""
+                            name="password"
+                            id="password"
                           />
                         </div>
                         <div className="mt-4">
                           <div className="my-4">
                             <label
                               className="text-qgray font-semibold mt-4	text-sm"
-                              htmlFor="">
-                              Confirm Password
+                              htmlFor=""
+                            >
+                              Confirm New Password
                             </label>
                             {/* <span className='text-red-500 ml-2'>*</span> */}
                           </div>
                           <input
                             className="w-full px-3 py-3 focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc] rounded-md text-sm"
                             type="password"
-                            name=""
-                            id=""
+                            name="confirmPassword"
+                            id="confirmPassword"
                           />
                         </div>
                         <div className="mt-4">
-                          <button className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
+                          <button
+                            type="submit"
+                            className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
+                          >
                             Update
                           </button>
                         </div>
                       </div>
-                    </form>
+                    </div>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
           </div>
