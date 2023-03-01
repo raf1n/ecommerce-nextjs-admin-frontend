@@ -14,6 +14,8 @@ import {
   sendPasswordResetEmail,
   fetchSignInMethodsForEmail,
   updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { MyFetchInterface } from "../../interfaces/models";
@@ -137,22 +139,32 @@ export class SocialLogin {
     sessionStorage.clear();
   }
 
-  static async changePassword(newPassword: string): Promise<void> {
+  static async changePassword(
+    email: string,
+    oldPassword: string,
+    newPassword: string
+  ): Promise<void> {
     const auth = getAuth();
 
     if (!auth.currentUser) {
       return;
     }
     const user = auth.currentUser;
+    const credential = EmailAuthProvider.credential(email, oldPassword);
+    const data = reauthenticateWithCredential(auth.currentUser, credential);
 
-    updatePassword(user, newPassword).then(() => {
-      // Update successful.
-      alert("password updated successfully");
-    }).catch((error) => {
-      // An error ocurred
-      // ...
-      alert("An error occurred. Please try again");
+    console.log(data);
 
-    });
+    updatePassword(user, newPassword)
+      .then(() => {
+        // Update successful.
+        console.log("password updated");
+      })
+      .catch((error) => {
+        // An error ocurred
+        // ...
+        console.error(error)
+        console.log("An error occurred. Please try again");
+      });
   }
 }
