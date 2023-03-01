@@ -160,7 +160,7 @@ const ProductEdit: React.FC<Props> = (props) => {
         <div className="section-body">
           <SharedGoBackButton
             title="Products"
-            link="/products"
+            link="/seller/products"
           ></SharedGoBackButton>
         </div>
       </div>
