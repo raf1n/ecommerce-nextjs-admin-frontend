@@ -98,12 +98,30 @@ const EditSlider: React.FC<Props> = (props) => {
             <div className="p-5 leading-6">
               <form onSubmit={handleEdit} action="">
                 <div>
+                  <div className="form-group col-12 mb-[25px]">
+                    <label className="inline-block text-sm tracking-wide mb-2">
+                      Current Slider
+                    </label>
+                    <div>
+                      <picture>
+                        {singlesliderData && singlesliderData.image && (
+                          <img
+                            id="preview-img"
+                            className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
+                            // src="https://api.websolutionus.com/shopo/uploads/website-images/preview.png"
+                            src={singlesliderData?.image}
+                            alt=""
+                          />
+                        )}
+                      </picture>
+                    </div>
+                  </div>
                   <div className="form-group grid text-sm">
                     <label
                       className="text-sm tracking-[.5px] text-[#34395e] font-semibold"
                       htmlFor=""
                     >
-                      Image
+                      New Slider
                       <span className=" text-red-500 ml-2">*</span>
                     </label>
 
