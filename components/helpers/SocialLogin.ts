@@ -143,28 +143,43 @@ export class SocialLogin {
     email: string,
     oldPassword: string,
     newPassword: string
-  ): Promise<void> {
-    const auth = getAuth();
+  ): Promise<MyFetchInterface> {
+    return new Promise((resolve) => {
+      const auth = getAuth();
 
-    if (!auth.currentUser) {
-      return;
-    }
-    const user = auth.currentUser;
-    const credential = EmailAuthProvider.credential(email, oldPassword);
-    const data = reauthenticateWithCredential(auth.currentUser, credential);
+      if (!auth.currentUser) {
+        resolve({
+          res: null,
+          err: "User not signed in",
+        });
+        return;
+      }
 
-    console.log(data);
+      const user = auth.currentUser;
+      const credential = EmailAuthProvider.credential(email, oldPassword);
 
-    updatePassword(user, newPassword)
-      .then(() => {
-        // Update successful.
-        console.log("password updated");
-      })
-      .catch((error) => {
-        // An error ocurred
-        // ...
-        console.error(error)
-        console.log("An error occurred. Please try again");
-      });
+      reauthenticateWithCredential(auth.currentUser, credential).catch(
+        (error) => {
+          resolve({
+            res: null,
+            err: "Wrong Password",
+          });
+        }
+      );
+
+      updatePassword(user, newPassword)
+        .then(() => {
+          resolve({
+            res: "password updated",
+            err: null,
+          });
+        })
+        .catch((error) => {
+          resolve({
+            res: null,
+            err: "An error occurred. Please try again.",
+          });
+        });
+    });
   }
 }

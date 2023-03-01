@@ -16,15 +16,27 @@ const ChangePassword: React.FC<Props> = (props) => {
   const handlePassChange = async (e: any) => {
     e.preventDefault();
 
-    const email = 'ahmdtoukir@gmail.com';
+    const email = "ahmdtoukir@gmail.com";
 
     if (newPass != confirmPass) {
-      setErrorText("Password's did not match.");
+      setErrorText("New passwords did not match.");
+      return;
     }
 
-    await SocialLogin.changePassword(email, oldPass, newPass);
+    const { res, err } = await SocialLogin.changePassword(
+      email,
+      oldPass,
+      newPass
+    );
 
-    setErrorText("");
+    console.log({ res, err });
+    if (err) {
+      setErrorText(err);
+    } else {
+      e.target.reset();
+      alert(res);
+      setErrorText("");
+    }
   };
 
   return (
@@ -85,6 +97,12 @@ const ChangePassword: React.FC<Props> = (props) => {
               Update
             </button>
           </div>
+          {
+            errorText &&
+            <div className="mt-4 text-qred font-semibold">
+              <span>{errorText}</span>
+            </div>
+          }
         </form>
       </div>
     </div>
