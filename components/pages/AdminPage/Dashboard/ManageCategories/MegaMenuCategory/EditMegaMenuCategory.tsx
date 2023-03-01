@@ -40,7 +40,7 @@ const EditMegaMenuCategory: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
   const { asPath } = useRouter();
-  const megaCatSlug = asPath.split("/")[2];
+  const megaCatSlug = asPath.split("/")[3];
 
   const selectRef = useRef(null);
 
@@ -126,13 +126,13 @@ const EditMegaMenuCategory: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Mega Menu Category"
         slug="Mega Menu Category"
-        link="/mega_menu_category"
+        link="/admin/mega_menu_category"
       ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Mega Menu Category"
-            link="/mega_menu_category"
+            link="/admin/mega_menu_category"
           ></SharedGoBackButton>
         </div>
       </div>

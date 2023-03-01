@@ -26,6 +26,16 @@ export interface ICategories {
   cat_status: string;
   cat_icon: string;
 }
+export interface ISlider {
+  slug?: string;
+  image: string;
+  badge: string;
+  titleOne: string;
+  titleTWo: string;
+  productLink: string;
+  serial: number;
+  status: string;
+}
 export interface IReview {
   slug?: string;
   product_slug?: string;
@@ -76,6 +86,7 @@ export interface IProduct {
   isPopular?: boolean;
   addedBy?: string;
   approvalStatus?: string;
+  seller_slug: string;
 }
 
 export interface IBrand {
@@ -138,4 +149,16 @@ export interface IMegaCategory {
   serial: number;
   sub_cat_list: object[];
   status: "active" | "inactive";
+}
+
+export interface IAd {
+  slug?: string;
+  adName?: string;
+  adImage?: string;
+  title?: string;
+  title_one?: string;
+  title_two?: string;
+  badge?: string;
+  category_link?: string;
+  status?: string;
 }

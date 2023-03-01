@@ -85,14 +85,14 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
     <div className="w-full">
       <DashboardBreadcrumb
         headline="Create Mega Menu Category"
-        link="/mega_menu_category/create"
+        link="/admin/mega_menu_category/create"
         slug="Create Mega Menu Category"
       ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Mega Menu Category"
-            link="/mega_menu_category"
+            link="/admin/mega_menu_category"
           ></SharedGoBackButton>
         </div>
       </div>

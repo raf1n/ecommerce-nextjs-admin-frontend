@@ -1,4 +1,4 @@
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { ICategories } from "../../../../../../interfaces/models";
@@ -13,7 +13,7 @@ const EditCategories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
   const { asPath } = useRouter();
-  const catSlug = asPath.split("/")[2];
+  const catSlug = asPath.split("/")[3];
   const [catData, setCatData] = useState<ICategories | null>(null);
   useEffect(() => {
     console.log(catSlug);

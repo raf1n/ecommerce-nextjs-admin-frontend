@@ -82,7 +82,7 @@ const ProductCreate: React.FC<Props> = (props) => {
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
     formData.append("image", image);
-    const { res, err } = await EcommerceApi.uploadProductImage(formData);
+    const { res, err } = await EcommerceApi.uploadImage(formData);
     if (res?.data?.url || !res?.data?.url) {
       let imageUrl;
       imageUrl = [res?.data?.url];

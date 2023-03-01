@@ -2,14 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
-import { Jsondata } from "../../../../../../src/utils/Jsondata";
 import {
   FaEdit,
-  FaEye,
   FaLongArrowAltDown,
   FaLongArrowAltUp,
   FaTrash,
-  FaTruck,
 } from "react-icons/fa";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import Link from "next/link";
@@ -178,17 +175,7 @@ const Categories: React.FC<Props> = (props) => {
                                 src={categoryTableData?.cat_image}
                                 className=""></img>
                             </td>
-                            {/* <categoryTableData.cat_icon /> */}
-                            {/* <td className="px-0 py-3 text-sm ">
-                              <p className="text-gray-900 whitespace-wrap pl-5 ">
-                                
-                                <img
-                                  width="150px"
-                                  src={categoryTableData?.cat_icon}
-                                  className=""
-                                ></img>
-                              </p>
-                            </td> */}
+
                             <td className="px-3 py-3 text-sm">
                               <CatToggleButton
                                 // apiUrl="categories"

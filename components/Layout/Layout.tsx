@@ -43,8 +43,7 @@ const Layout: React.FC<Props> = ({ children }) => {
             setResponsiveOpen(false);
             setMenuOpen(0);
           }}
-          className="fixed z-10 opacity-40 bg-black top-0 left-0 right-0 bottom-0"
-        ></div>
+          className="fixed z-10 opacity-40 bg-black top-0 left-0 right-0 bottom-0"></div>
       )}
 
       {/* right side dashboard */}
@@ -78,15 +77,16 @@ const Layout: React.FC<Props> = ({ children }) => {
             <button
               onClick={() => {
                 setShow(!show);
-              }}
-            >
+              }}>
               <div className={`flex text-white  pl-6`}>
                 <img
                   src={`https://api.websolutionus.com/shopo/uploads/website-images/ibrahim-khalil-2022-01-30-02-48-50-5743.jpg`}
                   alt="pic"
                   className={`${styles["img-style"]}`}
                 />
-                <span className="text-sm pt-1 pl-2 hidden lg:block">Admin</span>
+                <span className="text-sm pt-1 pl-2 hidden lg:block">
+                  Mr Admin
+                </span>
                 <span className="text-xl pt-1">
                   <MdArrowDropDown />
                 </span>
@@ -98,23 +98,26 @@ const Layout: React.FC<Props> = ({ children }) => {
         <div className={` ${show ? "block" : "hidden"} relative`}>
           <div className={`${styles["dropdown-menu"]} -mt-14 mr-2`}>
             <div>
-              <Link href="/profile" className="flex text-xs">
-                <span className="pr-2">
+              <Link href="/profile" className="flex text-[13px]">
+                <span className="pr-2  text-[15px]">
                   <HiOutlineUser />
                 </span>
                 Profile
               </Link>
 
               <div className="border-t"></div>
-              <a href="/logout" className="flex text-xs font-medium">
-                <span className="pr-2 text-red-600">
+              <Link
+                href="/logout"
+                className="flex text-[13px] text-[#fc544b] my-3 font-medium">
+                <span className="pr-2  text-[15px]">
                   <FaSignOutAlt />
                 </span>
-                <span className="text-red-400"> Logout</span>
-              </a>
+                <span> Logout</span>
+              </Link>
             </div>
           </div>
         </div>
+
         <div className="mt-[-55px] w-full">{children}</div>
       </div>
     </div>
