@@ -954,6 +954,8 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/advertisements`, requestOptions);
   }
+
+  //get Single Add
   static async getAd(name: string | undefined): Promise<ISingleAdResponse> {
     const myHeaders = new Headers();
 
