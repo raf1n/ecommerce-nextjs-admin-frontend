@@ -1,4 +1,5 @@
 import {
+  IAd,
   ICategories,
   ICoupon,
   IOrder,
@@ -86,10 +87,19 @@ export interface ISigleReviewResponse extends MyFetchInterface {
   res: IReview;
 }
 
+<<<<<<< HEAD
 export interface ISliderResponse extends MyFetchInterface {
   res: Array<ISlider>;
 }
 
 export interface ISingleSliderResponse extends MyFetchInterface {
   res: ISlider;
+=======
+export interface IAdResponse extends MyFetchInterface {
+  res: IAd[];
+}
+
+export interface ISingleAdResponse extends MyFetchInterface {
+  res: IAd;
+>>>>>>> 197999db2e15fea04d6cf7c63d7d42bb57418e15
 }

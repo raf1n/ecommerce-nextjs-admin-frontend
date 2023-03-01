@@ -78,7 +78,7 @@ const Products: React.FC<Props> = (props) => {
       ></DashboardBreadcrumb>
       <div className="mx-[25px]">
         <div className="section-body">
-          <Link className="inline-block" href="/products/create">
+          <Link className="inline-block" href="/admin/products/create">
             <SharedAddNewButton></SharedAddNewButton>
           </Link>
           <div className="mt-7">

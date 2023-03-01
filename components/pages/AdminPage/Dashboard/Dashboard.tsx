@@ -64,8 +64,6 @@ const Dashboard: React.FC<Props> = (props) => {
     isDeletable: true,
   };
 
-  // const { testDynamicTableDataOne, testDynamicTableDataTwo } = Jsondata;
-
   return (
     <div className="flex-1  overflow-y-auto relative">
       <div className="flex flex-row justify-between h-[115px] relative bg-[#6777ef]">
@@ -97,7 +95,8 @@ const Dashboard: React.FC<Props> = (props) => {
           <button
             onClick={() => {
               setShow(!show);
-            }}>
+            }}
+          >
             <div className={`flex text-white  pl-6`}>
               <img
                 src={`https://api.websolutionus.com/shopo/uploads/website-images/ibrahim-khalil-2022-01-30-02-48-50-5743.jpg`}
@@ -136,23 +135,23 @@ const Dashboard: React.FC<Props> = (props) => {
 
       {/* <Login /> */}
       <div className="mt-[-50px] absolute w-full">
-        <AllOrders></AllOrders>
+        {/* <AllOrders></AllOrders>
         <PendingOrders />
         <ProgressOrders />
         <DeliveredOrders />
         <CompletedOrders></CompletedOrders>
         <DeclinedOrders></DeclinedOrders>
         <CashOnDelivery></CashOnDelivery>
-        <AdminProfile />
+        <AdminProfile /> */}
         {/* <Table /> */}
-        <AdminLogin />
+        {/* <AdminLogin />
         <AdminDetailsSummary />
         <Categories />
         <SubCategories />
         <ProductChildCategory />
         <MegaMenuCategory />
         <FeaturedCaategoryAdmin />
-        <PopularCategoryAdmin />
+        <PopularCategoryAdmin /> */}
       </div>
 
       {/* <PendingOrders></PendingOrders>

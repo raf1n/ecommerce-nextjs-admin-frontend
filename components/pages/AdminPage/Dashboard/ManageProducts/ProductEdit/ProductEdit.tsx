@@ -17,32 +17,39 @@ interface Props {}
 
 const ProductEdit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [productData, setProductData] = useState<IProduct>({});
-  const [isCheckedTop, setIsCheckedTop] = useState(productData?.isTopProduct);
-  const [isCheckedNew, setIsCheckedNew] = useState(productData?.isNewArrival);
+  const [productData, setProductData] = useState<IProduct>();
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
   const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
   const [brands, setBrands] = useState<IBrandDetail[]>([]);
-  const [isCheckedBest, setIsCheckedBest] = useState(
-    productData?.isBestProduct
-  );
-  const [isCheckedFeatured, setIsCheckedFeatured] = useState(
-    productData?.isFeatured
-  );
-  const [isCheckedPopular, setIsCheckedPopular] = useState(
-    productData?.isPopular
-  );
+  // const [isCheckedTop, setIsCheckedTop] = useState<boolean | undefined>(
+  //   productData?.isTopProduct
+  // );
+  // const [isCheckedNew, setIsCheckedNew] = useState<boolean | undefined>(
+  //   productData?.isNewArrival
+  // );
+  // const [isCheckedBest, setIsCheckedBest] = useState<boolean | undefined>(
+  //   productData?.isNewArrival
+  // );
+  // const [isCheckedFeatured, setIsCheckedFeatured] = useState<
+  //   boolean | undefined
+  // >(productData?.isFeatured);
+  // const [isCheckedPopular, setIsCheckedPopular] = useState<boolean | undefined>(
+  //   productData?.isPopular
+  // );
   // const [selectValue, setSelectValue] = useState({});
   const { asPath } = useRouter();
-  const productSlug = asPath.split("/")[2];
-
+  console.log(asPath);
+  const productSlug = asPath.split("/")[3];
+  console.log(productSlug);
   useEffect(() => {
     const getSingleProduct = async () => {
       if (productSlug !== "[id]") {
         const { res, err } = await EcommerceApi.getSingleProduct(productSlug);
         if (res) {
+          console.log(res);
           setProductData(res);
+          console.log(productData);
         } else {
           console.log(err);
         }
@@ -53,7 +60,7 @@ const ProductEdit: React.FC<Props> = (props) => {
   }, [productSlug, brands]);
 
   const defaultValueSelected = brands.find(
-    (brand) => brand.slug === productData.brandSlug
+    (brand) => brand.slug === productData?.brandSlug
   );
 
   useEffect(() => {
@@ -113,7 +120,7 @@ const ProductEdit: React.FC<Props> = (props) => {
     const formData = new FormData();
     formData.append("image", image);
     console.log(formData);
-    const { res, err } = await EcommerceApi.uploadProductImage(formData);
+    const { res, err } = await EcommerceApi.uploadImage(formData);
     if (res?.data?.url || !res?.data?.url || res.error.code === 120) {
       let imageUrl;
       imageUrl = [res?.data?.url];
@@ -135,27 +142,31 @@ const ProductEdit: React.FC<Props> = (props) => {
         weight: parseFloat(e.target.weight.value),
         seoTitle: e.target.seo_title.value,
         seoDescription: e.target.seo_description.value,
-        isTopProduct: isCheckedTop,
-        isNewArrival: isCheckedNew,
-        isBestProduct: isCheckedBest,
-        isFeatured: isCheckedFeatured,
-        isPopular: isCheckedPopular,
+        isTopProduct: e.target.is_top.checked,
+        isNewArrival: e.target.is_new.checked,
+        isBestProduct: e.target.is_best.checked,
+        isFeatured: e.target.is_featured.checked,
+        isPopular: e.target.is_popular.checked,
       };
+
+      console.log(newProductData);
       EcommerceApi.editProducts(newProductData, productSlug);
     }
   };
-  console.log(selectedValue);
+
   return (
     <div className="w-full ">
       <DashboardBreadcrumb
         headline="Edit Product"
         link="/product_brands/edit"
-        slug="Edit Product"></DashboardBreadcrumb>
+        slug="Edit Product"
+      ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Products"
-            link="/products"></SharedGoBackButton>
+            link="/products"
+          ></SharedGoBackButton>
         </div>
       </div>
       <div className="px-[25px] w-full relative">
@@ -169,7 +180,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                   </label>
                   <div>
                     <picture>
-                      {productData && productData.imageURL && (
+                      {productData && productData?.imageURL && (
                         <img
                           id="preview-img"
                           className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
@@ -201,7 +212,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                     id="name"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="productName"
-                    defaultValue={productData.productName}
+                    defaultValue={productData?.productName}
                   />
                 </div>
 
@@ -214,7 +225,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                     id="slug"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="slug"
-                    defaultValue={productData.slug}
+                    defaultValue={productData?.slug}
                   />
                 </div>
 
@@ -232,13 +243,15 @@ const ProductEdit: React.FC<Props> = (props) => {
                     }}
                     name="category"
                     id="category"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
+                  >
                     {categories.map((cat: ICategories, indx) => (
                       <>
                         <option
-                          selected={productData.catSlug === cat.cat_slug}
+                          selected={productData?.catSlug === cat.cat_slug}
                           key={indx}
-                          value={cat.cat_slug}>
+                          value={cat.cat_slug}
+                        >
                           {cat.cat_name}
                         </option>
                       </>
@@ -253,7 +266,8 @@ const ProductEdit: React.FC<Props> = (props) => {
                   <select
                     name="sub_category"
                     id="sub_category"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
+                  >
                     {
                       filteredSubCat.length === 0
                         ? subCategories.map((subCat, indx) => (
@@ -262,21 +276,23 @@ const ProductEdit: React.FC<Props> = (props) => {
                                 productData?.subCatSlug === subCat?.slug
                               }
                               key={indx}
-                              value={subCat.slug}>
+                              value={subCat.slug}
+                            >
                               {subCat.subcat_name}
                             </option>
                           ))
                         : filteredSubCat.map((subCat, indx) => (
                             <option
-                              selected={productData.subCatSlug === subCat.slug}
+                              selected={productData?.subCatSlug === subCat.slug}
                               key={indx}
-                              value={subCat.slug}>
+                              value={subCat.slug}
+                            >
                               {subCat.subcat_name}
                             </option>
                           ))
                       // filteredSubCat.map((subCat, indx) => (
                       //   <option
-                      //     selected={productData.subCatSlug === subCat.slug}
+                      //     selected={productData?.subCatSlug === subCat.slug}
                       //     key={indx}
                       //     value={subCat.slug}
                       //   >
@@ -329,7 +345,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                     id="price"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="productPrice"
-                    defaultValue={productData.price}
+                    defaultValue={productData?.price}
                   />
                 </div>
 
@@ -342,7 +358,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                     id="offer_price"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="offer_price"
-                    defaultValue={productData.offerPrice}
+                    defaultValue={productData?.offerPrice}
                   />
                 </div>
 
@@ -356,7 +372,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                     id="stock_quantity"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="stock_quantity"
-                    defaultValue={productData.stock}
+                    defaultValue={productData?.stock}
                   />
                 </div>
 
@@ -370,7 +386,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                     id="weight"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="weight"
-                    defaultValue={productData.weight}
+                    defaultValue={productData?.weight}
                   />
                 </div>
 
@@ -382,7 +398,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                     id="short_description"
                     className="form-control h-[100px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="short_description"
-                    defaultValue={productData.description}
+                    defaultValue={productData?.description}
                   />
                 </div>
 
@@ -391,32 +407,34 @@ const ProductEdit: React.FC<Props> = (props) => {
                     Highlight
                   </label>
                   <div className="text-[#495057]">
-                    <input
-                      type="checkbox"
-                      name="top_product"
-                      id="top_product"
-                      defaultChecked={productData?.isTopProduct}
-                      onChange={() => setIsCheckedTop(!isCheckedTop)}
-                    />{" "}
+                    {productData && (
+                      <input
+                        type="checkbox"
+                        name="is_top"
+                        id="top_product"
+                        defaultChecked={productData.isTopProduct}
+                        // onChange={() => setIsCheckedTop(!isCheckedTop)}
+                      />
+                    )}{" "}
                     <label htmlFor="top_product" className="mx-3">
                       Top Product
                     </label>
                     <input
                       type="checkbox"
-                      name="new_arrival"
+                      name="is_new"
                       id="new_arrival"
-                      onChange={() => setIsCheckedNew(!isCheckedNew)}
                       defaultChecked={productData?.isNewArrival}
+                      // onChange={() => setIsCheckedNew(!isCheckedNew)}
                     />{" "}
                     <label htmlFor="new_arrival" className="mx-3">
                       New Arrival
                     </label>
                     <input
                       type="checkbox"
-                      name="best_product"
+                      name="is_best"
                       id="best_product"
-                      onChange={() => setIsCheckedBest(!isCheckedBest)}
                       defaultChecked={productData?.isBestProduct}
+                      // onChange={() => setIsCheckedBest(!isCheckedBest)}
                     />{" "}
                     <label htmlFor="best_product" className="mx-3">
                       Best Product
@@ -425,8 +443,8 @@ const ProductEdit: React.FC<Props> = (props) => {
                       type="checkbox"
                       name="is_popular"
                       id="is_popular"
-                      onChange={() => setIsCheckedPopular(!isCheckedPopular)}
                       defaultChecked={productData?.isPopular}
+                      // onChange={() => setIsCheckedPopular(!isCheckedPopular)}
                     />
                     <label htmlFor="is_popular" className="mx-3">
                       Popular Product
@@ -435,31 +453,16 @@ const ProductEdit: React.FC<Props> = (props) => {
                       type="checkbox"
                       name="is_featured"
                       id="is_featured"
-                      onChange={() => setIsCheckedFeatured(!isCheckedFeatured)}
                       defaultChecked={productData?.isFeatured}
+                      // onChange={() =>
+                      //   setIsCheckedFeatured(!productData?.isFeatured)
+                      // }
                     />{" "}
                     <label htmlFor="is_featured" className="mx-3">
                       Featured Product
                     </label>
                   </div>
                 </div>
-                {/* {actions?.isSeller && (
-                  <div className="form-group col-12 flex flex-col mb-[25px]">
-                    <label className="inline-block text-sm tracking-wide mb-2">
-                      Products Request from seller
-                      <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name="status"
-                      id=""
-                      required
-                    >
-                      <option value="active">Approved</option>
-                      <option value="inactive">Pending</option>
-                    </select>
-                  </div>
-                )} */}
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
@@ -469,15 +472,18 @@ const ProductEdit: React.FC<Props> = (props) => {
                     className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="productStatus"
                     id=""
-                    required>
+                    required
+                  >
                     <option
-                      selected={productData.status === "active"}
-                      value="active">
+                      selected={productData?.status === "active"}
+                      value="active"
+                    >
                       Active
                     </option>
                     <option
-                      selected={productData.status === "inactive"}
-                      value="inactive">
+                      selected={productData?.status === "inactive"}
+                      value="inactive"
+                    >
                       InActive
                     </option>
                   </select>
@@ -492,7 +498,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                     id="seo_title"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="seo_title"
-                    defaultValue={productData.seoTitle}
+                    defaultValue={productData?.seoTitle}
                   />
                 </div>
 
@@ -504,7 +510,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                     id="seo_description"
                     className="form-control h-[100px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="seo_description"
-                    defaultValue={productData.seoDescription}
+                    defaultValue={productData?.seoDescription}
                   />
                 </div>
 

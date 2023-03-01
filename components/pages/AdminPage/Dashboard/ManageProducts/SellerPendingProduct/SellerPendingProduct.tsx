@@ -66,7 +66,7 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
     price: "price",
     photo: "imageURL",
     type: "type",
-    status: "approvalStatus",
+    "Approval status": "approvalStatus",
     action: "action",
   };
   return (

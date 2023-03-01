@@ -1,4 +1,5 @@
 import {
+  IAd,
   IBrand,
   IBrandDetail,
   ICategories,
@@ -27,6 +28,8 @@ import {
   ISingleCouponResponse,
   ISliderResponse,
   ISingleSliderResponse,
+  IAdResponse,
+  ISingleAdResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -114,7 +117,7 @@ export class EcommerceApi {
     );
   }
 
-  //
+  //Upload slider image
   static async uploadSliderImage(
     data: Partial<any>
   ): Promise<MyFetchInterface> {
@@ -468,6 +471,108 @@ export class EcommerceApi {
     );
   }
 
+  //Create Sliders
+  static async createSlider(data: Partial<ISlider>): Promise<ISliderResponse> {
+    // console.log(data);
+    // console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/slider`, requestOptions);
+  }
+
+  // get all sliders
+
+  static async allSlidersAdmin(query: string): Promise<ISliderResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    console.log(query);
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/slider/admin?${query}`,
+      requestOptions
+    );
+  }
+
+  //get single  slider data
+
+  static async getSingleSlider(slug: string): Promise<ISingleSliderResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/slider/${slug}`, requestOptions);
+  }
+
+  //Delete Slider
+
+  static async deleteSlider(slug: string): Promise<MyFetchInterface> {
+    console.log(API_ENDPOINT);
+    console.log(slug);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/slider/${slug}`, requestOptions);
+  }
+
+  //Edit Slider
+
+  static async editSlider(
+    data: Partial<ISlider>,
+    slug: string
+  ): Promise<ISingleSliderResponse> {
+    console.log(data);
+    // console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/slider/${slug}`, requestOptions);
+  }
+
+  static async allProductsSeller(
+    sellerSlug: string,
+    query: string
+  ): Promise<IProductResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/products/seller/${sellerSlug}?${query}`,
+      requestOptions
+    );
+  }
+
   // get single products
   static async getSingleProduct(slug: string): Promise<ISingleProductResponse> {
     console.log(API_ENDPOINT);
@@ -482,9 +587,7 @@ export class EcommerceApi {
   }
 
   //  product image add
-  static async uploadProductImage(
-    data: Partial<any>
-  ): Promise<MyFetchInterface> {
+  static async uploadImage(data: Partial<any>): Promise<MyFetchInterface> {
     console.log(data);
     console.log(API_ENDPOINT);
 
@@ -826,7 +929,6 @@ export class EcommerceApi {
 
   //Delete Review
 
-  // delete products
   static async deleteReview(slug: string): Promise<ISigleReviewResponse> {
     console.log(API_ENDPOINT);
     const myHeaders = new Headers();
@@ -840,77 +942,37 @@ export class EcommerceApi {
     return await callFetch(`${API_ENDPOINT}/reviews/${slug}`, requestOptions);
   }
 
-  //Create Sliders
-  static async createSlider(data: Partial<ISlider>): Promise<ISliderResponse> {
-    // console.log(data);
-    // console.log(API_ENDPOINT);
+  // get all ad
+
+  static async getAllAds(): Promise<IAdResponse> {
     const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+
     const requestOptions = {
-      method: "POST",
       headers: myHeaders,
-      body: JSON.stringify(data),
       redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/slider`, requestOptions);
+    return await callFetch(`${API_ENDPOINT}/advertisements`, requestOptions);
   }
-
-  // get all sliders
-
-  static async allSlidersAdmin(query: string): Promise<ISliderResponse> {
-    console.log(API_ENDPOINT);
+  static async getAd(name: string | undefined): Promise<ISingleAdResponse> {
     const myHeaders = new Headers();
-    console.log(query);
+
     const requestOptions = {
       headers: myHeaders,
       redirect: "follow",
     };
 
     return await callFetch(
-      `${API_ENDPOINT}/slider/admin?${query}`,
+      `${API_ENDPOINT}/advertisements/${name}`,
       requestOptions
     );
   }
 
-  //get single  slider data
-
-  static async getSingleSlider(slug: string): Promise<ISingleSliderResponse> {
-    console.log(API_ENDPOINT);
-    const myHeaders = new Headers();
-
-    const requestOptions = {
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    return await callFetch(`${API_ENDPOINT}/slider/${slug}`, requestOptions);
-  }
-
-  //Delete Slider
-
-  static async deleteSlider(slug: string): Promise<MyFetchInterface> {
-    console.log(API_ENDPOINT);
-    console.log(slug);
-    const myHeaders = new Headers();
-
-    const requestOptions = {
-      method: "DELETE",
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    return await callFetch(`${API_ENDPOINT}/slider/${slug}`, requestOptions);
-  }
-
-  //Edit Slider
-
-  static async editSlider(
-    data: Partial<ISlider>,
-    slug: string
-  ): Promise<ISingleSliderResponse> {
-    console.log(data);
-    // console.log(API_ENDPOINT);
+  static async updateAd(
+    slug: string | undefined,
+    data: Partial<IAd>
+  ): Promise<ISingleAdResponse> {
+    console.log(slug, data);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -921,6 +983,9 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/slider/${slug}`, requestOptions);
+    return await callFetch(
+      `${API_ENDPOINT}/advertisements/${slug}`,
+      requestOptions
+    );
   }
 }

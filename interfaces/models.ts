@@ -86,6 +86,7 @@ export interface IProduct {
   isPopular?: boolean;
   addedBy?: string;
   approvalStatus?: string;
+  seller_slug: string;
 }
 
 export interface IBrand {
@@ -139,4 +140,16 @@ export interface ICoupon {
   expired_date: string;
   status: string;
   minimum_purchase: number;
+}
+
+export interface IAd {
+  slug?: string;
+  adName?: string;
+  adImage?: string;
+  title?: string;
+  title_one?: string;
+  title_two?: string;
+  badge?: string;
+  category_link?: string;
+  status?: string;
 }

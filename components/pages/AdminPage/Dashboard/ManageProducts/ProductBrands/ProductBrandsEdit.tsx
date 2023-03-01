@@ -15,7 +15,7 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
   const [brandData, setBrandData] = useState<IBrandDetail | null>(null);
 
   const { asPath } = useRouter();
-  const brandSlug = asPath.split("/")[2];
+  const brandSlug = asPath.split("/")[3];
 
   useEffect(() => {
     if (brandSlug !== "[id]") {
@@ -35,8 +35,8 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
     const formData = new FormData();
     formData.append("image", logo);
 
-    const { res, err } = await EcommerceApi.uploadProductImage(formData);
-    console.log({ res, err })
+    const { res, err } = await EcommerceApi.uploadImage(formData);
+    console.log({ res, err });
     // if (res?.data?.url) {
     let imageUrl;
     imageUrl = res?.data?.url;

@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
-
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
 
 interface Props {}
@@ -23,67 +22,33 @@ const CreateCategories: React.FC<Props> = (props) => {
     if (res?.data?.url || !res?.data?.url) {
       let imageUrl;
       imageUrl = res?.data?.url;
-      // setImageLink(data?.data?.url);
+
       if (res?.data?.url === undefined || null) {
         imageUrl = "";
       }
       const categories = {
-        // cat_image: e.target.image.value,
-
         cat_image: imageUrl,
-        // cat_icon: e.target.icon.value,
+
         cat_name: e.target.name.value,
-        // cat_slug: e.target.slug.value,
+
         cat_status: e.target.status.value,
       };
       EcommerceApi.createCategories(categories);
       e.target.reset();
     }
   };
-  // fetch(
-  //   `https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024`,
-  //   {
-  //     method: "POST",
-  //     body: formData,
-  //   }
-  // )
-  //   .then((res) => res.json())
-  //   .then((data) => {
-  //     const categories = {
-  //       // cat_image: e.target.image.value,
-
-  //       cat_image: data?.data?.url,
-  //       cat_icon: e.target.icon.value,
-  //       cat_name: e.target.name.value,
-  //       // slug: e.target.slug.value,
-  //       cat_status: e.target.status.value,
-  //     };
-  //     console.log(data?.data?.url);
-
-  //     fetch("http://localhost:8000/categories", {
-  //       method: "POST",
-  //       headers: {
-  //         "content-type": "application/json",
-  //       },
-  //       body: JSON.stringify(categories),
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => console.log(data), e.target.reset());
-  //   });
 
   return (
     <div className="w-full">
       <DashboardBreadcrumb
         headline="Create Product Category"
         link="create"
-        slug="Create Product Category"
-      ></DashboardBreadcrumb>
+        slug="Create Product Category"></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Product Category"
-            link="/product_categories"
-          ></SharedGoBackButton>
+            link="/product_categories"></SharedGoBackButton>
         </div>
       </div>
       <div className="px-[25px] w-full relative">
@@ -95,8 +60,7 @@ const CreateCategories: React.FC<Props> = (props) => {
                   <div className="form-group grid text-sm">
                     <label
                       className="text-sm tracking-[.5px] text-[#34395e] font-semibold"
-                      htmlFor=""
-                    >
+                      htmlFor="">
                       Image
                       <span className=" text-red-500 ml-2">*</span>
                     </label>
@@ -109,29 +73,11 @@ const CreateCategories: React.FC<Props> = (props) => {
                     />
                   </div>
 
-                  {/* <div className="mt-4">
-                    <div className="my-2">
-                      <label
-                        className="text-[#34395e] tracking-[.5px] font-semibold mt-4 text-sm"
-                        htmlFor=""
-                      >
-                        Icon
-                      </label>
-                      <span className="text-red-500 ml-2">*</span>
-                    </div>
-                    <input
-                      className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      type="text"
-                      name="icon"
-                      id=""
-                    />
-                  </div> */}
                   <div className="mt-4">
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Name
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -147,8 +93,7 @@ const CreateCategories: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Slug
                       </label>
                       {/* <span className='text-red-500 ml-2'>*</span> */}
@@ -164,8 +109,7 @@ const CreateCategories: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Status
                       </label>
                       {/* <span className='text-red-500 ml-2'>*</span> */}
@@ -173,8 +117,7 @@ const CreateCategories: React.FC<Props> = (props) => {
                     <select
                       className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                       name="status"
-                      id=""
-                    >
+                      id="">
                       <option value="active">Active</option>
                       <option value="inactive">In Active</option>
                     </select>
@@ -182,8 +125,7 @@ const CreateCategories: React.FC<Props> = (props) => {
                   <div className="mt-4">
                     <button
                       type="submit"
-                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
-                    >
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
                       Update
                     </button>
                   </div>
