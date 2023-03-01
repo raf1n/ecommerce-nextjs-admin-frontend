@@ -13,6 +13,7 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   fetchSignInMethodsForEmail,
+  updatePassword,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { MyFetchInterface } from "../../interfaces/models";
@@ -134,5 +135,24 @@ export class SocialLogin {
     CookiesHandler.removeAccessToken();
     localStorage.clear();
     sessionStorage.clear();
+  }
+
+  static async changePassword(newPassword: string): Promise<void> {
+    const auth = getAuth();
+
+    if (!auth.currentUser) {
+      return;
+    }
+    const user = auth.currentUser;
+
+    updatePassword(user, newPassword).then(() => {
+      // Update successful.
+      alert("password updated successfully");
+    }).catch((error) => {
+      // An error ocurred
+      // ...
+      alert("An error occurred. Please try again");
+
+    });
   }
 }

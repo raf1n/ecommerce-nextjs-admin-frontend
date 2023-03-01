@@ -1,6 +1,6 @@
 import { state, action, createStore } from "usm-redux";
 import { compose } from "redux";
-import { ICoupon, IOrder, ISlider } from "../../interfaces/models";
+import { ICoupon, IOrder, ISlider, IUser } from "../../interfaces/models";
 
 const composeEnhancers =
   // @ts-ignore
@@ -16,6 +16,7 @@ export interface IStates {
   orders: Array<IOrder>;
   couponData: Array<ICoupon>;
   sliderData: Array<ISlider>;
+  currentUser: IUser | undefined;
 }
 
 export class Controller {
@@ -25,6 +26,7 @@ export class Controller {
     orders: [],
     couponData: [],
     sliderData: [],
+    currentUser: undefined,
   };
 
   @action
@@ -33,6 +35,11 @@ export class Controller {
       ...this.states,
       ...states,
     };
+  }
+
+  @action
+  setCurrentUser(user: IUser | any) {
+    this.states.currentUser = { ...user };
   }
 
   @action
