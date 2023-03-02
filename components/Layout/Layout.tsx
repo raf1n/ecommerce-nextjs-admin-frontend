@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../src/state/StateController";
 import Sidebar from "../pages/AdminPage/Sidebar/Sidebar";
-import { FaBars, FaHome, FaSignOutAlt } from "react-icons/fa";
+import { FaBars, FaHome, FaLock, FaSignOutAlt, FaStore } from "react-icons/fa";
 import { MdArrowDropDown } from "react-icons/md";
 import { HiOutlineUser } from "react-icons/hi";
 import styles from "../pages/AdminPage/Dashboard/Dashboard.module.css";
@@ -29,6 +29,9 @@ const Layout: React.FC<Props> = ({ children }) => {
   // if (asPath.includes("/login")) {
   //   return <></>;
   // }
+
+  const role = states?.currentUser?.role;
+
   return (
     <div className="font-nunito flex h-screen overflow-y-hidden bg-[#f4f6f9]">
       {/* left side bar */}
@@ -107,12 +110,38 @@ const Layout: React.FC<Props> = ({ children }) => {
           <div className={` ${show ? "block" : "hidden"} relative`}>
             <div className={`${styles["dropdown-menu"]} -mt-14 mr-2`}>
               <div>
-                <Link href="/admin/profile" className="flex text-[13px]">
+                <Link href={`/${role}/profile`} className="flex text-[13px]">
                   <span className="pr-2  text-[15px]">
                     <HiOutlineUser />
                   </span>
                   Profile
                 </Link>
+
+                <div className="border-t"></div>
+
+                {role === "seller" && (
+                  <>
+                    <Link
+                      href={`/${role}/shop_profile`}
+                      className="flex text-[13px]"
+                    >
+                      <span className="pr-2  text-[15px]">
+                        <FaStore />
+                      </span>
+                      Shop Profile
+                    </Link>
+
+                    <Link
+                      href={`/${role}/change_password`}
+                      className="flex text-[13px]"
+                    >
+                      <span className="pr-2  text-[15px]">
+                        <FaLock />
+                      </span>
+                      Change Password
+                    </Link>
+                  </>
+                )}
 
                 <div className="border-t"></div>
                 <Link

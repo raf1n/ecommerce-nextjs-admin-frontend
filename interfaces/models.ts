@@ -28,6 +28,16 @@ export interface ICategories {
   cat_status: string;
   cat_icon: string;
 }
+export interface ISlider {
+  slug?: string;
+  image: string;
+  badge: string;
+  titleOne: string;
+  titleTWo: string;
+  productLink: string;
+  serial: number;
+  status: string;
+}
 export interface IReview {
   slug?: string;
   product_slug?: string;
@@ -132,6 +142,15 @@ export interface ICoupon {
   expired_date: string;
   status: string;
   minimum_purchase: number;
+}
+
+export interface IMegaCategory {
+  slug?: string;
+  cat_name?: string;
+  cat_slug?: string;
+  serial: number;
+  sub_cat_list: object[];
+  status: "active" | "inactive";
 }
 
 export interface IAd {

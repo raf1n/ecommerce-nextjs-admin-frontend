@@ -4,7 +4,9 @@ import {
   IBrandDetail,
   ICategories,
   ICoupon,
+  IMegaCategory,
   IPopularCategories,
+  ISlider,
   ISubCategories,
   IUser,
 } from "../../interfaces/models";
@@ -25,8 +27,12 @@ import {
   ICouponResponse,
   ISigleReviewResponse,
   ISingleCouponResponse,
+  ISliderResponse,
+  ISingleSliderResponse,
   IAdResponse,
   ISingleAdResponse,
+  IMegaCategoriesResponse,
+  ISingleMegaCategoryResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -113,6 +119,27 @@ export class EcommerceApi {
       requestOptions
     );
   }
+
+  //Upload slider image
+  static async uploadSliderImage(
+    data: Partial<any>
+  ): Promise<MyFetchInterface> {
+    // console.log(data);
+    // console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: data,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      "https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024",
+      requestOptions
+    );
+  }
+
   //create categories
   static async createCategories(
     data: Partial<ICategories>
@@ -379,7 +406,7 @@ export class EcommerceApi {
 
   //Update Popular Categories
 
-  //Edit Categories
+  //Edit Popular Categories
 
   static async editPopularCategories(
     data: Partial<IPopularCategories>,
@@ -447,7 +474,90 @@ export class EcommerceApi {
       requestOptions
     );
   }
-  //  seller all products
+
+  //Create Sliders
+  static async createSlider(data: Partial<ISlider>): Promise<ISliderResponse> {
+    // console.log(data);
+    // console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/slider`, requestOptions);
+  }
+
+  // get all sliders
+
+  static async allSlidersAdmin(query: string): Promise<ISliderResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    console.log(query);
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/slider/admin?${query}`,
+      requestOptions
+    );
+  }
+
+  //get single  slider data
+
+  static async getSingleSlider(slug: string): Promise<ISingleSliderResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/slider/${slug}`, requestOptions);
+  }
+
+  //Delete Slider
+
+  static async deleteSlider(slug: string): Promise<MyFetchInterface> {
+    console.log(API_ENDPOINT);
+    console.log(slug);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/slider/${slug}`, requestOptions);
+  }
+
+  //Edit Slider
+
+  static async editSlider(
+    data: Partial<ISlider>,
+    slug: string
+  ): Promise<ISingleSliderResponse> {
+    console.log(data);
+    // console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/slider/${slug}`, requestOptions);
+  }
 
   static async allProductsSeller(
     sellerSlug: string,
@@ -823,7 +933,6 @@ export class EcommerceApi {
 
   //Delete Review
 
-  // delete products
   static async deleteReview(slug: string): Promise<ISigleReviewResponse> {
     console.log(API_ENDPOINT);
     const myHeaders = new Headers();
@@ -837,19 +946,9 @@ export class EcommerceApi {
     return await callFetch(`${API_ENDPOINT}/reviews/${slug}`, requestOptions);
   }
 
-  // get all ad
-
-  static async getAllAds(): Promise<IAdResponse> {
-    const myHeaders = new Headers();
-
-    const requestOptions = {
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    return await callFetch(`${API_ENDPOINT}/advertisements`, requestOptions);
-  }
-  static async getAd(name: string | undefined): Promise<ISingleAdResponse> {
+  static async getMegaMenuCategories(
+    query: string
+  ): Promise<IMegaCategoriesResponse> {
     const myHeaders = new Headers();
 
     const requestOptions = {
@@ -858,16 +957,52 @@ export class EcommerceApi {
     };
 
     return await callFetch(
-      `${API_ENDPOINT}/advertisements/${name}`,
+      `${API_ENDPOINT}/mega-menu-categories?${query}`,
       requestOptions
     );
   }
 
-  static async updateAd(
-    slug: string | undefined,
-    data: Partial<IAd>
-  ): Promise<ISingleAdResponse> {
-    console.log(slug, data);
+  static async getSingleMegaMenuCategory(
+    slug: string
+  ): Promise<ISingleMegaCategoryResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/mega-menu-categories/${slug}`,
+      requestOptions
+    );
+  }
+
+  static async postMegaMenuCategory(
+    data: IMegaCategory
+  ): Promise<ISingleMegaCategoryResponse> {
+    console.log(data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/mega-menu-categories`,
+      requestOptions
+    );
+  }
+
+  static async updateMegaMenuCategory(
+    slug: string,
+    data: IMegaCategory
+  ): Promise<ISingleMegaCategoryResponse> {
+    console.log(data);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -879,7 +1014,7 @@ export class EcommerceApi {
     };
 
     return await callFetch(
-      `${API_ENDPOINT}/advertisements/${slug}`,
+      `${API_ENDPOINT}/mega-menu-categories/${slug}`,
       requestOptions
     );
   }
@@ -903,5 +1038,33 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/users/${slug}`, requestOptions);
+  }
+  static async deleteMegaMenuCategory(
+    slug: string
+  ): Promise<ISingleMegaCategoryResponse> {
+    // console.log(API_ENDPOINT);
+    console.log(slug);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/mega-menu-categories/${slug}`,
+      requestOptions
+    );
+  }
+
+  static async getAllAds(): Promise<IAdResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/advertisements`, requestOptions);
   }
 }

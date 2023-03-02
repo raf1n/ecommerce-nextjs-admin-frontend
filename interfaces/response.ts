@@ -2,9 +2,11 @@ import {
   IAd,
   ICategories,
   ICoupon,
+  IMegaCategory,
   IOrder,
   IPopularCategories,
   IReview,
+  ISlider,
   ISubCategories,
 } from "./models";
 //here we will declare our response interfaces or in easy way type of our all response in our website
@@ -87,6 +89,23 @@ export interface IResponseBrandDetail extends MyFetchInterface {
 }
 export interface ISigleReviewResponse extends MyFetchInterface {
   res: IReview;
+}
+
+
+export interface IMegaCategoriesResponse extends MyFetchInterface {
+  res: IMegaCategory[];
+}
+
+export interface ISingleMegaCategoryResponse extends MyFetchInterface {
+  res: IMegaCategory;
+}
+
+export interface ISliderResponse extends MyFetchInterface {
+  res: Array<ISlider>;
+}
+
+export interface ISingleSliderResponse extends MyFetchInterface {
+  res: ISlider;
 }
 
 export interface IAdResponse extends MyFetchInterface {

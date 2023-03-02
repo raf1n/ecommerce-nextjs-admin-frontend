@@ -972,7 +972,61 @@ export class Jsondata {
     },
     { title: "Withdraw Payment", icon: FaNewspaper },
     { title: "Users", icon: FaUserAlt },
-    { title: "Manage Website", icon: FaGlobe },
+    {
+      title: "Manage Website",
+      icon: FaGlobe,
+      nestedRoutes: [
+        {
+          title: "SEO Setup",
+          link: "/seo_setup",
+        },
+        {
+          title: "Slider",
+          link: "/slider",
+        },
+
+        {
+          title: "Shop Page",
+          link: "/shop_page",
+        },
+        {
+          title: "Service",
+          link: "/service",
+        },
+        {
+          title: "Homepage Section Title",
+          link: "/homepage_section_title",
+        },
+        {
+          title: "Seller Conditions",
+          link: "/seller_conditions",
+        },
+        {
+          title: "Testimonial",
+          link: "/testimonial",
+        },
+        {
+          title: "Maintainance Mode",
+          link: "/maintainance_mode",
+        },
+        {
+          title: "Announcement",
+          link: "/announcement",
+        },
+        {
+          title: "Subscription Banner",
+          link: "/subscription_banner",
+        },
+        {
+          title: "Image Content",
+          link: "/image_content",
+        },
+        {
+          title: "Default Avatar",
+          link: "/default_avatar",
+        },
+      ],
+    },
     { title: "Website Footer", icon: AiFillAppstore },
     { title: "Pages", icon: FaColumns },
     { title: "Blogs", icon: AiFillAppstore },
