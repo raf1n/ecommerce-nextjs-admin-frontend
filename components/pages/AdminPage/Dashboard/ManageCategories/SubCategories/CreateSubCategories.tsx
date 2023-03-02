@@ -35,7 +35,7 @@ const CreateSubCategories: React.FC<Props> = (props) => {
         console.log(err);
       } else {
         setCategoriesData(res);
-        
+
         // console.log(res);
       }
     };
@@ -52,7 +52,7 @@ const CreateSubCategories: React.FC<Props> = (props) => {
         <div className="section-body">
           <SharedGoBackButton
             title="Product Sub Category"
-            link="/product_sub_categories"
+            link="/admin/product_sub_categories"
           ></SharedGoBackButton>
         </div>
       </div>

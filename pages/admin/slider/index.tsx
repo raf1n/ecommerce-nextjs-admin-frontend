@@ -1,14 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import EditSlider from "../../../components/pages/AdminPage/Dashboard/ManageWebsite/Slider/EditSlider";
+import Slider from "../../../components/pages/AdminPage/Dashboard/ManageWebsite/Slider/Slider";
 import { controller } from "../../../src/state/StateController";
 
 interface Props {}
 
-const edit: React.FC<Props> = (props) => {
+const slider: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
-  return <EditSlider />;
+  return <Slider></Slider>;
 };
 
-export default edit;
+export default slider;
