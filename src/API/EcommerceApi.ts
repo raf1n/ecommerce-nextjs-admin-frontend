@@ -447,6 +447,26 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/users/login`, requestOptions);
   }
+
+  //get user data for private route
+  static async getUserAuth(slug: string): Promise<MyFetchInterface> {
+    // console.log(data);
+    // console.log(data.token);
+    // console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    // myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      // method: "POST",
+      headers: myHeaders,
+      // body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/users/private/${slug}`, requestOptions);
+  }
+
+
   // test
   static async allProducts(): Promise<IProductResponse> {
     console.log(API_ENDPOINT);
