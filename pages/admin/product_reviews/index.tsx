@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import withAdminPrivate from "../../../components/hocs/withAdminPrivate";
 import ProductReview from "../../../components/pages/AdminPage/Dashboard/ManageProducts/ProductReviews/ProductReview";
 import { controller } from "../../../src/state/StateController";
 
@@ -11,4 +12,4 @@ const index: React.FC<Props> = (props) => {
   return <ProductReview />;
 };
 
-export default index;
+export default withAdminPrivate(index);

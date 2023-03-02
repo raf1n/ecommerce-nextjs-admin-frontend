@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import withAdminPrivate from "../../../components/hocs/withAdminPrivate";
 import SellerPendingProduct from "../../../components/pages/AdminPage/Dashboard/ManageProducts/SellerPendingProduct/SellerPendingProduct";
 import { controller } from "../../../src/state/StateController";
 interface Props {}
@@ -10,4 +11,4 @@ const index: React.FC<Props> = (props) => {
   return <SellerPendingProduct />;
 };
 
-export default index;
+export default withAdminPrivate(index);

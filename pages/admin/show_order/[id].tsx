@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import withAdminPrivate from "../../../components/hocs/withAdminPrivate";
 import SharedInvoice from "../../../components/pages/AdminPage/Dashboard/Orders/SharedInvoice/SharedInvoice";
 import { controller } from "../../../src/state/StateController";
 
@@ -11,4 +12,4 @@ const id: React.FC<Props> = (props) => {
   return <SharedInvoice />;
 };
 
-export default id;
+export default withAdminPrivate(id);

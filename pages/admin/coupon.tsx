@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import withAdminPrivate from "../../components/hocs/withAdminPrivate";
 import Coupon from "../../components/pages/AdminPage/Dashboard/Ecommerce/Coupon/Coupon";
 import { controller } from "../../src/state/StateController";
 
@@ -11,4 +12,4 @@ const coupon: React.FC<Props> = (props) => {
   return <Coupon />;
 };
 
-export default coupon;
+export default withAdminPrivate(coupon);

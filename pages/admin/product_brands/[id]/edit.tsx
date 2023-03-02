@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import withAdminPrivate from "../../../../components/hocs/withAdminPrivate";
 import ProductBrandsEdit from "../../../../components/pages/AdminPage/Dashboard/ManageProducts/ProductBrands/ProductBrandsEdit";
 import { controller } from "../../../../src/state/StateController";
 
@@ -11,4 +12,4 @@ const edit: React.FC<Props> = (props) => {
   return <ProductBrandsEdit />;
 };
 
-export default edit;
+export default withAdminPrivate(edit);
