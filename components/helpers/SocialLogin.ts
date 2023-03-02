@@ -118,25 +118,33 @@ export class SocialLogin {
       fullName: string;
       avatar: string;
     }
-  ) {
-    const auth = getAuth();
-    if (!auth.currentUser) {
-      return;
-    }
-    updateProfile(auth.currentUser, {
-      displayName: userProfile.fullName,
-      photoURL: userProfile.avatar,
-    })
-      .then((resilt) => {
-        console.log(auth.currentUser);
-
-        // console.log({ res, err });
-        return resilt;
+  ): Promise<MyFetchInterface> {
+    return new Promise((resolve) => {
+      const auth = getAuth();
+      if (!auth.currentUser) {
+        resolve({
+          res: null,
+          err: "User not signed in",
+        });
+        return;
+      }
+      updateProfile(auth.currentUser, {
+        displayName: userProfile.fullName,
+        photoURL: userProfile.avatar,
       })
-      .catch((error) => {
-        console.log("error", error);
-      })
-      .finally(() => {});
+        .then(() => {
+          resolve({
+            res: "Profile updated",
+            err: null,
+          });
+        })
+        .catch((error) => {
+          resolve({
+            res: null,
+            err: "An error occurred. Please try again.",
+          });
+        });
+    });
   }
 
   static async logOut(): Promise<void> {

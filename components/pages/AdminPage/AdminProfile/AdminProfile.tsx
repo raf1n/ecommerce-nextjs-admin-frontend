@@ -31,18 +31,19 @@ const AdminProfile: React.FC<Props> = (props) => {
         fullName: e.target.name.value,
         avatar: imageUrl,
       };
-      const result = await SocialLogin.updateLoggedInAdminProfile(
-        states.currentUser?.slug,
-        newProfileData
-      );
-
-      if (result === undefined) {
-        const { res, err } = await EcommerceApi.updateAdminProfile(
+      const { res: socialRes, err } =
+        await SocialLogin.updateLoggedInAdminProfile(
           states.currentUser?.slug,
           newProfileData
         );
-        if (res) {
-          controller.setCurrentUser(res);
+
+      if (socialRes === "Profile updated") {
+        const { res: dbRes, err } = await EcommerceApi.updateAdminProfile(
+          states.currentUser?.slug,
+          newProfileData
+        );
+        if (dbRes) {
+          controller.setCurrentUser(dbRes);
         }
       }
     }
