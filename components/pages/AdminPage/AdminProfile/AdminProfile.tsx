@@ -25,7 +25,7 @@ const AdminProfile: React.FC<Props> = (props) => {
       imageUrl = res?.data?.url;
       // setImageLink(data?.data?.url);
       if (res?.data?.url === undefined || null) {
-        imageUrl = "";
+        imageUrl = states.currentUser?.avatar;
       }
       const newProfileData = {
         fullName: e.target.name.value,
