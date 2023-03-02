@@ -20,6 +20,8 @@ import {
 import { initializeApp } from "firebase/app";
 import { MyFetchInterface } from "../../interfaces/models";
 import { CookiesHandler } from "../../src/utils/CookiesHandler";
+import { EcommerceApi } from "../../src/API/EcommerceApi";
+import { controller } from "../../src/state/StateController";
 
 export class SocialLogin {
   static initFirebase() {
@@ -110,24 +112,39 @@ export class SocialLogin {
     });
   }
 
-  static async updateLoggedInAdminProfile(userProfile: {
-    displayName: string;
-    photoURL: string;
-  }) {
-    const auth = getAuth();
-    if (!auth.currentUser) {
-      return;
+  static async updateLoggedInAdminProfile(
+    slug: string | undefined,
+    userProfile: {
+      fullName: string;
+      avatar: string;
     }
-    updateProfile(auth.currentUser, {
-      displayName: userProfile.displayName,
-      photoURL: userProfile.photoURL,
-    })
-      .then((result) => {
-        console.log(result);
+  ): Promise<MyFetchInterface> {
+    return new Promise((resolve) => {
+      const auth = getAuth();
+      if (!auth.currentUser) {
+        resolve({
+          res: null,
+          err: "User not signed in",
+        });
+        return;
+      }
+      updateProfile(auth.currentUser, {
+        displayName: userProfile.fullName,
+        photoURL: userProfile.avatar,
       })
-      .catch((error) => {
-        console.log("error", error);
-      });
+        .then(() => {
+          resolve({
+            res: "Profile updated",
+            err: null,
+          });
+        })
+        .catch((error) => {
+          resolve({
+            res: null,
+            err: "An error occurred. Please try again.",
+          });
+        });
+    });
   }
 
   static async logOut(): Promise<void> {

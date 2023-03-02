@@ -82,6 +82,10 @@ margin-left: -15px;
   margin-top: 70px;
 }
 
+.profile-widget-password {
+  margin-top: 20px;
+}
+
 .profile-widget-picture {
   width: 100px !important;
   height: 100px !important;

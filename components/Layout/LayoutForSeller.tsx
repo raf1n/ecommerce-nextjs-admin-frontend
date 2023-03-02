@@ -44,7 +44,8 @@ const LayoutForSeller: React.FC<Props> = ({ children }) => {
             setResponsiveOpen(false);
             setMenuOpen(0);
           }}
-          className="fixed z-10 opacity-40 bg-black top-0 left-0 right-0 bottom-0"></div>
+          className="fixed z-10 opacity-40 bg-black top-0 left-0 right-0 bottom-0"
+        ></div>
       )}
 
       {/* right side dashboard */}
@@ -78,7 +79,8 @@ const LayoutForSeller: React.FC<Props> = ({ children }) => {
             <button
               onClick={() => {
                 setShow(!show);
-              }}>
+              }}
+            >
               <div className={`flex text-white  pl-6`}>
                 <img
                   src={`https://api.websolutionus.com/shopo/uploads/custom-images/kelsey-conrad-2022-12-28-04-55-51-8312.jpg`}
@@ -99,7 +101,7 @@ const LayoutForSeller: React.FC<Props> = ({ children }) => {
         <div className={` ${show ? "block" : "hidden"} relative`}>
           <div className={`${styles["dropdown-menu"]} -mt-14 mr-2 `}>
             <div>
-              <Link href="/profile" className="flex text-[13px]">
+              <Link href="/seller/profile" className="flex text-[13px]">
                 <span className="pr-2  text-[15px]">
                   <HiOutlineUser />
                 </span>
@@ -120,7 +122,8 @@ const LayoutForSeller: React.FC<Props> = ({ children }) => {
               <div className="border-t"></div>
               <Link
                 href="/logout"
-                className="flex text-[13px] text-[#fc544b] my-3 font-medium">
+                className="flex text-[13px] text-[#fc544b] my-3 font-medium"
+              >
                 <span className="pr-2  text-[15px]">
                   <FaSignOutAlt />
                 </span>

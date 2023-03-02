@@ -1039,6 +1039,26 @@ export class EcommerceApi {
     );
   }
 
+  // admin profile update in db
+  static async updateAdminProfile(
+    slug: string | undefined,
+    data: Partial<IUser>
+  ): Promise<ILoginResponse> {
+    console.log(data);
+    console.log(data.token);
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/users/${slug}`, requestOptions);
+  }
   static async deleteMegaMenuCategory(
     slug: string
   ): Promise<ISingleMegaCategoryResponse> {
