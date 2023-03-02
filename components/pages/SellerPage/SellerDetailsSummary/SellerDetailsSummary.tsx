@@ -228,7 +228,7 @@ const SellerDetailsSummary: React.FC<Props> = (props) => {
       <div>
         <div className=" p-4  m-7 bg-white">
           <h1 className="mb-10 text-2xl font-bold ">
-            Today New Order for seller
+            Today New Order : seller
           </h1>
           <hr />
 
