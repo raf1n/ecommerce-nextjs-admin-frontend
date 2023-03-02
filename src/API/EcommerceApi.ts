@@ -972,7 +972,7 @@ export class EcommerceApi {
       requestOptions
     );
   }
-
+  //Update Ad
   static async updateAd(
     slug: string | undefined,
     data: Partial<IAd>
@@ -994,6 +994,7 @@ export class EcommerceApi {
     );
   }
 
+  //Get MegaMenuCategories
   static async getMegaMenuCategories(
     query: string
   ): Promise<IMegaCategoriesResponse> {
@@ -1010,6 +1011,8 @@ export class EcommerceApi {
     );
   }
 
+  //Get Single Mega Menue Category
+
   static async getSingleMegaMenuCategory(
     slug: string
   ): Promise<ISingleMegaCategoryResponse> {
@@ -1025,6 +1028,8 @@ export class EcommerceApi {
       requestOptions
     );
   }
+
+  //Create Mega Menu Category
 
   static async postMegaMenuCategory(
     data: IMegaCategory
@@ -1046,6 +1051,8 @@ export class EcommerceApi {
     );
   }
 
+  //Update Mega Menu Category
+
   static async updateMegaMenuCategory(
     slug: string,
     data: IMegaCategory
@@ -1066,6 +1073,8 @@ export class EcommerceApi {
       requestOptions
     );
   }
+
+  //Delete Mega Menu Category
 
   static async deleteMegaMenuCategory(
     slug: string
