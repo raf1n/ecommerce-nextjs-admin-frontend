@@ -66,7 +66,7 @@ const EditCategories: React.FC<Props> = (props) => {
         <div className="section-body">
           <SharedGoBackButton
             title="Product Categories"
-            link="/product_categories"
+            link="/admin/product_categories"
           ></SharedGoBackButton>
         </div>
       </div>

@@ -16,7 +16,7 @@ const EditSlider: React.FC<Props> = (props) => {
     null
   );
   const { asPath } = useRouter();
-  const slug = asPath.split("/")[2];
+  const slug = asPath.split("/")[3];
 
   useEffect(() => {
     console.log(slug);
@@ -88,7 +88,7 @@ const EditSlider: React.FC<Props> = (props) => {
         <div className="section-body">
           <SharedGoBackButton
             title="Go Back"
-            link="/slider"
+            link="/admin/slider"
           ></SharedGoBackButton>
         </div>
       </div>
@@ -104,15 +104,13 @@ const EditSlider: React.FC<Props> = (props) => {
                     </label>
                     <div>
                       <picture>
-                        {singlesliderData && singlesliderData.image && (
-                          <img
-                            id="preview-img"
-                            className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
-                            // src="https://api.websolutionus.com/shopo/uploads/website-images/preview.png"
-                            src={singlesliderData?.image}
-                            alt=""
-                          />
-                        )}
+                        <img
+                          id="preview-img"
+                          className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
+                          // src="https://api.websolutionus.com/shopo/uploads/website-images/preview.png"
+                          src={singlesliderData?.image}
+                          alt=""
+                        />
                       </picture>
                     </div>
                   </div>

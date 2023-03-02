@@ -4,7 +4,6 @@ import { AppProps } from "next/app";
 import { Provider, useSelector } from "react-redux";
 import { controller, store } from "../src/state/StateController";
 import Layout from "../components/Layout/Layout";
-import LayoutForSeller from "../components/Layout/LayoutForSeller";
 import { SocialLogin } from './../components/helpers/SocialLogin';
 
 export default function MyApp(props: AppProps) {
@@ -23,9 +22,6 @@ export default function MyApp(props: AppProps) {
   return (
     <Provider store={store}>
       <React.Fragment>
-        {/* <LayoutForSeller>
-          <Component {...pageProps} />
-        </LayoutForSeller> */}
         <Layout>
           <Component {...pageProps} />
         </Layout>

@@ -978,52 +978,52 @@ export class Jsondata {
       nestedRoutes: [
         {
           title: "SEO Setup",
-          link: "/seo_setup",
+          link: "/admin/seo_setup",
         },
         {
           title: "Slider",
-          link: "/slider",
+          link: "/admin/slider",
         },
 
         {
           title: "Shop Page",
-          link: "/shop_page",
+          link: "/admin/shop_page",
         },
         {
           title: "Service",
-          link: "/service",
+          link: "/admin/service",
         },
         {
           title: "Homepage Section Title",
-          link: "/homepage_section_title",
+          link: "/admin/homepage_section_title",
         },
         {
           title: "Seller Conditions",
-          link: "/seller_conditions",
+          link: "/admin/seller_conditions",
         },
         {
           title: "Testimonial",
-          link: "/testimonial",
+          link: "/admin/testimonial",
         },
         {
           title: "Maintainance Mode",
-          link: "/maintainance_mode",
+          link: "/admin/maintainance_mode",
         },
         {
           title: "Announcement",
-          link: "/announcement",
+          link: "/admin/announcement",
         },
         {
           title: "Subscription Banner",
-          link: "/subscription_banner",
+          link: "/admin/subscription_banner",
         },
         {
           title: "Image Content",
-          link: "/image_content",
+          link: "/admin/image_content",
         },
         {
           title: "Default Avatar",
-          link: "/default_avatar",
+          link: "/admin/default_avatar",
         },
       ],
     },

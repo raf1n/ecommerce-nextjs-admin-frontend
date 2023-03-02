@@ -63,18 +63,6 @@ const ProductReview: React.FC<Props> = (props) => {
               searchString={searchString}
               setSearchString={setSearchString}
             />
-            {/* <DynamicTable
-              apiUrl=""
-              setSearchString={setSearchString}
-              setSortBy={setSortBy}
-              sortType={sortType}
-              setDeleteModalSlug={setDeleteModalSlug}
-              setSortType={setSortType}
-              sortBy={sortBy}
-              tableHeaders={tableHeaders}
-              actions={actions}
-              testDynamicTableData={reviewDatas}
-            /> */}
           </div>
         </div>
       </div>
