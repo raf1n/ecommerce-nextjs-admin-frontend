@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import DashboardBreadcrumb from "../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import styles from "./AdminProfile.module.css";
@@ -14,6 +14,11 @@ interface Props {
 
 const AdminProfile: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [oldPass, setOldPass] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
+  const [errorText, setErrorText] = useState("");
+
   const handleUpdateProfile = async (e: any) => {
     e.preventDefault();
     const image = e.target.imageURL.files[0];
@@ -48,6 +53,33 @@ const AdminProfile: React.FC<Props> = (props) => {
       }
     }
   };
+
+  const handlePassChange = async (e: any) => {
+    e.preventDefault();
+
+    const email = states.currentUser?.email as string;
+
+    if (newPass != confirmPass) {
+      setErrorText("New passwords did not match.");
+      return;
+    }
+
+    const { res, err } = await SocialLogin.changePassword(
+      email,
+      oldPass,
+      newPass
+    );
+
+    console.log({ res, err });
+    if (err) {
+      setErrorText(err);
+    } else {
+      e.target.reset();
+      alert(res);
+      setErrorText("");
+    }
+  };
+
   return (
     <div>
       <div className="">
@@ -136,40 +168,7 @@ const AdminProfile: React.FC<Props> = (props) => {
                             />
                           )}
                         </div>
-                        <div className="mt-4">
-                          <div className="my-4">
-                            <label
-                              className="text-qgray font-semibold mt-4	text-sm"
-                              htmlFor=""
-                            >
-                              New Password
-                            </label>
-                            {/* <span className='text-red-500 ml-2'>*</span> */}
-                          </div>
-                          <input
-                            className="w-full px-3 py-3 focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]  rounded-md text-sm"
-                            type="password"
-                            name="password"
-                            id="password"
-                          />
-                        </div>
-                        <div className="mt-4">
-                          <div className="my-4">
-                            <label
-                              className="text-qgray font-semibold mt-4	text-sm"
-                              htmlFor=""
-                            >
-                              Confirm New Password
-                            </label>
-                            {/* <span className='text-red-500 ml-2'>*</span> */}
-                          </div>
-                          <input
-                            className="w-full px-3 py-3 focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc] rounded-md text-sm"
-                            type="password"
-                            name="confirmPassword"
-                            id="confirmPassword"
-                          />
-                        </div>
+
                         <div className="mt-4">
                           <button
                             type="submit"
@@ -183,6 +182,91 @@ const AdminProfile: React.FC<Props> = (props) => {
                   </div>
                 </form>
               </div>
+            </div>
+
+            {/* password  */}
+
+            <div>
+              <form
+                onSubmit={handlePassChange}
+                className={`${styles["card"]} ${styles["profile-widget-password"]}`}
+              >
+                <div className={`${styles["profile-widget-description"]}`}>
+                  <div>
+                    <div className={`${styles["row"]} `}>
+                      <h1 className=" text-xl mb-7">Update Password</h1>
+                      <div className="mt-4">
+                        <div className="my-4 ">
+                          <label
+                            className="text-qgray font-semibold mt-4	text-sm"
+                            htmlFor=""
+                          >
+                            Old Password
+                          </label>
+                          <span className="text-red-500 ml-2">*</span>
+                        </div>
+                        <input
+                          onChange={(e) => setOldPass(e.target.value)}
+                          className="w-full px-3 py-3 focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]  rounded-md text-sm"
+                          type="password"
+                          name="oldPassword"
+                          id="oldPassword"
+                        />
+                      </div>
+
+                      <div className="mt-4">
+                        <div className="my-4">
+                          <label
+                            className="text-qgray font-semibold mt-4	text-sm"
+                            htmlFor=""
+                          >
+                            New Password
+                          </label>
+                          <span className="text-red-500 ml-2">*</span>
+                        </div>
+                        <input
+                          onChange={(e) => setNewPass(e.target.value)}
+                          className="w-full px-3 py-3 focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]  rounded-md text-sm"
+                          type="password"
+                          name="password"
+                          id="password"
+                        />
+                      </div>
+                      <div className="mt-4">
+                        <div className="my-4">
+                          <label
+                            className="text-qgray font-semibold mt-4	text-sm"
+                            htmlFor=""
+                          >
+                            Confirm New Password
+                          </label>
+                          <span className="text-red-500 ml-2">*</span>
+                        </div>
+                        <input
+                          onChange={(e) => setConfirmPass(e.target.value)}
+                          className="w-full px-3 py-3 focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc] rounded-md text-sm"
+                          type="password"
+                          name="confirmPassword"
+                          id="confirmPassword"
+                        />
+                      </div>
+                      <div className="mt-4">
+                        <button
+                          type="submit"
+                          className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
+                        >
+                          Update
+                        </button>
+                      </div>
+                      {errorText && (
+                        <div className="mt-4 text-qred font-semibold">
+                          <span>{errorText}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </section>
