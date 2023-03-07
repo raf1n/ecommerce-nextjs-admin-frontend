@@ -164,3 +164,13 @@ export interface IAd {
   category_link?: string;
   status?: string;
 }
+
+export interface IReportedItem {
+  slug?: string;
+  product_slug?: string;
+  user_slug?: string;
+  title?: string;
+  note?: string;
+  reportedProducts?: IProduct;
+  user?: IUser;
+}

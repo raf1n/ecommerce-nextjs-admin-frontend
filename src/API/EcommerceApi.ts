@@ -33,6 +33,7 @@ import {
   ISingleAdResponse,
   ISingleMegaCategoryResponse,
   IMegaCategoriesResponse,
+  IReportedItemResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -462,9 +463,11 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/users/private/${slug}`, requestOptions);
+    return await callFetch(
+      `${API_ENDPOINT}/users/private/${slug}`,
+      requestOptions
+    );
   }
-
 
   // test
   static async allProducts(): Promise<IProductResponse> {
@@ -1114,7 +1117,7 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/users/${slug}`, requestOptions);
   }
-  
+
   //Delete Mega Menu Category
   static async deleteMegaMenuCategory(
     slug: string
@@ -1133,4 +1136,63 @@ export class EcommerceApi {
       requestOptions
     );
   }
+
+  //get all Reported Items
+
+  // static async allReportedItems(query: string): Promise<IReportedItemResponse> {
+  //   // console.log(API_ENDPOINT);
+  //   const myHeaders = new Headers();
+  //   const requestOptions = {
+  //     headers: myHeaders,
+  //     redirect: "follow",
+  //   };
+
+  //   return await callFetch(`${API_ENDPOINT}/reporteditems`, requestOptions);
+  // }
+
+  //get all reported Items
+  static async allReportedItemsAdmin(
+    query: string
+  ): Promise<IReportedItemResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/reporteditems/findAllForAdmin?${query}`,
+      requestOptions
+    );
+  }
+
+  //delete Reported Items
+  static async deleteReportedItems(slug: string): Promise<MyFetchInterface> {
+    // console.log(API_ENDPOINT);
+    console.log(slug);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/reporteditems/${slug}`,
+      requestOptions
+    );
+  }
+
+  // static async allReportedItems(): Promise<IReportedItemResponse> {
+  //   // console.log(API_ENDPOINT);
+  //   const myHeaders = new Headers();
+  //   const requestOptions = {
+  //     headers: myHeaders,
+  //     redirect: "follow",
+  //   };
+
+  //   return await callFetch(`${API_ENDPOINT}/reporteditems`, requestOptions);
+  // }
 }

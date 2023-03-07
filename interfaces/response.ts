@@ -5,6 +5,7 @@ import {
   IMegaCategory,
   IOrder,
   IPopularCategories,
+  IReportedItem,
   IReview,
   ISlider,
   ISubCategories,
@@ -113,4 +114,8 @@ export interface IAdResponse extends MyFetchInterface {
 
 export interface ISingleAdResponse extends MyFetchInterface {
   res: IAd;
+}
+
+export interface IReportedItemResponse extends MyFetchInterface {
+  res: Array<IReportedItem>;
 }
