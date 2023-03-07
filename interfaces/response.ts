@@ -2,6 +2,7 @@ import {
   IAd,
   ICategories,
   ICoupon,
+  IFeaturedCategories,
   IMegaCategory,
   IOrder,
   IPopularCategories,
@@ -47,6 +48,10 @@ export interface ISingleSubCategoryResponse extends MyFetchInterface {
 
 export interface IPopularCategoriesResponse extends MyFetchInterface {
   res: IPopularCategories[];
+}
+
+export interface IFeaturedCategoriesResponse extends MyFetchInterface {
+  res: IFeaturedCategories[];
 }
 export interface IProductResponse extends MyFetchInterface {
   res: {

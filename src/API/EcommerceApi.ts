@@ -33,6 +33,7 @@ import {
   ISingleAdResponse,
   ISingleMegaCategoryResponse,
   IMegaCategoriesResponse,
+  IFeaturedCategoriesResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -383,6 +384,65 @@ export class EcommerceApi {
     );
   }
 
+  //  get all featured
+
+  static async allFeaturedCategories(): Promise<IFeaturedCategoriesResponse> {
+    // console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/featured-categories`,
+      requestOptions
+    );
+  }
+
+  //add featured categories
+
+  static async createFeaturedCategories(
+    data: Partial<IPopularCategories>
+  ): Promise<IFeaturedCategoriesResponse> {
+    console.log(data);
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/featured-categories`,
+      requestOptions
+    );
+  }
+
+  //Delete featured Categories
+  static async deleteFeaturedCategories(
+    slug: string
+  ): Promise<MyFetchInterface> {
+    console.log(API_ENDPOINT);
+    console.log(slug);
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/featured-categories/${slug}`,
+      requestOptions
+    );
+  }
+
   //add image to Categories
   static async uploadPopularImage(
     data: Partial<any>
@@ -462,9 +522,11 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/users/private/${slug}`, requestOptions);
+    return await callFetch(
+      `${API_ENDPOINT}/users/private/${slug}`,
+      requestOptions
+    );
   }
-
 
   // test
   static async allProducts(): Promise<IProductResponse> {
@@ -1114,7 +1176,7 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/users/${slug}`, requestOptions);
   }
-  
+
   //Delete Mega Menu Category
   static async deleteMegaMenuCategory(
     slug: string

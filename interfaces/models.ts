@@ -66,6 +66,16 @@ export interface IPopularCategories {
   cat_name: string;
   cat_image: string;
 }
+
+export interface IFeaturedCategories {
+  slug: string;
+  cat_slug: string;
+  // subcat_name: string;
+  // subcat_status: string;
+  cat_name: string;
+  cat_image: string;
+}
+
 export interface IProduct {
   productName?: string;
   slug?: string;
