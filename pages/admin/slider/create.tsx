@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import withAdminPrivate from "../../../components/hocs/withAdminPrivate";
 import CreateSlider from "../../../components/pages/AdminPage/Dashboard/ManageWebsite/Slider/CreateSlider";
 import { controller } from "../../../src/state/StateController";
 
@@ -11,4 +12,4 @@ const create: React.FC<Props> = (props) => {
   return <CreateSlider></CreateSlider>;
 };
 
-export default create;
+export default withAdminPrivate(create);

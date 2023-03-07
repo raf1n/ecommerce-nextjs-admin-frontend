@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import withAdminPrivate from "../../../components/hocs/withAdminPrivate";
 import CreateProductChildCategory from "../../../components/pages/AdminPage/Dashboard/ManageCategories/ProductChildCategory/CreateProductChildCategory";
 import { controller } from "../../../src/state/StateController";
 
@@ -11,4 +12,4 @@ const create: React.FC<Props> = (props) => {
   return <CreateProductChildCategory />;
 };
 
-export default create;
+export default withAdminPrivate(create);

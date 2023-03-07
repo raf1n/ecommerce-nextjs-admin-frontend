@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import withAdminPrivate from "../../components/hocs/withAdminPrivate";
 import ProgressOrders from "../../components/pages/AdminPage/Dashboard/Orders/ProgressOrders/ProgressOrders";
 import { controller } from "../../src/state/StateController";
 
@@ -11,4 +12,4 @@ const progress_orders: React.FC<Props> = (props) => {
   return <ProgressOrders />;
 };
 
-export default progress_orders;
+export default withAdminPrivate(progress_orders);

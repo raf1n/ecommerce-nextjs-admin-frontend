@@ -4,6 +4,7 @@ import { AppProps } from "next/app";
 import { Provider, useSelector } from "react-redux";
 import { controller, store } from "../src/state/StateController";
 import Layout from "../components/Layout/Layout";
+import { SocialLogin } from './../components/helpers/SocialLogin';
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
@@ -15,6 +16,7 @@ export default function MyApp(props: AppProps) {
     if (jssStyles) {
       jssStyles.parentElement!.removeChild(jssStyles);
     }
+      SocialLogin.initFirebase();
   }, []);
 
   return (

@@ -27,6 +27,9 @@ export interface ILoginResponse extends MyFetchInterface {
     access_token: string;
     userId: string;
     role: string;
+    fullName: string | null;
+    avatar: string | null;
+    email: string | null;
   };
 }
 

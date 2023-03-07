@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import withAdminPrivate from "../../components/hocs/withAdminPrivate";
 import AllOrders from "../../components/pages/AdminPage/Dashboard/Orders/AllOrders/AllOrders";
 import { controller } from "../../src/state/StateController";
 
@@ -15,4 +16,4 @@ const all_orders: React.FC<Props> = (props) => {
   );
 };
 
-export default all_orders;
+export default withAdminPrivate(all_orders);

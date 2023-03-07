@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import withAdminPrivate from "../../components/hocs/withAdminPrivate";
 import DeclinedOrders from "../../components/pages/AdminPage/Dashboard/Orders/DeclinedOrders/DeclinedOrders";
 import { controller } from "../../src/state/StateController";
 
@@ -11,4 +12,4 @@ const declined_orders: React.FC<Props> = (props) => {
   return <DeclinedOrders />;
 };
 
-export default declined_orders;
+export default withAdminPrivate(declined_orders);

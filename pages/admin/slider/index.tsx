@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import withAdminPrivate from "../../../components/hocs/withAdminPrivate";
 import Slider from "../../../components/pages/AdminPage/Dashboard/ManageWebsite/Slider/Slider";
 import { controller } from "../../../src/state/StateController";
 
@@ -11,4 +12,4 @@ const slider: React.FC<Props> = (props) => {
   return <Slider></Slider>;
 };
 
-export default slider;
+export default withAdminPrivate(slider);

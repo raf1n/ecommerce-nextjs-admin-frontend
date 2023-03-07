@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 import { controller } from "../../../../src/state/StateController";
 import ProductEdit from "../../../../components/pages/SellerPage/ManageProducts/ProductEdit/ProductEdit";
+import withSellerPrivate from "../../../../components/hocs/withSellerPrivate";
 
 interface Props {}
 
@@ -12,4 +13,4 @@ const edit: React.FC<Props> = (props) => {
   return <ProductEdit />;
 };
 
-export default edit;
+export default withSellerPrivate(edit);

@@ -26,6 +26,7 @@ import AdminLogin from "../AdminLogin/AdminLogin";
 import SubCategories from "./ManageCategories/SubCategories/SubCategories";
 import AdminProfile from "../AdminProfile/AdminProfile";
 import ProductChildCategory from "./ManageCategories/ProductChildCategory/ProductChildCategory";
+import Link from "next/link";
 
 interface Props {
   open: boolean;
@@ -115,12 +116,12 @@ const Dashboard: React.FC<Props> = (props) => {
       <div className={` ${show ? "block" : "hidden"}   `}>
         <div className={`${styles["dropdown-menu"]}  mt-3`}>
           <div>
-            <a href="/profile" className="flex text-xs">
+            <Link href="/profile" className="flex text-xs">
               <span className="pr-2">
                 <HiOutlineUser />
               </span>
               Profile
-            </a>
+            </Link>
 
             <div className="border-t"></div>
             <a href="/logout" className="flex text-xs font-medium">

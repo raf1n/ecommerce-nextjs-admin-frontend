@@ -446,6 +446,26 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/users/login`, requestOptions);
   }
+
+  //get user data for private route
+  static async getUserAuth(slug: string): Promise<MyFetchInterface> {
+    // console.log(data);
+    // console.log(data.token);
+    // console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    // myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      // method: "POST",
+      headers: myHeaders,
+      // body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/users/private/${slug}`, requestOptions);
+  }
+
+
   // test
   static async allProducts(): Promise<IProductResponse> {
     console.log(API_ENDPOINT);
@@ -1074,8 +1094,28 @@ export class EcommerceApi {
     );
   }
 
-  //Delete Mega Menu Category
+  // admin profile update in db
+  static async updateAdminProfile(
+    slug: string | undefined,
+    data: Partial<IUser>
+  ): Promise<ILoginResponse> {
+    console.log(data);
+    console.log(data.token);
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/users/${slug}`, requestOptions);
+  }
+  
+  //Delete Mega Menu Category
   static async deleteMegaMenuCategory(
     slug: string
   ): Promise<ISingleMegaCategoryResponse> {

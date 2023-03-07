@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 import { controller } from "../../../src/state/StateController";
 import ProductCreate from "../../../components/pages/SellerPage/ManageProducts/ProductCreate/ProductCreate";
+import withSellerPrivate from "../../../components/hocs/withSellerPrivate";
 
 interface Props {}
 
@@ -12,4 +13,4 @@ const create: React.FC<Props> = (props) => {
   return <ProductCreate />;
 };
 
-export default create;
+export default withSellerPrivate(create);

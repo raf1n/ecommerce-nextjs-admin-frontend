@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../src/state/StateController";
 import ProductsStockOut from "../../../components/pages/SellerPage/ManageProducts/ProductsStockOut/ProductsStockOut";
+import withSellerPrivate from "../../../components/hocs/withSellerPrivate";
 
 interface Props {}
 
@@ -11,4 +12,4 @@ const index: React.FC<Props> = (props) => {
   return <ProductsStockOut />;
 };
 
-export default index;
+export default withSellerPrivate(index);
