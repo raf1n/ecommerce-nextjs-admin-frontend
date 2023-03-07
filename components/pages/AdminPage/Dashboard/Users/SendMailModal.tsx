@@ -21,10 +21,10 @@ const SendMailModal: React.FC<Props> = (props) => {
 
     emailjs
       .sendForm(
-        "service_0rgueuw",
-        "template_20jt7nw",
+        "service_w3gw1va",
+        "template_46jfncu",
         form.current,
-        "ldVPHA88PMT4CEjob"
+        "L1JLjb4PpIPrIKEpu"
       )
       .then(
         (result: any) => {

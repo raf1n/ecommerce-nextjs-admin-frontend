@@ -38,9 +38,9 @@ const AdminLogin: React.FC<Props> = (props) => {
     if (loginPassword.length > 15) {
       setErrorLogin(true);
       setErrorTextLogin("Password can not be more than 15 characters");
-    } else if (loginEmail.length > 25) {
+    } else if (loginEmail.length > 50) {
       setErrorLogin(true);
-      setErrorTextLogin("Email can not be more than 25 characters");
+      setErrorTextLogin("Email can not be more than 50 characters");
     } else {
       const { res, err } = await SocialLogin.loginWithEmailPassword(
         loginEmail,

@@ -1,7 +1,7 @@
 import React from "react";
 import Router from "next/router";
 import { EcommerceApi } from "../../src/API/EcommerceApi";
-import { CookiesHandler } from './../../src/utils/CookiesHandler';
+import { CookiesHandler } from "./../../src/utils/CookiesHandler";
 
 const login = "/login?redirected=true"; // Define your login route address.
 
@@ -10,10 +10,13 @@ const login = "/login?redirected=true"; // Define your login route address.
  * It depends on you and your auth service provider.
  * @returns {{auth: null}}
  */
-const checkUserAuthentication = async () => {
-  // console.log(CookiesHandler.getSlug());
 
-  const { res, err } = await EcommerceApi.getUserAuth(CookiesHandler.getSlug() as string);
+const checkUserAuthentication = async () => {
+  console.log(CookiesHandler.getSlug(), "getSlug");
+
+  const { res, err } = await EcommerceApi.getUserAuth(
+    CookiesHandler.getSlug() as string
+  );
 
   if (res && res.role === "admin") {
     return {
@@ -25,11 +28,14 @@ const checkUserAuthentication = async () => {
 };
 
 //@ts-ignore
-export default WrappedComponent => {
+export default (WrappedComponent) => {
   const hocComponent = ({ ...props }) => <WrappedComponent {...props} />;
 
   hocComponent.getInitialProps = async (context: any) => {
     const userAuth = await checkUserAuthentication();
+
+    // console.log({ userAuth });
+    // console.log({ cookies: context.req });
 
     // Are you an authorized user or not?
     if (!userAuth?.auth) {

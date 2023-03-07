@@ -454,6 +454,8 @@ export class EcommerceApi {
 
     const requestOptions = {
       headers: myHeaders,
+      // credentials: 'include',
+      credentials: "same-origin",
       redirect: "follow",
     };
 
