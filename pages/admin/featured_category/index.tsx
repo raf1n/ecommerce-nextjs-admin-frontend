@@ -12,5 +12,4 @@ const index: React.FC<Props> = (props) => {
   return <FeaturedCaategoryAdmin />;
 };
 
-// export default withAdminPrivate(index);
-export default index;
+export default withAdminPrivate(index);

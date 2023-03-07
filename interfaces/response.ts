@@ -22,6 +22,10 @@ export interface IReviewProductsResponse extends MyFetchInterface {
   res: Array<IReview>;
 }
 
+export interface ISingleReviewProductsResponse extends MyFetchInterface {
+  res: IReview;
+}
+
 export interface ILoginResponse extends MyFetchInterface {
   res: {
     slug: string;

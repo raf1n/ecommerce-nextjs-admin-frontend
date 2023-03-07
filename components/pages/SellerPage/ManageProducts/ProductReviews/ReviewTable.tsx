@@ -1,13 +1,15 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
 import { useSelector } from "react-redux";
-import { controller } from "../../../../../../src/state/StateController";
-import { FaEye, FaTrash, FaTruck } from "react-icons/fa";
-import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
+import { IReview } from "../../../../../interfaces/models";
+import { controller } from "../../../../../src/state/StateController";
+import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
+import {
+  FaEye,
+  FaLongArrowAltDown,
+  FaLongArrowAltUp,
+  FaTrash,
+} from "react-icons/fa";
 import Link from "next/link";
-import { IReview } from "../../../../../../interfaces/models";
-import ToggleButton from "../../ManageCategories/ToggleButton/ToggleButton";
-import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
-import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 
 interface Props {
   reviewDatas: Array<IReview>;
@@ -39,19 +41,6 @@ const ReviewTable: React.FC<Props> = (props) => {
     rating: "rating",
     status: "status",
     action: "action",
-  };
-  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
-  const [reviewData, setReviewData] = useState<IReview[]>([]);
-
-  const handleDelete = async () => {
-    const { res, err } = await EcommerceApi.deleteReview(deleteModalSlug);
-    if (res) {
-      setDeleteModalSlug("");
-      const remainingReviews = reviewData.filter(
-        (review) => review.slug !== deleteModalSlug
-      );
-      setReviewData(remainingReviews);
-    }
   };
 
   return (
@@ -162,17 +151,25 @@ const ReviewTable: React.FC<Props> = (props) => {
                             {tabledata.rating}
                           </p>
                         </td>
-                        <td className="px-3 py-3  text-sm">
-                          <ToggleButton
-                            apiUrl="reviews"
-                            slug={tabledata.slug}
-                            status={tabledata?.status}
-                          />
+                        <td className="px-3 py-3   text-sm ">
+                          <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight ">
+                            <span
+                              aria-hidden
+                              className={`absolute inset-0 ${
+                                tabledata.status === "inactive"
+                                  ? "bg-red-500"
+                                  : "bg-green-500"
+                              }  rounded-full`}
+                            ></span>
+                            <span className="relative text-white text-xs capitalize break-words">
+                              {tabledata.status}
+                            </span>
+                          </span>
                         </td>
 
                         <td className="px-2 py-3  text-sm">
                           <Link
-                            href={`/admin/product_reviews/${tabledata.slug}/review`}
+                            href={`/seller/product_reviews/${tabledata.slug}/review`}
                           >
                             <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                               <span
@@ -183,25 +180,7 @@ const ReviewTable: React.FC<Props> = (props) => {
                               </span>
                             </span>
                           </Link>
-                          <button>
-                            <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                              <span
-                                onClick={() =>
-                                  setDeleteModalSlug(tabledata.slug)
-                                }
-                                style={{ boxShadow: "0 2px 6px #fd9b96" }}
-                                className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
-                              >
-                                <FaTrash />
-                              </span>
-                            </span>
-                          </button>
                         </td>
-                        <SharedDeleteModal
-                          deleteModalSlug={deleteModalSlug}
-                          handleDelete={handleDelete}
-                          setDeleteModalSlug={setDeleteModalSlug}
-                        ></SharedDeleteModal>
                       </tr>
                     ))}
                   </tbody>

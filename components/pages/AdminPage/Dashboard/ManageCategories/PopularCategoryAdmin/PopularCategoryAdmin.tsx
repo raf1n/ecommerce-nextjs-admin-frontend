@@ -13,7 +13,7 @@ import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDel
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import {
   ICategories,
-  IFeaturedCategories,
+  IPopularCategories,
 } from "../../../../../../interfaces/models";
 
 interface Props {}
@@ -25,7 +25,7 @@ const PopularCategoryAdmin: React.FC<Props> = (props) => {
   const [categoriesData, setCategoriesData] = useState<ICategories[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [popularCategoriesData, setPopularCategoriesData] = useState<
-    IFeaturedCategories[]
+    IPopularCategories[]
   >([]);
 
   // const handleSave = async (e: any) => {

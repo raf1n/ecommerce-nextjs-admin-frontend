@@ -34,6 +34,7 @@ import {
   ISingleMegaCategoryResponse,
   IMegaCategoriesResponse,
   IFeaturedCategoriesResponse,
+  ISingleReviewProductsResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
@@ -85,6 +86,33 @@ export class EcommerceApi {
       `${API_ENDPOINT}/reviews/findAllForAdmin?${query}`,
       requestOptions
     );
+  }
+
+  //get all Reviews seller
+  static async getAllSellerReviews(
+    seller_slug: string | undefined,
+    query: string
+  ): Promise<IReviewProductsResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/reviews/findAllForSeller/${seller_slug}?${query}`,
+      requestOptions
+    );
+  }
+  // get single review
+  static async getSingleReview(
+    slug: string
+  ): Promise<ISingleReviewProductsResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(`${API_ENDPOINT}/reviews/${slug}`, requestOptions);
   }
 
   //get all categories admin

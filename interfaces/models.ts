@@ -42,7 +42,7 @@ export interface IReview {
   slug?: string;
   product_slug?: string;
   title?: string;
-  note?: string;
+  message?: string;
   rating: number;
   name: string;
   user?: IUser;
