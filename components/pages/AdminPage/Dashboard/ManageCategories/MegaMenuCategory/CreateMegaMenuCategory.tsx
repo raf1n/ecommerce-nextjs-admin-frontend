@@ -78,6 +78,8 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
     const { res, err } = await EcommerceApi.postMegaMenuCategory(megaCategory);
     if (res) {
       e.target.reset();
+      //@ts-ignore
+      selectRef.current.clearValue();
     }
   }
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import withAdminPrivate from "../../components/hocs/withAdminPrivate";
 import CompletedOrders from "../../components/pages/AdminPage/Dashboard/Orders/CompletedOrders/CompletedOrders";
 import { controller } from "../../src/state/StateController";
 
@@ -11,4 +12,4 @@ const completed_orders: React.FC<Props> = (props) => {
   return <CompletedOrders />;
 };
 
-export default completed_orders;
+export default withAdminPrivate(completed_orders);

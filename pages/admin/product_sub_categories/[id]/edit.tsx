@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import withAdminPrivate from "../../../../components/hocs/withAdminPrivate";
 import EditSubCategories from "../../../../components/pages/AdminPage/Dashboard/ManageCategories/SubCategories/EditSubCategories";
 import { controller } from "../../../../src/state/StateController";
 
@@ -11,4 +12,4 @@ const edit: React.FC<Props> = (props) => {
   return <EditSubCategories />;
 };
 
-export default edit;
+export default withAdminPrivate(edit);

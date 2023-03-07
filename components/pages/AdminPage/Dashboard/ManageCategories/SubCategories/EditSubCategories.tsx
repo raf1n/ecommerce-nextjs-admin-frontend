@@ -75,7 +75,7 @@ const EditSubCategories: React.FC<Props> = (props) => {
         <div className="section-body">
           <SharedGoBackButton
             title="Product Sub Categories"
-            link="/product_sub_categories"
+            link="/admin/product_sub_categories"
           ></SharedGoBackButton>
         </div>
       </div>

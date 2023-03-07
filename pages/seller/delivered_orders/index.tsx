@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import withSellerPrivate from "../../../components/hocs/withSellerPrivate";
 import DeliveredOrders from "../../../components/pages/SellerPage/Dashboard/Orders/DeliveredOrders/DeliveredOrders";
 import { controller } from "../../../src/state/StateController";
 
@@ -11,4 +12,4 @@ const index: React.FC<Props> = (props) => {
   return <DeliveredOrders />;
 };
 
-export default index;
+export default withSellerPrivate(index);

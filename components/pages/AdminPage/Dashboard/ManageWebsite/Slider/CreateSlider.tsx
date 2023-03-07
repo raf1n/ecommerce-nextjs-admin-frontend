@@ -68,7 +68,7 @@ const CreateSlider: React.FC<Props> = (props) => {
         <div className="section-body">
           <SharedGoBackButton
             title="Slider"
-            link="/slider"
+            link="/admin/slider"
           ></SharedGoBackButton>
         </div>
       </div>

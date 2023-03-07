@@ -91,7 +91,6 @@ export interface ISigleReviewResponse extends MyFetchInterface {
   res: IReview;
 }
 
-
 export interface IMegaCategoriesResponse extends MyFetchInterface {
   res: IMegaCategory[];
 }

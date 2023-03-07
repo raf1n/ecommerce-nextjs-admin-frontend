@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 import { controller } from "../../../src/state/StateController";
 import Products from "../../../components/pages/SellerPage/ManageProducts/Products/Products";
+import withSellerPrivate from "../../../components/hocs/withSellerPrivate";
 
 interface Props {}
 
@@ -12,4 +13,4 @@ const index: React.FC<Props> = (props) => {
   return <Products />;
 };
 
-export default index;
+export default withSellerPrivate(index);

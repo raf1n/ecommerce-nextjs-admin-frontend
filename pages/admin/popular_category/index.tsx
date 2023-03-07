@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import withAdminPrivate from "../../../components/hocs/withAdminPrivate";
 import PopularCategoryAdmin from "../../../components/pages/AdminPage/Dashboard/ManageCategories/PopularCategoryAdmin/PopularCategoryAdmin";
 import { controller } from "../../../src/state/StateController";
 
@@ -11,4 +12,4 @@ const index: React.FC<Props> = (props) => {
   return <PopularCategoryAdmin />;
 };
 
-export default index;
+export default withAdminPrivate(index);
