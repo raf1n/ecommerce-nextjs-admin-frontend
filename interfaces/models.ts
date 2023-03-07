@@ -12,6 +12,7 @@ export interface IUser {
   displayName?: string;
   password?: string;
   role?: string;
+  status?: string;
 
   slug?: string;
   createdAt?: string;

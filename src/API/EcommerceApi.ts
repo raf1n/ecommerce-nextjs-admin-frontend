@@ -1,3 +1,4 @@
+import { IGetAllUsersResponse, IGetSingleUserResponse } from './../../interfaces/response';
 import {
   IAd,
   IBrand,
@@ -448,17 +449,11 @@ export class EcommerceApi {
   }
 
   //get user data for private route
-  static async getUserAuth(slug: string): Promise<MyFetchInterface> {
-    // console.log(data);
-    // console.log(data.token);
-    // console.log(API_ENDPOINT);
+  static async getUserAuth(slug: string): Promise<IGetSingleUserResponse> {
     const myHeaders = new Headers();
-    // myHeaders.append("Content-Type", "application/json");
 
     const requestOptions = {
-      // method: "POST",
       headers: myHeaders,
-      // body: JSON.stringify(data),
       redirect: "follow",
     };
 
@@ -793,6 +788,8 @@ export class EcommerceApi {
       body: JSON.stringify({ status: patchStatus }),
       redirect: "follow",
     };
+
+    console.log(`${API_ENDPOINT}/${url}/${slug}`)
 
     return await callFetch(`${API_ENDPOINT}/${url}/${slug}`, requestOptions);
   }
@@ -1133,4 +1130,40 @@ export class EcommerceApi {
       requestOptions
     );
   }
+
+    //Get all users
+    static async getAllUsers(
+      query: string
+    ): Promise<IGetAllUsersResponse> {
+      const myHeaders = new Headers();
+  
+      const requestOptions = {
+        headers: myHeaders,
+        redirect: "follow",
+      };
+  
+      return await callFetch(
+        `${API_ENDPOINT}/users/customers?${query}`,
+        requestOptions
+      );
+    }
+
+    // delete single user
+    static async deleteSingleUser(
+      slug: string
+    ): Promise<IGetSingleUserResponse> {
+      // console.log(API_ENDPOINT);
+      console.log(slug);
+      const myHeaders = new Headers();
+      const requestOptions = {
+        method: "DELETE",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+  
+      return await callFetch(
+        `${API_ENDPOINT}/users/${slug}`,
+        requestOptions
+      );
+    }
 }
