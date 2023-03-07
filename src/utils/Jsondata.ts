@@ -971,7 +971,26 @@ export class Jsondata {
       link: "/admin/advertisement",
     },
     { title: "Withdraw Payment", icon: FaNewspaper },
-    { title: "Users", icon: FaUserAlt },
+    { title: "Users",
+     icon: FaUserAlt, 
+    nestedRoutes: [
+      {
+        title: "Customer List",
+        link: "/admin/customer_list",
+      },
+      {
+        title: "Pending Customers",
+        link: "/admin/pending_customer_list",
+      },
+      {
+        title: "Seller List",
+        link: "/admin/seller_list",
+      },
+      {
+        title: "Pending Sellers",
+        link: "/admin/pending_seller_list",
+      },
+    ], },
     {
       title: "Manage Website",
       icon: FaGlobe,
