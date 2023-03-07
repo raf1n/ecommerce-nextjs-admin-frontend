@@ -19,7 +19,7 @@ interface Props {}
 
 const tableHeaders = {
   sn: "sn",
-  name: "name",
+  name: "fullName",
   email: "email",
   image: "avatar",
   status: "status",
@@ -39,7 +39,7 @@ const Customers: React.FC<Props> = (props) => {
   useEffect(() => {
     const fetchAllCustomers = async () => {
       const { res, err } = await EcommerceApi.getAllUsers(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}status=active`
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&status=active`
       );
       if (err) {
         console.log(err);
@@ -107,7 +107,7 @@ const Customers: React.FC<Props> = (props) => {
                     <input
                       onChange={(e) => setSearchString(e.target.value)}
                       className={` rounded outline-none  border hover:border-blue-400 h-[31px] w-[181px] py-[2px] px-[6px]`}
-                      type="text"
+                      type="search"
                       name=""
                       id=""
                     />
@@ -121,8 +121,8 @@ const Customers: React.FC<Props> = (props) => {
                     <table className="min-w-full leading-normal">
                       <thead>
                         <tr className="h-16">
-                          {Object.keys(tableHeaders).map((header: any) => (
-                            <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          {Object.keys(tableHeaders).map((header: any, idx: number) => (
+                            <th key={idx} className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                               <span className="flex">
                                 <span className="flex-1">{header}</span>
                                 <FaLongArrowAltUp
@@ -160,7 +160,7 @@ const Customers: React.FC<Props> = (props) => {
                       </thead>
                       <tbody>
                         {customersData.map((data, indx) => (
-                          <tr className="even:bg-gray-100 odd:bg-white">
+                          <tr key={data.slug} className="even:bg-gray-100 odd:bg-white">
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
                                 {indx + 1}
@@ -217,7 +217,7 @@ const Customers: React.FC<Props> = (props) => {
                             <td className="px-3 py-3 text-sm ">
                               <ToggleButton
                                 slug={data?.slug}
-                                apiUrl="users"
+                                apiUrl="users/edit-status"
                                 status={data?.status}
                               />
                             </td>
@@ -267,40 +267,6 @@ const Customers: React.FC<Props> = (props) => {
                                 </span>
                               </button>
                             </td>
-                            {/* <td className="px-2 py-3  text-sm">
-                              <button
-                                onClick={() =>
-                                  router.push(`${asPath}/${data.slug}/edit`)
-                                }
-                              >
-                                <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                  <span
-                                    style={{
-                                      boxShadow: "0 2px 6px #acb5f6",
-                                    }}
-                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
-                                  >
-                                    <FaEdit />
-                                  </span>
-                                </span>
-                              </button>
-                              <button>
-                                <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                  <span
-                                    onClick={() =>
-                                      setDeleteModalSlug(data?.slug)
-                                    }
-                                    // onClick={() => openModal()}
-                                    style={{
-                                      boxShadow: "0 2px 6px #fd9b96",
-                                    }}
-                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
-                                  >
-                                    <FaTrash />
-                                  </span>
-                                </span>
-                              </button>
-                            </td> */}
                           </tr>
                         ))}
                       </tbody>
