@@ -32,9 +32,7 @@ const PendingCustomers: React.FC<Props> = (props) => {
 
   const [customersData, setCustomersData] = useState<IUser[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
-  const [sendMailModalEmail, setSendMailModalEmail] = useState<any | string>(
-    ""
-  );
+  const [sendMailModalEmail, setSendMailModalEmail] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
@@ -65,16 +63,12 @@ const PendingCustomers: React.FC<Props> = (props) => {
     }
   };
 
-  const handleSendMail = async () => {
-
-  }
-
   return (
     <div className="w-full">
       <DashboardBreadcrumb
-        headline="Customer List"
-        slug="Customer List"
-        link="/admin/customer_list"
+        headline="Pending Customer List"
+        slug="Pending Customer List"
+        link="/admin/pending_customer_list"
       ></DashboardBreadcrumb>
 
       <div className="mx-[25px]">
@@ -209,7 +203,7 @@ const PendingCustomers: React.FC<Props> = (props) => {
                             </td>
                             <td className="px-3 py-3 text-sm">
                               <Link
-                                href={`/admin/customer_list/customer_show/${data.slug}`}
+                                href={`/admin/customer_show/${data.slug}`}
                               >
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span

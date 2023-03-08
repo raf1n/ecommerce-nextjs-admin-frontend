@@ -3,13 +3,7 @@ import Router from "next/router";
 import { EcommerceApi } from "../../src/API/EcommerceApi";
 import { CookiesHandler } from "./../../src/utils/CookiesHandler";
 
-const login = "/login?redirected=true"; // Define your login route address.
-
-/**
- * Check user authentication and authorization
- * It depends on you and your auth service provider.
- * @returns {{auth: null}}
- */
+const login = "/login?redirected=true";
 
 const checkUserAuthentication = async () => {
   console.log(CookiesHandler.getSlug(), "getSlug");
@@ -32,9 +26,11 @@ export default (WrappedComponent) => {
   const hocComponent = ({ ...props }) => <WrappedComponent {...props} />;
 
   hocComponent.getInitialProps = async (context: any) => {
+    console.log("cookies", context.req);
     const userAuth = await checkUserAuthentication();
 
-    // console.log({ userAuth });
+
+    console.log({ userAuth });
     // console.log({ cookies: context.req });
 
     // Are you an authorized user or not?
