@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Router } from "next/router";
 import React from "react";
+import { FaList } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { IUser } from "../../../../../../interfaces/models";
 import { controller } from "../../../../../../src/state/StateController";
@@ -25,7 +26,7 @@ const CustomerShow: React.FC<Props> = ({ user }) => {
       <div className="mx-[25px]">
         <Link className="inline-block" href="/admin/customer_list">
           <button className=" flex items-center justify-center bg-blue-700 hover:bg-blue-600 text-white text-sm tracking-[.5px] shadow-[0_2px_6px_#acb5f6] py-2 px-3 rounded">
-            <span>Customer List</span>
+          <span className="flex gap-2 items-center font-semibold"><FaList /> Customer List</span>
           </button>
         </Link>
 
