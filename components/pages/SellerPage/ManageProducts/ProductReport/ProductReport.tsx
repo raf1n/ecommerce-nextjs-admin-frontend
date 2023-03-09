@@ -210,7 +210,7 @@ const ProductReport: React.FC<Props> = (props) => {
                                 <span
                                   onClick={() =>
                                     router.push(
-                                      `${asPath}/${categoryTableData.slug}/reporteditems`
+                                      `${asPath}/${categoryTableData.slug}/report`
                                     )
                                   }
                                   className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center"
