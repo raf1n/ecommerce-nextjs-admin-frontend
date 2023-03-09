@@ -12,6 +12,14 @@ export interface IUser {
   displayName?: string;
   password?: string;
   role?: string;
+  status?: string;
+  phone?: string;
+  address?: {
+    country?: string;
+    state?: string;
+    city?: string;
+    address?: string;
+  };
 
   slug?: string;
   createdAt?: string;
@@ -42,7 +50,7 @@ export interface IReview {
   slug?: string;
   product_slug?: string;
   title?: string;
-  note?: string;
+  message?: string;
   rating: number;
   name: string;
   user?: IUser;
@@ -66,6 +74,16 @@ export interface IPopularCategories {
   cat_name: string;
   cat_image: string;
 }
+
+export interface IFeaturedCategories {
+  slug: string;
+  cat_slug: string;
+  // subcat_name: string;
+  // subcat_status: string;
+  cat_name: string;
+  cat_image: string;
+}
+
 export interface IProduct {
   productName?: string;
   slug?: string;
@@ -89,6 +107,10 @@ export interface IProduct {
   addedBy?: string;
   approvalStatus?: string;
   seller_slug: string;
+}
+
+export interface IInventoryProduct extends IProduct {
+  sold: number;
 }
 
 export interface IBrand {

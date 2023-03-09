@@ -2,6 +2,8 @@ import {
   IAd,
   ICategories,
   ICoupon,
+  IFeaturedCategories,
+  IInventoryProduct,
   IMegaCategory,
   IOrder,
   IPopularCategories,
@@ -9,6 +11,7 @@ import {
   IReview,
   ISlider,
   ISubCategories,
+  IUser,
 } from "./models";
 //here we will declare our response interfaces or in easy way type of our all response in our website
 
@@ -20,6 +23,10 @@ export interface IResponseCategories extends MyFetchInterface {
 }
 export interface IReviewProductsResponse extends MyFetchInterface {
   res: Array<IReview>;
+}
+
+export interface ISingleReviewProductsResponse extends MyFetchInterface {
+  res: IReview;
 }
 
 export interface ILoginResponse extends MyFetchInterface {
@@ -48,6 +55,10 @@ export interface ISingleSubCategoryResponse extends MyFetchInterface {
 
 export interface IPopularCategoriesResponse extends MyFetchInterface {
   res: IPopularCategories[];
+}
+
+export interface IFeaturedCategoriesResponse extends MyFetchInterface {
+  res: IFeaturedCategories[];
 }
 export interface IProductResponse extends MyFetchInterface {
   res: {
@@ -116,10 +127,23 @@ export interface ISingleAdResponse extends MyFetchInterface {
   res: IAd;
 }
 
+<<<<<<< HEAD
 export interface IReportedItemResponse extends MyFetchInterface {
   res: Array<IReportedItem>;
 }
 
 export interface ISingleIReportedItemResponse extends MyFetchInterface {
   res: IReportedItem;
+=======
+export interface IGetAllUsersResponse extends MyFetchInterface {
+  res: IUser[];
+}
+
+export interface IGetSingleUserResponse extends MyFetchInterface {
+  res: IUser;
+}
+
+export interface IAdminProductInventoriesResponse extends MyFetchInterface {
+  res: IInventoryProduct[];
+>>>>>>> 5a1e446ef23421286bf05ed794fc9d119e47cfc4
 }

@@ -1,62 +1,52 @@
-import React, { useState, Dispatch, SetStateAction } from "react";
-import { useSelector } from "react-redux";
-import { controller } from "../../../../../../src/state/StateController";
-import { FaEye, FaTrash, FaTruck } from "react-icons/fa";
-import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import Link from "next/link";
-import { IReview } from "../../../../../../interfaces/models";
-import ToggleButton from "../../ManageCategories/ToggleButton/ToggleButton";
-import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
-import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import React, { useState, useEffect } from "react";
+import { FaEye, FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { IInventoryProduct } from "../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
+import { controller } from "../../../../../src/state/StateController";
+import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 
-interface Props {
-  reviewDatas: Array<IReview>;
-  sortBy: string;
-  setSortBy: Dispatch<SetStateAction<string>>;
-  sortType: string;
-  setSortType: Dispatch<SetStateAction<string>>;
-  searchString: string;
-  setSearchString: Dispatch<SetStateAction<string>>;
-}
+interface Props {}
 
-const ReviewTable: React.FC<Props> = (props) => {
+const tableHeaders = {
+  sn: "sn",
+  name: "productName",
+  sku: "slug",
+  stock: "stock",
+  sold: "sold",
+  action: "action",
+};
+
+const Inventory: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const {
-    sortBy,
-    sortType,
-    setSortType,
-    setSortBy,
-    searchString,
-    setSearchString,
-  } = props;
+  const [inventoriesData, setInventoriesData] = useState<IInventoryProduct[]>([]);
 
-  const tableHeaders = {
-    sn: "sn",
-    //  for testing porpuse using "slug" coz user only one !!
-    // name: "slug",
-    name: "user.fullName",
-    products: "reviewProducts.productName",
-    rating: "rating",
-    status: "status",
-    action: "action",
-  };
-  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
-  const [reviewData, setReviewData] = useState<IReview[]>([]);
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortType, setSortType] = useState("desc");
+  const [searchString, setSearchString] = useState("");
 
-  const handleDelete = async () => {
-    const { res, err } = await EcommerceApi.deleteReview(deleteModalSlug);
-    if (res) {
-      setDeleteModalSlug("");
-      const remainingReviews = reviewData.filter(
-        (review) => review.slug !== deleteModalSlug
-      );
-      setReviewData(remainingReviews);
-    }
-  };
+  useEffect(() => {
+    const fetchInventories = async () => {
+      const { res, err } = await EcommerceApi.getProductInventories();
+
+      if (res) {
+        setInventoriesData(res);
+      }
+    };
+
+    fetchInventories();
+  }, [sortBy, sortType, searchString]);
 
   return (
-    <div>
-      <div style={{ margin: "25px", backgroundColor: "white" }}>
+    <div className="w-full">
+      <DashboardBreadcrumb
+        headline="Products Inventory"
+        slug="Inventory"
+        link="/admin/inventory"
+      ></DashboardBreadcrumb>
+
+      <div className="mt-[25] mx-[25px] bg-white">
         <div className="p-4 rounded w-full">
           <div className="flex items-center justify-between pb-6">
             <div>
@@ -64,7 +54,7 @@ const ReviewTable: React.FC<Props> = (props) => {
               <select
                 name="dataTable_length"
                 aria-controls="dataTable"
-                className="custom-select custom-select-sm form-control form-control-sm border bg-gray-50  hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center"
+                className="custom-select custom-select-sm form-control form-control-sm bg-gray-50  border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center"
               >
                 <option value="10">10</option>
                 <option value="25">25</option>
@@ -73,7 +63,7 @@ const ReviewTable: React.FC<Props> = (props) => {
               </select>
               <span className="text-xs text-gray-500  px-1">entries</span>
             </div>
-            {/* ***** */}
+
             <div className="flex items-center justify-between">
               <label htmlFor="" className="text-xs text-gray-500">
                 Search
@@ -88,7 +78,6 @@ const ReviewTable: React.FC<Props> = (props) => {
                 />
               </div>
             </div>
-            {/* ***** */}
           </div>
           <div>
             <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-1 overflow-x-auto">
@@ -133,80 +122,62 @@ const ReviewTable: React.FC<Props> = (props) => {
                       ))}
                     </tr>
                   </thead>
-
-                  {/* -----------Plz Attention ,Table body/Row start here -------------- */}
+                  {/* -------Plz Attention ,Table body/Row start here -------------- */}
                   <tbody>
-                    {props.reviewDatas.map((tabledata: IReview, index) => (
+                    {inventoriesData.map((productData, index) => (
+                      // <div>
                       <tr className="even:bg-gray-50 odd:bg-white">
-                        <td className="px-3 py-3 text-sm">
-                          <p className="text-gray-900 ">{index + 1}</p>
-                        </td>
-                        <td className="px-3 py-3  text-sm">
-                          <p className="text-gray-900 capitalize">
-                            {/* {tabledata?.slug} */}
-                            {/* for testing porpuse */}
-                            {tabledata?.user?.fullName}
-                          </p>
-                        </td>
                         <td className="px-3 py-3    text-sm">
-                          <p className="text-[#6777ef] ">
-                            <Link
-                              href={`http://localhost:3000/single_product?slug=${tabledata.reviewProducts.slug}`}
-                            >
-                              {tabledata.reviewProducts.productName}
-                            </Link>
+                          <p className="text-gray-900 whitespace-no-wrap">
+                            {index + 1}
                           </p>
                         </td>
-                        <td className="px-0 py-3  text-sm">
-                          <p className="text-gray-900 capitalize">
-                            {tabledata.rating}
-                          </p>
-                        </td>
+
                         <td className="px-3 py-3  text-sm">
-                          <ToggleButton
-                            apiUrl="reviews"
-                            slug={tabledata.slug}
-                            status={tabledata?.status}
-                          />
+                          <p className="text-gray-900 whitespace-no-wrap ">
+                            {productData?.productName}
+                          </p>
+                        </td>
+                        
+                        <td className="px-3 py-3    ">
+                          <p className="text-gray-900 whitespace-no-wrap ">
+                            {productData?.slug}
+                          </p>
+                        </td>
+
+                        <td className="px-3 py-3    ">
+                          <p className="text-gray-900 whitespace-no-wrap ">
+                            {productData?.stock}
+                          </p>
+                        </td>
+
+                        <td className="px-3 py-3    ">
+                          <p className="text-gray-900 whitespace-no-wrap ">
+                            {productData?.sold}
+                          </p>
                         </td>
 
                         <td className="px-2 py-3  text-sm">
-                          <Link
-                            href={`/admin/product_reviews/${tabledata.slug}/review`}
-                          >
+                          <Link href={`/admin/inventory/${productData.slug}`}>
                             <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                               <span
-                                style={{ boxShadow: "0 2px 6px #acb5f6" }}
+                                style={{
+                                  boxShadow: "0 2px 6px #acb5f6",
+                                }}
                                 className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
                               >
                                 <FaEye />
                               </span>
                             </span>
                           </Link>
-                          <button>
-                            <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                              <span
-                                onClick={() =>
-                                  setDeleteModalSlug(tabledata.slug)
-                                }
-                                style={{ boxShadow: "0 2px 6px #fd9b96" }}
-                                className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
-                              >
-                                <FaTrash />
-                              </span>
-                            </span>
-                          </button>
                         </td>
-                        <SharedDeleteModal
-                          deleteModalSlug={deleteModalSlug}
-                          handleDelete={handleDelete}
-                          setDeleteModalSlug={setDeleteModalSlug}
-                        ></SharedDeleteModal>
                       </tr>
+                      // </div>
                     ))}
                   </tbody>
                 </table>
-                {/* ---------- table footer  ------------------------------- */}
+
+                {/* -------------- */}
                 <div className="px-5 py-5  border-t flex justify-between">
                   <div>
                     <span className="text-xs xs:text-sm text-gray-900">
@@ -242,8 +213,6 @@ const ReviewTable: React.FC<Props> = (props) => {
                     </button>
                   </div>
                 </div>
-
-                {/* ----------------- */}
               </div>
             </div>
           </div>
@@ -253,4 +222,4 @@ const ReviewTable: React.FC<Props> = (props) => {
   );
 };
 
-export default ReviewTable;
+export default Inventory;

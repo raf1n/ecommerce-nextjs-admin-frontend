@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { HiOutlineX } from "react-icons/hi";
 import { controller } from "../../../../../../../src/state/StateController";
 import { EcommerceApi } from "../../../../../../../src/API/EcommerceApi";
+import { DayPicker } from "react-day-picker";
 
 interface Props {
   title: string;
@@ -14,6 +15,7 @@ interface Props {
 const AddNewCoupon: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const { setShowModal, showModal } = props;
+  const [selected, setSelected] = React.useState<Date>();
   console.log(showModal);
   const handleAdd = async (e: any) => {
     e.preventDefault();
@@ -60,7 +62,8 @@ const AddNewCoupon: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Name
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -76,7 +79,8 @@ const AddNewCoupon: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Code
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -92,12 +96,14 @@ const AddNewCoupon: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Number of times
                       </label>
                       <span className="text-red-500 ml-2">*</span>
                     </div>
                     <input
+                      min={0}
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="number"
                       name="items_number"
@@ -108,7 +114,8 @@ const AddNewCoupon: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Expired Date
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -124,7 +131,8 @@ const AddNewCoupon: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Minimum Purchase Price
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -141,12 +149,14 @@ const AddNewCoupon: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Discount
                       </label>
                       <span className="text-red-500 ml-2">*</span>
                     </div>
                     <input
+                      min={0}
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="number"
                       name="discount"
@@ -157,7 +167,8 @@ const AddNewCoupon: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Status
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -165,7 +176,8 @@ const AddNewCoupon: React.FC<Props> = (props) => {
                     <select
                       className="w-full border rounded p-2 border-gray-200 bg-[#fdfdff] focus:outline-none"
                       name="status"
-                      id="">
+                      id=""
+                    >
                       <option value="active">Active</option>
                       <option value="inactive">InActive</option>
                     </select>
@@ -174,12 +186,14 @@ const AddNewCoupon: React.FC<Props> = (props) => {
                     <button
                       type="submit"
                       // onClick={() => setShowModal(false)}
-                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
+                    >
                       Save
                     </button>
                     <button
                       onClick={() => setShowModal(false)}
-                      className="ml-2 bg-red-500 hover:bg-red-600 text-white text-sm py-2 px-4 rounded">
+                      className="ml-2 bg-red-500 hover:bg-red-600 text-white text-sm py-2 px-4 rounded"
+                    >
                       Close
                     </button>
                   </div>

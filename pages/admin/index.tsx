@@ -13,4 +13,4 @@ const index = () => {
   );
 };
 
-export default  withAdminPrivate(index);
+export default withAdminPrivate(index);
