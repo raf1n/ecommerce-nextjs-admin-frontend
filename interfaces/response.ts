@@ -119,3 +119,7 @@ export interface ISingleAdResponse extends MyFetchInterface {
 export interface IReportedItemResponse extends MyFetchInterface {
   res: Array<IReportedItem>;
 }
+
+export interface ISingleIReportedItemResponse extends MyFetchInterface {
+  res: IReportedItem;
+}

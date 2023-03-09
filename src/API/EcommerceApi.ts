@@ -34,10 +34,12 @@ import {
   ISingleMegaCategoryResponse,
   IMegaCategoriesResponse,
   IReportedItemResponse,
+  ISingleIReportedItemResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
 import { callFetch } from "../utils/CallFetch";
+import seller from "../../pages/seller";
 
 // import { callFetch, MyFetchInterface } from "../utils/CallFetch"
 export const API_ENDPOINT = process.env["NEXT_PUBLIC_API_ENDPOINT"];
@@ -1179,6 +1181,36 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
+    return await callFetch(
+      `${API_ENDPOINT}/reporteditems/${slug}`,
+      requestOptions
+    );
+  }
+
+  //get all Reports seller
+  static async getAllSellerReports(
+    seller_slug: string | undefined,
+    query: string
+  ): Promise<IReportedItemResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/reporteditems/findAllForSeller/${seller_slug}?${query}`,
+      requestOptions
+    );
+  }
+  // get single Report
+  static async getSingleReport(
+    slug: string
+  ): Promise<ISingleIReportedItemResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
     return await callFetch(
       `${API_ENDPOINT}/reporteditems/${slug}`,
       requestOptions
