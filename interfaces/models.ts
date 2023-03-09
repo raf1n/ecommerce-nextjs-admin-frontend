@@ -196,3 +196,13 @@ export interface IReportedItem {
   reportedProducts?: IProduct;
   user?: IUser;
 }
+
+export interface IWithdraw {
+  slug?: string;
+  method?: string;
+  charge?: number;
+  TotalAmount?: number;
+  WithdrawAmount: number;
+  status?: string;
+  action?: string;
+}

@@ -12,6 +12,7 @@ import {
   ISlider,
   ISubCategories,
   IUser,
+  IWithdraw,
 } from "./models";
 //here we will declare our response interfaces or in easy way type of our all response in our website
 
@@ -127,14 +128,13 @@ export interface ISingleAdResponse extends MyFetchInterface {
   res: IAd;
 }
 
-<<<<<<< HEAD
 export interface IReportedItemResponse extends MyFetchInterface {
   res: Array<IReportedItem>;
 }
 
 export interface ISingleIReportedItemResponse extends MyFetchInterface {
   res: IReportedItem;
-=======
+}
 export interface IGetAllUsersResponse extends MyFetchInterface {
   res: IUser[];
 }
@@ -145,5 +145,8 @@ export interface IGetSingleUserResponse extends MyFetchInterface {
 
 export interface IAdminProductInventoriesResponse extends MyFetchInterface {
   res: IInventoryProduct[];
->>>>>>> 5a1e446ef23421286bf05ed794fc9d119e47cfc4
+}
+
+export interface IWithdrawResponse extends MyFetchInterface {
+  res: IWithdraw[];
 }
