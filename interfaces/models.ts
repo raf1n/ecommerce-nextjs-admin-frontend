@@ -12,6 +12,14 @@ export interface IUser {
   displayName?: string;
   password?: string;
   role?: string;
+  status?: string;
+  phone?: string;
+  address?: {
+    country?: string;
+    state?: string;
+    city?: string;
+    address?: string;
+  };
 
   slug?: string;
   createdAt?: string;
@@ -99,6 +107,10 @@ export interface IProduct {
   addedBy?: string;
   approvalStatus?: string;
   seller_slug: string;
+}
+
+export interface IInventoryProduct extends IProduct {
+  sold: number;
 }
 
 export interface IBrand {
