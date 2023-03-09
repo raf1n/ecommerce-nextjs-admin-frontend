@@ -12,6 +12,14 @@ export interface IUser {
   displayName?: string;
   password?: string;
   role?: string;
+  status?: string;
+  phone?: string;
+  address?: {
+    country?: string;
+    state?: string;
+    city?: string;
+    address?: string;
+  };
 
   slug?: string;
   createdAt?: string;
