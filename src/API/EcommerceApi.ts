@@ -2,6 +2,7 @@ import {
   IAdminProductInventoriesResponse,
   IGetAllUsersResponse,
   IGetSingleUserResponse,
+  ISingleProductInventoryResponse,
 } from "./../../interfaces/response";
 import {
   IAd,
@@ -1286,5 +1287,39 @@ export class EcommerceApi {
       `${API_ENDPOINT}/products/seller/get-inventories/${seller_slug}`,
       requestOptions
     );
+  }
+
+  // get all products inventory for admin panel
+  static async getSingleProductInventory(
+    slug: string
+  ): Promise<ISingleProductInventoryResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/products/get-inventory/${slug}`,
+      requestOptions
+    );
+  }
+
+  static async addSingleProductStock(
+    data: any
+  ): Promise<ISingleProductInventoryResponse> {
+    console.log(data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/inventories`, requestOptions);
   }
 }

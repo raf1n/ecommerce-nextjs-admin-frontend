@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import { FaLongArrowAltDown, FaLongArrowAltUp, FaTrash } from "react-icons/fa";
+import { useRouter } from "next/router";
+import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
+import { IInventoryProduct } from "../../../../../interfaces/models";
 
 interface Props {}
 
@@ -16,11 +19,51 @@ const tableHeaders = {
 const StockHistory: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
+  const [productData, setProductData] = useState<IInventoryProduct | undefined>(undefined);
+
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
-  const [inventoriesData, setInventoriesData] = useState([]);
+  // const [inventoriesData, setInventoriesData] = useState([]);
+
+  const router = useRouter();
+  console.log(router.query.slug);
+  const productSlug = router.query.slug;
+  // const productSlug = asPath.split("/")[1];
+
+  const fetchSingleInventory = async () => {
+    if (productSlug) {
+      const { res, err } = await EcommerceApi.getSingleProductInventory(
+        productSlug as string
+      );
+
+      console.log(res);
+
+      setProductData(res);
+    }
+  };
+
+  useEffect(() => {
+    fetchSingleInventory();
+  }, [productSlug]);
+
+  const handleAddStock = async (e: any) => {
+    e.preventDefault();
+
+    const data = {
+      product_slug: productSlug,
+      quantity: parseInt(e.target.stock.value),
+      type: "stockIn",
+    };
+
+    const { res, err } = await EcommerceApi.addSingleProductStock(data);
+
+    if (res) {
+      fetchSingleInventory();
+      e.target.reset();
+    }
+  };
 
   return (
     <div className="w-full">
@@ -31,9 +74,9 @@ const StockHistory: React.FC<Props> = (props) => {
       ></DashboardBreadcrumb>
       <div className="px-[25px] w-full relative">
         <div className="mt-4">
-          <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
+          <div className="mt-6 bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6 mt-7">
-              <form>
+              <form onSubmit={handleAddStock}>
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2 font-semibold">
                     Product
@@ -44,6 +87,7 @@ const StockHistory: React.FC<Props> = (props) => {
                     id="name"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="productName"
+                    value={productData?.productName}
                   />
                 </div>
                 <div className="form-group col-12 flex flex-col mb-[25px]">
@@ -70,8 +114,8 @@ const StockHistory: React.FC<Props> = (props) => {
         </div>
       </div>
 
-      <div className="mt-[25] mx-[25px] bg-white">
-        <div className="p-4 rounded w-full">
+      <div className="mt-[25] rounded mx-[25px] bg-white">
+        <div className="p-4  w-full">
           <div className="flex items-center justify-between pb-6">
             <div>
               <span className="text-xs text-gray-500 px-1">Show </span>
@@ -147,8 +191,8 @@ const StockHistory: React.FC<Props> = (props) => {
                     </tr>
                   </thead>
                   {/* -------Plz Attention ,Table body/Row start here -------------- */}
-                  {/* <tbody>
-                    {inventoriesData.map((productData, index) => (
+                  <tbody>
+                    {productData?.stockInData.map((stockData, index) => (
                       // <div>
                       <tr className="even:bg-gray-50 odd:bg-white">
                         <td className="px-3 py-3    text-sm">
@@ -159,13 +203,13 @@ const StockHistory: React.FC<Props> = (props) => {
 
                         <td className="px-3 py-3    ">
                           <p className="text-gray-900 whitespace-no-wrap ">
-                            100
+                            {stockData?.quantity}
                           </p>
                         </td>
 
                         <td className="px-3 py-3    ">
                           <p className="text-gray-900 whitespace-no-wrap ">
-                            01/02/23
+                            {stockData?.createdAt}
                           </p>
                         </td>
 
@@ -185,8 +229,8 @@ const StockHistory: React.FC<Props> = (props) => {
                       </tr>
                       // </div>
                     ))}
-                  </tbody> */}
-                  <tbody>
+                  </tbody>
+                  {/* <tbody>
                     <tr className="even:bg-gray-50 odd:bg-white">
                       <td className="px-3 py-3    text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">1</p>
@@ -216,7 +260,7 @@ const StockHistory: React.FC<Props> = (props) => {
                         </span>
                       </td>
                     </tr>
-                  </tbody>
+                  </tbody> */}
                 </table>
 
                 {/* -------------- */}

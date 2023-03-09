@@ -137,3 +137,7 @@ export interface IGetSingleUserResponse extends MyFetchInterface {
 export interface IAdminProductInventoriesResponse extends MyFetchInterface {
   res: IInventoryProduct[];
 }
+
+export interface ISingleProductInventoryResponse extends MyFetchInterface {
+  res: IInventoryProduct;
+}
