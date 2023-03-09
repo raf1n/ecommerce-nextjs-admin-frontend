@@ -1,4 +1,8 @@
-import { IAdminProductInventoriesResponse, IGetAllUsersResponse, IGetSingleUserResponse } from './../../interfaces/response';
+import {
+  IAdminProductInventoriesResponse,
+  IGetAllUsersResponse,
+  IGetSingleUserResponse,
+} from "./../../interfaces/response";
 import {
   IAd,
   IBrand,
@@ -666,7 +670,7 @@ export class EcommerceApi {
   }
 
   static async allProductsSeller(
-    sellerSlug: string,
+    sellerSlug: string | undefined,
     query: string
   ): Promise<IProductResponse> {
     console.log(API_ENDPOINT);
@@ -881,7 +885,7 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    console.log(`${API_ENDPOINT}/${url}/${slug}`)
+    console.log(`${API_ENDPOINT}/${url}/${slug}`);
 
     return await callFetch(`${API_ENDPOINT}/${url}/${slug}`, requestOptions);
   }
@@ -1223,51 +1227,64 @@ export class EcommerceApi {
     );
   }
 
-    //Get all users
-    static async getAllUsers(
-      query: string
-    ): Promise<IGetAllUsersResponse> {
-      const myHeaders = new Headers();
-  
-      const requestOptions = {
-        headers: myHeaders,
-        redirect: "follow",
-      };
-  
-      return await callFetch(
-        `${API_ENDPOINT}/users/customers?${query}`,
-        requestOptions
-      );
-    }
+  //Get all users
+  static async getAllUsers(query: string): Promise<IGetAllUsersResponse> {
+    const myHeaders = new Headers();
 
-    // delete single user
-    static async deleteSingleUser(
-      slug: string
-    ): Promise<IGetSingleUserResponse> {
-      // console.log(API_ENDPOINT);
-      console.log(slug);
-      const myHeaders = new Headers();
-      const requestOptions = {
-        method: "DELETE",
-        headers: myHeaders,
-        redirect: "follow",
-      };
-  
-      return await callFetch(
-        `${API_ENDPOINT}/users/${slug}`,
-        requestOptions
-      );
-    }
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
 
-    // get all products inventory for admin panel
-    static async getProductInventories(): Promise<IAdminProductInventoriesResponse> {
-      const myHeaders = new Headers();
-  
-      const requestOptions = {
-        headers: myHeaders,
-        redirect: "follow",
-      };
-  
-      return await callFetch(`${API_ENDPOINT}/products/admin/get-inventories`, requestOptions);
-    }
+    return await callFetch(
+      `${API_ENDPOINT}/users/customers?${query}`,
+      requestOptions
+    );
+  }
+
+  // delete single user
+  static async deleteSingleUser(slug: string): Promise<IGetSingleUserResponse> {
+    // console.log(API_ENDPOINT);
+    console.log(slug);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/users/${slug}`, requestOptions);
+  }
+
+  // get all products inventory for admin panel
+  static async getProductInventories(): Promise<IAdminProductInventoriesResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/products/admin/get-inventories`,
+      requestOptions
+    );
+  }
+
+  // get all products inventory for seller panel
+  static async getSellerProductInventories(
+    seller_slug: string | undefined
+  ): Promise<IAdminProductInventoriesResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/products/seller/get-inventories/${seller_slug}`,
+      requestOptions
+    );
+  }
 }

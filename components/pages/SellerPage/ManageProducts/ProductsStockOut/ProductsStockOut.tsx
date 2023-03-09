@@ -26,10 +26,13 @@ const ProductsStockOut: React.FC<Props> = (props) => {
   const [searchString, setSearchString] = useState("");
 
   const router = useRouter();
+
+  const seller_slug = states.currentUser?.slug;
+
   useEffect(() => {
     const getStockoutProducts = async () => {
       const { res, err } = await EcommerceApi.allProductsSeller(
-        "seller_slug_1",
+        seller_slug,
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
       if (res) {

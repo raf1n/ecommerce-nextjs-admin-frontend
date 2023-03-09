@@ -42,11 +42,12 @@ const Products: React.FC<Props> = (props) => {
       setProductsData(remainingProducts);
     }
   };
+  const seller_slug = states.currentUser?.slug;
 
   useEffect(() => {
     const fetchAllProducts = async () => {
       const { res, err } = await EcommerceApi.allProductsSeller(
-        "seller_slug_1",
+        seller_slug,
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
       if (err) {

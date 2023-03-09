@@ -937,7 +937,12 @@ export class Jsondata {
         },
       ],
     },
-    { title: "Inventory", icon: AiFillAppstore, gap: false, link: "/admin/inventory" },
+    {
+      title: "Inventory",
+      icon: AiFillAppstore,
+      gap: false,
+      link: "/admin/inventory",
+    },
     {
       title: "Ecommerce",
       icon: FaShoppingCart,
@@ -972,26 +977,28 @@ export class Jsondata {
       link: "/admin/advertisement",
     },
     { title: "Withdraw Payment", icon: FaNewspaper },
-    { title: "Users",
-     icon: FaUserAlt, 
-    nestedRoutes: [
-      {
-        title: "Customer List",
-        link: "/admin/customer_list",
-      },
-      {
-        title: "Pending Customers",
-        link: "/admin/pending_customer_list",
-      },
-      {
-        title: "Seller List",
-        link: "/admin/seller_list",
-      },
-      {
-        title: "Pending Sellers",
-        link: "/admin/pending_seller_list",
-      },
-    ], },
+    {
+      title: "Users",
+      icon: FaUserAlt,
+      nestedRoutes: [
+        {
+          title: "Customer List",
+          link: "/admin/customer_list",
+        },
+        {
+          title: "Pending Customers",
+          link: "/admin/pending_customer_list",
+        },
+        {
+          title: "Seller List",
+          link: "/admin/seller_list",
+        },
+        {
+          title: "Pending Sellers",
+          link: "/admin/pending_seller_list",
+        },
+      ],
+    },
     {
       title: "Manage Website",
       icon: FaGlobe,
@@ -1135,7 +1142,12 @@ export class Jsondata {
         },
       ],
     },
-    { title: "Inventory", icon: AiFillAppstore },
+    {
+      title: "Inventory",
+      icon: AiFillAppstore,
+      gap: false,
+      link: "/seller/inventory",
+    },
     { title: "My Withdraw", icon: FaNewspaper },
     { title: "Message", icon: FaNewspaper },
     { title: "Visit Users  Dashboard", icon: FaUserAlt },
