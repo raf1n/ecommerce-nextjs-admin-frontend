@@ -6,6 +6,7 @@ import { FaLongArrowAltDown, FaLongArrowAltUp, FaTrash } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { IInventoryProduct } from "../../../../../interfaces/models";
+import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
 
 interface Props {}
 
@@ -19,12 +20,15 @@ const tableHeaders = {
 const StockHistory: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
-  const [productData, setProductData] = useState<IInventoryProduct | undefined>(undefined);
+  const [productData, setProductData] = useState<IInventoryProduct | undefined>(
+    undefined
+  );
 
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
-
+  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
+  const [stockData, setStockData] = useState<any>();
   // const [inventoriesData, setInventoriesData] = useState([]);
 
   const router = useRouter();
@@ -46,7 +50,7 @@ const StockHistory: React.FC<Props> = (props) => {
 
   useEffect(() => {
     fetchSingleInventory();
-  }, [productSlug]);
+  }, [productSlug, deleteModalSlug]);
 
   const handleAddStock = async (e: any) => {
     e.preventDefault();
@@ -62,6 +66,22 @@ const StockHistory: React.FC<Props> = (props) => {
     if (res) {
       fetchSingleInventory();
       e.target.reset();
+    }
+  };
+
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteSingleInventory(
+      deleteModalSlug
+    );
+
+    if (res && productData?.stock && productData.slug) {
+      const data = {
+        stock: productData?.stock - stockData.quantity,
+      };
+
+      EcommerceApi.editProducts(data, productData?.slug);
+      console.log(res);
+      setDeleteModalSlug("");
     }
   };
 
@@ -216,7 +236,10 @@ const StockHistory: React.FC<Props> = (props) => {
                         <td className="px-2 py-3  text-sm">
                           <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                             <span
-                              // onClick={() => openModal()}
+                              onClick={() => {
+                                setStockData(stockData);
+                                setDeleteModalSlug(stockData.slug);
+                              }}
                               style={{
                                 boxShadow: "0 2px 6px #fd9b96",
                               }}
@@ -302,6 +325,11 @@ const StockHistory: React.FC<Props> = (props) => {
               </div>
             </div>
           </div>
+          <SharedDeleteModal
+            deleteModalSlug={deleteModalSlug}
+            handleDelete={handleDelete}
+            setDeleteModalSlug={setDeleteModalSlug}
+          ></SharedDeleteModal>
         </div>
       </div>
     </div>
