@@ -1,52 +1,74 @@
-import Link from "next/link";
-import React, { useState, useEffect } from "react";
-import { FaEye, FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { IInventoryProduct } from "../../../../../interfaces/models";
-import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import { FaLongArrowAltDown, FaLongArrowAltUp, FaTrash } from "react-icons/fa";
 
 interface Props {}
 
 const tableHeaders = {
   sn: "sn",
-  name: "productName",
-  sku: "slug",
   stock: "stock",
-  sold: "sold",
+  date: "date",
   action: "action",
 };
 
-const Inventory: React.FC<Props> = (props) => {
+const StockHistory: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [inventoriesData, setInventoriesData] = useState<IInventoryProduct[]>(
-    []
-  );
 
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
-  useEffect(() => {
-    const fetchInventories = async () => {
-      const { res, err } = await EcommerceApi.getProductInventories();
-
-      if (res) {
-        setInventoriesData(res);
-      }
-    };
-
-    fetchInventories();
-  }, [sortBy, sortType, searchString]);
+  const [inventoriesData, setInventoriesData] = useState([]);
 
   return (
     <div className="w-full">
       <DashboardBreadcrumb
-        headline="Products Inventory"
-        slug="Inventory"
-        link="/admin/inventory"
+        headline="Stock History"
+        slug="Stock History"
+        link="inventory"
       ></DashboardBreadcrumb>
+      <div className="px-[25px] w-full relative">
+        <div className="mt-4">
+          <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
+            <div className="p-5 leading-6 mt-7">
+              <form>
+                <div className="form-group col-12 flex flex-col mb-[25px]">
+                  <label className="inline-block text-sm tracking-wide mb-2 font-semibold">
+                    Product
+                  </label>
+                  <input
+                    readOnly
+                    type="text"
+                    id="name"
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
+                    name="productName"
+                  />
+                </div>
+                <div className="form-group col-12 flex flex-col mb-[25px]">
+                  <label className="inline-block text-sm tracking-wide mb-2 font-semibold">
+                    Stock In Quantity
+                  </label>
+                  <input
+                    required
+                    min={0}
+                    type="number"
+                    id="name"
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
+                    name="stock"
+                  />
+                </div>
+                <div className="col-12">
+                  <button className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]">
+                    Add Stock
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="mt-[25] mx-[25px] bg-white">
         <div className="p-4 rounded w-full">
@@ -125,7 +147,7 @@ const Inventory: React.FC<Props> = (props) => {
                     </tr>
                   </thead>
                   {/* -------Plz Attention ,Table body/Row start here -------------- */}
-                  <tbody>
+                  {/* <tbody>
                     {inventoriesData.map((productData, index) => (
                       // <div>
                       <tr className="even:bg-gray-50 odd:bg-white">
@@ -135,49 +157,65 @@ const Inventory: React.FC<Props> = (props) => {
                           </p>
                         </td>
 
-                        <td className="px-3 py-3  text-sm">
+                        <td className="px-3 py-3    ">
                           <p className="text-gray-900 whitespace-no-wrap ">
-                            {productData?.productName}
+                            100
                           </p>
                         </td>
 
                         <td className="px-3 py-3    ">
                           <p className="text-gray-900 whitespace-no-wrap ">
-                            {productData?.slug}
-                          </p>
-                        </td>
-
-                        <td className="px-3 py-3    ">
-                          <p className="text-gray-900 whitespace-no-wrap ">
-                            {productData?.stock}
-                          </p>
-                        </td>
-
-                        <td className="px-3 py-3    ">
-                          <p className="text-gray-900 whitespace-no-wrap ">
-                            {productData?.sold}
+                            01/02/23
                           </p>
                         </td>
 
                         <td className="px-2 py-3  text-sm">
-                          <Link
-                            href={`/admin/stock_history/${productData.slug}`}
-                          >
-                            <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                              <span
-                                style={{
-                                  boxShadow: "0 2px 6px #acb5f6",
-                                }}
-                                className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
-                              >
-                                <FaEye />
-                              </span>
+                          <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                            <span
+                              // onClick={() => openModal()}
+                              style={{
+                                boxShadow: "0 2px 6px #fd9b96",
+                              }}
+                              className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                            >
+                              <FaTrash />
                             </span>
-                          </Link>
+                          </span>
                         </td>
                       </tr>
                       // </div>
                     ))}
+                  </tbody> */}
+                  <tbody>
+                    <tr className="even:bg-gray-50 odd:bg-white">
+                      <td className="px-3 py-3    text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">1</p>
+                      </td>
+
+                      <td className="px-3 py-3    ">
+                        <p className="text-gray-900 whitespace-no-wrap ">100</p>
+                      </td>
+
+                      <td className="px-3 py-3    ">
+                        <p className="text-gray-900 whitespace-no-wrap ">
+                          01/02/23
+                        </p>
+                      </td>
+
+                      <td className="px-2 py-3  text-sm">
+                        <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
+                          <span
+                            // onClick={() => openModal()}
+                            style={{
+                              boxShadow: "0 2px 6px #fd9b96",
+                            }}
+                            className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                          >
+                            <FaTrash />
+                          </span>
+                        </span>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
 
@@ -226,4 +264,4 @@ const Inventory: React.FC<Props> = (props) => {
   );
 };
 
-export default Inventory;
+export default StockHistory;
