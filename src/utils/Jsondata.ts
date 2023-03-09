@@ -937,6 +937,7 @@ export class Jsondata {
         },
       ],
     },
+    { title: "Inventory", icon: AiFillAppstore, gap: false, link: "/admin/inventory" },
     {
       title: "Ecommerce",
       icon: FaShoppingCart,

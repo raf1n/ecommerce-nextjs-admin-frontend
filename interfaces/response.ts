@@ -2,6 +2,7 @@ import {
   IAd,
   ICategories,
   ICoupon,
+  IInventoryProduct,
   IMegaCategory,
   IOrder,
   IPopularCategories,
@@ -122,4 +123,9 @@ export interface IGetAllUsersResponse extends MyFetchInterface {
 
 export interface IGetSingleUserResponse extends MyFetchInterface {
   res: IUser;
+}
+
+
+export interface IAdminProductInventoriesResponse extends MyFetchInterface {
+  res: IInventoryProduct[];
 }

@@ -41,7 +41,7 @@ const CustomerShow: React.FC<Props> = ({ user }) => {
                 <tr className="bg-[#00000005]">
                   <td className="px-[25px] h-16">Image</td>
                   <td className="px-[25px] h-16">
-                    <img src={user?.avatar as string} alt="" />
+                    <img className="w-20 h-20" src={user?.avatar as string} alt="" />
                   </td>
                 </tr>
                 <tr>

@@ -99,6 +99,10 @@ export interface IProduct {
   seller_slug: string;
 }
 
+export interface IInventoryProduct extends IProduct {
+  sold: number;
+}
+
 export interface IBrand {
   slug?: string;
   logo: string;

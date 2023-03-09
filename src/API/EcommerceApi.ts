@@ -1,4 +1,4 @@
-import { IGetAllUsersResponse, IGetSingleUserResponse } from './../../interfaces/response';
+import { IAdminProductInventoriesResponse, IGetAllUsersResponse, IGetSingleUserResponse } from './../../interfaces/response';
 import {
   IAd,
   IBrand,
@@ -1167,5 +1167,17 @@ export class EcommerceApi {
         `${API_ENDPOINT}/users/${slug}`,
         requestOptions
       );
+    }
+
+    // get all products inventory for admin panel
+    static async getProductInventories(): Promise<IAdminProductInventoriesResponse> {
+      const myHeaders = new Headers();
+  
+      const requestOptions = {
+        headers: myHeaders,
+        redirect: "follow",
+      };
+  
+      return await callFetch(`${API_ENDPOINT}/products/admin/get-inventories`, requestOptions);
     }
 }
