@@ -35,7 +35,8 @@ const StockHistory: React.FC<Props> = (props) => {
   const fetchSingleInventory = async () => {
     if (productSlug) {
       const { res, err } = await EcommerceApi.getSingleProductInventory(
-        productSlug as string
+        productSlug as string,
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
 
       console.log(res);
@@ -46,7 +47,7 @@ const StockHistory: React.FC<Props> = (props) => {
 
   useEffect(() => {
     fetchSingleInventory();
-  }, [productSlug]);
+  }, [productSlug, sortBy, sortType, searchString]);
 
   const handleAddStock = async (e: any) => {
     e.preventDefault();
@@ -194,7 +195,7 @@ const StockHistory: React.FC<Props> = (props) => {
                   <tbody>
                     {productData?.stockInData.map((stockData, index) => (
                       // <div>
-                      <tr className="even:bg-gray-50 odd:bg-white">
+                      <tr key={stockData.slug} className="even:bg-gray-50 odd:bg-white">
                         <td className="px-3 py-3    text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {index + 1}

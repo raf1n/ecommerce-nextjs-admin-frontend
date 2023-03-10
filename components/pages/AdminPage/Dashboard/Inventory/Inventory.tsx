@@ -38,7 +38,9 @@ const Inventory: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchInventories = async () => {
-      const { res, err } = await EcommerceApi.getProductInventories();
+      const { res, err } = await EcommerceApi.getProductInventories(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
 
       if (res) {
         setInventoriesData(res);
