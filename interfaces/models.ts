@@ -112,6 +112,7 @@ export interface IProduct {
 export interface IInventoryProduct extends IProduct {
   sold: number;
   stockInData: Array<{ slug: string; quantity: number; createdAt: string }>;
+  stockData: Array<{ _id: string, totalCount: number}>;
 }
 
 export interface IBrand {
