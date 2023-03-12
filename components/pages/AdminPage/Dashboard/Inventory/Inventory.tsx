@@ -42,6 +42,8 @@ const Inventory: React.FC<Props> = (props) => {
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
 
+      console.log(res);
+
       if (res) {
         setInventoriesData(res);
       }

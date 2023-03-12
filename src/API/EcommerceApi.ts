@@ -1318,7 +1318,9 @@ export class EcommerceApi {
 
   // get all products inventory for seller panel
   static async getSellerProductInventories(
-    seller_slug: string | undefined
+    seller_slug: string | undefined,
+    query:string
+
   ): Promise<IAdminProductInventoriesResponse> {
     const myHeaders = new Headers();
 
@@ -1328,7 +1330,7 @@ export class EcommerceApi {
     };
 
     return await callFetch(
-      `${API_ENDPOINT}/products/seller/get-inventories/${seller_slug}`,
+      `${API_ENDPOINT}/products/seller/get-inventories/${seller_slug}?${query}`,
       requestOptions
     );
   }
