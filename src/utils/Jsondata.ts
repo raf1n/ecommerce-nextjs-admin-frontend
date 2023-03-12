@@ -1148,7 +1148,7 @@ export class Jsondata {
       gap: false,
       link: "/seller/inventory",
     },
-    { title: "My Withdraw", icon: FaNewspaper },
+    { title: "My Withdraw", icon: FaNewspaper, link: "/seller/my_withdraw" },
     { title: "Message", icon: FaNewspaper },
     { title: "Visit Users  Dashboard", icon: FaUserAlt },
   ];

@@ -24,8 +24,8 @@ const SharedAddNewModal: React.FC<Props> = (props) => {
       // cat_imag
 
       // cat_slug: e.target.cat_slug.value,
-      cat_name: e.target.catName.value,
-      // cat_slug: e.target.slug.value,
+      cat_name: e.target.catName.value.split("+")[0],
+      cat_slug: e.target.catName.value.split("+")[1],
       // slug: e.target.slug.value,
       // subcat_status: e.target.status.value,
     };
@@ -75,7 +75,9 @@ const SharedAddNewModal: React.FC<Props> = (props) => {
                       id=""
                     >
                       {props.categoriesData.map((category: ICategories) => (
-                        <option value={category.cat_name}>
+                        <option
+                          value={`${category.cat_name}+${category.cat_slug}`}
+                        >
                           {category.cat_name}
                         </option>
                       ))}

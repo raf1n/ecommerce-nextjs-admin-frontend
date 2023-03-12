@@ -1,9 +1,4 @@
-import {
-  IAdminProductInventoriesResponse,
-  IGetAllUsersResponse,
-  IGetSingleUserResponse,
-  ISingleProductInventoryResponse,
-} from "./../../interfaces/response";
+import { IAdminProductInventoriesResponse, IFeaturedCategoriesResponse, IGetAllUsersResponse, IGetSingleUserResponse, ISingleProductInventoryResponse, ISingleReviewProductsResponse } from './../../interfaces/response';
 import {
   IAd,
   IBrand,
@@ -39,12 +34,13 @@ import {
   ISingleAdResponse,
   ISingleMegaCategoryResponse,
   IMegaCategoriesResponse,
-  IFeaturedCategoriesResponse,
-  ISingleReviewProductsResponse,
+  IReportedItemResponse,
+  ISingleIReportedItemResponse,
 } from "../../interfaces/response";
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
 import { callFetch } from "../utils/CallFetch";
+import seller from "../../pages/seller";
 
 // import { callFetch, MyFetchInterface } from "../utils/CallFetch"
 export const API_ENDPOINT = process.env["NEXT_PUBLIC_API_ENDPOINT"];
@@ -1272,25 +1268,8 @@ export class EcommerceApi {
     );
   }
 
-  // get all products inventory for seller panel
-  static async getSellerProductInventories(
-    seller_slug: string | undefined
-  ): Promise<IAdminProductInventoriesResponse> {
-    const myHeaders = new Headers();
-
-    const requestOptions = {
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    return await callFetch(
-      `${API_ENDPOINT}/products/seller/get-inventories/${seller_slug}`,
-      requestOptions
-    );
-  }
-
-  // get all products inventory for admin panel
-  static async getSingleProductInventory(
+   // get all products inventory for admin panel
+   static async getSingleProductInventory(
     slug: string
   ): Promise<ISingleProductInventoryResponse> {
     const myHeaders = new Headers();
@@ -1335,6 +1314,89 @@ export class EcommerceApi {
 
     return await callFetch(
       `${API_ENDPOINT}/inventories/${slug}`,
+      requestOptions
+    );
+  }
+
+  // get all products inventory for seller panel
+  static async getSellerProductInventories(
+    seller_slug: string | undefined
+  ): Promise<IAdminProductInventoriesResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/products/seller/get-inventories/${seller_slug}`,
+      requestOptions
+    );
+  }
+
+  //get all reported Items
+  static async allReportedItemsAdmin(
+    query: string
+  ): Promise<IReportedItemResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/reporteditems/findAllForAdmin?${query}`,
+      requestOptions
+    );
+  }
+
+  //delete Reported Items
+  static async deleteReportedItems(slug: string): Promise<MyFetchInterface> {
+    // console.log(API_ENDPOINT);
+    console.log(slug);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/reporteditems/${slug}`,
+      requestOptions
+    );
+  }
+
+  //get all Reports seller
+  static async getAllSellerReports(
+    seller_slug: string | undefined,
+    query: string
+  ): Promise<IReportedItemResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/reporteditems/findAllForSeller/${seller_slug}?${query}`,
+      requestOptions
+    );
+  }
+
+  // get single Report
+  static async getSingleReport(
+    slug: string
+  ): Promise<ISingleIReportedItemResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/reporteditems/${slug}`,
       requestOptions
     );
   }

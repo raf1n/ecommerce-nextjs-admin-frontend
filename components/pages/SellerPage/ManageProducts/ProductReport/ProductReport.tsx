@@ -1,35 +1,27 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import {
   FaEdit,
+  FaEye,
   FaLongArrowAltDown,
   FaLongArrowAltUp,
   FaTrash,
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { IReportedItem } from "../../../../../../interfaces/models";
-import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
-import { controller } from "../../../../../../src/state/StateController";
-import { Jsondata } from "../../../../../../src/utils/Jsondata";
-import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
-import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
-import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
-import DynamicTable from "../../../../../shared/SharedTable/DynamicTable";
-import CatToggleButton from "../../ManageCategories/Categories/CatToggleButton";
+import { IReportedItem } from "../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
+import { controller } from "../../../../../src/state/StateController";
+import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
 
 interface Props {}
+
 const tableHeaders = {
   sn: "sn",
   name: "Name",
   product: "Product",
   subject: "Subject",
   action: "Action",
-};
-const actions = {
-  isEditable: true,
-  isDeletable: true,
-  isSeller: true,
 };
 
 const ProductReport: React.FC<Props> = (props) => {
@@ -44,46 +36,36 @@ const ProductReport: React.FC<Props> = (props) => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
+  const seller_slug = states.currentUser?.slug;
 
-  const handleDelete = async () => {
-    const { res, err } = await EcommerceApi.deleteReportedItems(
-      deleteModalSlug
+  const getAllReports = async () => {
+    const { res, err } = await EcommerceApi.getAllSellerReports(
+      seller_slug,
+      `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
     );
     if (res) {
-      setDeleteModalSlug("");
-      const remainingBrands = productReportsData.filter(
-        (product) => product.slug !== deleteModalSlug
-      );
-      setProductReportsData(remainingBrands);
+      console.log(res);
+      setProductReportsData(res);
+    } else {
+      console.log(err);
     }
   };
-
   useEffect(() => {
-    const fetchReports = async () => {
-      const { res, err } = await EcommerceApi.allReportedItemsAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
-
-      setProductReportsData(res);
-      console.log(res);
-    };
-
-    fetchReports();
+    getAllReports();
   }, [searchString, sortBy, sortType]);
 
   // useEffect(() => {
   //   const fetchReports = async () => {
-  //     const { res, err } = await EcommerceApi.allReportedItems();
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       setProductReportsData(res);
+  //     const { res, err } = await EcommerceApi.getAllSellerReports(
+  //       `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+  //     );
 
-  //       // console.log(res);
-  //     }
+  //     setProductReportsData(res);
+  //     console.log(res);
   //   };
+
   //   fetchReports();
-  // }, []);
+  // }, [searchString, sortBy, sortType]);
 
   return (
     <div className="w-full">
@@ -224,6 +206,20 @@ const ProductReport: React.FC<Props> = (props) => {
                               </span>
                             </button> */}
                             <button>
+                              <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight cursor-pointer">
+                                <span
+                                  onClick={() =>
+                                    router.push(
+                                      `${asPath}/${categoryTableData.slug}/report`
+                                    )
+                                  }
+                                  className="h-8 w-8 shadow-[0_2px_6px_#acb5f6] inset-0 bg-blue-700 rounded relative text-white flex justify-center items-center"
+                                >
+                                  <FaEye />
+                                </span>
+                              </span>
+                            </button>
+                            {/* <button>
                               <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                 <span
                                   onClick={() =>
@@ -238,13 +234,8 @@ const ProductReport: React.FC<Props> = (props) => {
                                   <FaTrash />
                                 </span>
                               </span>
-                            </button>
+                            </button> */}
                           </td>
-                          <SharedDeleteModal
-                            deleteModalSlug={deleteModalSlug}
-                            handleDelete={handleDelete}
-                            setDeleteModalSlug={setDeleteModalSlug}
-                          ></SharedDeleteModal>
                         </tr>
                         // </div>
                       )

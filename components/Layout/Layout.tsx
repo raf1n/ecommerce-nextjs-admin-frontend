@@ -7,7 +7,8 @@ import { MdArrowDropDown } from "react-icons/md";
 import { HiOutlineUser } from "react-icons/hi";
 import styles from "../pages/AdminPage/Dashboard/Dashboard.module.css";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
+import { SocialLogin } from "../helpers/SocialLogin";
 interface Props {
   children: any;
 }
@@ -18,7 +19,14 @@ const Layout: React.FC<Props> = ({ children }) => {
   const [responsiveOpen, setResponsiveOpen] = useState(false);
   const [show, setShow] = useState(false);
   const [menuOpen, setMenuOpen] = useState<null | number>(null);
-  const { asPath } = useRouter();
+  const router = useRouter();
+
+  const { asPath } = router;
+
+  if (typeof window !== "undefined" && asPath === "/") {
+    Router.push("/login");
+  }
+
   const handleMenuClick = (menuOpen: number, idx: number) => {
     if (menuOpen === idx) {
       setMenuOpen(null);
@@ -144,15 +152,15 @@ const Layout: React.FC<Props> = ({ children }) => {
                 )}
 
                 <div className="border-t"></div>
-                <Link
-                  href="/logout"
-                  className="flex text-[13px] text-[#fc544b] my-3 font-medium"
+                <button
+                  onClick={() => SocialLogin.logOut()}
+                  className="pl-5 flex text-[13px] text-[#fc544b] my-3 font-medium"
                 >
                   <span className="pr-2  text-[15px]">
                     <FaSignOutAlt />
                   </span>
                   <span> Logout</span>
-                </Link>
+                </button>
               </div>
             </div>
           </div>
