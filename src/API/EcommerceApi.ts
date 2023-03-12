@@ -1,4 +1,8 @@
-import { IGetAllUsersResponse, IGetSingleUserResponse } from './../../interfaces/response';
+import {
+  IGetAllSellerResponse,
+  IGetAllUsersResponse,
+  IGetSingleUserResponse,
+} from "./../../interfaces/response";
 import {
   IAd,
   IBrand,
@@ -783,7 +787,7 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    console.log(`${API_ENDPOINT}/${url}/${slug}`)
+    console.log(`${API_ENDPOINT}/${url}/${slug}`);
 
     return await callFetch(`${API_ENDPOINT}/${url}/${slug}`, requestOptions);
   }
@@ -1116,39 +1120,41 @@ export class EcommerceApi {
     );
   }
 
-    //Get all users
-    static async getAllUsers(
-      query: string
-    ): Promise<IGetAllUsersResponse> {
-      const myHeaders = new Headers();
-  
-      const requestOptions = {
-        headers: myHeaders,
-        redirect: "follow",
-      };
-  
-      return await callFetch(
-        `${API_ENDPOINT}/users/customers?${query}`,
-        requestOptions
-      );
-    }
+  //Get all users
+  static async getAllUsers(query: string): Promise<IGetAllUsersResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/users/customers?${query}`,
+      requestOptions
+    );
+  }
+  //Get all seller
+  static async getAllSeller(query: string): Promise<IGetAllSellerResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/users/sellers?${query}`,
+      requestOptions
+    );
+  }
 
-    // delete single user
-    static async deleteSingleUser(
-      slug: string
-    ): Promise<IGetSingleUserResponse> {
-      // console.log(API_ENDPOINT);
-      console.log(slug);
-      const myHeaders = new Headers();
-      const requestOptions = {
-        method: "DELETE",
-        headers: myHeaders,
-        redirect: "follow",
-      };
-  
-      return await callFetch(
-        `${API_ENDPOINT}/users/${slug}`,
-        requestOptions
-      );
-    }
+  // delete single user
+  static async deleteSingleUser(slug: string): Promise<IGetSingleUserResponse> {
+    console.log(slug);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/users/${slug}`, requestOptions);
+  }
 }
