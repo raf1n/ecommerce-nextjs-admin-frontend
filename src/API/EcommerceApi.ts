@@ -1254,7 +1254,7 @@ export class EcommerceApi {
   }
 
   // get all products inventory for admin panel
-  static async getProductInventories(): Promise<IAdminProductInventoriesResponse> {
+  static async getProductInventories(query: string): Promise<IAdminProductInventoriesResponse> {
     const myHeaders = new Headers();
 
     const requestOptions = {
@@ -1263,15 +1263,13 @@ export class EcommerceApi {
     };
 
     return await callFetch(
-      `${API_ENDPOINT}/products/admin/get-inventories`,
+      `${API_ENDPOINT}/products/admin/get-inventories?${query}`,
       requestOptions
     );
   }
 
-   // get all products inventory for admin panel
-   static async getSingleProductInventory(
-    slug: string
-  ): Promise<ISingleProductInventoryResponse> {
+  // get all products inventory for admin panel
+  static async getSingleProductInventory(slug:string, query: string): Promise<ISingleProductInventoryResponse> {
     const myHeaders = new Headers();
 
     const requestOptions = {
@@ -1280,7 +1278,7 @@ export class EcommerceApi {
     };
 
     return await callFetch(
-      `${API_ENDPOINT}/products/get-inventory/${slug}`,
+      `${API_ENDPOINT}/products/get-inventory/${slug}?${query}`,
       requestOptions
     );
   }
