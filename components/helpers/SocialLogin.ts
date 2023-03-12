@@ -22,6 +22,7 @@ import { MyFetchInterface } from "../../interfaces/models";
 import { CookiesHandler } from "../../src/utils/CookiesHandler";
 import { EcommerceApi } from "../../src/API/EcommerceApi";
 import { controller } from "../../src/state/StateController";
+import Router from "next/router";
 
 export class SocialLogin {
   static initFirebase() {
@@ -152,8 +153,10 @@ export class SocialLogin {
     const auth = getAuth();
     await signOut(auth);
     CookiesHandler.removeAccessToken();
+    CookiesHandler.removeSlug();
     localStorage.clear();
     sessionStorage.clear();
+    Router.push("/login");
   }
 
   static async changePassword(
