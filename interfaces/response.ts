@@ -9,6 +9,7 @@ import {
   IPopularCategories,
   IReportedItem,
   IReview,
+  ISeller,
   ISlider,
   ISubCategories,
   IUser,
@@ -137,6 +138,9 @@ export interface ISingleIReportedItemResponse extends MyFetchInterface {
 }
 export interface IGetAllUsersResponse extends MyFetchInterface {
   res: IUser[];
+}
+export interface IGetAllSellerResponse extends MyFetchInterface {
+  res: ISeller[];
 }
 
 export interface IGetSingleUserResponse extends MyFetchInterface {

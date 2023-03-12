@@ -6,7 +6,6 @@ export interface MyFetchInterface {
 }
 export interface IUser {
   _id?: string;
-
   token?: string;
   tokenType?: string;
   displayName?: string;
@@ -20,13 +19,21 @@ export interface IUser {
     city?: string;
     address?: string;
   };
-
   slug?: string;
   createdAt?: string;
   updatedAt?: string;
   fullName: string | null;
   avatar: string | null;
   email: string | null;
+}
+export interface ISeller extends IUser {
+  shop: {
+    shop_name: string;
+    shop_address: string;
+    shop_logo: string;
+    shop_cover: string;
+  };
+  user_email: string;
 }
 
 export interface ICategories {
