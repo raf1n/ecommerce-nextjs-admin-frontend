@@ -14,6 +14,7 @@ import {
   ISubCategories,
   IUser,
   IWithdraw,
+  IWithdrawMethod,
 } from "./models";
 //here we will declare our response interfaces or in easy way type of our all response in our website
 
@@ -157,4 +158,8 @@ export interface ISingleProductInventoryResponse extends MyFetchInterface {
 
 export interface IWithdrawResponse extends MyFetchInterface {
   res: IWithdraw[];
+}
+
+export interface IGetWithdrawMethodsResponse extends MyFetchInterface {
+  res: IWithdrawMethod[];
 }

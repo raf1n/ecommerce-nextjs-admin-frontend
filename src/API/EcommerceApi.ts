@@ -4,6 +4,7 @@ import {
   IGetAllSellerResponse,
   IGetAllUsersResponse,
   IGetSingleUserResponse,
+  IGetWithdrawMethodsResponse,
   ISingleProductInventoryResponse,
   ISingleReviewProductsResponse,
 } from "./../../interfaces/response";
@@ -1403,6 +1404,18 @@ export class EcommerceApi {
     };
     return await callFetch(
       `${API_ENDPOINT}/users/sellers?${query}`,
+      requestOptions
+    );
+  }
+
+  static async getAllWithdrawMethods(query: string): Promise<IGetWithdrawMethodsResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/withdraw-methods?${query}`,
       requestOptions
     );
   }

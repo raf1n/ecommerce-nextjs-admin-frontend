@@ -215,3 +215,13 @@ export interface IWithdraw {
   status?: string;
   action?: string;
 }
+
+export interface IWithdrawMethod {
+  slug: string;
+  name: string;
+  min: number;
+  max: number;
+  charge: number;
+  status: string;
+  description: string;
+}
