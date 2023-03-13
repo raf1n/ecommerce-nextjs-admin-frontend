@@ -59,8 +59,7 @@ const Layout: React.FC<Props> = ({ children }) => {
             setResponsiveOpen(false);
             setMenuOpen(0);
           }}
-          className="fixed z-10 opacity-40 bg-black top-0 left-0 right-0 bottom-0"
-        ></div>
+          className="fixed z-10 opacity-40 bg-black top-0 left-0 right-0 bottom-0"></div>
       )}
 
       {/* right side dashboard */}
@@ -95,8 +94,7 @@ const Layout: React.FC<Props> = ({ children }) => {
               <button
                 onClick={() => {
                   setShow(!show);
-                }}
-              >
+                }}>
                 <div className={`flex text-white  pl-6`}>
                   <img
                     src={`https://api.websolutionus.com/shopo/uploads/website-images/ibrahim-khalil-2022-01-30-02-48-50-5743.jpg`}
@@ -118,7 +116,7 @@ const Layout: React.FC<Props> = ({ children }) => {
           <div className={` ${show ? "block" : "hidden"} relative`}>
             <div className={`${styles["dropdown-menu"]} -mt-14 mr-2`}>
               <div>
-                <Link href={`/${role}/profile`} className="flex text-[13px]">
+                <Link href={`/${role}/my_profile`} className="flex text-[13px]">
                   <span className="pr-2  text-[15px]">
                     <HiOutlineUser />
                   </span>
@@ -131,8 +129,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                   <>
                     <Link
                       href={`/${role}/shop_profile`}
-                      className="flex text-[13px]"
-                    >
+                      className="flex text-[13px]">
                       <span className="pr-2  text-[15px]">
                         <FaStore />
                       </span>
@@ -141,8 +138,7 @@ const Layout: React.FC<Props> = ({ children }) => {
 
                     <Link
                       href={`/${role}/change_password`}
-                      className="flex text-[13px]"
-                    >
+                      className="flex text-[13px]">
                       <span className="pr-2  text-[15px]">
                         <FaLock />
                       </span>
@@ -154,8 +150,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                 <div className="border-t"></div>
                 <button
                   onClick={() => SocialLogin.logOut()}
-                  className="pl-5 flex text-[13px] text-[#fc544b] my-3 font-medium"
-                >
+                  className="pl-5 flex text-[13px] text-[#fc544b] my-3 font-medium">
                   <span className="pr-2  text-[15px]">
                     <FaSignOutAlt />
                   </span>

@@ -60,15 +60,14 @@ export interface LoginInterface {
   };
 }
 
+//get all dashboard counter
 export class EcommerceApi {
-  //get all dashboard counter
   static async allDashboardCount(query: string): Promise<MyFetchInterface> {
     const myHeaders = new Headers();
     const requestOptions = {
       headers: myHeaders,
       redirect: "follow",
     };
-
     return await callFetch(
       `${API_ENDPOINT}/dashboard?${query}`,
       requestOptions
