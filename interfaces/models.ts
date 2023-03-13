@@ -187,3 +187,10 @@ export interface IAd {
   category_link?: string;
   status?: string;
 }
+
+export interface IFlashSaleProducts {
+  slug: string;
+  product_slug: string;
+  status: string;
+  productsData?: IProduct;
+}

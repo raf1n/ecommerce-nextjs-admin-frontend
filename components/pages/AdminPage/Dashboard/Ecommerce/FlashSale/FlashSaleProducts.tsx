@@ -6,9 +6,13 @@ import { useRouter } from "next/router";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import { controller } from "../../../../../../src/state/StateController";
-import { IProduct } from "../../../../../../interfaces/models";
+import {
+  IFlashSaleProducts,
+  IProduct,
+} from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import Select from "react-select";
+import ToggleButton from "../../ManageCategories/ToggleButton/ToggleButton";
 
 interface Props {}
 
@@ -35,7 +39,7 @@ const reactSelectStyle = {
 
 const tableHeaders = {
   sn: "sn",
-  product: "product",
+  product: "productName",
   status: "status",
   action: "action",
 };
@@ -53,12 +57,20 @@ const FlashSaleProducts: React.FC<Props> = (props) => {
   const [searchString, setSearchString] = useState("");
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [allProductsData, setAllProductsData] = useState<IProduct[]>([]);
+  const [flashSaleProductsData, setFlashSaleProductsData] = useState<
+    IFlashSaleProducts[]
+  >([]);
   const [isSearchable, setIsSearchable] = useState(true);
 
-  const router = useRouter();
-  console.log(router.query.slug);
-  const productSlug = router.query.slug;
-  // const productSlug = asPath.split("/")[1];
+  const getAllFlashSaleProductsData = async () => {
+    const { res, err } = await EcommerceApi.getFlashSaleProductsData(
+      `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+    );
+    if (res) {
+      setFlashSaleProductsData(res);
+    }
+  };
+
   useEffect(() => {
     const getAllProductsData = async () => {
       const { res, err } = await EcommerceApi.allProducts();
@@ -66,26 +78,31 @@ const FlashSaleProducts: React.FC<Props> = (props) => {
         setAllProductsData(res.allProductData);
       }
     };
-    getAllProductsData();
-  }, []);
 
-  const handleFlashProduct = (e: any) => {
+    getAllFlashSaleProductsData();
+    getAllProductsData();
+  }, [sortBy, sortType, searchString]);
+
+  const handleFlashProduct = async (e: any) => {
     e.preventDefault();
+    const flashSale = {
+      product_slug: e.target.product.value,
+      status: e.target.status.value,
+    };
     console.log(e.target.product.value, e.target.status.value);
+    const { res, err } = await EcommerceApi.addFlashSaleProducts(flashSale);
+    if (res) {
+      getAllFlashSaleProductsData();
+    }
   };
 
   const handleDelete = async () => {
-    //   const { res, err } = await EcommerceApi.deleteSingleInventory(
-    //     deleteModalSlug
-    //   );
-    //   if (res && productData?.stock && productData.slug) {
-    //     const data = {
-    //       stock: productData?.stock - stockData.quantity,
-    //     };
-    //     EcommerceApi.editProducts(data, productData?.slug);
-    //     console.log(res);
-    //     setDeleteModalSlug("");
-    //   }
+    const { res, err } = await EcommerceApi.deleteFlashSale(deleteModalSlug);
+    if (res) {
+      console.log(res);
+      setDeleteModalSlug("");
+      getAllFlashSaleProductsData();
+    }
   };
 
   return (
@@ -225,34 +242,37 @@ const FlashSaleProducts: React.FC<Props> = (props) => {
                     </tr>
                   </thead>
                   {/* -------Plz Attention ,Table body/Row start here -------------- */}
-                  {/* <tbody>
-                    {productData?.stockInData.map((stockData, index) => (
+                  <tbody>
+                    {flashSaleProductsData.map((data, index) => (
                       // <div>
-                      <tr className="even:bg-gray-50 odd:bg-white">
+                      <tr key={index} className="even:bg-gray-50 odd:bg-white">
                         <td className="px-3 py-3    text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {index + 1}
                           </p>
                         </td>
 
-                        <td className="px-3 py-3    ">
-                          <p className="text-gray-900 whitespace-no-wrap ">
-                            {stockData?.quantity}
-                          </p>
-                        </td>
+                        {data.productsData && (
+                          <td className="px-3 py-3">
+                            <p className="text-gray-900 whitespace-no-wrap ">
+                              {data?.productsData.productName}
+                            </p>
+                          </td>
+                        )}
 
                         <td className="px-3 py-3    ">
-                          <p className="text-gray-900 whitespace-no-wrap ">
-                            {stockData?.createdAt}
-                          </p>
+                          <ToggleButton
+                            status={data.status}
+                            slug={data.slug}
+                            apiUrl="flash-sale"
+                          />
                         </td>
 
                         <td className="px-2 py-3  text-sm">
                           <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                             <span
                               onClick={() => {
-                                setStockData(stockData);
-                                setDeleteModalSlug(stockData.slug);
+                                setDeleteModalSlug(data.slug);
                               }}
                               style={{
                                 boxShadow: "0 2px 6px #fd9b96",
@@ -266,7 +286,7 @@ const FlashSaleProducts: React.FC<Props> = (props) => {
                       </tr>
                       // </div>
                     ))}
-                  </tbody> */}
+                  </tbody>
                   {/* <tbody>
                     <tr className="even:bg-gray-50 odd:bg-white">
                       <td className="px-3 py-3    text-sm">

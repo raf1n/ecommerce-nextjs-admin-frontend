@@ -1,5 +1,6 @@
 import {
   IAdminProductInventoriesResponse,
+  IFlashSaleProductsResponse,
   IGetAllUsersResponse,
   IGetSingleUserResponse,
   ISingleProductInventoryResponse,
@@ -1335,6 +1336,57 @@ export class EcommerceApi {
 
     return await callFetch(
       `${API_ENDPOINT}/inventories/${slug}`,
+      requestOptions
+    );
+  }
+
+  //  flash sales apis
+
+  static async getFlashSaleProductsData(
+    query: string
+  ): Promise<IFlashSaleProductsResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/flash-sale?${query}`,
+      requestOptions
+    );
+  }
+
+  static async addFlashSaleProducts(
+    data: any
+  ): Promise<IFlashSaleProductsResponse> {
+    console.log(data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/flash-sale`, requestOptions);
+  }
+
+  static async deleteFlashSale(slug: string) {
+    // console.log(API_ENDPOINT);
+    console.log(slug);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/flash-sale/${slug}`,
       requestOptions
     );
   }
