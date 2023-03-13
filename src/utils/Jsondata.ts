@@ -953,7 +953,7 @@ export class Jsondata {
         },
         {
           title: "Flash Sale Product",
-          link: "/admin/flash_sale_product",
+          link: "/admin/flash_sale_products",
         },
 
         {

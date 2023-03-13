@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
-import { Jsondata } from "../../../../../../src/utils/Jsondata";
+
 import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
 
 import styles from "./PopularCategoryAdmin.module.css";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedAddNewModal from "../../../../../shared/SharedAddNewModal/SharedAddNewModal";
-import { useRouter } from "next/router";
+
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import {
