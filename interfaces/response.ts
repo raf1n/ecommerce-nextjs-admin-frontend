@@ -163,3 +163,7 @@ export interface IWithdrawResponse extends MyFetchInterface {
 export interface IGetWithdrawMethodsResponse extends MyFetchInterface {
   res: IWithdrawMethod[];
 }
+
+export interface ISingleWithdrawMethodResponse extends MyFetchInterface {
+  res: IWithdrawMethod;
+}

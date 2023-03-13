@@ -217,11 +217,11 @@ export interface IWithdraw {
 }
 
 export interface IWithdrawMethod {
-  slug: string;
+  slug?: string;
   name: string;
   min: number;
   max: number;
   charge: number;
-  status: string;
+  status?: string;
   description: string;
 }

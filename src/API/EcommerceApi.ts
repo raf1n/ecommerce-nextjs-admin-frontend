@@ -1,3 +1,4 @@
+import { IWithdrawMethod } from './../../interfaces/models';
 import {
   IAdminProductInventoriesResponse,
   IFeaturedCategoriesResponse,
@@ -7,6 +8,7 @@ import {
   IGetWithdrawMethodsResponse,
   ISingleProductInventoryResponse,
   ISingleReviewProductsResponse,
+  ISingleWithdrawMethodResponse,
 } from "./../../interfaces/response";
 import {
   IAd,
@@ -1416,6 +1418,26 @@ export class EcommerceApi {
     };
     return await callFetch(
       `${API_ENDPOINT}/withdraw-methods?${query}`,
+      requestOptions
+    );
+  }
+
+  static async postWithdrawMethod(
+    data: IWithdrawMethod
+  ): Promise<ISingleWithdrawMethodResponse> {
+    console.log(data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/withdraw-methods`,
       requestOptions
     );
   }
