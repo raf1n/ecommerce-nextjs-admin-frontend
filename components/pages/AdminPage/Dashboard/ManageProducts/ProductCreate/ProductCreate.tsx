@@ -111,6 +111,7 @@ const ProductCreate: React.FC<Props> = (props) => {
         isPopular: isCheckedPopular,
         addedBy: "admin",
       };
+      console.log(productData);
       EcommerceApi.addProducts(productData);
       e.target.reset();
       setSelectedImage(null);

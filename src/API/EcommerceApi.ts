@@ -1,5 +1,7 @@
+import { IBlog } from "./../../interfaces/models";
 import {
   IAdminProductInventoriesResponse,
+  IBlogResponse,
   IFeaturedCategoriesResponse,
   IGetAllSellerResponse,
   IGetAllUsersResponse,
@@ -143,8 +145,6 @@ export class EcommerceApi {
   static async uploadCategoryImage(
     data: Partial<any>
   ): Promise<MyFetchInterface> {
-    // console.log(data);
-    // console.log(API_ENDPOINT);
     const myHeaders = new Headers();
     const requestOptions = {
       method: "POST",
@@ -646,14 +646,11 @@ export class EcommerceApi {
     sellerSlug: string | undefined,
     query: string
   ): Promise<IProductResponse> {
-    console.log(API_ENDPOINT);
     const myHeaders = new Headers();
-
     const requestOptions = {
       headers: myHeaders,
       redirect: "follow",
     };
-
     return await callFetch(
       `${API_ENDPOINT}/products/seller/${sellerSlug}?${query}`,
       requestOptions
@@ -673,15 +670,16 @@ export class EcommerceApi {
 
   //  product image add
   static async uploadImage(data: Partial<any>): Promise<MyFetchInterface> {
-    console.log(data);
+    console.log("uploadImage-", data);
     const requestOptions = {
       method: "POST",
       body: data,
       redirect: "follow",
       cors: "no-cors",
     };
+
     return await callFetch(
-      `https://api.imgbb.com/1/upload?key=311100da01d82e640262d000abf5861c`,
+      `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
       requestOptions
     );
   }
@@ -700,6 +698,20 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/products`, requestOptions);
+  }
+  // add blogs
+  static async addBlog(data: IBlog): Promise<IBlogResponse> {
+    console.log("postBy blog api--", data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/blogs`, requestOptions);
   }
 
   //  edit products
