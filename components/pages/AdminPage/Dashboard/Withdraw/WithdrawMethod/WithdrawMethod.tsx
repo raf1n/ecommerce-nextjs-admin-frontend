@@ -32,7 +32,9 @@ const WithdrawMethod: React.FC<Props> = (props) => {
   const router = useRouter();
   const { asPath } = router;
   const handleDelete = async () => {
-    const { res, err } = await EcommerceApi.deleteWithdrawMethod(deleteModalSlug);
+    const { res, err } = await EcommerceApi.deleteWithdrawMethod(
+      deleteModalSlug
+    );
     if (res) {
       setDeleteModalSlug("");
       const remainingWithdrawMethods = withdrawMethods.filter(
@@ -194,11 +196,7 @@ const WithdrawMethod: React.FC<Props> = (props) => {
                               />
                             </td>
                             <td className="px-2 py-3  text-sm">
-                              <button
-                                onClick={() =>
-                                  router.push(`${asPath}/${data.slug}/edit`)
-                                }
-                              >
+                              <Link href={`${asPath}/${data.slug}/edit`}>
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     style={{
@@ -209,7 +207,7 @@ const WithdrawMethod: React.FC<Props> = (props) => {
                                     <FaEdit />
                                   </span>
                                 </span>
-                              </button>
+                              </Link>
                               <button>
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
