@@ -1441,4 +1441,15 @@ export class EcommerceApi {
       requestOptions
     );
   }
+
+  static async deleteWithdrawMethod(slug: string): Promise<ISingleWithdrawMethodResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/withdraw-methods/${slug}`, requestOptions);
+  }
 }

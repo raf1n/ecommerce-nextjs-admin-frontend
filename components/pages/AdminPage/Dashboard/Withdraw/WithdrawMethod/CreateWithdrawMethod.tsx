@@ -154,7 +154,7 @@ const CreateWithdrawMethod: React.FC<Props> = (props) => {
                       type="submit"
                       className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
                     >
-                      Update
+                      Save
                     </button>
                   </div>
                 </div>

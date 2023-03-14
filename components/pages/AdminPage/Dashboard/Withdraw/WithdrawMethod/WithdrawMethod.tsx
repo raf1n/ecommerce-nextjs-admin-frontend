@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { IProduct, IWithdrawMethod } from "../../../../../../interfaces/models";
+import { ISingleWithdrawMethodResponse } from "../../../../../../interfaces/response";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
@@ -20,7 +21,7 @@ interface Props {}
 
 const WithdrawMethod: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [productsData, setProductsData] = useState<IWithdrawMethod[]>([]);
+  const [withdrawMethods, setWithdrawMethods] = useState<IWithdrawMethod[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
@@ -31,29 +32,29 @@ const WithdrawMethod: React.FC<Props> = (props) => {
   const router = useRouter();
   const { asPath } = router;
   const handleDelete = async () => {
-    const { res, err } = await EcommerceApi.deleteProduct(deleteModalSlug);
+    const { res, err } = await EcommerceApi.deleteWithdrawMethod(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
-      const remainingProducts = productsData.filter(
-        (product) => product.slug !== deleteModalSlug
+      const remainingWithdrawMethods = withdrawMethods.filter(
+        (withdrawMethod) => withdrawMethod.slug !== deleteModalSlug
       );
-      setProductsData(remainingProducts);
+      setWithdrawMethods(remainingWithdrawMethods);
     }
   };
 
   useEffect(() => {
-    const fetchAllProducts = async () => {
+    const fetchAllWithdrawMethods = async () => {
       const { res, err } = await EcommerceApi.getAllWithdrawMethods(
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
       if (err) {
         console.log(err);
       } else {
-        setProductsData(res);
+        setWithdrawMethods(res);
       }
     };
 
-    fetchAllProducts();
+    fetchAllWithdrawMethods();
   }, [searchString, sortBy, sortType]);
 
   const tableHeaders = {
@@ -155,7 +156,7 @@ const WithdrawMethod: React.FC<Props> = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {productsData.map((data: IWithdrawMethod, indx) => (
+                        {withdrawMethods.map((data: IWithdrawMethod, indx) => (
                           <tr
                             key={data.slug}
                             className="even:bg-gray-100 odd:bg-white"
