@@ -3,6 +3,7 @@ import {
   ICategories,
   ICoupon,
   IFeaturedCategories,
+  IFlashSaleProducts,
   IInventoryProduct,
   IMegaCategory,
   IOrder,
@@ -157,4 +158,8 @@ export interface ISingleProductInventoryResponse extends MyFetchInterface {
 
 export interface IWithdrawResponse extends MyFetchInterface {
   res: IWithdraw[];
+}
+
+export interface IFlashSaleProductsResponse extends MyFetchInterface {
+  res: IFlashSaleProducts[];
 }
