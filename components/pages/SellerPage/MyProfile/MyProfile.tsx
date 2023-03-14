@@ -1,14 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import { FaShoppingCart, FaCheckCircle } from "react-icons/fa";
 import style from "./MyProfile.module.css";
+import { EcommerceApi } from "../../../../src/API/EcommerceApi";
+import { ISeller } from "../../../../interfaces/models";
 
 interface Props {}
 
 const MyProfile: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+
+  const [seller, setSeller] = useState<any | string>([]);
+
+  useEffect(() => {
+    const fetchSingleSeller = async () => {
+      const { res, err } = await EcommerceApi.getSingleSeller(
+        "seller@gmail.com"
+      );
+      if (res) {
+        setSeller(res);
+      } else {
+        console.log("seller panel", err);
+      }
+    };
+
+    fetchSingleSeller();
+  }, []);
+  console.log("my profile seller state=", seller);
 
   const dashboardSummaryData = [
     {
@@ -82,16 +102,17 @@ const MyProfile: React.FC<Props> = (props) => {
               <div className={`${style["profile-widget-items"]} `}>
                 <img
                   className={`${style["seller-img"]}  `}
-                  src="https://api.websolutionus.com/shopo/uploads/custom-images/kelsey-conrad-2022-12-28-04-55-51-8312.jpg"
+                  src={seller?.avatar}
                   alt=""
                 />
                 <div className={`${style["profile-widget-item"]} `}>
                   <div>Joined at</div>
-                  <div>21 Sep 2022</div>
+
+                  <div>{seller?.createdAt?.split("T")[0]}</div>
                 </div>
                 <div className={`${style["profile-widget-item"]} `}>
                   <div>Balanced</div>
-                  <div>212022</div>
+                  <div>999</div>
                 </div>
               </div>
 
@@ -99,14 +120,14 @@ const MyProfile: React.FC<Props> = (props) => {
                 {/* table */}
 
                 <div className="relative overflow-x-auto  mt-12">
-                  <table className="w-full text-sm text-left text-gray-500 border ">
-                    <thead className="text-xs text-gray-700  bg-gray-50 ">
+                  <table className="w-full text-sm text-left text-gray-500 border-[0.25px] ">
+                    <thead className="text-sm text-gray-700  bg-gray-50 ">
                       <tr>
                         <th scope="col" className="px-6 py-5">
                           Name
                         </th>
-                        <th scope="col" className="px-6 py-5">
-                          Kelsey Conrad
+                        <th scope="col" className="px-6 py-5 capitalize">
+                          {seller.fullName}
                         </th>
                       </tr>
                     </thead>
@@ -117,7 +138,7 @@ const MyProfile: React.FC<Props> = (props) => {
                           className="px-6 py-5 font-medium text-gray-900 whitespace-nowrap ">
                           Email
                         </th>
-                        <td className="px-6 py-5">seller@gmail.com</td>
+                        <td className="px-6 py-5">{seller.email}</td>
                       </tr>
                       <tr className=" bg-gray-50">
                         <th
@@ -125,7 +146,7 @@ const MyProfile: React.FC<Props> = (props) => {
                           className="px-6 py-5 font-medium text-gray-900 whitespace-nowrap ">
                           Phone
                         </th>
-                        <td className="px-6 py-5">123-874-8948</td>
+                        <td className="px-6 py-5">{seller.phone}</td>
                       </tr>
 
                       <tr className="bg-white ">
@@ -136,7 +157,7 @@ const MyProfile: React.FC<Props> = (props) => {
                         </th>
                         <td className="px-6 py-5 ">
                           <span className="bg-[#28a745] py-1 px-3 text-white rounded-full text-xs">
-                            Active
+                            {seller.status}
                           </span>
                         </td>
                       </tr>
@@ -157,8 +178,8 @@ const MyProfile: React.FC<Props> = (props) => {
                 </div>
               </div>
               <div>
-                <div className="mt-12 text-center">
-                  <p>Follow Kelsey Conrad</p>
+                <div className="mt-12 text-center capitalize">
+                  <b>Follow {seller?.fullName}</b>
                 </div>
               </div>
             </div>
@@ -196,20 +217,20 @@ const MyProfile: React.FC<Props> = (props) => {
                     className="block mb-2 text-sm font-medium text-gray-900">
                     New Image
                   </label>
-                  <input type="file" id="file" />
+                  <input type="file" id="file" className="" />
                 </div>
                 <div className="grid grid-cols-2">
                   <div className="mb-6 ">
                     <label
                       htmlFor="email"
                       className="block mb-2 text-sm font-medium text-gray-900">
-                      Your Name
+                      Name <span className="text-red-500"> *</span>
                     </label>
                     <input
                       type="name"
                       id="name"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-10/12 p-2.5 "
-                      placeholder="Iqbal Hasan"
+                      placeholder="Type your name here"
                       required
                     />
                   </div>
@@ -218,13 +239,13 @@ const MyProfile: React.FC<Props> = (props) => {
                     <label
                       htmlFor="email"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                      Your email
+                      Email <span className="text-red-500"> *</span>
                     </label>
                     <input
                       type="email"
                       id="email"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-10/12  p-2.5 "
-                      placeholder="iamhasan9501@gmail.com"
+                      placeholder="Type your email here"
                       required
                     />
                   </div>
@@ -233,13 +254,13 @@ const MyProfile: React.FC<Props> = (props) => {
                     <label
                       htmlFor="phone"
                       className="block mb-2 text-sm font-medium text-gray-900 ">
-                      Your phone
+                      Phone <span className="text-red-500"> *</span>
                     </label>
                     <input
                       type="phone"
                       id="phone"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 w-10/12  p-2.5 "
-                      placeholder="01834 093014 "
+                      placeholder="Type your phone here"
                       required
                     />
                   </div>
@@ -248,13 +269,13 @@ const MyProfile: React.FC<Props> = (props) => {
                     <label
                       htmlFor="address"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                      Your address
+                      Address <span className="text-red-500"> *</span>
                     </label>
                     <input
                       type="address"
                       id="address"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-10/12 p-2.5 "
-                      placeholder="255 VIP Tower, Kazir Dewri , Chattogram"
+                      placeholder="Type your address here"
                       required
                     />
                   </div>

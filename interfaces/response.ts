@@ -142,6 +142,9 @@ export interface IGetAllUsersResponse extends MyFetchInterface {
 export interface IGetAllSellerResponse extends MyFetchInterface {
   res: ISeller[];
 }
+export interface IGetSingleSellerResponse extends MyFetchInterface {
+  res: ISeller[];
+}
 
 export interface IGetSingleUserResponse extends MyFetchInterface {
   res: IUser;
