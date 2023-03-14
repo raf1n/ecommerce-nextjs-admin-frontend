@@ -1,12 +1,8 @@
 import {
   IAdminProductInventoriesResponse,
-<<<<<<< HEAD
   IFeaturedCategoriesResponse,
   IFlashSaleProductsResponse,
   IGetAllSellerResponse,
-=======
-  IFlashSaleProductsResponse,
->>>>>>> 6e620ad15c0777a0f7c421bb4d909c40dcd68da0
   IGetAllUsersResponse,
   IGetSingleUserResponse,
   ISingleProductInventoryResponse,
