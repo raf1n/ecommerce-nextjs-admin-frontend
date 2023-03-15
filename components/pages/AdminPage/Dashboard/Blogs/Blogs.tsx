@@ -4,6 +4,7 @@ import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import SharedTiptap from "./SharedTiptap";
 interface Props {}
 const Blogs: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
@@ -148,6 +149,13 @@ const Blogs: React.FC<Props> = (props) => {
                     className="form-control h-[100px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="description"
                   />
+                </div>
+
+                <div className="form-group col-12 flex flex-col mb-[25px]">
+                  <label className="inline-block text-sm tracking-wide mb-2">
+                    Description <span className="text-red-500">*</span>
+                  </label>
+                  <SharedTiptap />
                 </div>
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
