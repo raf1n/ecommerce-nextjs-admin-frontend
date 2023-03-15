@@ -119,7 +119,7 @@ export interface IProduct {
 export interface IInventoryProduct extends IProduct {
   sold: number;
   stockInData: Array<{ slug: string; quantity: number; createdAt: string }>;
-  stockData: Array<{ _id: string, totalCount: number}>;
+  stockData: Array<{ _id: string; totalCount: number }>;
 }
 
 export interface IBrand {
@@ -196,7 +196,6 @@ export interface IAd {
   status?: string;
 }
 
-<<<<<<< HEAD
 export interface IReportedItem {
   slug?: string;
   product_slug?: string;
@@ -215,11 +214,10 @@ export interface IWithdraw {
   WithdrawAmount: number;
   status?: string;
   action?: string;
-=======
+}
 export interface IFlashSaleProducts {
   slug: string;
   product_slug: string;
   status: string;
   productsData?: IProduct;
->>>>>>> 6e620ad15c0777a0f7c421bb4d909c40dcd68da0
 }
