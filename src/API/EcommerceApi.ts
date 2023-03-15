@@ -1,6 +1,7 @@
-import { IBlog } from "./../../interfaces/models";
+import { IBlog, IBlogCategory } from "./../../interfaces/models";
 import {
   IAdminProductInventoriesResponse,
+  IBlogCategoryResponse,
   IBlogResponse,
   IFeaturedCategoriesResponse,
   IGetAllSellerResponse,
@@ -1398,5 +1399,33 @@ export class EcommerceApi {
       redirect: "follow",
     };
     return await callFetch(`${API_ENDPOINT}/blogs?${query}`, requestOptions);
+  }
+
+  //create blog categorie
+  static async createCategory(
+    data: Partial<IBlogCategory>
+  ): Promise<IBlogCategoryResponse> {
+    console.log("blog category api-", data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/blogcategories`, requestOptions);
+  }
+
+  //get all categories
+  static async getAllBlogCategories(): Promise<IBlogCategoryResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/blogcategories`, requestOptions);
   }
 }

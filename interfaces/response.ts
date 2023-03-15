@@ -1,6 +1,7 @@
 import {
   IAd,
   IBlog,
+  IBlogCategory,
   ICategories,
   ICoupon,
   IFeaturedCategories,
@@ -164,4 +165,8 @@ export interface ISingleProductInventoryResponse extends MyFetchInterface {
 
 export interface IWithdrawResponse extends MyFetchInterface {
   res: IWithdraw[];
+}
+
+export interface IBlogCategoryResponse extends MyFetchInterface {
+  res: IBlogCategory[];
 }

@@ -1063,7 +1063,7 @@ export class Jsondata {
       nestedRoutes: [
         {
           title: "Categories",
-          link: "/admin/categories",
+          link: "/admin/blogs/category",
         },
         {
           title: "Blogs",
@@ -1071,11 +1071,11 @@ export class Jsondata {
         },
         {
           title: "Popular Blogs",
-          link: "/admin/popular-blogs",
+          link: "/admin/blogs/popular_blogs",
         },
         {
           title: "Comments Sellers",
-          link: "/admin/comments",
+          link: "/admin/blogs/comments",
         },
       ],
     },

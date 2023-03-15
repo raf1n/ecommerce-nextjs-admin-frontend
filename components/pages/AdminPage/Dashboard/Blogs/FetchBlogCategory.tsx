@@ -7,9 +7,10 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { IBlog } from "../../../../../interfaces/models";
+import { IBlogCategory } from "../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../src/state/StateController";
+import SharedAddNewButton from "../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
 import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
@@ -18,56 +19,59 @@ import ToggleButton from "../ManageCategories/ToggleButton/ToggleButton";
 interface Props {}
 const tableHeaders = {
   sn: "sn",
-  Title: "title",
-  Category: "catSlug",
-  image: "imageURL",
-  ShowHomepage: "isShowHomepage",
-  status: "status",
-  action: "action",
+  Name: "name",
+  Slug: "slug",
+  Status: "status",
+  Action: "action",
 };
 
-const FetchBlogs: React.FC<Props> = (props) => {
+const FetchBlogCategory: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [categories, setCategories] = useState<IBlogCategory[]>([]);
 
-  const [sellersData, setSellersData] = useState<IBlog[]>([]);
+  //   const [sellersData, setSellersData] = useState<IBlog[]>([]);
+  const [sellersData, setSellersData] = useState();
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
-  useEffect(() => {
-    const fetchAllSeller = async () => {
-      const { res, err } = await EcommerceApi.getAllBlogs(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&status=active`
-      );
-      if (err) {
-        console.log(err);
-      } else {
-        setSellersData(res);
-        console.log("blog fetch", res);
-      }
-    };
-
-    fetchAllSeller();
-  }, [searchString, sortBy, sortType]);
-
-  const handleDelete = async () => {
-    const { res, err } = await EcommerceApi.deleteSingleUser(deleteModalSlug);
+  const FetchBlogCat = async () => {
+    const { res, err } = await EcommerceApi.getAllBlogCategories();
     if (res) {
-      setDeleteModalSlug("");
-      const remaining = sellersData.filter(
-        (seller) => seller.slug !== deleteModalSlug
-      );
-      setSellersData(remaining);
+      setCategories(res);
+    } else {
+      console.log(err);
     }
   };
+  useEffect(() => {
+    FetchBlogCat();
+  }, []);
+  // console.log("categories", categories);
+
+  //   const handleDelete = async () => {
+  //     const { res, err } = await EcommerceApi.deleteSingleUser(deleteModalSlug);
+  //     if (res) {
+  //       setDeleteModalSlug("");
+  //       const remaining = sellersData.filter(
+  //         (seller) => seller.slug !== deleteModalSlug
+  //       );
+  //       setSellersData(remaining);
+  //     }
+  //   };
 
   return (
     <div className="w-full">
-      <DashboardBreadcrumb headline="Blogs" slug="Blogs" link="/admin/blogs" />
+      <DashboardBreadcrumb
+        headline="Blog Category"
+        slug="Blogs"
+        link="/admin/blogs"
+      />
       <div className="m-6">
         <div className="section-body">
-          <SharedGoBackButton title="Add New" link="/admin/blogs/post_blog/" />
+          <Link className="inline-block" href="/admin/blogs/category/create">
+            <SharedAddNewButton />
+          </Link>
         </div>
       </div>
 
@@ -154,7 +158,7 @@ const FetchBlogs: React.FC<Props> = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {sellersData.map((data, indx) => (
+                        {categories.map((data, indx) => (
                           <tr
                             key={indx}
                             className="even:bg-gray-100 odd:bg-white">
@@ -166,34 +170,14 @@ const FetchBlogs: React.FC<Props> = (props) => {
                             <td className="px-5 py-5 text-sm text-left">
                               <Link
                                 href={`http://localhost:3000/blogs/blog?slug=${data.slug}`}>
-                                <p className="text-blue-500 whitespace-no-wrap">
-                                  {data?.title}
+                                <p className="text-blue-500 whitespace-no-wrap capitalize">
+                                  {data?.name}
                                 </p>
                               </Link>
                             </td>
                             <td className="px-5 py-5 text-sm ">
                               <p className="text-gray-900 whitespace-no-wrap">
-                                {data?.category}
-                              </p>
-                            </td>
-                            <td className="px-3 py-3 ">
-                              {data && data.imageURL && (
-                                <img
-                                  src={data.imageURL}
-                                  className="w-[100px] h-[100px] object-cover rounded-full"
-                                />
-                              )}
-                            </td>
-                            <td className="px-5 py-5 text-sm text-center">
-                              <p className="text-gray-900  whitespace-no-wrap">
-                                <span
-                                  className={` ${
-                                    data.isShowHomepage === "yes"
-                                      ? "bg-[#47c363]"
-                                      : "bg-[#fc544b]"
-                                  } px-3 py-1 text-white rounded-3xl capitalize`}>
-                                  {data.isShowHomepage}
-                                </span>
+                                {data?.slug}
                               </p>
                             </td>
 
@@ -234,11 +218,11 @@ const FetchBlogs: React.FC<Props> = (props) => {
                         ))}
                       </tbody>
                     </table>
-                    <SharedDeleteModal
-                      handleDelete={handleDelete}
+                    {/* <SharedDeleteModal
+                    //   handleDelete={handleDelete}
                       deleteModalSlug={deleteModalSlug}
                       setDeleteModalSlug={setDeleteModalSlug}
-                    />
+                    /> */}
 
                     <div className="px-5 py-5  border-t flex justify-between">
                       <div>
@@ -283,4 +267,4 @@ const FetchBlogs: React.FC<Props> = (props) => {
   );
 };
 
-export default FetchBlogs;
+export default FetchBlogCategory;

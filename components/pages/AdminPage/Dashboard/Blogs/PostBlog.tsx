@@ -1,14 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { IBlogCategory } from "../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
 interface Props {}
 
-const PostBlos: React.FC<Props> = (props) => {
+const PostBlog: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [categories, setCategories] = useState<IBlogCategory[]>([]);
+
+  const FetchBlogCat = async () => {
+    const { res, err } = await EcommerceApi.getAllBlogCategories();
+    if (res) {
+      setCategories(res);
+    } else {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    FetchBlogCat();
+  }, []);
+  // console.log("categories", categories);
 
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -34,7 +49,7 @@ const PostBlos: React.FC<Props> = (props) => {
       const blogData = {
         imageURL: imageUrl,
         title: e.target.title.value,
-        catSlug: e.target.category.value,
+        category: e.target.category.value,
         description: e.target.description.value,
         isShowHomepage: e.target.show_homepage.value,
         status: e.target.status.value,
@@ -123,21 +138,26 @@ const PostBlos: React.FC<Props> = (props) => {
                     name="title"
                   />
                 </div>
+                {/*  */}
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
-                    Category <span className="text-red-500">*</span>
+                    Sub Category
                   </label>
                   <select
-                    required
                     name="category"
                     id="category"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
-                    <option value="">Select Category</option>
-                    <option value="blog-cat-1">Blog Category 1</option>
-                    <option value="blog-cat-2">Blog Category 2</option>
-                    <option value="blog-cat-3">Blog Category 3</option>
+                    <option value="">Select XXX Category</option>
+                    {categories.map((cat, indx) => (
+                      <>
+                        <option key={indx} value={cat.name}>
+                          {cat.name}
+                        </option>
+                      </>
+                    ))}
                   </select>
                 </div>
+                {/*  */}
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
@@ -216,4 +236,4 @@ const PostBlos: React.FC<Props> = (props) => {
   );
 };
 
-export default PostBlos;
+export default PostBlog;

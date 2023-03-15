@@ -230,7 +230,7 @@ export interface IBlog {
   slug?: string;
 
   title: string;
-  catSlug: string;
+  category: string;
   description: string;
 
   isShowHomepage: string;
@@ -240,4 +240,10 @@ export interface IBlog {
   seo_title?: string;
   seo_description?: string;
   postBy: string;
+}
+
+export interface IBlogCategory extends MyFetchInterface {
+  name: string;
+  slug?: string;
+  status: string;
 }
