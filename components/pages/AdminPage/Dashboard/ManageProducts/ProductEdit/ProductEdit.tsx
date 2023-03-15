@@ -18,6 +18,7 @@ interface Props {}
 const ProductEdit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [productData, setProductData] = useState<IProduct>();
+
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
   const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
@@ -38,6 +39,7 @@ const ProductEdit: React.FC<Props> = (props) => {
   //   productData?.isPopular
   // );
   // const [selectValue, setSelectValue] = useState({});
+
   const { asPath } = useRouter();
   console.log(asPath);
   const productSlug = asPath.split("/")[3];
@@ -120,6 +122,7 @@ const ProductEdit: React.FC<Props> = (props) => {
     const formData = new FormData();
     formData.append("image", image);
     console.log(formData);
+
     const { res, err } = await EcommerceApi.uploadImage(formData);
     if (res?.data?.url || !res?.data?.url || res.error.code === 120) {
       let imageUrl;
@@ -182,7 +185,6 @@ const ProductEdit: React.FC<Props> = (props) => {
                         <img
                           id="preview-img"
                           className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
-                          // src="https://api.websolutionus.com/shopo/uploads/website-images/preview.png"
                           src={productData?.imageURL[0]}
                           alt=""
                         />

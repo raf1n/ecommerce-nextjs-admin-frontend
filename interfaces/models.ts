@@ -24,7 +24,7 @@ export interface IUser {
   updatedAt?: string;
   fullName: string | null;
   avatar: string | null;
-  email: string | null;
+  email?: string;
 }
 export interface ISeller extends IUser {
   shop: {

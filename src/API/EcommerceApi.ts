@@ -1375,11 +1375,10 @@ export class EcommerceApi {
     );
   }
 
-  // get single review
+  // get single getSingleSeller
   static async getSingleSeller(
-    seller_email: string
+    seller_email: string | undefined | null
   ): Promise<IGetSingleSellerResponse> {
-    console.log("seller_email_ecom-api=", seller_email);
     const myHeaders = new Headers();
     const requestOptions = {
       headers: myHeaders,
@@ -1428,4 +1427,33 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/blogcategories`, requestOptions);
   }
+
+  // // get single seller from user
+  // static async getSingleSeller(data: string) {
+  //   const myHeaders = new Headers();
+  //   const requestOptions = {
+  //     headers: myHeaders,
+  //     redirect: "follow",
+  //   };
+  //   return await callFetch(`${API_ENDPOINT}/users/${data}`, requestOptions);
+  // }
+
+  //  edit products
+  static async editShop(data: any, email: any) {
+    console.log(data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/users/shop/${email}`,
+      requestOptions
+    );
+  }
 }
+//640d8f99d026f6c6e200a5d1
