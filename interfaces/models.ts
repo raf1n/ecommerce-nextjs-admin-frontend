@@ -220,4 +220,28 @@ export interface IFlashSaleProducts {
   product_slug: string;
   status: string;
   productsData?: IProduct;
+  // imageUrl:
+  // title:
+  // catSlug:
+
+  // description:
+  // isShowHomepage:
+  // status:
+
+  // seo_title:
+  // seo_description:
+  // postBy:
+}
+export interface IBlog {
+  title: string;
+  catSlug: string;
+  description?: string;
+
+  isShowHomepage?: string;
+  status?: string;
+  imageURL?: string | undefined;
+
+  seo_title?: string;
+  seo_description?: string;
+  postBy: string;
 }
