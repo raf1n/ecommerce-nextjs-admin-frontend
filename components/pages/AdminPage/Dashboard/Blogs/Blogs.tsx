@@ -58,7 +58,7 @@ const Blogs: React.FC<Props> = (props) => {
       />
       <div className="m-6">
         <div className="section-body">
-          <SharedGoBackButton title="Blogs" link="/blogs" />
+          <SharedGoBackButton title="Blogs" link="/admin/blogs/" />
         </div>
       </div>
       {/*************************************/}

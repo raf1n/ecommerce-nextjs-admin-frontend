@@ -88,7 +88,7 @@ export interface ISingleProductResponse extends MyFetchInterface {
   res: IProduct;
 }
 export interface IBlogResponse extends MyFetchInterface {
-  res: IBlog;
+  res: IBlog[];
 }
 
 export interface ICouponResponse extends MyFetchInterface {

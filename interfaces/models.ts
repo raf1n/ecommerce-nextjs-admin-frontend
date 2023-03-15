@@ -227,6 +227,7 @@ export interface IWithdraw {
 // seo_description:
 // postBy:
 export interface IBlog {
+  slug: string;
   title: string;
   catSlug: string;
   description?: string;
