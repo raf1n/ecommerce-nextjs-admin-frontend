@@ -227,13 +227,14 @@ export interface IWithdraw {
 // seo_description:
 // postBy:
 export interface IBlog {
-  slug: string;
+  slug?: string;
+
   title: string;
   catSlug: string;
-  description?: string;
+  description: string;
 
-  isShowHomepage?: string;
-  status?: string;
+  isShowHomepage: string;
+  status: string;
   imageURL?: string | undefined;
 
   seo_title?: string;

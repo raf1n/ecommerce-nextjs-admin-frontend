@@ -699,7 +699,7 @@ export class EcommerceApi {
     return await callFetch(`${API_ENDPOINT}/products`, requestOptions);
   }
   // add blogs
-  static async addBlog(data: IBlog): Promise<IBlogResponse> {
+  static async addBlog(data: IBlog) {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     const requestOptions = {

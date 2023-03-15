@@ -169,12 +169,15 @@ const FetchBlogs: React.FC<Props> = (props) => {
                                 {indx + 1}
                               </p>
                             </td>
-                            <td className="px-5 py-5 text-sm">
-                              <p className="text-gray-900 whitespace-no-wrap">
-                                {data?.title}
-                              </p>
+                            <td className="px-5 py-5 text-sm text-left">
+                              <Link
+                                href={`http://localhost:3000/blogs/blog?slug=${data.slug}`}>
+                                <p className="text-blue-500 whitespace-no-wrap">
+                                  {data?.title}
+                                </p>
+                              </Link>
                             </td>
-                            <td className="px-5 py-5 text-sm">
+                            <td className="px-5 py-5 text-sm ">
                               <p className="text-gray-900 whitespace-no-wrap">
                                 {data.catSlug}
                               </p>
@@ -187,9 +190,16 @@ const FetchBlogs: React.FC<Props> = (props) => {
                                 />
                               )}
                             </td>
-                            <td className="px-5 py-5 text-sm">
-                              <p className="text-gray-900 whitespace-no-wrap">
-                                {data.isShowHomepage}
+                            <td className="px-5 py-5 text-sm text-center">
+                              <p className="text-gray-900  whitespace-no-wrap">
+                                <span
+                                  className={` ${
+                                    data.isShowHomepage === "yes"
+                                      ? "bg-[#47c363]"
+                                      : "bg-[#fc544b]"
+                                  } px-3 py-1 text-white rounded-3xl capitalize`}>
+                                  {data.isShowHomepage}
+                                </span>
                               </p>
                             </td>
 
