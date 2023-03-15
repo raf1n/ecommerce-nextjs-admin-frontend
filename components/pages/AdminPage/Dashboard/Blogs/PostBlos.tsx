@@ -5,7 +5,8 @@ import { controller } from "../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
 interface Props {}
-const Blogs: React.FC<Props> = (props) => {
+
+const PostBlos: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -44,7 +45,7 @@ const Blogs: React.FC<Props> = (props) => {
       };
       console.log(blogData);
       EcommerceApi.addBlog(blogData);
-      // e.target.reset();
+      e.target.reset();
       setSelectedImage(null);
     }
   };
@@ -215,4 +216,4 @@ const Blogs: React.FC<Props> = (props) => {
   );
 };
 
-export default Blogs;
+export default PostBlos;
