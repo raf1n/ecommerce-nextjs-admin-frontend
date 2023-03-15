@@ -953,7 +953,7 @@ export class Jsondata {
         },
         {
           title: "Flash Sale Product",
-          link: "/admin/flash_sale_product",
+          link: "/admin/flash_sale_products",
         },
 
         {
@@ -1073,7 +1073,30 @@ export class Jsondata {
     },
     { title: "Website Footer", icon: AiFillAppstore },
     { title: "Pages", icon: FaColumns },
-    { title: "Blogs", icon: AiFillAppstore },
+    // blogs //
+    {
+      title: "Blogs",
+      icon: AiFillAppstore,
+      nestedRoutes: [
+        {
+          title: "Categories",
+          link: "/admin/categories",
+        },
+        {
+          title: "Blogs",
+          link: "/admin/blogs",
+        },
+        {
+          title: "Popular Blogs",
+          link: "/admin/popular-blogs",
+        },
+        {
+          title: "Comments Sellers",
+          link: "/admin/comments",
+        },
+      ],
+    },
+
     { title: "Email Configuration", icon: FaEnvelope },
     { title: "Language", icon: AiFillAppstore },
     { title: "Setting", icon: FaCog },

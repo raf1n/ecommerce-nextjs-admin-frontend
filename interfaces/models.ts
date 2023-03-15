@@ -119,7 +119,7 @@ export interface IProduct {
 export interface IInventoryProduct extends IProduct {
   sold: number;
   stockInData: Array<{ slug: string; quantity: number; createdAt: string }>;
-  stockData: Array<{ _id: string, totalCount: number}>;
+  stockData: Array<{ _id: string; totalCount: number }>;
 }
 
 export interface IBrand {
@@ -224,4 +224,25 @@ export interface IWithdrawMethod {
   charge: number;
   status?: string;
   description: string;
+}
+
+export interface IFlashSaleProducts {
+  slug: string;
+  product_slug: string;
+  status: string;
+  productsData?: IProduct;
+}
+
+export interface IBlog {
+  title: string;
+  catSlug: string;
+  description?: string;
+
+  isShowHomepage?: string;
+  status?: string;
+  imageURL?: string | undefined;
+
+  seo_title?: string;
+  seo_description?: string;
+  postBy: string;
 }
