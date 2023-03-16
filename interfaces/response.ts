@@ -9,6 +9,7 @@ import {
   IOrder,
   IPopularCategories,
   IReview,
+  ISeo,
   ISlider,
   ISubCategories,
   IUser,
@@ -145,4 +146,11 @@ export interface ISingleProductInventoryResponse extends MyFetchInterface {
 
 export interface IFlashSaleProductsResponse extends MyFetchInterface {
   res: IFlashSaleProducts[];
+}
+
+export interface ISeoResponse extends MyFetchInterface {
+  res: ISeo[];
+}
+export interface ISingleSeoResponse extends MyFetchInterface {
+  res: ISeo;
 }

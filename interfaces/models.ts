@@ -194,3 +194,10 @@ export interface IFlashSaleProducts {
   status: string;
   productsData?: IProduct;
 }
+
+export interface ISeo {
+  slug: string;
+  topic: string;
+  seo_title: string;
+  seo_description: string;
+}

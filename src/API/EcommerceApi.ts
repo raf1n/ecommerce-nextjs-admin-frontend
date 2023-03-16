@@ -3,7 +3,9 @@ import {
   IFlashSaleProductsResponse,
   IGetAllUsersResponse,
   IGetSingleUserResponse,
+  ISeoResponse,
   ISingleProductInventoryResponse,
+  ISingleSeoResponse,
 } from "./../../interfaces/response";
 import {
   IAd,
@@ -13,6 +15,7 @@ import {
   ICoupon,
   IMegaCategory,
   IPopularCategories,
+  ISeo,
   ISlider,
   ISubCategories,
   IUser,
@@ -1389,5 +1392,47 @@ export class EcommerceApi {
       `${API_ENDPOINT}/flash-sale/${slug}`,
       requestOptions
     );
+  }
+
+  static async getAllSeo(): Promise<ISeoResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/seo`, requestOptions);
+  }
+
+  static async getSingleSeo(
+    topic: string | undefined
+  ): Promise<ISingleSeoResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/seo/${topic}`, requestOptions);
+  }
+
+  static async updateSeoInfo(
+    topic: string | undefined,
+    data: Partial<ISeo>
+  ): Promise<ISingleSeoResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/seo/${topic}`, requestOptions);
   }
 }
