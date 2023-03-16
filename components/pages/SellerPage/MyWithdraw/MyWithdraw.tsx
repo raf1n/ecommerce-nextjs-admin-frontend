@@ -1,9 +1,10 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiPlus } from "react-icons/bi";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { IWithdraw } from "../../../../interfaces/models";
+import { IWithdraw, IWithdrawMethod } from "../../../../interfaces/models";
+import { EcommerceApi } from "../../../../src/API/EcommerceApi";
 import { controller } from "../../../../src/state/StateController";
 import SharedAddNewButton from "../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DashboardBreadcrumb from "../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";

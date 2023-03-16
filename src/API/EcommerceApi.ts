@@ -1,5 +1,5 @@
-import { IBlog } from "./../../interfaces/models";
-import { IWithdrawMethod } from './../../interfaces/models';
+import { IBlog, IWithdraw } from "./../../interfaces/models";
+import { IWithdrawMethod } from "./../../interfaces/models";
 import {
   IAdminProductInventoriesResponse,
   IBlogResponse,
@@ -13,6 +13,7 @@ import {
   ISingleProductInventoryResponse,
   ISingleReviewProductsResponse,
   ISingleWithdrawMethodResponse,
+  IWithdrawResponse,
 } from "./../../interfaces/response";
 import {
   IAd,
@@ -1380,8 +1381,9 @@ export class EcommerceApi {
     );
   }
 
-  
-  static async getAllWithdrawMethods(query: string): Promise<IGetWithdrawMethodsResponse> {
+  static async getAllWithdrawMethods(
+    query: string
+  ): Promise<IGetWithdrawMethodsResponse> {
     const myHeaders = new Headers();
     const requestOptions = {
       headers: myHeaders,
@@ -1393,7 +1395,9 @@ export class EcommerceApi {
     );
   }
 
-  static async getSingleWithdrawMethod(slug: string): Promise<ISingleWithdrawMethodResponse> {
+  static async getSingleWithdrawMethod(
+    slug: string
+  ): Promise<ISingleWithdrawMethodResponse> {
     const myHeaders = new Headers();
     const requestOptions = {
       headers: myHeaders,
@@ -1418,10 +1422,7 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(
-      `${API_ENDPOINT}/withdraw-methods`,
-      requestOptions
-    );
+    return await callFetch(`${API_ENDPOINT}/withdraw-methods`, requestOptions);
   }
 
   static async editWithdrawMethod(
@@ -1444,7 +1445,9 @@ export class EcommerceApi {
     );
   }
 
-  static async deleteWithdrawMethod(slug: string): Promise<ISingleWithdrawMethodResponse> {
+  static async deleteWithdrawMethod(
+    slug: string
+  ): Promise<ISingleWithdrawMethodResponse> {
     const myHeaders = new Headers();
     const requestOptions = {
       method: "DELETE",
@@ -1452,7 +1455,10 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/withdraw-methods/${slug}`, requestOptions);
+    return await callFetch(
+      `${API_ENDPOINT}/withdraw-methods/${slug}`,
+      requestOptions
+    );
   }
 
   //  flash sales apis
@@ -1504,5 +1510,19 @@ export class EcommerceApi {
       `${API_ENDPOINT}/flash-sale/${slug}`,
       requestOptions
     );
+  }
+
+  static async postWithdraw(data: IWithdraw): Promise<IWithdrawResponse> {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/withdraws`, requestOptions);
   }
 }

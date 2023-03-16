@@ -207,13 +207,10 @@ export interface IReportedItem {
 }
 
 export interface IWithdraw {
-  slug?: string;
   method?: string;
-  charge?: number;
-  TotalAmount?: number;
-  WithdrawAmount: number;
-  status?: string;
-  action?: string;
+  amount?: number;
+  information?: string;
+  seller_slug?: string;
 }
 
 export interface IWithdrawMethod {
