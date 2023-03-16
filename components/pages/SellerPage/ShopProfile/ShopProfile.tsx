@@ -12,8 +12,7 @@ const ShopProfile: React.FC<Props> = (props) => {
   useEffect(() => {
     const getSingleSeller = async () => {
       const { res, err } = await EcommerceApi.getSingleSeller(
-        // states?.currentUser?.email //testing purpose comment
-        "seller@gmail.com"
+        states?.currentUser?.email
       );
       if (res) {
         console.log(res);
@@ -25,6 +24,7 @@ const ShopProfile: React.FC<Props> = (props) => {
     };
     getSingleSeller();
   }, []);
+  console.log(states?.currentUser?.email);
 
   const handleUpdateShop = async (e: any) => {
     e.preventDefault();
@@ -74,7 +74,7 @@ const ShopProfile: React.FC<Props> = (props) => {
           user_email: shopData.user_email,
         };
 
-        EcommerceApi.editShop(newShopData, "seller@gmail.com");
+        EcommerceApi.editShop(newShopData, states?.currentUser?.email);
         console.log("newShopData-", newShopData);
         // e.target.reset();
       }
@@ -120,6 +120,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                       type="file"
                       name="logoUrl"
                       id=""
+                      defaultValue={shopData?.shop_logo}
                     />
                   </div>
 
@@ -152,6 +153,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                       type="file"
                       name="coverUrl"
                       id=""
+                      defaultValue={shopData?.shop_cover}
                     />
                   </div>
 
@@ -222,6 +224,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                       type="time"
                       name="opens_at"
                       id=""
+                      defaultValue={shopData?.opens_at}
                     />
                   </div>
 
@@ -239,6 +242,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                       type="time"
                       name="close_at"
                       id=""
+                      defaultValue={shopData?.close_at}
                     />
                   </div>
 
@@ -256,7 +260,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                       type="text"
                       name="address"
                       id=""
-                      defaultValue={shopData?.shop.shop_address}
+                      defaultValue={shopData?.shop?.shop_address}
                     />
                   </div>
 
@@ -274,6 +278,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                       type="text"
                       name="geetings_message"
                       id=""
+                      defaultValue={shopData?.geetings_message}
                     />
                   </div>
 
@@ -292,6 +297,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                         type="text"
                         name="social_icon"
                         id=""
+                        defaultValue={shopData?.social_icon}
                       />
                     </div>
                     <div className="w-full">
@@ -308,6 +314,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                         type="text"
                         name="social_link"
                         id=""
+                        defaultValue={shopData?.social_link}
                       />
                     </div>
                   </div>
@@ -326,6 +333,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                       type="text"
                       name="seo_title"
                       id=""
+                      defaultValue={shopData?.seo_title}
                     />
                   </div>
 
@@ -343,6 +351,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                       type="text"
                       name="seo_des"
                       id=""
+                      defaultValue={shopData?.seo_des}
                     />
                   </div>
 

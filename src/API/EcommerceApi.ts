@@ -1438,7 +1438,7 @@ export class EcommerceApi {
   //   return await callFetch(`${API_ENDPOINT}/users/${data}`, requestOptions);
   // }
 
-  //  edit products
+  //  edit shop
   static async editShop(data: any, email: any) {
     console.log(data);
     const myHeaders = new Headers();

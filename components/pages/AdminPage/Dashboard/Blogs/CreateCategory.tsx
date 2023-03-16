@@ -19,7 +19,7 @@ const CreateCategory: React.FC<Props> = (props) => {
     };
     EcommerceApi.createCategory(category);
     console.log(category);
-    // e.target.reset();
+    e.target.reset();
   };
 
   return (
