@@ -18,6 +18,7 @@ interface Props {}
 const ProductEdit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [productData, setProductData] = useState<IProduct>();
+
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
   const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
@@ -38,10 +39,12 @@ const ProductEdit: React.FC<Props> = (props) => {
   //   productData?.isPopular
   // );
   // const [selectValue, setSelectValue] = useState({});
+
   const { asPath } = useRouter();
   console.log(asPath);
   const productSlug = asPath.split("/")[3];
   console.log(productSlug);
+
   useEffect(() => {
     const getSingleProduct = async () => {
       if (productSlug !== "[id]") {
@@ -115,11 +118,11 @@ const ProductEdit: React.FC<Props> = (props) => {
   const handleProductUpdate = async (e: any) => {
     e.preventDefault();
 
-    // console.log(productData);
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
     formData.append("image", image);
     console.log(formData);
+
     const { res, err } = await EcommerceApi.uploadImage(formData);
     if (res?.data?.url || !res?.data?.url || res.error.code === 120) {
       let imageUrl;
@@ -159,14 +162,12 @@ const ProductEdit: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Edit Product"
         link="/product_brands/edit"
-        slug="Edit Product"
-      ></DashboardBreadcrumb>
+        slug="Edit Product"></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Products"
-            link="/admin/products"
-          ></SharedGoBackButton>
+            link="/admin/products"></SharedGoBackButton>
         </div>
       </div>
       <div className="px-[25px] w-full relative">
@@ -184,7 +185,6 @@ const ProductEdit: React.FC<Props> = (props) => {
                         <img
                           id="preview-img"
                           className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
-                          // src="https://api.websolutionus.com/shopo/uploads/website-images/preview.png"
                           src={productData?.imageURL[0]}
                           alt=""
                         />
@@ -243,15 +243,13 @@ const ProductEdit: React.FC<Props> = (props) => {
                     }}
                     name="category"
                     id="category"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                  >
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
                     {categories.map((cat: ICategories, indx) => (
                       <>
                         <option
                           selected={productData?.catSlug === cat.cat_slug}
                           key={indx}
-                          value={cat.cat_slug}
-                        >
+                          value={cat.cat_slug}>
                           {cat.cat_name}
                         </option>
                       </>
@@ -266,8 +264,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                   <select
                     name="sub_category"
                     id="sub_category"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                  >
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
                     {
                       filteredSubCat.length === 0
                         ? subCategories.map((subCat, indx) => (
@@ -276,8 +273,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                                 productData?.subCatSlug === subCat?.slug
                               }
                               key={indx}
-                              value={subCat.slug}
-                            >
+                              value={subCat.slug}>
                               {subCat.subcat_name}
                             </option>
                           ))
@@ -285,8 +281,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                             <option
                               selected={productData?.subCatSlug === subCat.slug}
                               key={indx}
-                              value={subCat.slug}
-                            >
+                              value={subCat.slug}>
                               {subCat.subcat_name}
                             </option>
                           ))
@@ -472,18 +467,15 @@ const ProductEdit: React.FC<Props> = (props) => {
                     className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="productStatus"
                     id=""
-                    required
-                  >
+                    required>
                     <option
                       selected={productData?.status === "active"}
-                      value="active"
-                    >
+                      value="active">
                       Active
                     </option>
                     <option
                       selected={productData?.status === "inactive"}
-                      value="inactive"
-                    >
+                      value="inactive">
                       InActive
                     </option>
                   </select>

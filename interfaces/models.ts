@@ -24,7 +24,7 @@ export interface IUser {
   updatedAt?: string;
   fullName: string | null;
   avatar: string | null;
-  email: string | null;
+  email?: string;
 }
 export interface ISeller extends IUser {
   shop: {
@@ -231,12 +231,14 @@ export interface IFlashSaleProducts {
 }
 
 export interface IBlog {
-  title: string;
-  catSlug: string;
-  description?: string;
+  slug?: string;
 
-  isShowHomepage?: string;
-  status?: string;
+  title: string;
+  category: string;
+  description: string;
+
+  isShowHomepage: string;
+  status: string;
   imageURL?: string | undefined;
 
   seo_title?: string;
@@ -249,4 +251,10 @@ export interface ISeo {
   topic: string;
   seo_title: string;
   seo_description: string;
+}
+
+export interface IBlogCategory extends MyFetchInterface {
+  name: string;
+  slug?: string;
+  status: string;
 }

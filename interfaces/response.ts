@@ -1,6 +1,7 @@
 import {
   IAd,
   IBlog,
+  IBlogCategory,
   ICategories,
   ICoupon,
   IFeaturedCategories,
@@ -91,7 +92,7 @@ export interface ISingleProductResponse extends MyFetchInterface {
   res: IProduct;
 }
 export interface IBlogResponse extends MyFetchInterface {
-  res: IBlog;
+  res: IBlog[];
 }
 
 export interface ICouponResponse extends MyFetchInterface {
@@ -186,4 +187,8 @@ export interface ISeoResponse extends MyFetchInterface {
 }
 export interface ISingleSeoResponse extends MyFetchInterface {
   res: ISeo;
+}
+
+export interface IBlogCategoryResponse extends MyFetchInterface {
+  res: IBlogCategory[];
 }

@@ -1,7 +1,8 @@
 import { IBlog, IWithdraw } from "./../../interfaces/models";
-import { IWithdrawMethod } from "./../../interfaces/models";
+import { IWithdrawMethod, IBlogCategory } from "./../../interfaces/models";
 import {
   IAdminProductInventoriesResponse,
+  IBlogCategoryResponse,
   IBlogResponse,
   IFeaturedCategoriesResponse,
   IFlashSaleProductsResponse,
@@ -59,7 +60,6 @@ import {
 import { MyFetchInterface } from "./../utils/CallFetch";
 import { IProduct } from "../../interfaces/models";
 import { callFetch } from "../utils/CallFetch";
-import seller from "../../pages/seller";
 
 // import { callFetch, MyFetchInterface } from "../utils/CallFetch"
 export const API_ENDPOINT = process.env["NEXT_PUBLIC_API_ENDPOINT"];
@@ -162,7 +162,7 @@ export class EcommerceApi {
     };
 
     return await callFetch(
-      "https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024",
+      `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
       requestOptions
     );
   }
@@ -182,7 +182,7 @@ export class EcommerceApi {
     };
 
     return await callFetch(
-      "https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024",
+      `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
       requestOptions
     );
   }
@@ -486,7 +486,7 @@ export class EcommerceApi {
     };
 
     return await callFetch(
-      "https://api.imgbb.com/1/upload?key=d78d32c3d086f168de7b3bfaf5032024",
+      `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
       requestOptions
     );
   }
@@ -708,8 +708,7 @@ export class EcommerceApi {
     return await callFetch(`${API_ENDPOINT}/products`, requestOptions);
   }
   // add blogs
-  static async addBlog(data: IBlog): Promise<IBlogResponse> {
-    console.log("postBy blog api--", data);
+  static async addBlog(data: IBlog) {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     const requestOptions = {
@@ -1569,5 +1568,76 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/seo/${topic}`, requestOptions);
+  }
+
+  // get single getSingleSeller
+  static async getSingleSeller(
+    seller_email: string | undefined | null
+  ): Promise<IGetSingleSellerResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/users/${seller_email}`,
+      requestOptions
+    );
+  }
+
+  //Get all blogs
+  static async getAllBlogs(query: string): Promise<IBlogResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(`${API_ENDPOINT}/blogs?${query}`, requestOptions);
+  }
+
+  //create blog categorie
+  static async createCategory(
+    data: Partial<IBlogCategory>
+  ): Promise<IBlogCategoryResponse> {
+    console.log("blog category api-", data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/blogcategories`, requestOptions);
+  }
+
+  //get all categories
+  static async getAllBlogCategories(): Promise<IBlogCategoryResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/blogcategories`, requestOptions);
+  }
+
+  //  edit shop
+  static async editShop(data: any, email: any) {
+    console.log(data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/users/shop/${email}`,
+      requestOptions
+    );
   }
 }

@@ -1,14 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import FetchBlogs from "../../../components/pages/AdminPage/Dashboard/Blogs/FetchBlogs";
+import PostBlog from "../../../components/pages/AdminPage/Dashboard/Blogs/PostBlog";
 import { controller } from "../../../src/state/StateController";
 
 interface Props {}
 
-const index: React.FC<Props> = (props) => {
+const post_blog: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
-  return <FetchBlogs />;
+  return <PostBlog />;
 };
 
-export default index;
+export default post_blog;

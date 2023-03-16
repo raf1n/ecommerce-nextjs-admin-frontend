@@ -1,91 +1,79 @@
-import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import { controller } from "./../../../../../../src/state/StateController";
-
-import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
-import SharedAddNewButton from "./../../../../../shared/SharedAddNewButton/SharedAddNewButton";
-import { IProduct } from "../../../../../../interfaces/models";
+import React, { useEffect, useState } from "react";
 import {
   FaEdit,
   FaLongArrowAltDown,
   FaLongArrowAltUp,
   FaTrash,
 } from "react-icons/fa";
-import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
-import { useRouter } from "next/router";
-import ProductsToggleButton from "../ProductsToggleButton/ProductsToggleButton";
-import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import { useSelector } from "react-redux";
+import { IBlog } from "../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
+import { controller } from "../../../../../src/state/StateController";
+import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import ToggleButton from "../ManageCategories/ToggleButton/ToggleButton";
 
 interface Props {}
+const tableHeaders = {
+  sn: "sn",
+  Title: "title",
+  Category: "catSlug",
+  image: "imageURL",
+  ShowHomepage: "isShowHomepage",
+  status: "status",
+  action: "action",
+};
 
-const Products: React.FC<Props> = (props) => {
+const FetchBlogs: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const [productsData, setProductsData] = useState<IProduct[]>([]);
+
+  const [sellersData, setSellersData] = useState<IBlog[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
-  // const [showModal, setShowModal] = useState(false);
-  // const { adminProductsData } = Jsondata;
-  const router = useRouter();
-  const { asPath } = router;
-  const handleDelete = async () => {
-    const { res, err } = await EcommerceApi.deleteProduct(deleteModalSlug);
-    if (res) {
-      setDeleteModalSlug("");
-      const remainingProducts = productsData.filter(
-        (product) => product.slug !== deleteModalSlug
-      );
-      setProductsData(remainingProducts);
-    }
-  };
-
   useEffect(() => {
-    const fetchAllProducts = async () => {
-      const { res, err } = await EcommerceApi.allProductsAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+    const fetchAllSeller = async () => {
+      const { res, err } = await EcommerceApi.getAllBlogs(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&status=active`
       );
       if (err) {
         console.log(err);
       } else {
-        setProductsData(res.allProductData);
+        setSellersData(res);
+        console.log("blog fetch", res);
       }
     };
 
-    fetchAllProducts();
+    fetchAllSeller();
   }, [searchString, sortBy, sortType]);
 
-  console.log({ searchString, sortBy, sortType });
-
-  const tableHeaders = {
-    sn: "sn",
-    name: "productName",
-    price: "price",
-    photo: "imageURL",
-    type: "type",
-    status: "status",
-    action: "action",
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteSingleUser(deleteModalSlug);
+    if (res) {
+      setDeleteModalSlug("");
+      const remaining = sellersData.filter(
+        (seller) => seller.slug !== deleteModalSlug
+      );
+      setSellersData(remaining);
+    }
   };
 
   return (
     <div className="w-full">
-      <DashboardBreadcrumb
-        headline="Products"
-        slug="Products"
-        link="/products"></DashboardBreadcrumb>
+      <DashboardBreadcrumb headline="Blogs" slug="Blogs" link="/admin/blogs" />
+      <div className="m-6">
+        <div className="section-body">
+          <SharedGoBackButton title="Add New" link="/admin/blogs/post_blog/" />
+        </div>
+      </div>
+
       <div className="mx-[25px]">
         <div className="section-body">
-          <Link className="inline-block" href="/admin/products/create">
-            <SharedAddNewButton></SharedAddNewButton>
-          </Link>
           <div className="mt-7">
-            {/* <DynamicTable
-              tableHeaders={tableHeaders}
-              actions={actions}
-              testDynamicTableData={adminProductsData}
-            /> */}
             <div className="bg-white p-8 rounded-md w-full">
               <div className=" flex items-center justify-between pb-6">
                 <div>
@@ -110,140 +98,129 @@ const Products: React.FC<Props> = (props) => {
                     <input
                       onChange={(e) => setSearchString(e.target.value)}
                       className={` rounded outline-none  border hover:border-blue-400 h-[31px] w-[181px] py-[2px] px-[6px]`}
-                      type="text"
+                      type="search"
                       name=""
                       id=""
                     />
                   </div>
                 </div>
               </div>
+
               <div>
                 <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-1 overflow-x-auto">
                   <div className="inline-block min-w-full shadow overflow-hidden">
                     <table className="min-w-full leading-normal">
                       <thead>
                         <tr className="h-16">
-                          {Object.keys(tableHeaders).map((header: any) => (
-                            <th className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                              <span className="flex">
-                                <span className="flex-1">{header}</span>
-                                <FaLongArrowAltUp
-                                  onClick={() => {
-                                    setSortType("asc");
-                                    //@ts-ignore
-                                    setSortBy(tableHeaders[header]);
-                                  }}
-                                  className={`${
-                                    //@ts-ignore
-                                    sortBy === tableHeaders[header] &&
-                                    sortType === "asc"
-                                      ? "fill-gray-700"
-                                      : "fill-gray-300"
-                                  } w-2 ml-2 cursor-pointer`}
-                                />{" "}
-                                <FaLongArrowAltDown
-                                  onClick={() => {
-                                    setSortType("desc");
-                                    //@ts-ignore
-                                    setSortBy(tableHeaders[header]);
-                                  }}
-                                  className={`${
-                                    //@ts-ignore
-                                    sortBy === tableHeaders[header] &&
-                                    sortType === "desc"
-                                      ? "fill-gray-700"
-                                      : "fill-gray-300"
-                                  } w-2 ml-1 cursor-pointer`}
-                                />
-                              </span>
-                            </th>
-                          ))}
+                          {Object.keys(tableHeaders).map(
+                            (header: any, idx: number) => (
+                              <th
+                                key={idx}
+                                className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                <span className="flex">
+                                  <span className="flex-1">{header}</span>
+                                  <FaLongArrowAltUp
+                                    onClick={() => {
+                                      setSortType("asc");
+                                      //@ts-ignore
+                                      setSortBy(tableHeaders[header]);
+                                    }}
+                                    className={`${
+                                      //@ts-ignore
+                                      sortBy === tableHeaders[header] &&
+                                      sortType === "asc"
+                                        ? "fill-gray-700"
+                                        : "fill-gray-300"
+                                    } w-2 ml-2 cursor-pointer`}
+                                  />{" "}
+                                  <FaLongArrowAltDown
+                                    onClick={() => {
+                                      setSortType("desc");
+                                      //@ts-ignore
+                                      setSortBy(tableHeaders[header]);
+                                    }}
+                                    className={`${
+                                      //@ts-ignore
+                                      sortBy === tableHeaders[header] &&
+                                      sortType === "desc"
+                                        ? "fill-gray-700"
+                                        : "fill-gray-300"
+                                    } w-2 ml-1 cursor-pointer`}
+                                  />
+                                </span>
+                              </th>
+                            )
+                          )}
                         </tr>
                       </thead>
                       <tbody>
-                        {productsData.map((data: IProduct, indx) => (
-                          <tr className="even:bg-gray-100 odd:bg-white">
+                        {sellersData.map((data, indx) => (
+                          <tr
+                            key={indx}
+                            className="even:bg-gray-100 odd:bg-white">
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
                                 {indx + 1}
                               </p>
                             </td>
-                            <td className="px-5 py-5 text-sm">
-                              <p className="text-gray-900 whitespace-no-wrap">
-                                {data.productName}
-                              </p>
+                            <td className="px-5 py-5 text-sm text-left">
+                              <Link
+                                href={`http://localhost:3000/blogs/blog?slug=${data.slug}`}>
+                                <p className="text-blue-500 whitespace-no-wrap">
+                                  {data?.title}
+                                </p>
+                              </Link>
                             </td>
-                            <td className="px-5 py-5 text-sm">
+                            <td className="px-5 py-5 text-sm ">
                               <p className="text-gray-900 whitespace-no-wrap">
-                                {data.price}
+                                {data?.category}
                               </p>
                             </td>
                             <td className="px-3 py-3 ">
                               {data && data.imageURL && (
                                 <img
-                                  src={data?.imageURL[0]}
-                                  className="w-[100px] h-[100px] object-cover"
+                                  src={data.imageURL}
+                                  className="w-[100px] h-[100px] object-cover rounded-full"
                                 />
                               )}
                             </td>
-                            <td className="px-5 py-5  text-sm">
-                              <span className="flex gap-2">
-                                {data.isNewArrival && (
-                                  <span className="bg-green-500 rounded-xl py-1 px-2 text-white">
-                                    New
-                                  </span>
-                                )}
-                                {data.isFeatured && (
-                                  <span className="bg-blue-500 rounded-xl py-1 px-2 text-white">
-                                    Featured
-                                  </span>
-                                )}
-
-                                {data.isBestProduct && (
-                                  <span className="bg-red-500 rounded-xl py-1 px-2 text-white">
-                                    Best
-                                  </span>
-                                )}
-                                {data.isPopular && (
-                                  <span className="bg-orange-500 rounded-xl py-1 px-2 text-white">
-                                    Popular
-                                  </span>
-                                )}
-                                {data.isTopProduct && (
-                                  <span className="bg-amber-500 rounded-xl py-1 px-2 text-white">
-                                    Top
-                                  </span>
-                                )}
-                              </span>
+                            <td className="px-5 py-5 text-sm text-center">
+                              <p className="text-gray-900  whitespace-no-wrap">
+                                <span
+                                  className={` ${
+                                    data.isShowHomepage === "yes"
+                                      ? "bg-[#47c363]"
+                                      : "bg-[#fc544b]"
+                                  } px-3 py-1 text-white rounded-3xl capitalize`}>
+                                  {data.isShowHomepage}
+                                </span>
+                              </p>
                             </td>
+
                             <td className="px-3 py-3 text-sm ">
-                              <ProductsToggleButton
+                              <ToggleButton
                                 slug={data?.slug}
+                                apiUrl="users/edit-status"
                                 status={data?.status}
                               />
                             </td>
-                            <td className="px-2 py-3  text-sm">
-                              <button
-                                onClick={() =>
-                                  router.push(`${asPath}/${data.slug}/edit`)
-                                }>
+                            <td className="px-3 py-3 text-sm">
+                              <Link href={`/admin/customer_show/${data.slug}`}>
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
-                                    style={{
-                                      boxShadow: "0 2px 6px #acb5f6",
-                                    }}
+                                    style={{ boxShadow: "0 2px 6px #acb5f6" }}
                                     className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center">
                                     <FaEdit />
                                   </span>
                                 </span>
-                              </button>
+                              </Link>
+
                               <button>
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     onClick={() =>
                                       setDeleteModalSlug(data?.slug)
                                     }
-                                    // onClick={() => openModal()}
                                     style={{
                                       boxShadow: "0 2px 6px #fd9b96",
                                     }}
@@ -262,6 +239,7 @@ const Products: React.FC<Props> = (props) => {
                       deleteModalSlug={deleteModalSlug}
                       setDeleteModalSlug={setDeleteModalSlug}
                     />
+
                     <div className="px-5 py-5  border-t flex justify-between">
                       <div>
                         <span className="text-xs xs:text-sm text-gray-900">
@@ -305,4 +283,4 @@ const Products: React.FC<Props> = (props) => {
   );
 };
 
-export default Products;
+export default FetchBlogs;
