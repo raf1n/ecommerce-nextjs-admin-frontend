@@ -215,23 +215,24 @@ export interface IWithdraw {
   status?: string;
   action?: string;
 }
+
+export interface IWithdrawMethod {
+  slug?: string;
+  name: string;
+  min: number;
+  max: number;
+  charge: number;
+  status?: string;
+  description: string;
+}
+
 export interface IFlashSaleProducts {
   slug: string;
   product_slug: string;
   status: string;
   productsData?: IProduct;
-  // imageUrl:
-  // title:
-  // catSlug:
-
-  // description:
-  // isShowHomepage:
-  // status:
-
-  // seo_title:
-  // seo_description:
-  // postBy:
 }
+
 export interface IBlog {
   title: string;
   catSlug: string;
