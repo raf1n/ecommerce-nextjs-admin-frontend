@@ -30,10 +30,18 @@ const Inventory: React.FC<Props> = (props) => {
 
   const seller_slug = states.currentUser?.slug;
 
+  const getStockSold = (arr: any): number => {
+    const stockSoldNumber = arr.find(
+      (stockDt: any) => stockDt._id === "stockOut"
+    );
+  
+    return stockSoldNumber?.totalCount | 0;
+  };
+
   useEffect(() => {
     const fetchInventories = async () => {
       const { res, err } = await EcommerceApi.getSellerProductInventories(
-        seller_slug
+        seller_slug, `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
 
       if (res) {
@@ -159,7 +167,7 @@ const Inventory: React.FC<Props> = (props) => {
 
                         <td className="px-3 py-3    ">
                           <p className="text-gray-900 whitespace-no-wrap ">
-                            {productData?.sold}
+                          {getStockSold(productData.stockData)}
                           </p>
                         </td>
 

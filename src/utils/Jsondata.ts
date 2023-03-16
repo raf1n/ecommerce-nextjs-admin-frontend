@@ -976,7 +976,24 @@ export class Jsondata {
       gap: false,
       link: "/admin/advertisement",
     },
-    { title: "Withdraw Payment", icon: FaNewspaper },
+    {
+      title: "Withdraw Payment",
+      icon: FaNewspaper,
+      nestedRoutes: [
+        {
+          title: "Withdraw Method",
+          link: "/admin/withdraw_method",
+        },
+        {
+          title: "Seller Withdraw",
+          link: "/admin/seller_withdraw",
+        },
+        {
+          title: "Pending Seller Withdraw",
+          link: "/admin/pending_seller_withdraw",
+        },
+      ],
+    },
     {
       title: "Users",
       icon: FaUserAlt,
@@ -1056,7 +1073,30 @@ export class Jsondata {
     },
     { title: "Website Footer", icon: AiFillAppstore },
     { title: "Pages", icon: FaColumns },
-    { title: "Blogs", icon: AiFillAppstore },
+    // blogs //
+    {
+      title: "Blogs",
+      icon: AiFillAppstore,
+      nestedRoutes: [
+        {
+          title: "Categories",
+          link: "/admin/categories",
+        },
+        {
+          title: "Blogs",
+          link: "/admin/blogs",
+        },
+        {
+          title: "Popular Blogs",
+          link: "/admin/popular-blogs",
+        },
+        {
+          title: "Comments Sellers",
+          link: "/admin/comments",
+        },
+      ],
+    },
+
     { title: "Email Configuration", icon: FaEnvelope },
     { title: "Language", icon: AiFillAppstore },
     { title: "Setting", icon: FaCog },
@@ -1148,7 +1188,7 @@ export class Jsondata {
       gap: false,
       link: "/seller/inventory",
     },
-    { title: "My Withdraw", icon: FaNewspaper },
+    { title: "My Withdraw", icon: FaNewspaper, link: "/seller/my_withdraw" },
     { title: "Message", icon: FaNewspaper },
     { title: "Visit Users  Dashboard", icon: FaUserAlt },
   ];

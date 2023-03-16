@@ -6,7 +6,6 @@ export interface MyFetchInterface {
 }
 export interface IUser {
   _id?: string;
-
   token?: string;
   tokenType?: string;
   displayName?: string;
@@ -20,13 +19,21 @@ export interface IUser {
     city?: string;
     address?: string;
   };
-
   slug?: string;
   createdAt?: string;
   updatedAt?: string;
   fullName: string | null;
   avatar: string | null;
   email: string | null;
+}
+export interface ISeller extends IUser {
+  shop: {
+    shop_name: string;
+    shop_address: string;
+    shop_logo: string;
+    shop_cover: string;
+  };
+  user_email: string;
 }
 
 export interface ICategories {
@@ -112,6 +119,7 @@ export interface IProduct {
 export interface IInventoryProduct extends IProduct {
   sold: number;
   stockInData: Array<{ slug: string; quantity: number; createdAt: string }>;
+  stockData: Array<{ _id: string; totalCount: number }>;
 }
 
 export interface IBrand {
@@ -188,11 +196,55 @@ export interface IAd {
   status?: string;
 }
 
+export interface IReportedItem {
+  slug?: string;
+  product_slug?: string;
+  user_slug?: string;
+  title?: string;
+  note?: string;
+  reportedProducts?: IProduct;
+  user?: IUser;
+}
+
+export interface IWithdraw {
+  slug?: string;
+  method?: string;
+  charge?: number;
+  TotalAmount?: number;
+  WithdrawAmount: number;
+  status?: string;
+  action?: string;
+}
+
+export interface IWithdrawMethod {
+  slug?: string;
+  name: string;
+  min: number;
+  max: number;
+  charge: number;
+  status?: string;
+  description: string;
+}
+
 export interface IFlashSaleProducts {
   slug: string;
   product_slug: string;
   status: string;
   productsData?: IProduct;
+}
+
+export interface IBlog {
+  title: string;
+  catSlug: string;
+  description?: string;
+
+  isShowHomepage?: string;
+  status?: string;
+  imageURL?: string | undefined;
+
+  seo_title?: string;
+  seo_description?: string;
+  postBy: string;
 }
 
 export interface ISeo {

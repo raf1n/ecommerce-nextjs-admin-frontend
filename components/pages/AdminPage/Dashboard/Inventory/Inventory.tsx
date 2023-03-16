@@ -18,6 +18,14 @@ const tableHeaders = {
   action: "action",
 };
 
+const getStockSold = (arr: any): number => {
+  const stockSoldNumber = arr.find(
+    (stockDt: any) => stockDt._id === "stockOut"
+  );
+
+  return stockSoldNumber?.totalCount | 0;
+};
+
 const Inventory: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [inventoriesData, setInventoriesData] = useState<IInventoryProduct[]>(
@@ -30,7 +38,11 @@ const Inventory: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchInventories = async () => {
-      const { res, err } = await EcommerceApi.getProductInventories();
+      const { res, err } = await EcommerceApi.getProductInventories(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
+
+      console.log(res);
 
       if (res) {
         setInventoriesData(res);
@@ -155,7 +167,8 @@ const Inventory: React.FC<Props> = (props) => {
 
                         <td className="px-3 py-3    ">
                           <p className="text-gray-900 whitespace-no-wrap ">
-                            {productData?.sold}
+                            {/* {productData?.sold} */}
+                            {getStockSold(productData.stockData)}
                           </p>
                         </td>
 
