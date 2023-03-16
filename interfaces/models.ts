@@ -243,3 +243,10 @@ export interface IBlog {
   seo_description?: string;
   postBy: string;
 }
+
+export interface ISeo {
+  slug: string;
+  topic: string;
+  seo_title: string;
+  seo_description: string;
+}

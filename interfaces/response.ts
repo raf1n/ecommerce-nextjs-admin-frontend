@@ -11,6 +11,7 @@ import {
   IPopularCategories,
   IReportedItem,
   IReview,
+  ISeo,
   ISeller,
   ISlider,
   ISubCategories,
@@ -168,7 +169,6 @@ export interface IWithdrawResponse extends MyFetchInterface {
   res: IWithdraw[];
 }
 
-
 export interface IGetWithdrawMethodsResponse extends MyFetchInterface {
   res: IWithdrawMethod[];
 }
@@ -179,4 +179,11 @@ export interface ISingleWithdrawMethodResponse extends MyFetchInterface {
 
 export interface IFlashSaleProductsResponse extends MyFetchInterface {
   res: IFlashSaleProducts[];
+}
+
+export interface ISeoResponse extends MyFetchInterface {
+  res: ISeo[];
+}
+export interface ISingleSeoResponse extends MyFetchInterface {
+  res: ISeo;
 }
