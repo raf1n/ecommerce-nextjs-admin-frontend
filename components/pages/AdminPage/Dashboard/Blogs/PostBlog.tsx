@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Color } from "@tiptap/extension-color";
+import ListItem from "@tiptap/extension-list-item";
+import TextStyle from "@tiptap/extension-text-style";
+import { Editor, EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import { IBlogCategory } from "../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../src/state/StateController";
@@ -51,7 +56,8 @@ const PostBlog: React.FC<Props> = (props) => {
         imageURL: imageUrl,
         title: e.target.title.value,
         category: e.target.category.value,
-        description: e.target.description.value,
+        // description: e.target.description.value,
+        description: editor?.getHTML(),
         isShowHomepage: e.target.show_homepage.value,
         status: e.target.status.value,
         seo_title: e.target.seo_title.value,
@@ -62,9 +68,36 @@ const PostBlog: React.FC<Props> = (props) => {
       console.log(blogData);
       EcommerceApi.addBlog(blogData);
       e.target.reset();
+      // !need to figure out better method than destroy to reset tiptap 
+      //@ts-ignore
+      editor.destroy();
       setSelectedImage(null);
     }
   };
+
+  const editor = useEditor({
+    extensions: [
+      Color.configure({ types: [TextStyle.name, ListItem.name] }),
+      //@ts-ignore
+      TextStyle.configure({ types: [ListItem.name] }),
+      StarterKit.configure({
+        bulletList: {
+          keepMarks: true,
+          keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+        },
+        orderedList: {
+          keepMarks: true,
+          keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+        },
+      }),
+    ],
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-w-full dark:prose-invert prose-strong:text-black prose-headings:text-gray-700 prose-blockquote:text-gray-500 prose-base m-2 focus:outline-none leading-1 text-black",
+      },
+    },
+  });
 
   return (
     <div>
@@ -160,7 +193,7 @@ const PostBlog: React.FC<Props> = (props) => {
                 </div>
                 {/*  */}
 
-                <div className="form-group col-12 flex flex-col mb-[25px]">
+                {/* <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Description <span className="text-red-500">*</span>
                   </label>
@@ -170,13 +203,13 @@ const PostBlog: React.FC<Props> = (props) => {
                     className="form-control h-[100px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="description"
                   />
-                </div>
+                </div> */}
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Description <span className="text-red-500">*</span>
                   </label>
-                  <SharedTiptap />
+                  <SharedTiptap editor={editor} />
                 </div>
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">

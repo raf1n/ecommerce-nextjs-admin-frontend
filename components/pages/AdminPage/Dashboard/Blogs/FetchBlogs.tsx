@@ -43,7 +43,7 @@ const FetchBlogs: React.FC<Props> = (props) => {
       if (err) {
         console.log(err);
       } else {
-        setSellersData(res);
+        setSellersData(res.allBlogs);
         console.log("blog fetch", res);
       }
     };
