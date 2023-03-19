@@ -16,26 +16,27 @@ const ChangePassword: React.FC<Props> = (props) => {
   const handlePassChange = async (e: any) => {
     e.preventDefault();
 
-    const email = "ahmdtoukir@gmail.com";
+    const email = states.currentUser?.email;
 
     if (newPass != confirmPass) {
       setErrorText("New passwords did not match.");
       return;
     }
 
-    const { res, err } = await SocialLogin.changePassword(
-      email,
-      oldPass,
-      newPass
-    );
-
-    console.log({ res, err });
-    if (err) {
-      setErrorText(err);
-    } else {
-      e.target.reset();
-      alert(res);
-      setErrorText("");
+    if (email) {
+      const { res, err } = await SocialLogin.changePassword(
+        email,
+        oldPass,
+        newPass
+      );
+      console.log({ res, err });
+      if (err) {
+        setErrorText(err);
+      } else {
+        e.target.reset();
+        alert(res);
+        setErrorText("");
+      }
     }
   };
 
@@ -44,8 +45,7 @@ const ChangePassword: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Change Password"
         link="/seller/change_password"
-        slug="Change Password"
-      ></DashboardBreadcrumb>
+        slug="Change Password"></DashboardBreadcrumb>
 
       <div className="px-[25px] mt-6 w-full relative">
         <form className="p-5 bg-white" onSubmit={handlePassChange}>
@@ -97,12 +97,11 @@ const ChangePassword: React.FC<Props> = (props) => {
               Update
             </button>
           </div>
-          {
-            errorText &&
+          {errorText && (
             <div className="mt-4 text-qred font-semibold">
               <span>{errorText}</span>
             </div>
-          }
+          )}
         </form>
       </div>
     </div>

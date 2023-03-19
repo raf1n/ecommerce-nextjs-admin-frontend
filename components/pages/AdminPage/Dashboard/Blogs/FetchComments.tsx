@@ -30,7 +30,6 @@ const FetchComments: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const getAllComments = async () => {
-      // getAllComments
       const { res, err } = await EcommerceApi.getAllComments(
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&status=active`
       );
@@ -159,24 +158,18 @@ const FetchComments: React.FC<Props> = (props) => {
                               </p>
                             </td>
                             <td className="px-5 py-5 text-sm text-left">
-                              <p className="text-gray-600 ">
-                                name- {data?.title}
-                              </p>
+                              <p className="text-gray-600 ">{data.name}</p>
                             </td>
                             <td className="px-5 py-5 text-sm ">
-                              <p className="text-gray-600 ">
-                                email- {data?.category}
-                              </p>
+                              <p className="text-gray-600 ">{data.email}</p>
                             </td>
                             <td className="px-5 py-5 text-sm ">
-                              <p className="text-gray-600 ">
-                                comments-{data?.category}
-                              </p>
+                              <p className="text-gray-600 ">{data.comment}</p>
                             </td>
 
                             <td className="px-5 py-5 text-sm text-center">
                               <Link
-                                href={`http://localhost:3000/blogs/blog?slug=${data.slug}`}>
+                                href={`http://localhost:3000/blogs/blog?slug=${data.blogSlug}`}>
                                 <p className="text-gray-600  ">
                                   <span
                                     className={`bg-[#47c363] px-2 py-1 text-white rounded shadow-green-500 capitalize`}>

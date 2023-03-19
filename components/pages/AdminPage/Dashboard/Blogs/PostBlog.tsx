@@ -68,7 +68,7 @@ const PostBlog: React.FC<Props> = (props) => {
       console.log(blogData);
       EcommerceApi.addBlog(blogData);
       e.target.reset();
-      // !need to figure out better method than destroy to reset tiptap 
+      // !need to figure out better method than destroy to reset tiptap
       //@ts-ignore
       editor.destroy();
       setSelectedImage(null);

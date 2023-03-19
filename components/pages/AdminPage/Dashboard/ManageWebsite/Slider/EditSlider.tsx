@@ -40,12 +40,12 @@ const EditSlider: React.FC<Props> = (props) => {
     const formData = new FormData();
     formData.append("image", image);
     const { res, err } = await EcommerceApi.uploadSliderImage(formData);
-    if (res.data?.url) {
+    if (res.data?.url || !res?.data?.url) {
       let imageUrl;
-      imageUrl = res.data?.url;
+      imageUrl = res?.data?.url;
       // setImageLink(data?.data?.url);
-      if (res.data?.url === undefined) {
-        imageUrl = "";
+      if (res.data?.url === undefined || null) {
+        imageUrl = singlesliderData?.image;
       }
 
       const slider = {
@@ -54,7 +54,7 @@ const EditSlider: React.FC<Props> = (props) => {
         titleOne: e.target.titleOne.value,
         titleTWo: e.target.titleTwo.value,
         productLink: e.target.productLink.value,
-        serial: e.target.serial.value,
+        serial: parseInt(e.target.serial.value),
         status: e.target.status.value,
       };
 
@@ -82,14 +82,12 @@ const EditSlider: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Slider"
         link="edit"
-        slug="Edit Slider"
-      ></DashboardBreadcrumb>
+        slug="Edit Slider"></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Go Back"
-            link="/admin/slider"
-          ></SharedGoBackButton>
+            link="/admin/slider"></SharedGoBackButton>
         </div>
       </div>
       <div className="px-[25px] w-full relative">
@@ -117,8 +115,7 @@ const EditSlider: React.FC<Props> = (props) => {
                   <div className="form-group grid text-sm">
                     <label
                       className="text-sm tracking-[.5px] text-[#34395e] font-semibold"
-                      htmlFor=""
-                    >
+                      htmlFor="">
                       New Slider
                       <span className=" text-red-500 ml-2">*</span>
                     </label>
@@ -135,8 +132,7 @@ const EditSlider: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Badge
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -153,8 +149,7 @@ const EditSlider: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Title One
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -171,8 +166,7 @@ const EditSlider: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Title Two
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -189,8 +183,7 @@ const EditSlider: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Product Link
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -198,8 +191,7 @@ const EditSlider: React.FC<Props> = (props) => {
                     <select
                       className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                       name="productLink"
-                      id=""
-                    >
+                      id="">
                       <option value="">Select Product</option>
                       {productData.map((product: IProduct) => (
                         <option value={product.slug}>
@@ -216,8 +208,7 @@ const EditSlider: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Serial
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -235,8 +226,7 @@ const EditSlider: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Status
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -245,8 +235,7 @@ const EditSlider: React.FC<Props> = (props) => {
                       className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                       name="status"
                       id=""
-                      defaultValue={singlesliderData?.status}
-                    >
+                      defaultValue={singlesliderData?.status}>
                       <option value="active">Active</option>
                       <option value="inactive">In Active</option>
                     </select>
@@ -254,8 +243,7 @@ const EditSlider: React.FC<Props> = (props) => {
                   <div className="mt-4">
                     <button
                       type="submit"
-                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
-                    >
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
                       Save
                     </button>
                   </div>
