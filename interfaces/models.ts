@@ -235,7 +235,7 @@ export interface IBlog {
 
   title: string;
   category: string;
-  description: string;
+  description: string | undefined;
 
   isShowHomepage: string;
   status: string;
