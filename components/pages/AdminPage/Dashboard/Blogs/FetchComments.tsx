@@ -31,7 +31,7 @@ const FetchComments: React.FC<Props> = (props) => {
   useEffect(() => {
     const getAllComments = async () => {
       // getAllComments
-      const { res, err } = await EcommerceApi.getAllBlogs(
+      const { res, err } = await EcommerceApi.getAllComments(
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&status=active`
       );
       if (err) {

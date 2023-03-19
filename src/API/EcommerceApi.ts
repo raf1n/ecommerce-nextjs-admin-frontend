@@ -1667,7 +1667,10 @@ export class EcommerceApi {
       headers: myHeaders,
       redirect: "follow",
     };
-    return await callFetch(`${API_ENDPOINT}/comments?${query}`, requestOptions);
+    return await callFetch(
+      `${API_ENDPOINT}/blog-comments?${query}`,
+      requestOptions
+    );
   }
 
   // delete single blog
