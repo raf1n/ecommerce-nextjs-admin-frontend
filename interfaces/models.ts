@@ -207,25 +207,29 @@ export interface IReportedItem {
 }
 
 export interface IWithdraw {
-  slug?: string;
   method?: string;
-  charge?: number;
-  TotalAmount?: number;
-  WithdrawAmount: number;
-  status?: string;
-  action?: string;
+  amount?: number;
+  information?: string;
+  seller_slug?: string;
 }
-// imageUrl:
-// title:
-// catSlug:
 
-// description:
-// isShowHomepage:
-// status:
+export interface IWithdrawMethod {
+  slug?: string;
+  name: string;
+  min: number;
+  max: number;
+  charge: number;
+  status?: string;
+  description: string;
+}
 
-// seo_title:
-// seo_description:
-// postBy:
+export interface IFlashSaleProducts {
+  slug: string;
+  product_slug: string;
+  status: string;
+  productsData?: IProduct;
+}
+
 export interface IBlog {
   slug?: string;
 
@@ -240,6 +244,13 @@ export interface IBlog {
   seo_title?: string;
   seo_description?: string;
   postBy: string;
+}
+
+export interface ISeo {
+  slug: string;
+  topic: string;
+  seo_title: string;
+  seo_description: string;
 }
 
 export interface IBlogCategory extends MyFetchInterface {

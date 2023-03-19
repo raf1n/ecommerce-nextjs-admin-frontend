@@ -5,17 +5,20 @@ import {
   ICategories,
   ICoupon,
   IFeaturedCategories,
+  IFlashSaleProducts,
   IInventoryProduct,
   IMegaCategory,
   IOrder,
   IPopularCategories,
   IReportedItem,
   IReview,
+  ISeo,
   ISeller,
   ISlider,
   ISubCategories,
   IUser,
   IWithdraw,
+  IWithdrawMethod,
 } from "./models";
 //here we will declare our response interfaces or in easy way type of our all response in our website
 
@@ -168,6 +171,25 @@ export interface ISingleProductInventoryResponse extends MyFetchInterface {
 
 export interface IWithdrawResponse extends MyFetchInterface {
   res: IWithdraw[];
+}
+
+export interface IGetWithdrawMethodsResponse extends MyFetchInterface {
+  res: IWithdrawMethod[];
+}
+
+export interface ISingleWithdrawMethodResponse extends MyFetchInterface {
+  res: IWithdrawMethod;
+}
+
+export interface IFlashSaleProductsResponse extends MyFetchInterface {
+  res: IFlashSaleProducts[];
+}
+
+export interface ISeoResponse extends MyFetchInterface {
+  res: ISeo[];
+}
+export interface ISingleSeoResponse extends MyFetchInterface {
+  res: ISeo;
 }
 
 export interface IBlogCategoryResponse extends MyFetchInterface {

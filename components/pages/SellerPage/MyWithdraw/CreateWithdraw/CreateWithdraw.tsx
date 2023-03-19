@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { IWithdrawMethod } from "../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
@@ -8,6 +10,42 @@ interface Props {}
 
 const CreateWithdraw: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortType, setSortType] = useState("desc");
+  const [searchString, setSearchString] = useState("");
+  const [withdrawMethods, setWithdrawMethods] = useState<IWithdrawMethod[]>([]);
+
+  const handleSave = async (e: any) => {
+    e.preventDefault();
+
+    const formData = {
+      method: e.target.method.value,
+      amount: e.target.amount.value,
+      information: e.target.information.value,
+      seller_slug: states.currentUser?.slug,
+    };
+
+    const { res, err } = await EcommerceApi.postWithdraw(formData);
+
+    if (res) {
+      e.target.reset();
+    }
+  };
+
+  useEffect(() => {
+    const fetchAllWithdrawMethods = async () => {
+      const { res, err } = await EcommerceApi.getAllWithdrawMethods(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
+      if (err) {
+        console.log(err);
+      } else {
+        setWithdrawMethods(res);
+      }
+    };
+
+    fetchAllWithdrawMethods();
+  }, [searchString, sortBy, sortType]);
 
   return (
     <div className="w-full ">
@@ -28,7 +66,7 @@ const CreateWithdraw: React.FC<Props> = (props) => {
         <div className="mt-4">
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6">
-              <form action="">
+              <form onSubmit={handleSave} action="">
                 <div>
                   <div>
                     <div className="mt-4">
@@ -43,15 +81,13 @@ const CreateWithdraw: React.FC<Props> = (props) => {
                       </div>
                       <select
                         className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                        name="catName"
+                        name="method"
                         id=""
                       >
                         <option value="">Select Method</option>
-                        {/* {categoriesData.map((category: ICategories) => (
-                          <option value={category.cat_slug}>
-                            {category.cat_name}
-                          </option>
-                        ))} */}
+                        {withdrawMethods.map((withdraw: IWithdrawMethod) => (
+                          <option value={withdraw.slug}>{withdraw.name}</option>
+                        ))}
                         {/* <option value="active">Electronics</option>
                         <option value="inactive">Game</option>
                         <option value="inactive">Mobile</option>
@@ -72,7 +108,7 @@ const CreateWithdraw: React.FC<Props> = (props) => {
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
-                      name="subCatname"
+                      name="amount"
                       id=""
                     />
                   </div>
@@ -89,7 +125,7 @@ const CreateWithdraw: React.FC<Props> = (props) => {
                     <input
                       className="w-full p-8 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
-                      name="slug"
+                      name="information"
                       id=""
                     />
                   </div>

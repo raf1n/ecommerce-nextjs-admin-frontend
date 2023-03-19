@@ -1,9 +1,11 @@
-import { IBlog, IBlogCategory } from "./../../interfaces/models";
+import { IBlog, IWithdraw } from "./../../interfaces/models";
+import { IWithdrawMethod, IBlogCategory } from "./../../interfaces/models";
 import {
   IAdminProductInventoriesResponse,
   IBlogCategoryResponse,
   IBlogResponse,
   IFeaturedCategoriesResponse,
+  IFlashSaleProductsResponse,
   IGetAllSellerResponse,
   IGetAllUsersResponse,
   IGetSingleSellerResponse,
@@ -11,8 +13,13 @@ import {
   ISingleBlogCategoryResponse,
   ISingleBlogResponse,
   ISingleCommentResponse,
+  ISeoResponse,
+  ISingleSeoResponse,
+  IGetWithdrawMethodsResponse,
   ISingleProductInventoryResponse,
   ISingleReviewProductsResponse,
+  ISingleWithdrawMethodResponse,
+  IWithdrawResponse,
 } from "./../../interfaces/response";
 import {
   IAd,
@@ -22,6 +29,7 @@ import {
   ICoupon,
   IMegaCategory,
   IPopularCategories,
+  ISeo,
   ISlider,
   ISubCategories,
   IUser,
@@ -1361,6 +1369,193 @@ export class EcommerceApi {
       `${API_ENDPOINT}/users/sellers?${query}`,
       requestOptions
     );
+  }
+
+  static async getAllWithdrawMethods(
+    query: string
+  ): Promise<IGetWithdrawMethodsResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/withdraw-methods?${query}`,
+      requestOptions
+    );
+  }
+
+  static async getSingleWithdrawMethod(
+    slug: string
+  ): Promise<ISingleWithdrawMethodResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/withdraw-methods/${slug}`,
+      requestOptions
+    );
+  }
+
+  static async postWithdrawMethod(
+    data: IWithdrawMethod
+  ): Promise<ISingleWithdrawMethodResponse> {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/withdraw-methods`, requestOptions);
+  }
+
+  static async editWithdrawMethod(
+    slug: string,
+    data: IWithdrawMethod
+  ): Promise<ISingleWithdrawMethodResponse> {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/withdraw-methods/${slug}`,
+      requestOptions
+    );
+  }
+
+  static async deleteWithdrawMethod(
+    slug: string
+  ): Promise<ISingleWithdrawMethodResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/withdraw-methods/${slug}`,
+      requestOptions
+    );
+  }
+
+  //  flash sales apis
+
+  static async getFlashSaleProductsData(
+    query: string
+  ): Promise<IFlashSaleProductsResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/flash-sale?${query}`,
+      requestOptions
+    );
+  }
+
+  static async addFlashSaleProducts(
+    data: any
+  ): Promise<IFlashSaleProductsResponse> {
+    console.log(data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/flash-sale`, requestOptions);
+  }
+
+  static async deleteFlashSale(slug: string) {
+    // console.log(API_ENDPOINT);
+    console.log(slug);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/flash-sale/${slug}`,
+      requestOptions
+    );
+  }
+
+  static async postWithdraw(data: IWithdraw): Promise<IWithdrawResponse> {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/withdraws`, requestOptions);
+  }
+
+  static async getAllSeo(): Promise<ISeoResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/seo`, requestOptions);
+  }
+
+  static async getSingleSeo(
+    topic: string | undefined
+  ): Promise<ISingleSeoResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/seo/${topic}`, requestOptions);
+  }
+
+  static async updateSeoInfo(
+    topic: string | undefined,
+    data: Partial<ISeo>
+  ): Promise<ISingleSeoResponse> {
+    console.log(API_ENDPOINT);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/seo/${topic}`, requestOptions);
   }
 
   // get single getSingleSeller

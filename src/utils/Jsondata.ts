@@ -953,7 +953,7 @@ export class Jsondata {
         },
         {
           title: "Flash Sale Product",
-          link: "/admin/flash_sale_product",
+          link: "/admin/flash_sale_products",
         },
 
         {
@@ -976,7 +976,24 @@ export class Jsondata {
       gap: false,
       link: "/admin/advertisement",
     },
-    { title: "Withdraw Payment", icon: FaNewspaper },
+    {
+      title: "Withdraw Payment",
+      icon: FaNewspaper,
+      nestedRoutes: [
+        {
+          title: "Withdraw Method",
+          link: "/admin/withdraw_method",
+        },
+        {
+          title: "Seller Withdraw",
+          link: "/admin/seller_withdraw",
+        },
+        {
+          title: "Pending Seller Withdraw",
+          link: "/admin/pending_seller_withdraw",
+        },
+      ],
+    },
     {
       title: "Users",
       icon: FaUserAlt,

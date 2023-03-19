@@ -1,49 +1,78 @@
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { BiPlus } from "react-icons/bi";
-import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import { IWithdraw, IWithdrawMethod } from "../../../../interfaces/models";
-import { EcommerceApi } from "../../../../src/API/EcommerceApi";
-import { controller } from "../../../../src/state/StateController";
-import SharedAddNewButton from "../../../shared/SharedAddNewButton/SharedAddNewButton";
-import DashboardBreadcrumb from "../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react'
+import { FaEdit, FaLongArrowAltDown, FaLongArrowAltUp, FaTrash } from 'react-icons/fa';
+import { useSelector } from 'react-redux'
+import { IWithdrawMethod } from '../../../../../../interfaces/models';
+import { EcommerceApi } from '../../../../../../src/API/EcommerceApi';
+import { controller } from '../../../../../../src/state/StateController'
+import DashboardBreadcrumb from '../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb';
+import SharedDeleteModal from '../../../../../shared/SharedDeleteModal/SharedDeleteModal';
+import ToggleButton from '../../ManageCategories/ToggleButton/ToggleButton';
 
-interface Props {}
+interface Props {
+}
 
 const tableHeaders = {
   sn: "sn",
-  method: "Method",
-  charge: "Charge",
-  "total Amount": "Total Amount",
-  "withdraw Amount": "Withdraw Amount",
+  Seller: "name",
+  Method: "min",
+  Charge: "max",
+  "Total Amount": "charge",
+  "Withdraw Amount": "amount",
   status: "status",
-  action: "Action",
+  action: "action",
 };
 
-const MyWithdraw: React.FC<Props> = (props) => {
+const PendingSellerWithdraw: React.FC<Props> = (props) => {
+
   const states = useSelector(() => controller.states);
-  const [withdrawData, setWithdrawData] = useState<IWithdraw[]>([]);
+
+  const [withdrawMethods, setWithdrawMethods] = useState<IWithdrawMethod[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
+  const router = useRouter();
+  const { asPath } = router;
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteWithdrawMethod(deleteModalSlug);
+    if (res) {
+      setDeleteModalSlug("");
+      const remainingWithdrawMethods = withdrawMethods.filter(
+        (withdrawMethod) => withdrawMethod.slug !== deleteModalSlug
+      );
+      setWithdrawMethods(remainingWithdrawMethods);
+    }
+  };
+
+  useEffect(() => {
+    const fetchAllWithdrawMethods = async () => {
+      const { res, err } = await EcommerceApi.getAllWithdrawMethods(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
+      if (err) {
+        console.log(err);
+      } else {
+        setWithdrawMethods(res);
+      }
+    };
+
+    fetchAllWithdrawMethods();
+  }, [searchString, sortBy, sortType]);
+  
   return (
     <div className="w-full">
       <DashboardBreadcrumb
-        headline="My Withdraw"
-        slug="My Withdraw"
-        link="/my_withdraw"
+        headline="Withdraw Method"
+        slug="Withdraw Method"
+        link="/admin/withdraw_method"
       ></DashboardBreadcrumb>
       <div className="mx-[25px]">
         <div className="section-body">
-          <Link className="inline-block" href="/seller/my_withdraw/create">
-            <button className=" flex items-center justify-center bg-blue-700 hover:bg-blue-600 text-white text-sm tracking-[.5px] shadow-[0_2px_6px_#acb5f6] py-2 px-3 rounded">
-              <BiPlus className=" h-6 w-6" />
-              <span>New Withdraw</span>
-            </button>
-          </Link>
+          {/* <Link className="inline-block" href="/admin/withdraw_method/create">
+            <SharedAddNewButton></SharedAddNewButton>
+          </Link> */}
           <div className="mt-7">
             <div className="bg-white p-8 rounded-md w-full">
               <div className=" flex items-center justify-between pb-6">
@@ -121,8 +150,11 @@ const MyWithdraw: React.FC<Props> = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {withdrawData.map((data: IWithdraw, indx) => (
-                          <tr className="even:bg-gray-100 odd:bg-white">
+                        {withdrawMethods.map((data: IWithdrawMethod, indx) => (
+                          <tr
+                            key={data.slug}
+                            className="even:bg-gray-100 odd:bg-white"
+                          >
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
                                 {indx + 1}
@@ -130,31 +162,33 @@ const MyWithdraw: React.FC<Props> = (props) => {
                             </td>
                             <td className="px-5 py-5 text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
-                                {/* {data.productName} */}
+                                {data.name}
                               </p>
                             </td>
                             <td className="px-5 py-5 text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
-                                {/* {data.price} */}
+                                {data.min}
                               </p>
                             </td>
                             <td className="px-3 py-3 ">
-                              {/* {data && data.imageURL && (
-                                <img
-                                  src={data?.imageURL[0]}
-                                  className="w-[100px] h-[100px] object-cover"
-                                />
-                              )} */}
+                              <p className="text-gray-900 whitespace-no-wrap">
+                                {data.max}
+                              </p>
                             </td>
-
-                            {/* <td className="px-3 py-3 text-sm ">
-                              <ProductsToggleButton
+                            <td className="px-5 py-5  text-sm">
+                              <p className="text-gray-900 whitespace-no-wrap">
+                                {data.charge}
+                              </p>
+                            </td>
+                            <td className="px-3 py-3 text-sm ">
+                              <ToggleButton
+                                apiUrl="withdraw-methods"
                                 slug={data?.slug}
                                 status={data?.status}
                               />
-                            </td> */}
+                            </td>
                             <td className="px-2 py-3  text-sm">
-                              {/* <button
+                              <button
                                 onClick={() =>
                                   router.push(`${asPath}/${data.slug}/edit`)
                                 }
@@ -185,12 +219,52 @@ const MyWithdraw: React.FC<Props> = (props) => {
                                     <FaTrash />
                                   </span>
                                 </span>
-                              </button> */}
+                              </button>
                             </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
+                    <SharedDeleteModal
+                      handleDelete={handleDelete}
+                      deleteModalSlug={deleteModalSlug}
+                      setDeleteModalSlug={setDeleteModalSlug}
+                    ></SharedDeleteModal>
+                    <div className="px-5 py-5  border-t flex justify-between">
+                      <div>
+                        <span className="text-xs xs:text-sm text-gray-900">
+                          Showing 1 to 10 of 50 Entries
+                        </span>
+                      </div>
+                      <div className="inline-flex  xs:mt-0">
+                        <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-l">
+                          Prev
+                        </button>
+                        &nbsp; &nbsp;
+                        <a
+                          href="#"
+                          aria-current="page"
+                          className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
+                        >
+                          1
+                        </a>
+                        <a
+                          href="#"
+                          className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20"
+                        >
+                          2
+                        </a>
+                        <a
+                          href="#"
+                          className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex"
+                        >
+                          3
+                        </a>
+                        <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-r">
+                          Next
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -199,7 +273,7 @@ const MyWithdraw: React.FC<Props> = (props) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MyWithdraw;
+export default PendingSellerWithdraw
