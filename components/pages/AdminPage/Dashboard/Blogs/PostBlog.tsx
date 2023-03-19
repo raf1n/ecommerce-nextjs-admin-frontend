@@ -147,7 +147,7 @@ const PostBlog: React.FC<Props> = (props) => {
                     name="category"
                     id="category"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
-                    <option value="">Select XXX Category</option>
+                    <option value="">Select Category</option>
                     {categories.map((cat, indx) => (
                       <>
                         <option key={indx} value={cat.name}>

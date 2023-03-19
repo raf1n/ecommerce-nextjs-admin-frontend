@@ -6,6 +6,7 @@ import { FaShoppingCart, FaCheckCircle } from "react-icons/fa";
 import style from "./MyProfile.module.css";
 import { EcommerceApi } from "../../../../src/API/EcommerceApi";
 import { ISeller } from "../../../../interfaces/models";
+import Link from "next/link";
 
 interface Props {}
 
@@ -17,9 +18,10 @@ const MyProfile: React.FC<Props> = (props) => {
   useEffect(() => {
     const fetchSingleSeller = async () => {
       const { res, err } = await EcommerceApi.getSingleSeller(
-        "seller@gmail.com"
+        states?.currentUser?.email
       );
       if (res) {
+        console.log(res);
         setSeller(res);
       } else {
         console.log("seller panel", err);
@@ -28,7 +30,33 @@ const MyProfile: React.FC<Props> = (props) => {
 
     fetchSingleSeller();
   }, []);
-  console.log("my profile seller state=", seller);
+  console.log("my profile seller state=", states?.currentUser?.email);
+
+  const handleUpdateProfile = async (e: any) => {
+    e.preventDefault();
+    const profilePicUrl = e.target.profilePicUrl.files[0];
+    const formData = new FormData();
+    formData.append("image", profilePicUrl);
+    const { res, err } = await EcommerceApi.uploadImage(formData);
+    if (res?.data?.url || !res?.data?.url) {
+      let logoUrl;
+      logoUrl = res?.data?.url;
+      if (res?.data?.url === undefined || null) {
+        logoUrl = "";
+      }
+      const newProfileData = {
+        name: e.target.name.value,
+        phone: e.target.phone.value,
+        shop: {
+          shop_address: e.target.address.value,
+        },
+        avatar: logoUrl,
+      };
+      EcommerceApi.editProfile(newProfileData, states?.currentUser?.email);
+      console.log("newShopData-", newProfileData);
+      // e.target.reset();
+    }
+  };
 
   const dashboardSummaryData = [
     {
@@ -188,18 +216,29 @@ const MyProfile: React.FC<Props> = (props) => {
             <div className="border-b py-2 text-2xl font-bold text-black">
               Seller Action
             </div>
-            <button className=" bg-[#47c363] mt-6 my-2 py-2.5 px-2 rounded shadow shadow-[#81d694]">
-              Go To Shop
-            </button>
-            <button className="bg-blue-700 my-2 py-2.5 px-2 rounded shadow shadow-blue-700">
-              My Reviews
-            </button>
-            <button className="bg-cyan-500 my-2 py-2.5 px-2 rounded shadow shadow-cyan-600">
-              Email Log
-            </button>
-            <button className=" bg-[#ffa426] my-2 py-2.5 px-2 rounded shadow shadow-[#ffc473]">
-              Change Password
-            </button>
+            <Link href={`/seller/shop_profile/`}>
+              <button className=" bg-[#47c363] mt-6 my-2 py-2.5 px-[145px] rounded shadow shadow-[#81d694]">
+                Go To Shop
+              </button>
+            </Link>
+
+            <Link href={`/seller/product_reviews`}>
+              <button className="bg-blue-700 my-2 py-2.5 px-[143px] rounded shadow shadow-blue-700">
+                My Reviews
+              </button>
+            </Link>
+
+            <Link href={`/seller/email-history`}>
+              <button className="bg-cyan-500 my-2 py-2.5 px-[150px] rounded shadow shadow-cyan-600">
+                Email Log
+              </button>
+            </Link>
+
+            <Link href={`/seller/change-password`}>
+              <button className=" bg-[#ffa426] my-2 py-2.5 px-[121px] rounded shadow shadow-[#ffc473]">
+                Change Password
+              </button>
+            </Link>
           </div>
         </div>
 
@@ -210,14 +249,19 @@ const MyProfile: React.FC<Props> = (props) => {
               Edit Profile
             </div>
             <div className="px-7">
-              <form>
+              <form onSubmit={handleUpdateProfile}>
                 <div className="mb-6 mt-8">
                   <label
                     htmlFor="email"
                     className="block mb-2 text-sm font-medium text-gray-900">
                     New Image
                   </label>
-                  <input type="file" id="file" className="" />
+                  <input
+                    type="file"
+                    id="file"
+                    name="profilePicUrl"
+                    className=""
+                  />
                 </div>
                 <div className="grid grid-cols-2">
                   <div className="mb-6 ">
@@ -229,9 +273,10 @@ const MyProfile: React.FC<Props> = (props) => {
                     <input
                       type="name"
                       id="name"
+                      name="name"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-10/12 p-2.5 "
                       placeholder="Type your name here"
-                      required
+                      defaultValue={seller?.fullName}
                     />
                   </div>
 
@@ -244,9 +289,11 @@ const MyProfile: React.FC<Props> = (props) => {
                     <input
                       type="email"
                       id="email"
+                      name="email"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-10/12  p-2.5 "
                       placeholder="Type your email here"
-                      required
+                      defaultValue={seller?.email}
+                      readOnly
                     />
                   </div>
 
@@ -259,9 +306,10 @@ const MyProfile: React.FC<Props> = (props) => {
                     <input
                       type="phone"
                       id="phone"
+                      name="phone"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 w-10/12  p-2.5 "
                       placeholder="Type your phone here"
-                      required
+                      defaultValue={seller?.phone}
                     />
                   </div>
 
@@ -274,9 +322,10 @@ const MyProfile: React.FC<Props> = (props) => {
                     <input
                       type="address"
                       id="address"
+                      name="address"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-10/12 p-2.5 "
                       placeholder="Type your address here"
-                      required
+                      defaultValue={seller?.shop?.shop_address}
                     />
                   </div>
                 </div>

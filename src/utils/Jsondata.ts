@@ -1074,7 +1074,7 @@ export class Jsondata {
           link: "/admin/blogs/popular_blogs",
         },
         {
-          title: "Comments Sellers",
+          title: "Comments",
           link: "/admin/blogs/comments",
         },
       ],

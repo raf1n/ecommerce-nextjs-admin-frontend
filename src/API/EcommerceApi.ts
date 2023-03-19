@@ -8,6 +8,9 @@ import {
   IGetAllUsersResponse,
   IGetSingleSellerResponse,
   IGetSingleUserResponse,
+  ISingleBlogCategoryResponse,
+  ISingleBlogResponse,
+  ISingleCommentResponse,
   ISingleProductInventoryResponse,
   ISingleReviewProductsResponse,
 } from "./../../interfaces/response";
@@ -677,7 +680,6 @@ export class EcommerceApi {
       redirect: "follow",
       cors: "no-cors",
     };
-
     return await callFetch(
       `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
       requestOptions
@@ -698,19 +700,6 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/products`, requestOptions);
-  }
-  // add blogs
-  static async addBlog(data: IBlog) {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: JSON.stringify(data),
-      redirect: "follow",
-    };
-
-    return await callFetch(`${API_ENDPOINT}/blogs`, requestOptions);
   }
 
   //  edit products
@@ -873,10 +862,8 @@ export class EcommerceApi {
   }
 
   // Get all orders admin
-
   static async allOrdersAdmin(query: string): Promise<IOrderResponse> {
     const myHeaders = new Headers();
-
     const requestOptions = {
       headers: myHeaders,
       redirect: "follow",
@@ -887,6 +874,7 @@ export class EcommerceApi {
       requestOptions
     );
   }
+
   // Update Order Status
   static async orderStatusUpdate(
     slug: string,
@@ -1390,6 +1378,20 @@ export class EcommerceApi {
     );
   }
 
+  // add blogs
+  static async addBlog(data: IBlog) {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/blogs`, requestOptions);
+  }
+
   //Get all blogs
   static async getAllBlogs(query: string): Promise<IBlogResponse> {
     const myHeaders = new Headers();
@@ -1428,16 +1430,6 @@ export class EcommerceApi {
     return await callFetch(`${API_ENDPOINT}/blogcategories`, requestOptions);
   }
 
-  // // get single seller from user
-  // static async getSingleSeller(data: string) {
-  //   const myHeaders = new Headers();
-  //   const requestOptions = {
-  //     headers: myHeaders,
-  //     redirect: "follow",
-  //   };
-  //   return await callFetch(`${API_ENDPOINT}/users/${data}`, requestOptions);
-  // }
-
   //  edit shop
   static async editShop(data: any, email: any) {
     console.log(data);
@@ -1455,5 +1447,77 @@ export class EcommerceApi {
       requestOptions
     );
   }
+  //  edit profile data
+  static async editProfile(data: any, email: any) {
+    console.log("edit profile data", data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/users/profile/${email}`,
+      requestOptions
+    );
+  }
+
+  //Get all comments
+  static async getAllComments(query: string): Promise<any> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(`${API_ENDPOINT}/comments?${query}`, requestOptions);
+  }
+
+  // delete single blog
+  static async deleteSingleBlog(slug: string): Promise<ISingleBlogResponse> {
+    console.log("deleteSingleBlog api-", slug);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/blogs/${slug}`, requestOptions);
+  }
+
+  // delete single blog category
+  static async deleteSingleCategory(
+    slug: string
+  ): Promise<ISingleBlogCategoryResponse> {
+    console.log(slug);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/blogcategories/${slug}`,
+      requestOptions
+    );
+  }
+
+  // delete single comment
+  static async deleteSingleComment(
+    slug: string
+  ): Promise<ISingleCommentResponse> {
+    console.log(slug);
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/comments/${slug}`, requestOptions);
+  }
 }
-//640d8f99d026f6c6e200a5d1

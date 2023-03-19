@@ -24,7 +24,7 @@ const ShopProfile: React.FC<Props> = (props) => {
     };
     getSingleSeller();
   }, []);
-  console.log(states?.currentUser?.email);
+  console.log("seller email-", states?.currentUser?.email);
 
   const handleUpdateShop = async (e: any) => {
     e.preventDefault();
@@ -76,7 +76,7 @@ const ShopProfile: React.FC<Props> = (props) => {
 
         EcommerceApi.editShop(newShopData, states?.currentUser?.email);
         console.log("newShopData-", newShopData);
-        // e.target.reset();
+        e.target.reset();
       }
     }
   };

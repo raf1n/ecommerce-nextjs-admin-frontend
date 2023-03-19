@@ -10,6 +10,7 @@ interface Props {}
 
 const CompletedOrders: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+
   const [completedOrdersData, setCompletedOrdersData] = useState<IOrder[]>([]);
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
@@ -51,7 +52,7 @@ const CompletedOrders: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Completed Orders : Seller"
         slug="Completed Orders"
-        link="/completed-orders"
+        link="/seller/all_orders"
       />
 
       <Table

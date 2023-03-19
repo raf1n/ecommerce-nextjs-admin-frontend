@@ -21,7 +21,7 @@ const tableHeaders = {
   Title: "title",
   Category: "catSlug",
   image: "imageURL",
-  ShowHomepage: "isShowHomepage",
+  "Show Homepage": "isShowHomepage",
   status: "status",
   action: "action",
 };
@@ -29,36 +29,36 @@ const tableHeaders = {
 const FetchBlogs: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
-  const [sellersData, setSellersData] = useState<IBlog[]>([]);
+  const [blogsData, setBlogsData] = useState<IBlog[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
   useEffect(() => {
-    const fetchAllSeller = async () => {
+    const fetchAllBlogs = async () => {
       const { res, err } = await EcommerceApi.getAllBlogs(
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&status=active`
       );
       if (err) {
         console.log(err);
       } else {
-        setSellersData(res);
+        setBlogsData(res);
         console.log("blog fetch", res);
       }
     };
 
-    fetchAllSeller();
+    fetchAllBlogs();
   }, [searchString, sortBy, sortType]);
 
   const handleDelete = async () => {
-    const { res, err } = await EcommerceApi.deleteSingleUser(deleteModalSlug);
+    const { res, err } = await EcommerceApi.deleteSingleBlog(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
-      const remaining = sellersData.filter(
-        (seller) => seller.slug !== deleteModalSlug
+      const remaining = blogsData.filter(
+        (remainingData) => remainingData.slug !== deleteModalSlug
       );
-      setSellersData(remaining);
+      setBlogsData(remaining);
     }
   };
 
@@ -116,7 +116,7 @@ const FetchBlogs: React.FC<Props> = (props) => {
                             (header: any, idx: number) => (
                               <th
                                 key={idx}
-                                className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                className="px-3 pt-6  border-b-[1px] border-[#ddd] bg-[rgba(0,0,0,0.04)] text-left text-[15px] font-bold  text-[#666] capitalize">
                                 <span className="flex">
                                   <span className="flex-1">{header}</span>
                                   <FaLongArrowAltUp
@@ -154,7 +154,7 @@ const FetchBlogs: React.FC<Props> = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {sellersData.map((data, indx) => (
+                        {blogsData.map((data, indx) => (
                           <tr
                             key={indx}
                             className="even:bg-gray-100 odd:bg-white">
@@ -184,6 +184,7 @@ const FetchBlogs: React.FC<Props> = (props) => {
                                 />
                               )}
                             </td>
+
                             <td className="px-5 py-5 text-sm text-center">
                               <p className="text-gray-900  whitespace-no-wrap">
                                 <span

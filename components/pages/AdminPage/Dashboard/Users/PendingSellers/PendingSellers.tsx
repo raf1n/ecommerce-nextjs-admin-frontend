@@ -123,7 +123,7 @@ const PendingSellers: React.FC<Props> = (props) => {
                             (header: any, idx: number) => (
                               <th
                                 key={idx}
-                                className=" px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                className="px-3 pt-6  border-b-[1px] border-[#ddd] bg-[rgba(0,0,0,0.04)] text-left text-[15px] font-bold  text-[#666] capitalize">
                                 <span className="flex">
                                   <span className="flex-1">{header}</span>
                                   <FaLongArrowAltUp
@@ -180,11 +180,11 @@ const PendingSellers: React.FC<Props> = (props) => {
                                 {data.email}
                               </p>
                             </td>
-                            <td className="px-3 py-3 ">
+                            <td className="px-3 py-3">
                               {data && data.avatar && (
                                 <img
                                   src={data?.avatar}
-                                  className="w-[100px] h-[100px] object-cover"
+                                  className="w-[100px] h-[100px] object-cover rounded-full"
                                 />
                               )}
                             </td>

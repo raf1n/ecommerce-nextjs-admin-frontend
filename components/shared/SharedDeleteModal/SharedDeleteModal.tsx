@@ -33,8 +33,7 @@ const SharedDeleteModal: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className=" tracking-[.5px]  mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Are you sure you want to Delete - {deleteModalSlug}?
                       </label>
                     </div>
@@ -44,14 +43,12 @@ const SharedDeleteModal: React.FC<Props> = (props) => {
               <div className="flex justify-end gap-2 px-3 py-4 bg-gray-50 rounded">
                 <button
                   onClick={() => setDeleteModalSlug("")}
-                  className="bg-red-600 hover:bg-red-500 text-white text-sm py-2 px-4 rounded shadow-[0_2px_6px_#fd9b96]"
-                >
+                  className="bg-red-600 hover:bg-red-500 text-white text-sm py-2 px-4 rounded shadow-[0_2px_6px_#fd9b96]">
                   Close
                 </button>
                 <button
                   onClick={() => handleDelete()}
-                  className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded shadow-[0_2px_6px_#acb5f6]"
-                >
+                  className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded shadow-[0_2px_6px_#acb5f6]">
                   Yes, Delete
                 </button>
               </div>

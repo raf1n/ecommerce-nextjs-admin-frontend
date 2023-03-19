@@ -91,6 +91,9 @@ export interface ISingleProductResponse extends MyFetchInterface {
 export interface IBlogResponse extends MyFetchInterface {
   res: IBlog[];
 }
+export interface ISingleBlogResponse extends MyFetchInterface {
+  res: IBlog;
+}
 
 export interface ICouponResponse extends MyFetchInterface {
   res: Array<ICoupon>;
@@ -169,4 +172,10 @@ export interface IWithdrawResponse extends MyFetchInterface {
 
 export interface IBlogCategoryResponse extends MyFetchInterface {
   res: IBlogCategory[];
+}
+export interface ISingleBlogCategoryResponse extends MyFetchInterface {
+  res: IBlogCategory;
+}
+export interface ISingleCommentResponse extends MyFetchInterface {
+  res: any;
 }
