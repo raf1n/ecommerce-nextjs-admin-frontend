@@ -35,7 +35,7 @@ const PopularBlogs: React.FC<Props> = (props) => {
       if (err) {
         console.log(err);
       } else {
-        setBlogsData(res);
+        setBlogsData(res.allBlogs);
         console.log("blog fetch", res);
       }
     };

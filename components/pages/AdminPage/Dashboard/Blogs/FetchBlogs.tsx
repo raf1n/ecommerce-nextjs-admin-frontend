@@ -38,12 +38,12 @@ const FetchBlogs: React.FC<Props> = (props) => {
   useEffect(() => {
     const fetchAllBlogs = async () => {
       const { res, err } = await EcommerceApi.getAllBlogs(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&status=active`
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
       if (err) {
         console.log(err);
       } else {
-        setBlogsData(res);
+        setBlogsData(res.allBlogs);
         console.log("blog fetch", res);
       }
     };
@@ -154,7 +154,7 @@ const FetchBlogs: React.FC<Props> = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {blogsData.map((data, indx) => (
+                        {blogsData?.map((data, indx) => (
                           <tr
                             key={indx}
                             className="even:bg-gray-100 odd:bg-white">
@@ -165,15 +165,15 @@ const FetchBlogs: React.FC<Props> = (props) => {
                             </td>
                             <td className="px-5 py-5 text-sm text-left">
                               <Link
-                                href={`http://localhost:3000/blogs/blog?slug=${data.slug}`}>
+                                href={`http://localhost:3000/blogs/blog?slug=${data?.slug}`}>
                                 <p className="text-blue-500 whitespace-no-wrap">
-                                  {data?.title}
+                                  {data.title}
                                 </p>
                               </Link>
                             </td>
                             <td className="px-5 py-5 text-sm ">
                               <p className="text-gray-900 whitespace-no-wrap">
-                                {data?.category}
+                                {data.category}
                               </p>
                             </td>
                             <td className="px-3 py-3 ">

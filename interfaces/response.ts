@@ -92,7 +92,10 @@ export interface ISingleProductResponse extends MyFetchInterface {
   res: IProduct;
 }
 export interface IBlogResponse extends MyFetchInterface {
-  res: IBlog[];
+  res: {
+    allBlogs: Array<IBlog>;
+    latestBlogs: Array<IBlog>;
+  };
 }
 export interface ISingleBlogResponse extends MyFetchInterface {
   res: IBlog;

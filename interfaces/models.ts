@@ -241,8 +241,8 @@ export interface IBlog {
   status: string;
   imageURL?: string | undefined;
 
-  seo_title?: string;
-  seo_description?: string;
+  seo_title: string;
+  seo_description: string;
   postBy: string;
 }
 
