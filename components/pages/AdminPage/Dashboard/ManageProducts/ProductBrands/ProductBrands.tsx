@@ -66,7 +66,7 @@ const ProductBrands: React.FC<Props> = (props) => {
       />
       <div className="mx-[25px]">
         <div className="section-body">
-          <Link className="inline-block" href="/product_brands/create">
+          <Link className="inline-block" href="/admin/product_brands/create">
             <SharedAddNewButton />
           </Link>
           <div className="mt-7">

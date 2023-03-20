@@ -123,12 +123,11 @@ const ProductCreate: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Create Product"
         link="/product_brands/create"
-        slug="Create Product"></DashboardBreadcrumb>
+        slug="Create Product"
+      />
       <div className="m-6">
         <div className="section-body">
-          <SharedGoBackButton
-            title="Products"
-            link="/products"></SharedGoBackButton>
+          <SharedGoBackButton title="Products" link="/admin/products" />
         </div>
       </div>
       <div className="px-[25px] w-full relative">

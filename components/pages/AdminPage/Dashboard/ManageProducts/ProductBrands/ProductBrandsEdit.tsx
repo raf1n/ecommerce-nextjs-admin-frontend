@@ -73,13 +73,13 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
         headline="Edit Product Brand"
         link={`/product_brands/${brandSlug}/edit`}
         slug="Edit Product Brand"
-      ></DashboardBreadcrumb>
+      />
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Product Brands"
-            link="/product_brands"
-          ></SharedGoBackButton>
+            link="/admin/product_brands"
+          />
         </div>
       </div>
       <div className="px-[25px] w-full relative">
@@ -107,8 +107,7 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                   <div className="form-group grid text-sm mt-4">
                     <label
                       className="text-sm tracking-[.5px] text-[#34395e] font-semibold"
-                      htmlFor=""
-                    >
+                      htmlFor="">
                       Logo
                     </label>
 
@@ -124,8 +123,7 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Name
                       </label>
                     </div>
@@ -144,8 +142,7 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Status
                       </label>
                     </div>
@@ -165,8 +162,7 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                   <div className="mt-4">
                     <button
                       type="submit"
-                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
-                    >
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
                       Save
                     </button>
                   </div>

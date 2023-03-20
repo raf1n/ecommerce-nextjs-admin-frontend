@@ -876,10 +876,10 @@ export class Jsondata {
           title: "Sub Categories",
           link: "/admin/product_sub_categories",
         },
-        {
-          title: "Child Categories",
-          link: "/admin/product_child_categories",
-        },
+        // {
+        //   title: "Child Categories",
+        //   link: "/admin/product_child_categories",
+        // },
         {
           title: "Mega Menu Category",
           link: "/admin/mega_menu_category",
@@ -923,10 +923,10 @@ export class Jsondata {
           title: "Seller Pending Products",
           link: "/admin/seller_pending_products",
         },
-        {
-          title: "Specification Key",
-          link: "/admin/specification_key",
-        },
+        // {
+        //   title: "Specification Key",
+        //   link: "/admin/specification_key",
+        // },
         {
           title: "Product Reviews",
           link: "/admin/product_reviews",

@@ -36,7 +36,6 @@ const CompletedOrders: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const findProgressOrdersAdmin = async () => {
-
       const { res, err } = await EcommerceApi.allOrdersAdmin(
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&order_status=completed`
       );
@@ -50,7 +49,6 @@ const CompletedOrders: React.FC<Props> = (props) => {
     };
 
     findProgressOrdersAdmin();
-    
   }, [searchString, sortBy, sortType, showUpdateModal]);
 
   console.log({ searchString, sortBy, sortType });
@@ -72,10 +70,9 @@ const CompletedOrders: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Delivered Orders"
         slug="Delivered Orders"
-        link="/delivered-orders"
-      ></DashboardBreadcrumb>
+        link="/delivered-orders"></DashboardBreadcrumb>
 
-       <Table
+      <Table
         showUpdateModal={showUpdateModal}
         setShowUpdateModal={setShowUpdateModal}
         handleDelete={handleDelete}
@@ -89,10 +86,8 @@ const CompletedOrders: React.FC<Props> = (props) => {
         ordersData={completedOrdersData}
         tableHeaders={tableHeaders}
       />
-
     </div>
   );
-  
 };
 
 export default CompletedOrders;
