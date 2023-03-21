@@ -11,11 +11,15 @@ import {
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { CookiesHandler } from "../../../../../src/utils/CookiesHandler";
 
 interface Props {}
 
 const ProductCreate: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+
+  const user_slug = CookiesHandler.getSlug();
+
   // const [isCheckedTop, setIsCheckedTop] = useState(false);
   // const [isCheckedNew, setIsCheckedNew] = useState(false);
   // const [isCheckedBest, setIsCheckedBest] = useState(false);
@@ -110,7 +114,7 @@ const ProductCreate: React.FC<Props> = (props) => {
         seoTitle: e.target.seo_title.value,
         seoDescription: e.target.seo_description.value,
         addedBy: "seller",
-        seller_slug: "seller_slug_1",
+        seller_slug: user_slug,
       };
       EcommerceApi.addProducts(productData);
       e.target.reset();

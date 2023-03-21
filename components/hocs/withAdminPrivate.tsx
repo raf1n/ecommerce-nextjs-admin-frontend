@@ -29,7 +29,6 @@ export default (WrappedComponent) => {
     console.log("cookies", context.req);
     const userAuth = await checkUserAuthentication();
 
-
     console.log({ userAuth });
     // console.log({ cookies: context.req });
 
