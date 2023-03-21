@@ -6,6 +6,7 @@ import { IInventoryProduct } from "../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import { CookiesHandler } from "../../../../../src/utils/CookiesHandler";
 
 interface Props {}
 
@@ -28,20 +29,21 @@ const Inventory: React.FC<Props> = (props) => {
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
-  const seller_slug = states.currentUser?.slug;
+  const seller_slug = CookiesHandler.getSlug();
 
   const getStockSold = (arr: any): number => {
     const stockSoldNumber = arr.find(
       (stockDt: any) => stockDt._id === "stockOut"
     );
-  
+
     return stockSoldNumber?.totalCount | 0;
   };
 
   useEffect(() => {
     const fetchInventories = async () => {
       const { res, err } = await EcommerceApi.getSellerProductInventories(
-        seller_slug, `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        seller_slug,
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
 
       if (res) {
@@ -167,7 +169,7 @@ const Inventory: React.FC<Props> = (props) => {
 
                         <td className="px-3 py-3    ">
                           <p className="text-gray-900 whitespace-no-wrap ">
-                          {getStockSold(productData.stockData)}
+                            {getStockSold(productData.stockData)}
                           </p>
                         </td>
 

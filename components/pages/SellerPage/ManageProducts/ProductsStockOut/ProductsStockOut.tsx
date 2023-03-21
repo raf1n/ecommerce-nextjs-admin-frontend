@@ -14,6 +14,7 @@ import { IProduct } from "../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import { CookiesHandler } from "../../../../../src/utils/CookiesHandler";
 
 interface Props {}
 
@@ -27,7 +28,7 @@ const ProductsStockOut: React.FC<Props> = (props) => {
 
   const router = useRouter();
 
-  const seller_slug = states.currentUser?.slug;
+  const seller_slug = CookiesHandler.getSlug();
 
   useEffect(() => {
     const getStockoutProducts = async () => {
