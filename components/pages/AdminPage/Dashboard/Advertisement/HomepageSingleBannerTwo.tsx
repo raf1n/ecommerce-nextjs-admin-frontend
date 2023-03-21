@@ -144,6 +144,25 @@ const HomepageSingleBannerTwo: React.FC<Props> = (props) => {
                 }}
               />
             )}
+            {!defaultValueSelected && (
+              <Select
+                name="category"
+                id="category"
+                // value={selectedOption}
+
+                options={allCategories.map((cat: any) => {
+                  return {
+                    value: cat.cat_slug,
+                    label: cat.cat_name,
+                  };
+                })}
+                styles={reactSelectStyle}
+                components={{
+                  // Menu,
+                  IndicatorSeparator: () => null,
+                }}
+              />
+            )}
           </div>
 
           <div className="form-group col-12 flex flex-col mb-[25px]">
