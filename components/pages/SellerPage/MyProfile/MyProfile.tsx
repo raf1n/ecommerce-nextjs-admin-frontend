@@ -5,15 +5,14 @@ import DashboardBreadcrumb from "../../../shared/SharedDashboardBreadcumb/Dashbo
 import { FaShoppingCart, FaCheckCircle } from "react-icons/fa";
 import style from "./MyProfile.module.css";
 import { EcommerceApi } from "../../../../src/API/EcommerceApi";
-import { ISeller } from "../../../../interfaces/models";
 import Link from "next/link";
+import { SocialLogin } from "../../../helpers/SocialLogin";
 
 interface Props {}
 
 const MyProfile: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-
-  const [seller, setSeller] = useState<any | string>([]);
+  const [seller, setSeller] = useState<any | string>({});
 
   useEffect(() => {
     const fetchSingleSeller = async () => {
@@ -21,40 +20,54 @@ const MyProfile: React.FC<Props> = (props) => {
         states?.currentUser?.email
       );
       if (res) {
-        console.log(res);
         setSeller(res);
-      } else {
-        console.log("seller panel", err);
       }
     };
-
     fetchSingleSeller();
   }, []);
-  console.log("my profile seller state=", states?.currentUser?.email);
 
   const handleUpdateProfile = async (e: any) => {
     e.preventDefault();
-    const profilePicUrl = e.target.profilePicUrl.files[0];
+    const image = e.target.profilePicUrl.files[0];
     const formData = new FormData();
-    formData.append("image", profilePicUrl);
+    formData.append("image", image);
     const { res, err } = await EcommerceApi.uploadImage(formData);
     if (res?.data?.url || !res?.data?.url) {
-      let logoUrl;
-      logoUrl = res?.data?.url;
+      let imageURL;
+      imageURL = res?.data?.url;
       if (res?.data?.url === undefined || null) {
-        logoUrl = "";
+        imageURL = states.currentUser?.avatar;
       }
+      const newProfileDataForFirebase = {
+        fullName: e.target.name.value,
+        avatar: imageURL,
+      };
+      const { res: socialRes, err } =
+        await SocialLogin.updateLoggedInAdminProfile(
+          states.currentUser?.slug,
+          newProfileDataForFirebase
+        );
       const newProfileData = {
-        name: e.target.name.value,
+        fullName: newProfileDataForFirebase.fullName,
+        avatar: newProfileDataForFirebase.avatar,
         phone: e.target.phone.value,
         shop: {
           shop_address: e.target.address.value,
         },
-        avatar: logoUrl,
       };
-      EcommerceApi.editProfile(newProfileData, states?.currentUser?.email);
-      console.log("newShopData-", newProfileData);
-      // e.target.reset();
+      if (socialRes === "Profile updated") {
+        const { res: dbRes, err } = await EcommerceApi.editProfile(
+          newProfileData,
+          states?.currentUser?.email
+        );
+
+        if (dbRes) {
+          controller.setCurrentUser(dbRes);
+          // setSeller(dbRes);
+          alert("Updated Successfully ");
+          // e.target.reset();
+        }
+      }
     }
   };
 
@@ -135,7 +148,6 @@ const MyProfile: React.FC<Props> = (props) => {
                 />
                 <div className={`${style["profile-widget-item"]} `}>
                   <div>Joined at</div>
-
                   <div>{seller?.createdAt?.split("T")[0]}</div>
                 </div>
                 <div className={`${style["profile-widget-item"]} `}>
@@ -143,7 +155,6 @@ const MyProfile: React.FC<Props> = (props) => {
                   <div>999</div>
                 </div>
               </div>
-
               <div>
                 {/* table */}
 
@@ -155,7 +166,8 @@ const MyProfile: React.FC<Props> = (props) => {
                           Name
                         </th>
                         <th scope="col" className="px-6 py-5 capitalize">
-                          {seller.fullName}
+                          {/* {seller?.fullName} */}
+                          {states.currentUser?.fullName}
                         </th>
                       </tr>
                     </thead>
@@ -207,7 +219,8 @@ const MyProfile: React.FC<Props> = (props) => {
               </div>
               <div>
                 <div className="mt-12 text-center capitalize">
-                  <b>Follow {seller?.fullName}</b>
+                  {/* <b>Follow {seller?.fullName}</b> */}
+                  <b>Follow {states.currentUser?.fullName}</b>
                 </div>
               </div>
             </div>
@@ -252,13 +265,13 @@ const MyProfile: React.FC<Props> = (props) => {
               <form onSubmit={handleUpdateProfile}>
                 <div className="mb-6 mt-8">
                   <label
-                    htmlFor="email"
+                    htmlFor="file"
                     className="block mb-2 text-sm font-medium text-gray-900">
                     New Image
                   </label>
                   <input
                     type="file"
-                    id="file"
+                    id="profilePicUrl"
                     name="profilePicUrl"
                     className=""
                   />
@@ -266,12 +279,12 @@ const MyProfile: React.FC<Props> = (props) => {
                 <div className="grid grid-cols-2">
                   <div className="mb-6 ">
                     <label
-                      htmlFor="email"
+                      htmlFor="name"
                       className="block mb-2 text-sm font-medium text-gray-900">
                       Name <span className="text-red-500"> *</span>
                     </label>
                     <input
-                      type="name"
+                      type="text"
                       id="name"
                       name="name"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-10/12 p-2.5 "
@@ -304,7 +317,7 @@ const MyProfile: React.FC<Props> = (props) => {
                       Phone <span className="text-red-500"> *</span>
                     </label>
                     <input
-                      type="phone"
+                      type="tel"
                       id="phone"
                       name="phone"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 w-10/12  p-2.5 "
@@ -320,7 +333,7 @@ const MyProfile: React.FC<Props> = (props) => {
                       Address <span className="text-red-500"> *</span>
                     </label>
                     <input
-                      type="address"
+                      type="text"
                       id="address"
                       name="address"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-10/12 p-2.5 "

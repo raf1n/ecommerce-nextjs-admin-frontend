@@ -679,7 +679,7 @@ export class EcommerceApi {
     return await callFetch(`${API_ENDPOINT}/products/${slug}`, requestOptions);
   }
 
-  //  product image add
+  //  product /profile image add
   static async uploadImage(data: Partial<any>): Promise<MyFetchInterface> {
     console.log("uploadImage-", data);
     const requestOptions = {
@@ -1644,7 +1644,6 @@ export class EcommerceApi {
   }
   //  edit profile data
   static async editProfile(data: any, email: any) {
-    console.log("edit profile data", data);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     const requestOptions = {
@@ -1653,7 +1652,6 @@ export class EcommerceApi {
       body: JSON.stringify(data),
       redirect: "follow",
     };
-
     return await callFetch(
       `${API_ENDPOINT}/users/profile/${email}`,
       requestOptions

@@ -25,10 +25,11 @@ const AdminProfile: React.FC<Props> = (props) => {
     const formData = new FormData();
     formData.append("image", image);
     const { res, err } = await EcommerceApi.uploadImage(formData);
+
     if (res?.data?.url || !res?.data?.url) {
       let imageUrl;
       imageUrl = res?.data?.url;
-      // setImageLink(data?.data?.url);
+
       if (res?.data?.url === undefined || null) {
         imageUrl = states.currentUser?.avatar;
       }
@@ -87,16 +88,14 @@ const AdminProfile: React.FC<Props> = (props) => {
           <DashboardBreadcrumb
             headline="My Profile"
             slug="My Profile"
-            link="/admin/AdminProfile"
-          ></DashboardBreadcrumb>
+            link="/admin/AdminProfile"></DashboardBreadcrumb>
 
           <div className={`${styles["main-content"]}`}>
             <div className={`${styles["row"]} mt-4`}>
               <div>
                 <form
                   onSubmit={handleUpdateProfile}
-                  className={`${styles["card"]} ${styles["profile-widget"]}`}
-                >
+                  className={`${styles["card"]} ${styles["profile-widget"]}`}>
                   <div className={`${styles["profile-widget-header"]} `}>
                     {states && states.currentUser?.avatar && (
                       <img
@@ -112,8 +111,7 @@ const AdminProfile: React.FC<Props> = (props) => {
                         <div className="form-group grid text-sm">
                           <label
                             className="text-sm text-qgray font-semibold"
-                            htmlFor=""
-                          >
+                            htmlFor="">
                             New Image
                           </label>
                           <input
@@ -128,8 +126,7 @@ const AdminProfile: React.FC<Props> = (props) => {
                           <div className="my-4 ">
                             <label
                               className="text-qgray font-semibold mt-4	text-sm"
-                              htmlFor=""
-                            >
+                              htmlFor="">
                               Name
                             </label>
                             <span className="text-red-500 ml-2">*</span>
@@ -152,8 +149,7 @@ const AdminProfile: React.FC<Props> = (props) => {
                           <div className="my-4">
                             <label
                               className="text-qgray font-semibold mt-4	text-sm"
-                              htmlFor=""
-                            >
+                              htmlFor="">
                               Email
                             </label>
                             <span className="text-red-500 ml-2">*</span>
@@ -165,6 +161,7 @@ const AdminProfile: React.FC<Props> = (props) => {
                               defaultValue={states.currentUser.email}
                               name="email"
                               id="email"
+                              readOnly
                             />
                           )}
                         </div>
@@ -172,8 +169,7 @@ const AdminProfile: React.FC<Props> = (props) => {
                         <div className="mt-4">
                           <button
                             type="submit"
-                            className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
-                          >
+                            className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
                             Update
                           </button>
                         </div>
@@ -189,8 +185,7 @@ const AdminProfile: React.FC<Props> = (props) => {
             <div>
               <form
                 onSubmit={handlePassChange}
-                className={`${styles["card"]} ${styles["profile-widget-password"]}`}
-              >
+                className={`${styles["card"]} ${styles["profile-widget-password"]}`}>
                 <div className={`${styles["profile-widget-description"]}`}>
                   <div>
                     <div className={`${styles["row"]} `}>
@@ -199,8 +194,7 @@ const AdminProfile: React.FC<Props> = (props) => {
                         <div className="my-4 ">
                           <label
                             className="text-qgray font-semibold mt-4	text-sm"
-                            htmlFor=""
-                          >
+                            htmlFor="">
                             Old Password
                           </label>
                           <span className="text-red-500 ml-2">*</span>
@@ -218,8 +212,7 @@ const AdminProfile: React.FC<Props> = (props) => {
                         <div className="my-4">
                           <label
                             className="text-qgray font-semibold mt-4	text-sm"
-                            htmlFor=""
-                          >
+                            htmlFor="">
                             New Password
                           </label>
                           <span className="text-red-500 ml-2">*</span>
@@ -236,8 +229,7 @@ const AdminProfile: React.FC<Props> = (props) => {
                         <div className="my-4">
                           <label
                             className="text-qgray font-semibold mt-4	text-sm"
-                            htmlFor=""
-                          >
+                            htmlFor="">
                             Confirm New Password
                           </label>
                           <span className="text-red-500 ml-2">*</span>
@@ -253,8 +245,7 @@ const AdminProfile: React.FC<Props> = (props) => {
                       <div className="mt-4">
                         <button
                           type="submit"
-                          className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
-                        >
+                          className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
                           Update
                         </button>
                       </div>
