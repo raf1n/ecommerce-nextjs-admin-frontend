@@ -56,8 +56,8 @@ const PostBlog: React.FC<Props> = (props) => {
         imageURL: imageUrl,
         title: e.target.title.value,
         category: e.target.category.value,
-        // description: e.target.description.value,
-        description: editor?.getHTML(),
+        description: e.target.short_desc.value,
+        long_description: editor?.getHTML(),
         isShowHomepage: e.target.show_homepage.value,
         status: e.target.status.value,
         seo_title: e.target.seo_title.value,
@@ -70,7 +70,7 @@ const PostBlog: React.FC<Props> = (props) => {
       e.target.reset();
       // !need to figure out better method than destroy to reset tiptap
       //@ts-ignore
-      editor.destroy();
+      // editor.destroy();
       setSelectedImage(null);
     }
   };
@@ -175,12 +175,14 @@ const PostBlog: React.FC<Props> = (props) => {
                 {/*  */}
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
-                    Sub Category
+                    Category
                   </label>
                   <select
+                    required
                     name="category"
                     id="category"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
+                  >
                     <option value="">Select Category</option>
                     {categories.map((cat, indx) => (
                       <>
@@ -193,21 +195,21 @@ const PostBlog: React.FC<Props> = (props) => {
                 </div>
                 {/*  */}
 
-                {/* <div className="form-group col-12 flex flex-col mb-[25px]">
+                <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
-                    Description <span className="text-red-500">*</span>
+                    Short Description <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     required
                     id="description"
                     className="form-control h-[100px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                    name="description"
+                    name="short_desc"
                   />
-                </div> */}
+                </div>
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
-                    Description <span className="text-red-500">*</span>
+                    Long Description <span className="text-red-500">*</span>
                   </label>
                   <SharedTiptap editor={editor} />
                 </div>
@@ -220,7 +222,8 @@ const PostBlog: React.FC<Props> = (props) => {
                     className="w-full border rounded p-2 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="show_homepage"
                     id="show_homepage"
-                    required>
+                    required
+                  >
                     <option value="yes">Yes</option>
                     <option value="no">No</option>
                   </select>
@@ -234,7 +237,8 @@ const PostBlog: React.FC<Props> = (props) => {
                     className="w-full border rounded p-2 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="status"
                     id="status"
-                    required>
+                    required
+                  >
                     <option value="active">Active</option>
                     <option value="inactive">InActive</option>
                   </select>
@@ -264,7 +268,10 @@ const PostBlog: React.FC<Props> = (props) => {
                 </div>
 
                 <div className="col-12">
-                  <button className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]">
+                  <button
+                    type="submit"
+                    className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]"
+                  >
                     Save
                   </button>
                 </div>
