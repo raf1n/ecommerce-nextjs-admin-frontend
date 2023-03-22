@@ -20,6 +20,7 @@ import {
   ISingleReviewProductsResponse,
   ISingleWithdrawMethodResponse,
   IWithdrawResponse,
+  IFeaturedResponseCategories,
 } from "./../../interfaces/response";
 import {
   IAd,
@@ -98,6 +99,7 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/categories`, requestOptions);
   }
+
   //get all Reviews  admin
   static async getAllReviews(query: string): Promise<IReviewProductsResponse> {
     const myHeaders = new Headers();

@@ -28,6 +28,11 @@ import { IProduct, IBrandDetail } from "./models";
 export interface IResponseCategories extends MyFetchInterface {
   res: Array<ICategories>;
 }
+
+export interface IFeaturedResponseCategories extends MyFetchInterface {
+  res: Array<IFeaturedCategories>;
+}
+
 export interface IReviewProductsResponse extends MyFetchInterface {
   res: Array<IReview>;
 }
