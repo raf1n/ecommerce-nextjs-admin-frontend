@@ -17,6 +17,9 @@ interface Props {}
 
 const ProductCreate: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+
+  const user_slug = CookiesHandler.getSlug();
+
   // const [isCheckedTop, setIsCheckedTop] = useState(false);
   // const [isCheckedNew, setIsCheckedNew] = useState(false);
   // const [isCheckedBest, setIsCheckedBest] = useState(false);

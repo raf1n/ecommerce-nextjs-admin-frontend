@@ -88,6 +88,7 @@ const CreateSlider: React.FC<Props> = (props) => {
                     </label>
 
                     <input
+                      required
                       className="w-full mt-4 p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="file"
                       name="imageURL"
@@ -106,6 +107,7 @@ const CreateSlider: React.FC<Props> = (props) => {
                       <span className="text-red-500 ml-2">*</span>
                     </div>
                     <input
+                      required
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
                       name="badge"
@@ -123,6 +125,7 @@ const CreateSlider: React.FC<Props> = (props) => {
                       <span className="text-red-500 ml-2">*</span>
                     </div>
                     <input
+                      required
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
                       name="titleOne"
@@ -140,6 +143,7 @@ const CreateSlider: React.FC<Props> = (props) => {
                       <span className="text-red-500 ml-2">*</span>
                     </div>
                     <input
+                      required
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
                       name="titleTwo"
@@ -157,6 +161,7 @@ const CreateSlider: React.FC<Props> = (props) => {
                       <span className="text-red-500 ml-2">*</span>
                     </div>
                     <select
+                      required
                       className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                       name="productLink"
                       id=""
@@ -184,6 +189,7 @@ const CreateSlider: React.FC<Props> = (props) => {
                       <span className="text-red-500 ml-2">*</span>
                     </div>
                     <input
+                      required
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="number"
                       name="serial"
@@ -202,6 +208,7 @@ const CreateSlider: React.FC<Props> = (props) => {
                       <span className="text-red-500 ml-2">*</span>
                     </div>
                     <select
+                      required
                       className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                       name="status"
                       id=""
