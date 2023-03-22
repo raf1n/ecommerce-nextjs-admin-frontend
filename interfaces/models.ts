@@ -186,6 +186,7 @@ export interface IMegaCategory {
   serial: number;
   sub_cat_list: object[];
   status: "active" | "inactive";
+  categoriesData: ICategories;
 }
 
 export interface IAd {

@@ -57,7 +57,9 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
   }, [searchString, sortBy, sortType]);
 
   const handleDelete = async () => {
-    const { res, err } = await EcommerceApi.deleteMegaMenuCategory(deleteModalSlug);
+    const { res, err } = await EcommerceApi.deleteMegaMenuCategory(
+      deleteModalSlug
+    );
     if (res) {
       setDeleteModalSlug("");
       const remainingCategories = categoriesData.filter(
@@ -65,7 +67,7 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
       );
       setCategoriesData(remainingCategories);
     }
-  }
+  };
 
   return (
     <div className="w-full">
@@ -169,7 +171,7 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
                               </td>
                               <td className="px-3 py-3  text-sm">
                                 <p className="text-gray-900 whitespace-no-wrap ">
-                                  {megaCat.cat_name}
+                                  {megaCat.categoriesData.cat_name}
                                 </p>
                               </td>
                               <td className="px-3 py-3    text-sm">
@@ -179,7 +181,11 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
                               </td>
                               <td className="px-3 py-3  text-sm">
                                 <span className="text-gray-900 whitespace-no-wrap">
-                                  <ToggleButton status={megaCat.status} slug={megaCat.slug} apiUrl="mega-menu-categories" />
+                                  <ToggleButton
+                                    status={megaCat.status}
+                                    slug={megaCat.slug}
+                                    apiUrl="mega-menu-categories"
+                                  />
                                 </span>
                               </td>
 
@@ -197,7 +203,11 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
                                   </span>
                                 </Link>
 
-                                <button onClick={() => setDeleteModalSlug(megaCat.slug)}>
+                                <button
+                                  onClick={() =>
+                                    setDeleteModalSlug(megaCat.slug)
+                                  }
+                                >
                                   <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                     <span
                                       style={{
