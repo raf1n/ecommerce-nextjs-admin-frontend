@@ -263,3 +263,13 @@ export interface IBlogCategory extends MyFetchInterface {
   slug?: string;
   status: string;
 }
+
+export interface IFlashSale {
+  slug?: string;
+  title: string;
+  offer: string;
+  time: string;
+  status: string;
+  imageHome: Array<string>;
+  imageFlash: Array<string>;
+}
