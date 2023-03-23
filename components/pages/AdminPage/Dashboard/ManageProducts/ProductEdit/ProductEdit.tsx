@@ -127,7 +127,7 @@ const ProductEdit: React.FC<Props> = (props) => {
     if (res?.data?.url || !res?.data?.url || res.error.code === 120) {
       let imageUrl;
       imageUrl = [res?.data?.url];
-      // setImageLink(data?.data?.url);
+
       if (res?.data?.url === undefined || null) {
         imageUrl = productData?.imageURL;
       }
