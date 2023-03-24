@@ -42,7 +42,7 @@ const Customers: React.FC<Props> = (props) => {
   useEffect(() => {
     const fetchAllCustomers = async () => {
       const { res, err } = await EcommerceApi.getAllUsers(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&status=active`
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
       if (err) {
         console.log(err);

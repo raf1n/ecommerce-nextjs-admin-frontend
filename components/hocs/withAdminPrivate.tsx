@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Router from "next/router";
 import { EcommerceApi } from "../../src/API/EcommerceApi";
 import { CookiesHandler } from "./../../src/utils/CookiesHandler";
 
 const login = "/login?redirected=true";
 
-const checkUserAuthentication = async () => {
-  console.log(CookiesHandler.getSlug(), "getSlug");
+const checkUserAuthentication = async (context: any) => {
+  console.log("contextCU", context);
+  console.log("contextC", context.req?.cookies?.USER_SLUG);
 
-  const { res, err } = await EcommerceApi.getUserAuth(
-    CookiesHandler.getSlug() as string
-  );
+  const us = context.req?.cookies?.USER_SLUG ?? CookiesHandler.getSlug() ?? "";
+  console.log({ us });
+
+  const { res, err } = await EcommerceApi.getUserAuth(us);
+
+  console.log(res);
 
   if (res && res.role === "admin") {
     return {
@@ -26,8 +30,12 @@ export default (WrappedComponent) => {
   const hocComponent = ({ ...props }) => <WrappedComponent {...props} />;
 
   hocComponent.getInitialProps = async (context: any) => {
-    console.log("cookies", context.req);
-    const userAuth = await checkUserAuthentication();
+    setTimeout(() => {
+    
+    }, 200);
+    console.log("contextC", context.req?.cookies?.USER_SLUG);
+    // const user_slug = context.req?.cookies?.USER_SLUG;
+    const userAuth = await checkUserAuthentication(context);
 
     console.log({ userAuth });
     // console.log({ cookies: context.req });

@@ -1003,10 +1003,6 @@ export class Jsondata {
           link: "/admin/customer_list",
         },
         {
-          title: "Pending Customers",
-          link: "/admin/pending_customer_list",
-        },
-        {
           title: "Seller List",
           link: "/admin/seller_list",
         },
