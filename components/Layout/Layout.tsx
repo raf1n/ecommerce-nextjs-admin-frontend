@@ -55,6 +55,11 @@ const Layout: React.FC<Props> = ({ children }) => {
     getSingleUser();
   }, []);
 
+  const signOutUser = async () => {
+    await SocialLogin.logOut();
+    controller.setCurrentUser(null);
+  }
+
   return (
     <div className="font-nunito flex h-screen overflow-y-hidden bg-[#f4f6f9]">
       {/* left side bar */}
@@ -168,7 +173,7 @@ const Layout: React.FC<Props> = ({ children }) => {
 
                 <div className="border-t"></div>
                 <button
-                  onClick={() => SocialLogin.logOut()}
+                  onClick={() => signOutUser()}
                   className="pl-5 flex text-[13px] text-[#fc544b] my-3 font-medium"
                 >
                   <span className="pr-2  text-[15px]">
