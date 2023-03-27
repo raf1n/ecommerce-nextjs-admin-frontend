@@ -265,7 +265,7 @@ export interface IBlogCategory extends MyFetchInterface {
 }
 
 export interface IFlashSale {
-  slug?: string;
+  name?: string;
   title: string;
   offer: string;
   time: string;

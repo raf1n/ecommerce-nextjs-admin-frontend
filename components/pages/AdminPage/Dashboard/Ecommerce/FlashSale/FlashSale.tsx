@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { IFlashSale } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
@@ -9,40 +10,71 @@ interface Props {}
 const FlashSale: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [saleData, setSaleData] = useState<IFlashSale>();
 
-  const imageChange = (e: any) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setSelectedImage(e.target.files[0]);
-      console.log(selectedImage);
-    }
-  };
+  useEffect(() => {
+    const fetchAllflashData = async () => {
+      const { res, err } = await EcommerceApi.getFlashSaleContent(
+        "flashcontnet"
+      );
+      if (err) {
+        console.log(err);
+      } else {
+        setSaleData(res);
+
+        // console.log(res);
+      }
+    };
+    fetchAllflashData();
+  }, []);
+
+  // const imageChange = (e: any) => {
+  //   if (e.target.files && e.target.files.length > 0) {
+  //     setSelectedImage(e.target.files[0]);
+  //     console.log(selectedImage);
+  //   }
+  // };
 
   const handleUpdate = async (e: any) => {
     e.preventDefault();
-    const image = e.target.imageURL.files[0];
-    const formData = new FormData();
-    formData.append("image", image);
-    const { res, err } = await EcommerceApi.uploadImage(formData);
+    const image = e.target.imageHome.files[0];
+    const image2 = e.target.imageFlash.files[0];
+    const formData1 = new FormData();
+    formData1.append("image", image);
+    const formData2 = new FormData();
+    formData2.append("image", image2);
+    const { res: res1, err } = await EcommerceApi.uploadImage(formData1);
+    // const { res, err } = await EcommerceApi.uploadImage(formData);
 
-    if (res?.data?.url || !res?.data?.url) {
-      let imageUrl;
-      imageUrl = [res?.data?.url];
+    if (res1?.data?.url || !res1?.data?.url) {
+      let imageHome;
+      imageHome = res1?.data?.url;
       // setImageLink(data?.data?.url);
-      if (res?.data?.url === undefined || null) {
-        imageUrl = [""];
+      if (res1?.data?.url === undefined || null) {
+        imageHome = "";
       }
-      const flashSaleData = {
-        title: e.target.title.value,
-        offer: e.target.offer.value,
-        time: e.target.time.value,
-        status: e.target.flashSaleStatus.value,
-        imageHome: imageUrl,
-        imageFlash: imageUrl,
-      };
-      console.log(flashSaleData);
-      EcommerceApi.addProducts(flashSaleData);
-      e.target.reset();
-      setSelectedImage(null);
+      const { res, err } = await EcommerceApi.uploadImage(formData2);
+
+      if (res?.data?.url || !res?.data?.url) {
+        let imageFlash;
+        imageFlash = res?.data?.url;
+        if (res?.data?.url === undefined || null) {
+          imageFlash = "";
+        }
+        const flashSaleData = {
+          name: "flashcontnet",
+          title: e.target.title.value,
+          offer: e.target.offer.value,
+          time: e.target.time.value,
+          status: e.target.flashSaleStatus.value,
+          imageHome: imageHome,
+          imageFlash: imageFlash,
+        };
+        console.log(flashSaleData);
+        EcommerceApi.editFlashSale(flashSaleData);
+        e.target.reset();
+        setSelectedImage(null);
+      }
     }
   };
 
@@ -58,7 +90,7 @@ const FlashSale: React.FC<Props> = (props) => {
         <div className="mt-4">
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6 mt-7">
-              <form action="">
+              <form onSubmit={handleUpdate} action="">
                 <div className="form-group col-12 mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Homepage Image Preview
@@ -92,10 +124,9 @@ const FlashSale: React.FC<Props> = (props) => {
                     Homepage Image <span className="text-red-500">*</span>
                   </label>
                   <input
-                    required
                     name="imageHome"
                     type="file"
-                    onChange={imageChange}
+                    // onChange={imageChange}
                     className="form-control-file text-sm"
                   />
                 </div>
@@ -134,10 +165,9 @@ const FlashSale: React.FC<Props> = (props) => {
                     <span className="text-red-500">*</span>
                   </label>
                   <input
-                    required
                     name="imageFlash"
                     type="file"
-                    onChange={imageChange}
+                    // onChange={imageChange}
                     className="form-control-file text-sm"
                   />
                 </div>
@@ -152,6 +182,7 @@ const FlashSale: React.FC<Props> = (props) => {
                       id="name"
                       className="form-control w-full h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                       name="title"
+                      defaultValue={saleData?.title}
                     />
                   </div>
 
@@ -165,6 +196,7 @@ const FlashSale: React.FC<Props> = (props) => {
                       id="name"
                       className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                       name="offer"
+                      defaultValue={saleData?.offer}
                     />
                   </div>
                 </div>
@@ -180,6 +212,7 @@ const FlashSale: React.FC<Props> = (props) => {
                       id="name"
                       className="form-control w-full h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                       name="time"
+                      defaultValue={saleData?.time}
                     />
                   </div>
 
@@ -192,6 +225,7 @@ const FlashSale: React.FC<Props> = (props) => {
                       name="flashSaleStatus"
                       id=""
                       required
+                      defaultValue={saleData?.status}
                     >
                       <option value="active">Active</option>
                       <option value="inactive">InActive</option>
