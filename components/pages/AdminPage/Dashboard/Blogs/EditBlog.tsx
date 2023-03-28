@@ -1,22 +1,43 @@
+import Color from "@tiptap/extension-color";
+import TextStyle from "@tiptap/extension-text-style";
+import ListItem from "@tiptap/extension-list-item";
+import { useEditor } from "@tiptap/react";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Color } from "@tiptap/extension-color";
-import ListItem from "@tiptap/extension-list-item";
-import TextStyle from "@tiptap/extension-text-style";
-import { useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
 import { IBlog, IBlogCategory } from "../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../src/state/StateController";
+import StarterKit from "@tiptap/starter-kit";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import SharedTiptap from "./SharedTiptap";
+import { useRouter } from "next/router";
+
 interface Props {}
 
-const PostBlog: React.FC<Props> = (props) => {
+const EditBlog: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [selectedImage, setSelectedImage] = useState(null);
   const [categories, setCategories] = useState<IBlogCategory[]>([]);
+  const [blogData, setBlogData] = useState<IBlog>();
+  const { asPath } = useRouter();
+  const blogSlug = asPath.split("/")[3];
+
+  useEffect(() => {
+    const getSingleBlog = async () => {
+      if (blogSlug !== "[id]") {
+        const { res, err } = await EcommerceApi.getSingleBlog(blogSlug);
+        if (res) {
+          setBlogData(res);
+        } else {
+          console.log(err);
+        }
+      }
+    };
+
+    getSingleBlog();
+  }, [blogSlug, categories]);
+  console.log(blogData);
 
   const FetchBlogCat = async () => {
     const { res, err } = await EcommerceApi.getAllBlogCategories();
@@ -30,15 +51,18 @@ const PostBlog: React.FC<Props> = (props) => {
     FetchBlogCat();
   }, []);
 
+  const defaultValueSelected = categories.find(
+    (blog_cat) => blog_cat.slug === blogData?.category
+  );
+
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
       console.log(selectedImage);
     }
   };
-  //--------------------------- handle ----------------
 
-  const handleBlogAdd = async (e: any) => {
+  const handleBlogUpdate = async (e: any) => {
     e.preventDefault();
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
@@ -48,10 +72,10 @@ const PostBlog: React.FC<Props> = (props) => {
       let imageUrl;
       imageUrl = res?.data?.url;
       if (res?.data?.url === undefined || null) {
-        imageUrl = "";
+        imageUrl = blogData?.imageURL;
       }
 
-      const blogData: IBlog = {
+      const updatedBlogData = {
         imageURL: imageUrl,
         title: e.target.title.value,
         category: e.target.category.value,
@@ -62,10 +86,11 @@ const PostBlog: React.FC<Props> = (props) => {
         seo_title: e.target.seo_title.value,
         seo_description: e.target.seo_description.value,
         postBy: states.currentUser?.slug,
+        // postBy: "admin",
       };
-      console.log(blogData);
-      EcommerceApi.addBlog(blogData);
-      alert("Successfuly Blog Posted !");
+
+      EcommerceApi.editBlogs(updatedBlogData, blogSlug);
+      alert("Updated Successfully ");
       e.target.reset();
       // !need to figure out better method than destroy to reset tiptap
       //@ts-ignore
@@ -96,14 +121,15 @@ const PostBlog: React.FC<Props> = (props) => {
           "prose prose-w-full dark:prose-invert prose-strong:text-black prose-headings:text-gray-700 prose-blockquote:text-gray-500 prose-base m-2 focus:outline-none leading-1 text-black",
       },
     },
+    content: blogData?.long_description ? blogData.long_description : "",
   });
 
   return (
     <div>
       <DashboardBreadcrumb
-        headline="Create Blog"
-        link="/Blog/create-blog"
-        slug="Create Blog"
+        headline="Edit Blog"
+        link="/Blog/edit-blog"
+        slug="edit Blog"
       />
       <div className="m-6">
         <div className="section-body">
@@ -115,34 +141,23 @@ const PostBlog: React.FC<Props> = (props) => {
         <div className="mt-4">
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6 mt-7">
-              <form onSubmit={handleBlogAdd}>
+              <form onSubmit={handleBlogUpdate}>
                 <div className="form-group col-12 mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Thumbnail Image Preview
                   </label>
-                  {selectedImage ? (
-                    <div>
-                      <picture>
+                  <div>
+                    <picture>
+                      {blogData && blogData?.imageURL && (
                         <img
                           id="preview-img"
                           className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
-                          src={URL.createObjectURL(selectedImage)}
+                          src={blogData?.imageURL}
                           alt=""
                         />
-                      </picture>
-                    </div>
-                  ) : (
-                    <div>
-                      <picture>
-                        <img
-                          id="preview-img"
-                          className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
-                          src="https://api.websolutionus.com/shopo/uploads/website-images/preview.png"
-                          alt=""
-                        />
-                      </picture>
-                    </div>
-                  )}
+                      )}
+                    </picture>
+                  </div>
                 </div>
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
@@ -166,12 +181,13 @@ const PostBlog: React.FC<Props> = (props) => {
                   <input
                     required
                     type="text"
-                    id="title"
-                    name="title"
+                    id="name"
                     className="form-control  rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
+                    name="title"
+                    defaultValue={blogData?.title}
                   />
                 </div>
-
+                {/*  */}
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Category
@@ -182,15 +198,19 @@ const PostBlog: React.FC<Props> = (props) => {
                     id="category"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
                     <option value="">Select Category</option>
-                    {categories.map((cat, indx) => (
+                    {categories.map((cat: IBlogCategory, indx) => (
                       <>
-                        <option key={indx} value={cat.name}>
+                        <option
+                          selected={blogData?.category === cat.name}
+                          key={indx}
+                          value={cat.name}>
                           {cat.name}
                         </option>
                       </>
                     ))}
                   </select>
                 </div>
+                {/*  */}
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
@@ -199,8 +219,9 @@ const PostBlog: React.FC<Props> = (props) => {
                   <textarea
                     required
                     id="description"
-                    name="short_desc"
                     className="form-control h-[100px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
+                    name="short_desc"
+                    defaultValue={blogData?.description}
                   />
                 </div>
 
@@ -208,7 +229,7 @@ const PostBlog: React.FC<Props> = (props) => {
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Long Description <span className="text-red-500">*</span>
                   </label>
-                  <SharedTiptap editor={editor} />
+                  {blogData && <SharedTiptap editor={editor} />}
                 </div>
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
@@ -220,8 +241,16 @@ const PostBlog: React.FC<Props> = (props) => {
                     name="show_homepage"
                     id="show_homepage"
                     required>
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                    <option
+                      selected={blogData?.isShowHomepage === "yes"}
+                      value="yes">
+                      Yes
+                    </option>
+                    <option
+                      selected={blogData?.isShowHomepage === "no"}
+                      value="no">
+                      No
+                    </option>
                   </select>
                 </div>
 
@@ -234,8 +263,16 @@ const PostBlog: React.FC<Props> = (props) => {
                     name="status"
                     id="status"
                     required>
-                    <option value="active">Active</option>
-                    <option value="inactive">InActive</option>
+                    <option
+                      selected={blogData?.status === "active"}
+                      value="active">
+                      Active
+                    </option>
+                    <option
+                      selected={blogData?.status === "inactive"}
+                      value="inactive">
+                      In Active
+                    </option>
                   </select>
                 </div>
 
@@ -246,8 +283,9 @@ const PostBlog: React.FC<Props> = (props) => {
                   <input
                     type="text"
                     id="seo_title"
-                    name="seo_title"
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
+                    name="seo_title"
+                    defaultValue={blogData?.seo_title}
                   />
                 </div>
 
@@ -257,8 +295,9 @@ const PostBlog: React.FC<Props> = (props) => {
                   </label>
                   <textarea
                     id="seo_description"
-                    name="seo_description"
                     className="form-control h-[100px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
+                    name="seo_description"
+                    defaultValue={blogData?.seo_description}
                   />
                 </div>
 
@@ -266,7 +305,7 @@ const PostBlog: React.FC<Props> = (props) => {
                   <button
                     type="submit"
                     className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]">
-                    Save
+                    Update
                   </button>
                 </div>
               </form>
@@ -278,4 +317,4 @@ const PostBlog: React.FC<Props> = (props) => {
   );
 };
 
-export default PostBlog;
+export default EditBlog;

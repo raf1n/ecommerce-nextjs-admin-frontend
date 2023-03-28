@@ -5,33 +5,40 @@ import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { IOrder } from "../../../../../../interfaces/models";
 import Table from "../../../Shared/Table";
+import { CookiesHandler } from "../../../../../../src/utils/CookiesHandler";
 
 interface Props {}
 
 const AllOrders: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+
   const [allOrdersData, setAllOrdersData] = useState<IOrder[]>([]);
+
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
 
+  const seller_slug = states.currentUser?.slug;
+
   useEffect(() => {
-    const findAllOrdersAdmin = async () => {
-      const { res, err } = await EcommerceApi.allOrdersAdmin(
+    const getAllOrderForSeller = async () => {
+      const { res, err } = await EcommerceApi.getAllOrderForSeller(
+        seller_slug,
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
       if (err) {
         console.log(err);
       } else {
-        setAllOrdersData(res.allOrdersData);
+        setAllOrdersData(res);
         console.log(res);
       }
     };
-
-    findAllOrdersAdmin();
+    getAllOrderForSeller();
   }, [searchString, sortBy, sortType]);
+
+  console.log(allOrdersData);
 
   const tableHeaders = {
     SN: "sn",

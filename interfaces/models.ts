@@ -139,6 +139,7 @@ export interface IBrandDetail {
 export interface ICartProduct extends IProduct {
   cart_slug: string;
   quantity: number;
+  seller_slug: string;
 }
 
 export interface IOrder {
@@ -236,6 +237,7 @@ export interface IBlog {
   title: string;
   category: string;
   description: string | undefined;
+  long_description: string | undefined;
 
   isShowHomepage: string;
   status: string;
@@ -243,7 +245,7 @@ export interface IBlog {
 
   seo_title: string;
   seo_description: string;
-  postBy: string;
+  postBy: string | undefined;
 }
 
 export interface ISeo {

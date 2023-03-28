@@ -9,6 +9,27 @@ const ShopProfile: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [shopData, setShopData] = useState<any>();
 
+  const [selectedLogo, setSelectedLogo] = useState(null);
+  const [selectedCover, setSelectedCover] = useState(null);
+
+  const logoChange = (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedLogo(e.target.files[0]);
+    }
+  };
+  const coverChange = (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedCover(e.target.files[0]);
+    }
+  };
+
+  const imageChange = (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedLogo(e.target.files[0]);
+      console.log(selectedLogo);
+    }
+  };
+
   useEffect(() => {
     const getSingleSeller = async () => {
       const { res, err } = await EcommerceApi.getSingleSeller(
@@ -17,7 +38,7 @@ const ShopProfile: React.FC<Props> = (props) => {
       if (res) {
         console.log(res);
         setShopData(res);
-        console.log("shoopp", shopData);
+        console.log("shoopp data-", shopData);
       } else {
         console.log(err);
       }
@@ -28,31 +49,27 @@ const ShopProfile: React.FC<Props> = (props) => {
 
   const handleUpdateShop = async (e: any) => {
     e.preventDefault();
-
     const logo = e.target.logoUrl.files[0];
     const cover = e.target.coverUrl.files[0];
     const formData1 = new FormData();
     formData1.append("image", logo);
     const formData2 = new FormData();
     formData2.append("image", cover);
-
     const { res: res1, err } = await EcommerceApi.uploadImage(formData1);
     if (res1?.data?.url || !res1?.data?.url) {
       let logoUrl;
       logoUrl = res1?.data?.url;
       if (res1?.data?.url === undefined || null) {
-        logoUrl = "";
+        logoUrl = shopData.shop.shop_logo;
       }
-
       const { res, err } = await EcommerceApi.uploadImage(formData2);
 
       if (res?.data?.url || !res?.data?.url) {
         let coverUrl;
         coverUrl = res?.data?.url;
         if (res?.data?.url === undefined || null) {
-          coverUrl = "";
+          coverUrl = shopData.shop.shop_cover;
         }
-
         const newShopData = {
           email: e.target.email.value,
           phone: e.target.phone.value,
@@ -77,6 +94,7 @@ const ShopProfile: React.FC<Props> = (props) => {
         EcommerceApi.editShop(newShopData, states?.currentUser?.email);
         console.log("newShopData-", newShopData);
         e.target.reset();
+        alert("Successfully Updated !");
       }
     }
   };
@@ -97,13 +115,21 @@ const ShopProfile: React.FC<Props> = (props) => {
                     </label>
                     <div>
                       <picture>
-                        <img
-                          id="preview-img"
-                          className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
-                          src="https://cdn.pixabay.com/photo/2017/03/19/20/19/ball-2157465__340.png"
-                          // src={singlesliderData?.image}
-                          alt=""
-                        />
+                        {selectedLogo ? (
+                          <img
+                            id="preview-img"
+                            className="admin-img border border-[#ddd] p-0 m-0 w-[100px] h-[83px] object-cover  rounded-full"
+                            src={URL.createObjectURL(selectedLogo)}
+                            alt=""
+                          />
+                        ) : (
+                          <img
+                            id="preview-img"
+                            className="admin-img border border-[#ddd] p-0 m-0 w-[100px] h-[83px] object-cover rounded-full"
+                            src={shopData?.shop.shop_logo}
+                            alt=""
+                          />
+                        )}
                       </picture>
                     </div>
                   </div>
@@ -112,15 +138,15 @@ const ShopProfile: React.FC<Props> = (props) => {
                       className="text-sm tracking-[.5px] text-[#34395e] font-semibold"
                       htmlFor="">
                       New Logo
-                      {/* <span className=" text-red-500 ml-2">*</span> */}
                     </label>
 
                     <input
-                      className="w-full mt-4 p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
+                      className="  mt-2 p-3"
                       type="file"
                       name="logoUrl"
                       id=""
-                      defaultValue={shopData?.shop_logo}
+                      onChange={logoChange}
+                      // defaultValue={shopData?.shop.shop_logo} border-gray-200 border  bg-[#fdfdff] rounded-md text-sm w-full
                     />
                   </div>
 
@@ -130,30 +156,38 @@ const ShopProfile: React.FC<Props> = (props) => {
                     </label>
                     <div>
                       <picture>
-                        <img
-                          id="preview-img"
-                          className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
-                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtkHDkSq_8rN4mPhbWA0-kxs8jlGRsiRsPzQ&usqp=CAU"
-                          // src={singlesliderData?.image}
-                          alt=""
-                        />
+                        {selectedCover ? (
+                          <img
+                            id="preview-img"
+                            className="admin-img border border-[#ddd] p-0 m-0 w-[300px] h-[85px] object-cover"
+                            src={URL.createObjectURL(selectedCover)}
+                            alt=""
+                          />
+                        ) : (
+                          <img
+                            id="preview-img"
+                            className="admin-img border border-[#ddd] p-0 m-0 w-[300px] h-[85px] object-cover"
+                            src={shopData?.shop.shop_cover}
+                            alt=""
+                          />
+                        )}
                       </picture>
                     </div>
                   </div>
                   <div className="form-group grid text-sm">
                     <label
                       className="text-sm tracking-[.5px] text-[#34395e] font-semibold"
-                      htmlFor="">
+                      htmlFor="coverUrl">
                       New Banner Image
-                      {/* <span className=" text-red-500 ml-2">*</span> */}
                     </label>
 
                     <input
-                      className="w-full mt-4 p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
+                      className=" mt-2 p-3 "
                       type="file"
                       name="coverUrl"
-                      id=""
-                      defaultValue={shopData?.shop_cover}
+                      id="coverUrl"
+                      onChange={coverChange}
+                      // defaultValue={shopData?.shop.shop_cover} border border-gray-200 bg-[#fdfdff] rounded-md text-sm w-full
                     />
                   </div>
 
@@ -167,10 +201,11 @@ const ShopProfile: React.FC<Props> = (props) => {
                       <span className="text-red-500 ml-2">*</span>
                     </div>
                     <input
-                      className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
+                      className="w-full p-3 border border-gray-200 bg-[#fdfdff] hover:border-blue-200 rounded-md text-sm focus:border-blue-200"
                       type="text"
                       name="shop_name"
                       id=""
+                      readOnly
                       defaultValue={shopData?.shop?.shop_name}
                     />
                   </div>
@@ -224,7 +259,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                       type="time"
                       name="opens_at"
                       id=""
-                      defaultValue={shopData?.opens_at}
+                      defaultValue={shopData?.shop.opens_at}
                     />
                   </div>
 
@@ -242,7 +277,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                       type="time"
                       name="close_at"
                       id=""
-                      defaultValue={shopData?.close_at}
+                      defaultValue={shopData?.shop.close_at}
                     />
                   </div>
 
@@ -273,13 +308,23 @@ const ShopProfile: React.FC<Props> = (props) => {
                       </label>
                       <span className="text-red-500 ml-2">*</span>
                     </div>
-                    <input
+                    <textarea
+                      id="geetings_message"
+                      name="geetings_message"
+                      rows={3}
+                      cols={90}
+                      className="w-full p-2 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
+                      defaultValue={
+                        shopData?.shop?.geetings_message
+                      }></textarea>
+
+                    {/* <input
                       className="w-full p-7 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
                       name="geetings_message"
                       id=""
-                      defaultValue={shopData?.geetings_message}
-                    />
+                      defaultValue={shopData?.shop?.geetings_message}
+                    /> */}
                   </div>
 
                   <div className="mt-4 flex gap-5">
@@ -290,14 +335,13 @@ const ShopProfile: React.FC<Props> = (props) => {
                           htmlFor="">
                           Social Icon
                         </label>
-                        {/* <span className="text-red-500 ml-2">*</span> */}
                       </div>
                       <input
                         className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                         type="text"
                         name="social_icon"
                         id=""
-                        defaultValue={shopData?.social_icon}
+                        defaultValue={shopData?.shop.social_icon}
                       />
                     </div>
                     <div className="w-full">
@@ -307,14 +351,13 @@ const ShopProfile: React.FC<Props> = (props) => {
                           htmlFor="">
                           Social Link
                         </label>
-                        {/* <span className="text-red-500 ml-2">*</span> */}
                       </div>
                       <input
                         className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                         type="text"
                         name="social_link"
                         id=""
-                        defaultValue={shopData?.social_link}
+                        defaultValue={shopData?.shop.social_link}
                       />
                     </div>
                   </div>
@@ -333,7 +376,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                       type="text"
                       name="seo_title"
                       id=""
-                      defaultValue={shopData?.seo_title}
+                      defaultValue={shopData?.shop.seo_title}
                     />
                   </div>
 
@@ -341,18 +384,26 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor="seo_des">
                         Seo Description
                       </label>
                       <span className="text-red-500 ml-2">*</span>
                     </div>
-                    <input
-                      className="w-full p-7 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
+                    <textarea
+                      id="seo_des"
+                      name="seo_des"
+                      rows={4}
+                      cols={90}
+                      className="w-full p-2 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
+                      defaultValue={shopData?.shop.seo_des}></textarea>
+
+                    {/* <input
+                      className="w-full p-5 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
                       name="seo_des"
                       id=""
-                      defaultValue={shopData?.seo_des}
-                    />
+                      defaultValue={shopData?.shop.seo_des}
+                    /> */}
                   </div>
 
                   <div className="mt-4">

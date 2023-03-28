@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-
 import Select from "react-select";
 import { controller } from "../../../../../src/state/StateController";
 import {
@@ -18,7 +17,7 @@ interface Props {}
 const ProductCreate: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
-  const user_slug = CookiesHandler.getSlug();
+  // const user_slug = CookiesHandler.getSlug();
 
   // const [isCheckedTop, setIsCheckedTop] = useState(false);
   // const [isCheckedNew, setIsCheckedNew] = useState(false);
@@ -31,6 +30,7 @@ const ProductCreate: React.FC<Props> = (props) => {
   const [brands, setBrands] = useState<IBrandDetail[]>([]);
   const [selectedImage, setSelectedImage] = useState(null);
 
+  const user_slug = CookiesHandler.getSlug();
   // This function will be triggered when the file field change
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -127,14 +127,12 @@ const ProductCreate: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Create Product"
         link="/product_brands/create"
-        slug="Create Product"
-      ></DashboardBreadcrumb>
+        slug="Create Product"></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Products"
-            link="/seller/products"
-          ></SharedGoBackButton>
+            link="/seller/products"></SharedGoBackButton>
         </div>
       </div>
       <div className="px-[25px] w-full relative">
@@ -210,8 +208,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     required
                     name="category"
                     id="category"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                  >
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
                     <option value="">Select Category</option>
                     {categories.map((cat: ICategories, indx) => (
                       <>
@@ -230,8 +227,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                   <select
                     name="sub_category"
                     id="sub_category"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                  >
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
                     <option value="">Select Sub Category</option>
                     {filteredSubCat.map((subCat, indx) => (
                       <>
@@ -340,8 +336,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="productStatus"
                     id=""
-                    required
-                  >
+                    required>
                     <option value="active">Active</option>
                     <option value="inactive">InActive</option>
                   </select>

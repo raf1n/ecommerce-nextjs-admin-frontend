@@ -20,11 +20,11 @@ import {
   ISingleReviewProductsResponse,
   ISingleWithdrawMethodResponse,
   IWithdrawResponse,
+  IOrderSellerResponse,
 } from "./../../interfaces/response";
 import {
   IAd,
   IBrand,
-  IBrandDetail,
   ICategories,
   ICoupon,
   IMegaCategory,
@@ -679,7 +679,7 @@ export class EcommerceApi {
     return await callFetch(`${API_ENDPOINT}/products/${slug}`, requestOptions);
   }
 
-  //  product image add
+  //  product /profile image add
   static async uploadImage(data: Partial<any>): Promise<MyFetchInterface> {
     console.log("uploadImage-", data);
     const requestOptions = {
@@ -748,7 +748,6 @@ export class EcommerceApi {
     console.log(data);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-
     const requestOptions = {
       method: "PATCH",
       headers: myHeaders,
@@ -835,25 +834,21 @@ export class EcommerceApi {
     return await callFetch(`${API_ENDPOINT}/brands/${slug}`, requestOptions);
   }
 
-  // toggle status button - shared - dynamic
+  // toggle status button - shared - dynamic-IResponseBrandDetail
   static async toggleStatusButton(
     slug?: string,
     url?: string,
     patchStatus?: string
-  ): Promise<IResponseBrandDetail> {
+  ): Promise<any> {
     const myHeaders = new Headers();
-
     myHeaders.append("Content-Type", "application/json");
-
     const requestOptions = {
       method: "PATCH",
       headers: myHeaders,
       body: JSON.stringify({ status: patchStatus }),
       redirect: "follow",
     };
-
     console.log(`${API_ENDPOINT}/${url}/${slug}`);
-
     return await callFetch(`${API_ENDPOINT}/${url}/${slug}`, requestOptions);
   }
 
@@ -1644,7 +1639,6 @@ export class EcommerceApi {
   }
   //  edit profile data
   static async editProfile(data: any, email: any) {
-    console.log("edit profile data", data);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     const requestOptions = {
@@ -1653,7 +1647,6 @@ export class EcommerceApi {
       body: JSON.stringify(data),
       redirect: "follow",
     };
-
     return await callFetch(
       `${API_ENDPOINT}/users/profile/${email}`,
       requestOptions
@@ -1732,6 +1725,64 @@ export class EcommerceApi {
 
     return await callFetch(
       `${API_ENDPOINT}/users/private/${slug}`,
+      requestOptions
+    );
+  }
+
+  // get single blog
+  static async getSingleBlog(slug: string): Promise<ISingleBlogResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(`${API_ENDPOINT}/blogs/${slug}`, requestOptions);
+  }
+
+  //  edit blogs
+  static async editBlogs(
+    data: Partial<IBlog>,
+    slug: string
+  ): Promise<ISingleBlogResponse> {
+    console.log("blog edit data-", data, slug);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+    return await callFetch(`${API_ENDPOINT}/blogs/${slug}`, requestOptions);
+  }
+
+  // Get all orders for seller wise
+  // static async getAllOrderForSeller(
+  //   query: string
+  // ): Promise<IOrderSellerResponse> {
+  //   const myHeaders = new Headers();
+  //   const requestOptions = {
+  //     headers: myHeaders,
+  //     redirect: "follow",
+  //   };
+
+  //   return await callFetch(
+  //     `${API_ENDPOINT}/orders/seller_slug?${query}`,
+  //     requestOptions
+  //   );
+  // }
+
+  static async getAllOrderForSeller(
+    sellerSlug: string | undefined,
+    query: string
+  ): Promise<IOrderSellerResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/orders/seller_slug/${sellerSlug}?${query}`,
       requestOptions
     );
   }

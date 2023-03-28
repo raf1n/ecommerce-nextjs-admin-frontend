@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { IBlog } from "../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../src/state/StateController";
+import SharedAddNewButton from "../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
 import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
@@ -44,7 +45,6 @@ const FetchBlogs: React.FC<Props> = (props) => {
         console.log(err);
       } else {
         setBlogsData(res.allBlogs);
-        console.log("blog fetch", res);
       }
     };
 
@@ -67,10 +67,11 @@ const FetchBlogs: React.FC<Props> = (props) => {
       <DashboardBreadcrumb headline="Blogs" slug="Blogs" link="/admin/blogs" />
       <div className="m-6">
         <div className="section-body">
-          <SharedGoBackButton title="Add New" link="/admin/blogs/post_blog/" />
+          <Link className="inline-block" href="/admin/blogs/post_blog/">
+            <SharedAddNewButton />
+          </Link>
         </div>
       </div>
-
       <div className="mx-[25px]">
         <div className="section-body">
           <div className="mt-7">
@@ -197,16 +198,15 @@ const FetchBlogs: React.FC<Props> = (props) => {
                                 </span>
                               </p>
                             </td>
-
                             <td className="px-3 py-3 text-sm ">
                               <ToggleButton
                                 slug={data?.slug}
-                                apiUrl="users/edit-status"
+                                apiUrl="blogs/edit-status"
                                 status={data?.status}
                               />
                             </td>
                             <td className="px-3 py-3 text-sm">
-                              <Link href={`/admin/customer_show/${data.slug}`}>
+                              <Link href={`/admin/blogs/${data.slug}/edit`}>
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     style={{ boxShadow: "0 2px 6px #acb5f6" }}

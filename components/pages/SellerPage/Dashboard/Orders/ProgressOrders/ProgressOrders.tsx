@@ -18,20 +18,22 @@ const ProgressOrders: React.FC<Props> = (props) => {
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
 
+  const seller_slug = states.currentUser?.slug;
+
   useEffect(() => {
-    const findProgressOrdersAdmin = async () => {
-      const { res, err } = await EcommerceApi.allOrdersAdmin(
+    const getAllOrderForSeller = async () => {
+      const { res, err } = await EcommerceApi.getAllOrderForSeller(
+        seller_slug,
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&order_status=in_progress`
       );
       if (err) {
         console.log(err);
       } else {
-        setProgressOrdersData(res.filteredOrdersData);
+        setProgressOrdersData(res);
         console.log(res);
       }
     };
-
-    findProgressOrdersAdmin();
+    getAllOrderForSeller();
   }, [searchString, sortBy, sortType]);
 
   const tableHeaders = {
