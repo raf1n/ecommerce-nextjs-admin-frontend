@@ -16,24 +16,25 @@ const CompletedOrders: React.FC<Props> = (props) => {
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
+  const seller_slug = states.currentUser?.slug;
   useEffect(() => {
-    const findProgressOrdersAdmin = async () => {
-      const { res, err } = await EcommerceApi.allOrdersAdmin(
+    const getAllOrderForSeller = async () => {
+      const { res, err } = await EcommerceApi.getAllOrderForSeller(
+        seller_slug,
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&order_status=completed`
       );
 
       if (err) {
         console.log(err);
       } else {
-        setCompletedOrdersData(res.filteredOrdersData);
+        setCompletedOrdersData(res);
         console.log(res);
       }
     };
-
-    findProgressOrdersAdmin();
+    getAllOrderForSeller();
   }, [searchString, sortBy, sortType]);
 
-  console.log({ searchString, sortBy, sortType });
+  // console.log({ searchString, sortBy, sortType });
 
   const tableHeaders = {
     SN: "sn",

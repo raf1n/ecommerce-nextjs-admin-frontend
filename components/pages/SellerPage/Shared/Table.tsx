@@ -57,6 +57,14 @@ const Table: React.FC<Props> = (props) => {
       value: "declined",
       name: "Declined",
     },
+    {
+      value: "cash_on",
+      name: "Cashon",
+    },
+    {
+      value: "declined",
+      name: "Declined",
+    },
   ];
 
   return (
@@ -147,13 +155,16 @@ const Table: React.FC<Props> = (props) => {
                       <td className="px-3 py-3  text-sm capitalize">
                         {tabledata && tabledata.userData && (
                           <p className="text-gray-900 ">
-                            {tabledata?.userData.fullName}
+                            {tabledata?.userData?.fullName}
+                            <small className="lowercase text-red-400 text-[10px]">
+                              {`( ${tabledata?.userData?.role})`}
+                            </small>
                           </p>
                         )}
                       </td>
                       <td className="px-3 py-3    text-sm">
                         <p className="text-gray-900 ">
-                          {tabledata.slug?.split("_")[4]}
+                          {tabledata.slug?.split("_")[3]}
                         </p>
                       </td>
                       <td className="px-0 py-3  text-sm">
@@ -191,7 +202,7 @@ const Table: React.FC<Props> = (props) => {
                             aria-hidden
                             className={`absolute inset-0  rounded-full
                             ${
-                              tabledata.payment_status === "success"
+                              tabledata.payment_status === "Success"
                                 ? " bg-green-500 "
                                 : "bg-red-500 "
                             }`}></span>

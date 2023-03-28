@@ -20,6 +20,7 @@ import {
   ISingleReviewProductsResponse,
   ISingleWithdrawMethodResponse,
   IWithdrawResponse,
+  IOrderSellerResponse,
 } from "./../../interfaces/response";
 import {
   IAd,
@@ -1753,5 +1754,36 @@ export class EcommerceApi {
       redirect: "follow",
     };
     return await callFetch(`${API_ENDPOINT}/blogs/${slug}`, requestOptions);
+  }
+
+  // Get all orders for seller wise
+  // static async getAllOrderForSeller(
+  //   query: string
+  // ): Promise<IOrderSellerResponse> {
+  //   const myHeaders = new Headers();
+  //   const requestOptions = {
+  //     headers: myHeaders,
+  //     redirect: "follow",
+  //   };
+
+  //   return await callFetch(
+  //     `${API_ENDPOINT}/orders/seller_slug?${query}`,
+  //     requestOptions
+  //   );
+  // }
+
+  static async getAllOrderForSeller(
+    sellerSlug: string | undefined,
+    query: string
+  ): Promise<IOrderSellerResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/orders/seller_slug/${sellerSlug}?${query}`,
+      requestOptions
+    );
   }
 }

@@ -16,21 +16,22 @@ const CashOnDelivery: React.FC<Props> = (props) => {
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
+  const seller_slug = states.currentUser?.slug;
   useEffect(() => {
-    const findProgressOrdersAdmin = async () => {
-      const { res, err } = await EcommerceApi.allOrdersAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&order_status=completed`
+    const getAllOrderForSeller = async () => {
+      const { res, err } = await EcommerceApi.getAllOrderForSeller(
+        seller_slug,
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&order_status=cash_on`
       );
 
       if (err) {
         console.log(err);
       } else {
-        setCompletedOrdersData(res.filteredOrdersData);
+        setCompletedOrdersData(res);
         console.log(res);
       }
     };
-
-    findProgressOrdersAdmin();
+    getAllOrderForSeller();
   }, [searchString, sortBy, sortType]);
 
   const tableHeaders = {

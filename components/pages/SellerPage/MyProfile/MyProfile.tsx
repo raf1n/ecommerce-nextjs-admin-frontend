@@ -274,6 +274,7 @@ const MyProfile: React.FC<Props> = (props) => {
                     id="profilePicUrl"
                     name="profilePicUrl"
                     className=""
+                    defaultValue={seller?.avater}
                   />
                 </div>
                 <div className="grid grid-cols-2">

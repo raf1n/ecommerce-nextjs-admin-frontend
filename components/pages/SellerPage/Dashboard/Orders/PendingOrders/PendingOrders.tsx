@@ -19,19 +19,22 @@ const PendingOrders: React.FC<Props> = (props) => {
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
 
+  const seller_slug = states.currentUser?.slug;
+
   useEffect(() => {
-    const findPendingOrdersAdmin = async () => {
-      const { res, err } = await EcommerceApi.allOrdersAdmin(
+    const getAllOrderForSeller = async () => {
+      const { res, err } = await EcommerceApi.getAllOrderForSeller(
+        seller_slug,
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&order_status=pending`
       );
       if (err) {
         console.log(err);
       } else {
-        setPendingOrdersData(res.filteredOrdersData);
+        setPendingOrdersData(res);
         console.log(res);
       }
     };
-    findPendingOrdersAdmin();
+    getAllOrderForSeller();
   }, [searchString, sortBy, sortType]);
 
   const tableHeaders = {

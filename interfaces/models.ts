@@ -139,6 +139,7 @@ export interface IBrandDetail {
 export interface ICartProduct extends IProduct {
   cart_slug: string;
   quantity: number;
+  seller_slug: string;
 }
 
 export interface IOrder {

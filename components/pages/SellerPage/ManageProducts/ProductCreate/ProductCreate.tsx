@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-
 import Select from "react-select";
 import { controller } from "../../../../../src/state/StateController";
 import {
@@ -18,7 +17,7 @@ interface Props {}
 const ProductCreate: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
 
-  const user_slug = CookiesHandler.getSlug();
+  // const user_slug = CookiesHandler.getSlug();
 
   // const [isCheckedTop, setIsCheckedTop] = useState(false);
   // const [isCheckedNew, setIsCheckedNew] = useState(false);

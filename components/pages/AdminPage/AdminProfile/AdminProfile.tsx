@@ -14,6 +14,7 @@ interface Props {
 
 const AdminProfile: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+
   const [oldPass, setOldPass] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
