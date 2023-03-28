@@ -1,4 +1,4 @@
-import { IBlog, IWithdraw } from "./../../interfaces/models";
+import { IBlog, IFlashSale, IWithdraw } from "./../../interfaces/models";
 import { IWithdrawMethod, IBlogCategory } from "./../../interfaces/models";
 import {
   IAdminProductInventoriesResponse,
@@ -21,6 +21,8 @@ import {
   ISingleWithdrawMethodResponse,
   IWithdrawResponse,
   IOrderSellerResponse,
+  IFeaturedResponseCategories,
+  IflashSaleResponse,
 } from "./../../interfaces/response";
 import {
   IAd,
@@ -98,6 +100,7 @@ export class EcommerceApi {
 
     return await callFetch(`${API_ENDPOINT}/categories`, requestOptions);
   }
+
   //get all Reviews  admin
   static async getAllReviews(query: string): Promise<IReviewProductsResponse> {
     const myHeaders = new Headers();
@@ -1712,6 +1715,45 @@ export class EcommerceApi {
     return await callFetch(`${API_ENDPOINT}/comments/${slug}`, requestOptions);
   }
 
+  //flash sale content get
+
+  static async getFlashSaleContent(name: string): Promise<IflashSaleResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/flash-sale/content/${name}`,
+      requestOptions
+    );
+  }
+
+  //Update Flash Sale Content
+
+  static async editFlashSale(
+    data: Partial<IFlashSale>
+    // name: string
+  ): Promise<IflashSaleResponse> {
+    console.log(data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/flash-sale/content`,
+      requestOptions
+    );
+  }
+
+  
   static async getSingleUser(
     slug: string | undefined
   ): Promise<MyFetchInterface> {

@@ -43,6 +43,18 @@ export interface ICategories {
   cat_status: string;
   cat_icon: string;
 }
+
+export interface IFeaturedCategories extends ICategories {
+  categoriesData: ICategories;
+}
+export interface IFeaturedCategories {
+  slug: string;
+  cat_slug: string;
+  // subcat_name: string;
+  // subcat_status: string;
+  cat_name: string;
+  cat_image: string;
+}
 export interface ISlider {
   slug?: string;
   image: string;
@@ -73,22 +85,14 @@ export interface ISubCategories {
   cat_name: string;
   cat_slug: string;
 }
-export interface IPopularCategories {
+export interface IPopularCategories extends ICategories {
   slug: string;
-  cat_slug: string;
-  // subcat_name: string;
-  // subcat_status: string;
-  cat_name: string;
-  cat_image: string;
-}
-
-export interface IFeaturedCategories {
-  slug: string;
-  cat_slug: string;
-  // subcat_name: string;
-  // subcat_status: string;
-  cat_name: string;
-  cat_image: string;
+  // cat_slug: string;
+  // // subcat_name: string;
+  // // subcat_status: string;
+  // cat_name: string;
+  // cat_image: string;
+  categoriesData: ICategories;
 }
 
 export interface IProduct {
@@ -183,6 +187,7 @@ export interface IMegaCategory {
   serial: number;
   sub_cat_list: object[];
   status: "active" | "inactive";
+  categoriesData: ICategories;
 }
 
 export interface IAd {
@@ -259,4 +264,14 @@ export interface IBlogCategory extends MyFetchInterface {
   name: string;
   slug?: string;
   status: string;
+}
+
+export interface IFlashSale {
+  name?: string;
+  title: string;
+  offer: string;
+  time: string;
+  status: string;
+  imageHome: Array<string>;
+  imageFlash: Array<string>;
 }

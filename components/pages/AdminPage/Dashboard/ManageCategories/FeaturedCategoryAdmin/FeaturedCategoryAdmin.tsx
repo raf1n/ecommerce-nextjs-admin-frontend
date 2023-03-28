@@ -42,6 +42,7 @@ const FeaturedCategoryAdmin: React.FC<Props> = (props) => {
       if (err) {
         console.log(err);
       } else {
+        console.log(res);
         setCategoriesData(res);
 
         // console.log(res);
@@ -162,7 +163,7 @@ const FeaturedCategoryAdmin: React.FC<Props> = (props) => {
                       <tr className="even:bg-gray-50 odd:bg-white">
                         <td className="px-3 py-3  text-sm">
                           <p className="text-gray-900 whitespace-no-wrap ">
-                            {categoryTableData.cat_name}
+                            {categoryTableData.categoriesData.cat_name}
                           </p>
                         </td>
 

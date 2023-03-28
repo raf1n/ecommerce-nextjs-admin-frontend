@@ -19,6 +19,7 @@ import {
   IUser,
   IWithdraw,
   IWithdrawMethod,
+  IFlashSale,
 } from "./models";
 //here we will declare our response interfaces or in easy way type of our all response in our website
 
@@ -28,6 +29,11 @@ import { IProduct, IBrandDetail } from "./models";
 export interface IResponseCategories extends MyFetchInterface {
   res: Array<ICategories>;
 }
+
+export interface IFeaturedResponseCategories extends MyFetchInterface {
+  res: Array<IFeaturedCategories>;
+}
+
 export interface IReviewProductsResponse extends MyFetchInterface {
   res: Array<IReview>;
 }
@@ -206,4 +212,7 @@ export interface ISingleBlogCategoryResponse extends MyFetchInterface {
 }
 export interface ISingleCommentResponse extends MyFetchInterface {
   res: any;
+}
+export interface IflashSaleResponse extends MyFetchInterface {
+  res: IFlashSale;
 }

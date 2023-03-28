@@ -15,18 +15,20 @@ const EditCategories: React.FC<Props> = (props) => {
   const { asPath } = useRouter();
   const catSlug = asPath.split("/")[3];
   const [catData, setCatData] = useState<ICategories | null>(null);
+
+  const getSingleCategory = async () => {
+    if (catSlug !== "[id]") {
+      const { res, err } = await EcommerceApi.getSingleCategory(catSlug);
+      if (res) {
+        setCatData(res);
+      } else {
+        console.log(err);
+      }
+    }
+  };
+
   useEffect(() => {
     console.log(catSlug);
-    const getSingleCategory = async () => {
-      if (catSlug !== "[id]") {
-        const { res, err } = await EcommerceApi.getSingleCategory(catSlug);
-        if (res) {
-          setCatData(res);
-        } else {
-          console.log(err);
-        }
-      }
-    };
     getSingleCategory();
   }, [catSlug]);
 
@@ -36,12 +38,12 @@ const EditCategories: React.FC<Props> = (props) => {
     const formData = new FormData();
     formData.append("image", image);
     const { res, err } = await EcommerceApi.uploadCategoryImage(formData);
-    if (res.data?.url) {
+    if (res?.data?.url || !res?.data?.url) {
       let imageUrl;
-      imageUrl = res.data?.url;
+      imageUrl = res?.data?.url;
       // setImageLink(data?.data?.url);
-      if (res.data?.url === undefined) {
-        imageUrl = "";
+      if (res?.data?.url === undefined || null) {
+        imageUrl = catData?.cat_image;
       }
 
       const categories = {
@@ -50,8 +52,14 @@ const EditCategories: React.FC<Props> = (props) => {
         cat_status: e.target.status.value,
       };
 
-      EcommerceApi.editCategories(categories, catSlug);
-      e.target.reset();
+      const { res: editRes, err } = await EcommerceApi.editCategories(
+        categories,
+        catSlug
+      );
+      if (editRes) {
+        getSingleCategory();
+        e.target.reset();
+      }
     }
   };
 
@@ -104,7 +112,7 @@ const EditCategories: React.FC<Props> = (props) => {
                       type="file"
                       name="image"
                       id=""
-                      required
+                      // required
                     />
                   </div>
                   <div className="mt-4">

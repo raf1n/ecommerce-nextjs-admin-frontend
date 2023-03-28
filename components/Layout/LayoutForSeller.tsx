@@ -82,11 +82,20 @@ const LayoutForSeller: React.FC<Props> = ({ children }) => {
               }}
             >
               <div className={`flex text-white  pl-6`}>
-                <img
+                {/* <img
                   src={`https://api.websolutionus.com/shopo/uploads/custom-images/kelsey-conrad-2022-12-28-04-55-51-8312.jpg`}
                   alt="pic"
                   className={`${styles["img-style"]}`}
-                />
+                /> */}
+                {states.currentUser?.avatar ? (
+                  <img
+                    className={`${styles["img-style"]}`}
+                    src={states.currentUser?.avatar}
+                    alt=""
+                  />
+                ) : (
+                  <span>No Avatar created</span>
+                )}
                 <span className="text-sm pt-1 pl-2 hidden lg:block">
                   Kelsey Conrad
                 </span>
@@ -105,7 +114,7 @@ const LayoutForSeller: React.FC<Props> = ({ children }) => {
                 <span className="pr-2  text-[15px]">
                   <HiOutlineUser />
                 </span>
-                My Profile
+                {states.currentUser?.fullName}
               </Link>
               <Link href="/" className="flex text-[13px] font-medium">
                 <span className="pr-2 text-[15px] ">

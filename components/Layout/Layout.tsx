@@ -118,13 +118,23 @@ const Layout: React.FC<Props> = ({ children }) => {
                 }}
               >
                 <div className={`flex text-white  pl-6`}>
-                  <img
+                  {/* <img
                     src={`https://api.websolutionus.com/shopo/uploads/website-images/ibrahim-khalil-2022-01-30-02-48-50-5743.jpg`}
                     alt="pic"
                     className={`${styles["img-style"]}`}
-                  />
+                  /> */}
+                  {states.currentUser?.avatar ? (
+                    <img
+                      className={`${styles["img-style"]}`}
+                      src={states.currentUser?.avatar}
+                      alt=""
+                    />
+                  ) : (
+                    <span>No Avatar created</span>
+                  )}
+
                   <span className="text-sm pt-1 pl-2 hidden lg:block">
-                    Mr Admin
+                    {states.currentUser?.fullName}
                   </span>
                   <span className="text-xl pt-1">
                     <MdArrowDropDown />
