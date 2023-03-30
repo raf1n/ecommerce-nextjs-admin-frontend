@@ -11,6 +11,8 @@ import { controller } from "../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import SharedTiptap from "./SharedTiptap";
+import toast from "react-hot-toast";
+
 interface Props {}
 
 const PostBlog: React.FC<Props> = (props) => {
@@ -48,7 +50,7 @@ const PostBlog: React.FC<Props> = (props) => {
       let imageUrl;
       imageUrl = res?.data?.url;
       if (res?.data?.url === undefined || null) {
-        imageUrl = "";
+        imageUrl = "https://i.ibb.co/hFzX2M1/16211.jpg";
       }
 
       const blogData: IBlog = {
@@ -63,10 +65,12 @@ const PostBlog: React.FC<Props> = (props) => {
         seo_description: e.target.seo_description.value,
         postBy: states.currentUser?.slug,
       };
-      console.log(blogData);
+
       EcommerceApi.addBlog(blogData);
-      alert("Successfuly Blog Posted !");
-      e.target.reset();
+      toast.success("Successfully Blog Posted  !");
+      console.log(blogData);
+      // e.target.reset();
+
       // !need to figure out better method than destroy to reset tiptap
       //@ts-ignore
       // editor.destroy();
@@ -151,7 +155,6 @@ const PostBlog: React.FC<Props> = (props) => {
                     <span className="text-red-500">*</span>
                   </label>
                   <input
-                    required
                     name="imageURL"
                     type="file"
                     onChange={imageChange}

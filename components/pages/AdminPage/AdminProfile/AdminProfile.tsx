@@ -89,7 +89,8 @@ const AdminProfile: React.FC<Props> = (props) => {
           <DashboardBreadcrumb
             headline="My Profile"
             slug="My Profile"
-            link="/admin/AdminProfile"></DashboardBreadcrumb>
+            link="/admin/AdminProfile"
+          />
 
           <div className={`${styles["main-content"]}`}>
             <div className={`${styles["row"]} mt-4`}>

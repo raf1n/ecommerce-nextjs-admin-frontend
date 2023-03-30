@@ -246,7 +246,7 @@ export interface IBlog {
 
   isShowHomepage: string;
   status: string;
-  imageURL?: string | undefined;
+  imageURL?: string | undefined | null;
 
   seo_title: string;
   seo_description: string;
