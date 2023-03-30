@@ -5,7 +5,7 @@ import styles from "./AdminProfile.module.css";
 import { controller } from "../../../../src/state/StateController";
 import { SocialLogin } from "../../../helpers/SocialLogin";
 import { EcommerceApi } from "../../../../src/API/EcommerceApi";
-
+import toast from "react-hot-toast";
 interface Props {
   // slug: string;
   // link: string;
@@ -76,8 +76,8 @@ const AdminProfile: React.FC<Props> = (props) => {
     if (err) {
       setErrorText(err);
     } else {
+      toast.success(res);
       e.target.reset();
-      alert(res);
       setErrorText("");
     }
   };
@@ -89,14 +89,16 @@ const AdminProfile: React.FC<Props> = (props) => {
           <DashboardBreadcrumb
             headline="My Profile"
             slug="My Profile"
-            link="/admin/AdminProfile"></DashboardBreadcrumb>
+            link="/admin/AdminProfile"
+          ></DashboardBreadcrumb>
 
           <div className={`${styles["main-content"]}`}>
             <div className={`${styles["row"]} mt-4`}>
               <div>
                 <form
                   onSubmit={handleUpdateProfile}
-                  className={`${styles["card"]} ${styles["profile-widget"]}`}>
+                  className={`${styles["card"]} ${styles["profile-widget"]}`}
+                >
                   <div className={`${styles["profile-widget-header"]} `}>
                     {states && states.currentUser?.avatar && (
                       <img
@@ -112,7 +114,8 @@ const AdminProfile: React.FC<Props> = (props) => {
                         <div className="form-group grid text-sm">
                           <label
                             className="text-sm text-qgray font-semibold"
-                            htmlFor="">
+                            htmlFor=""
+                          >
                             New Image
                           </label>
                           <input
@@ -127,7 +130,8 @@ const AdminProfile: React.FC<Props> = (props) => {
                           <div className="my-4 ">
                             <label
                               className="text-qgray font-semibold mt-4	text-sm"
-                              htmlFor="">
+                              htmlFor=""
+                            >
                               Name
                             </label>
                             <span className="text-red-500 ml-2">*</span>
@@ -150,7 +154,8 @@ const AdminProfile: React.FC<Props> = (props) => {
                           <div className="my-4">
                             <label
                               className="text-qgray font-semibold mt-4	text-sm"
-                              htmlFor="">
+                              htmlFor=""
+                            >
                               Email
                             </label>
                             <span className="text-red-500 ml-2">*</span>
@@ -170,7 +175,8 @@ const AdminProfile: React.FC<Props> = (props) => {
                         <div className="mt-4">
                           <button
                             type="submit"
-                            className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
+                            className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
+                          >
                             Update
                           </button>
                         </div>
@@ -186,7 +192,8 @@ const AdminProfile: React.FC<Props> = (props) => {
             <div>
               <form
                 onSubmit={handlePassChange}
-                className={`${styles["card"]} ${styles["profile-widget-password"]}`}>
+                className={`${styles["card"]} ${styles["profile-widget-password"]}`}
+              >
                 <div className={`${styles["profile-widget-description"]}`}>
                   <div>
                     <div className={`${styles["row"]} `}>
@@ -195,7 +202,8 @@ const AdminProfile: React.FC<Props> = (props) => {
                         <div className="my-4 ">
                           <label
                             className="text-qgray font-semibold mt-4	text-sm"
-                            htmlFor="">
+                            htmlFor=""
+                          >
                             Old Password
                           </label>
                           <span className="text-red-500 ml-2">*</span>
@@ -213,7 +221,8 @@ const AdminProfile: React.FC<Props> = (props) => {
                         <div className="my-4">
                           <label
                             className="text-qgray font-semibold mt-4	text-sm"
-                            htmlFor="">
+                            htmlFor=""
+                          >
                             New Password
                           </label>
                           <span className="text-red-500 ml-2">*</span>
@@ -230,7 +239,8 @@ const AdminProfile: React.FC<Props> = (props) => {
                         <div className="my-4">
                           <label
                             className="text-qgray font-semibold mt-4	text-sm"
-                            htmlFor="">
+                            htmlFor=""
+                          >
                             Confirm New Password
                           </label>
                           <span className="text-red-500 ml-2">*</span>
@@ -246,7 +256,8 @@ const AdminProfile: React.FC<Props> = (props) => {
                       <div className="mt-4">
                         <button
                           type="submit"
-                          className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
+                          className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
+                        >
                           Update
                         </button>
                       </div>

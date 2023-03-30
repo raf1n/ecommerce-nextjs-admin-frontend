@@ -190,7 +190,7 @@ export class SocialLogin {
       updatePassword(user, newPassword)
         .then(() => {
           resolve({
-            res: "password updated",
+            res: "Password Updated",
             err: null,
           });
         })
