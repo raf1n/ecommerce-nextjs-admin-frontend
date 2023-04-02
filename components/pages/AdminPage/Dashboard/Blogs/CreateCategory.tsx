@@ -4,6 +4,7 @@ import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import toast from "react-hot-toast";
 
 interface Props {}
 
@@ -18,8 +19,9 @@ const CreateCategory: React.FC<Props> = (props) => {
       status: e.target.status.value,
     };
     EcommerceApi.createCategory(category);
-    console.log(category);
+    // console.log(category);
     e.target.reset();
+    toast.success("Successfully added category !");
   };
 
   return (
@@ -93,7 +95,7 @@ const CreateCategory: React.FC<Props> = (props) => {
                     <button
                       type="submit"
                       className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
-                      Update
+                      Save
                     </button>
                   </div>
                 </div>

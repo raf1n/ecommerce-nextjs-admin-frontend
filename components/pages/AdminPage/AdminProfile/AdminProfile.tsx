@@ -5,7 +5,7 @@ import styles from "./AdminProfile.module.css";
 import { controller } from "../../../../src/state/StateController";
 import { SocialLogin } from "../../../helpers/SocialLogin";
 import { EcommerceApi } from "../../../../src/API/EcommerceApi";
-
+import toast from "react-hot-toast";
 interface Props {
   // slug: string;
   // link: string;
@@ -76,8 +76,8 @@ const AdminProfile: React.FC<Props> = (props) => {
     if (err) {
       setErrorText(err);
     } else {
+      toast.success(res);
       e.target.reset();
-      alert(res);
       setErrorText("");
     }
   };
@@ -89,7 +89,8 @@ const AdminProfile: React.FC<Props> = (props) => {
           <DashboardBreadcrumb
             headline="My Profile"
             slug="My Profile"
-            link="/admin/AdminProfile"></DashboardBreadcrumb>
+            link="/admin/AdminProfile"
+          />
 
           <div className={`${styles["main-content"]}`}>
             <div className={`${styles["row"]} mt-4`}>

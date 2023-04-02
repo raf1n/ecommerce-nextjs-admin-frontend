@@ -1154,7 +1154,10 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/users/${slug}`, requestOptions);
+    return await callFetch(
+      `${API_ENDPOINT}/users/edit-status/${slug}`,
+      requestOptions
+    );
   }
 
   //Delete Mega Menu Category
@@ -1753,7 +1756,6 @@ export class EcommerceApi {
     );
   }
 
-  
   static async getSingleUser(
     slug: string | undefined
   ): Promise<MyFetchInterface> {

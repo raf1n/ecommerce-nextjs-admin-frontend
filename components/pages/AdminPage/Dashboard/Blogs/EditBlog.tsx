@@ -12,6 +12,7 @@ import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/Das
 import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import SharedTiptap from "./SharedTiptap";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 
 interface Props {}
 
@@ -91,7 +92,7 @@ const EditBlog: React.FC<Props> = (props) => {
       };
 
       EcommerceApi.editBlogs(updatedBlogData, blogSlug);
-      alert("Updated Successfully ");
+      toast.success("Successfully Updated !");
       e.target.reset();
       // !need to figure out better method than destroy to reset tiptap
       //@ts-ignore
@@ -148,11 +149,18 @@ const EditBlog: React.FC<Props> = (props) => {
                   </label>
                   <div>
                     <picture>
-                      {blogData && blogData?.imageURL && (
+                      {selectedImage ? (
                         <img
                           id="preview-img"
                           className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
-                          src={blogData?.imageURL}
+                          src={URL.createObjectURL(selectedImage)}
+                          alt=""
+                        />
+                      ) : (
+                        <img
+                          id="preview-img"
+                          className="admin-img border border-[#ddd] p-0 m-0 max-w-[180px] h-[150px] object-cover"
+                          src={blogData?.imageURL ? blogData.imageURL : ""}
                           alt=""
                         />
                       )}
@@ -166,7 +174,6 @@ const EditBlog: React.FC<Props> = (props) => {
                     <span className="text-red-500">*</span>
                   </label>
                   <input
-                    required
                     name="imageURL"
                     type="file"
                     onChange={imageChange}
