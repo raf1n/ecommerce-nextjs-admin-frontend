@@ -194,7 +194,7 @@ const Sellers: React.FC<Props> = (props) => {
                             <td className="px-3 py-3 text-sm ">
                               <ToggleButton
                                 slug={data?.slug}
-                                apiUrl="users/edit-status"
+                                apiUrl="users/edit-seller-status"
                                 status={data?.status}
                               />
                             </td>
