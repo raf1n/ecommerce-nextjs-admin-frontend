@@ -248,7 +248,7 @@ const SharedTiptap: React.FC<Props> = ({ editor }) => {
   return (
     <div className="border p-2 min-h-[150px]">
       <MenuBar editor={editor} />
-      <EditorContent editor={editor} />
+      <EditorContent className="prose prose-w-full dark:prose-invert prose-strong:text-black prose-headings:text-gray-700 prose-blockquote:text-gray-500 prose-base focus:outline-none leading-1 text-black" editor={editor} />
     </div>
   );
 };

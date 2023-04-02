@@ -36,43 +36,6 @@ const PostBlog: React.FC<Props> = (props) => {
       console.log(selectedImage);
     }
   };
-  //--------------------------- handle ----------------
-
-  const handleBlogAdd = async (e: any) => {
-    e.preventDefault();
-    const image = e.target.imageURL.files[0];
-    const formData = new FormData();
-    formData.append("image", image);
-    const { res, err } = await EcommerceApi.uploadImage(formData);
-    if (res?.data?.url || !res?.data?.url) {
-      let imageUrl;
-      imageUrl = res?.data?.url;
-      if (res?.data?.url === undefined || null) {
-        imageUrl = "";
-      }
-
-      const blogData: IBlog = {
-        imageURL: imageUrl,
-        title: e.target.title.value,
-        category: e.target.category.value,
-        description: e.target.short_desc.value,
-        long_description: editor?.getHTML(),
-        isShowHomepage: e.target.show_homepage.value,
-        status: e.target.status.value,
-        seo_title: e.target.seo_title.value,
-        seo_description: e.target.seo_description.value,
-        postBy: states.currentUser?.slug,
-      };
-      console.log(blogData);
-      EcommerceApi.addBlog(blogData);
-      alert("Successfuly Blog Posted !");
-      e.target.reset();
-      // !need to figure out better method than destroy to reset tiptap
-      //@ts-ignore
-      // editor.destroy();
-      setSelectedImage(null);
-    }
-  };
 
   const editor = useEditor({
     extensions: [
@@ -97,6 +60,41 @@ const PostBlog: React.FC<Props> = (props) => {
       },
     },
   });
+
+  //--------------------------- handle ----------------
+  const handleBlogAdd = async (e: any) => {
+    e.preventDefault();
+    const image = e.target.imageURL.files[0];
+    const formData = new FormData();
+    formData.append("image", image);
+    const { res, err } = await EcommerceApi.uploadImage(formData);
+    if (res?.data?.url || !res?.data?.url) {
+      let imageUrl;
+      imageUrl = res?.data?.url;
+      if (res?.data?.url === undefined || null) {
+        imageUrl = "";
+      }
+
+      const blogData: IBlog = {
+        imageURL: imageUrl,
+        title: e.target.title.value,
+        category: e.target.category.value,
+        description: e.target.short_desc.value,
+        long_description: editor?.getHTML() || "",
+        isShowHomepage: e.target.show_homepage.value,
+        status: e.target.status.value,
+        seo_title: e.target.seo_title.value,
+        seo_description: e.target.seo_description.value,
+        postBy: states.currentUser?.slug,
+      };
+      console.log(blogData);
+      EcommerceApi.addBlog(blogData);
+      alert("Successfully Blog Posted!");
+      e.target.reset();
+      editor?.commands.clearContent();
+      setSelectedImage(null);
+    }
+  };
 
   return (
     <div>

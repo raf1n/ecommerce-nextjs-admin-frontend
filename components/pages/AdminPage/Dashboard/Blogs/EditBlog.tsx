@@ -29,6 +29,7 @@ const EditBlog: React.FC<Props> = (props) => {
         const { res, err } = await EcommerceApi.getSingleBlog(blogSlug);
         if (res) {
           setBlogData(res);
+          editor?.commands.setContent(res.long_description)
         } else {
           console.log(err);
         }
@@ -121,7 +122,6 @@ const EditBlog: React.FC<Props> = (props) => {
           "prose prose-w-full dark:prose-invert prose-strong:text-black prose-headings:text-gray-700 prose-blockquote:text-gray-500 prose-base m-2 focus:outline-none leading-1 text-black",
       },
     },
-    content: blogData?.long_description ? blogData.long_description : "",
   });
 
   return (

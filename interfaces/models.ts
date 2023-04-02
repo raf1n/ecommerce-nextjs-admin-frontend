@@ -242,7 +242,7 @@ export interface IBlog {
   title: string;
   category: string;
   description: string | undefined;
-  long_description: string | undefined;
+  long_description: string;
 
   isShowHomepage: string;
   status: string;
