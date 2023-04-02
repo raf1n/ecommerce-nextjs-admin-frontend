@@ -23,8 +23,8 @@ export default function MyApp(props: AppProps) {
   return (
     <Provider store={store}>
       <React.Fragment>
-        <Toaster />
         <Layout>
+          <Toaster />
           <Component {...pageProps} />
         </Layout>
       </React.Fragment>
