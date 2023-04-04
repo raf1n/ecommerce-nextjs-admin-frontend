@@ -1193,6 +1193,21 @@ export class EcommerceApi {
     );
   }
 
+  // get all admins
+  static async getAllAdmins(query: string): Promise<IGetAllUsersResponse> {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/users/admins?${query}`,
+      requestOptions
+    );
+  }
+
   // delete single user
   static async deleteSingleUser(slug: string): Promise<IGetSingleUserResponse> {
     // console.log(API_ENDPOINT);

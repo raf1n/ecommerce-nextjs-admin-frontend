@@ -1099,7 +1099,7 @@ export class Jsondata {
     { title: "Clear Database", icon: FaTrash },
     { title: "Subscribers", icon: FaFire },
     { title: "Contact Message", icon: FaEnvelope },
-    { title: "Admin List", icon: FaUserAlt },
+    { title: "Admin List", icon: FaUserAlt, link: "/admin/admin_list" },
   ];
 
   //-------------   for seller side menu item    ---------------------//
