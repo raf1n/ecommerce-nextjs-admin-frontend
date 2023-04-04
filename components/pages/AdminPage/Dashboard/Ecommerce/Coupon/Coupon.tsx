@@ -182,7 +182,9 @@ const Coupon: React.FC<Props> = (props) => {
                           </td>
                           <td className="px-3 py-3  text-sm">
                             <p className="text-gray-900 whitespace-no-wrap ">
-                              {couponableData?.discount}
+                              {couponableData?.discount?.role == "percent"
+                                ? couponableData?.discount.value + "%"
+                                : couponableData?.discount.value + "$"}
                             </p>
                           </td>
                           <td className="px-3 py-3  text-sm">
