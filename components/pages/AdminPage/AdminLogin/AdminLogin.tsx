@@ -42,8 +42,8 @@ const AdminLogin: React.FC<Props> = (props) => {
     if (!res?.email) {
       toast.error("You are Not A Admin");
       return;
-    } else if (res.status === "inactive") {
-      toast.error("You are Inactive");
+    } else if (res.role === "admin" && res.status === "inactive") {
+      toast.error("You are Inactive Admin");
       return;
     }
     if (loginPassword.length > 15) {

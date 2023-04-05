@@ -1239,6 +1239,25 @@ export class EcommerceApi {
     return await callFetch(`${API_ENDPOINT}/users/${slug}`, requestOptions);
   }
 
+  // delete single user
+  static async deleteSingleAdmin(url: string): Promise<IGetSingleUserResponse> {
+    // console.log(API_ENDPOINT);
+    console.log(url);
+    const slug = url.split("+")[0];
+    const email = url.split("+")[1];
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/users/deleteAdmin/${slug}?email=${email}`,
+      requestOptions
+    );
+  }
+
   // get all products inventory for admin panel
   static async getProductInventories(
     query: string

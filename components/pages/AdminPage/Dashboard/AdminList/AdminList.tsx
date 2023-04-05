@@ -21,31 +21,29 @@ const AdminList: React.FC<Props> = (props) => {
   const [usersData, setUsersData] = useState<IUser[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
 
-  const handleDelete = async () => {
-    const { res, err } = await EcommerceApi.deleteSingleUser(deleteModalSlug);
-    if (res) {
-      setDeleteModalSlug("");
-      const remainingBrands = usersData.filter(
-        (data) => data.slug !== deleteModalSlug
-      );
-      setUsersData(remainingBrands);
+  const fetchAllCategoriesAdminData = async () => {
+    const { res, err } = await EcommerceApi.getAllAdmins(
+      `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+    );
+    if (err) {
+      console.log(err);
+    } else {
+      setUsersData(res);
+      console.log(res);
     }
   };
 
   useEffect(() => {
-    const fetchAllCategoriesAdminData = async () => {
-      const { res, err } = await EcommerceApi.getAllAdmins(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
-      if (err) {
-        console.log(err);
-      } else {
-        setUsersData(res);
-        console.log(res);
-      }
-    };
     fetchAllCategoriesAdminData();
   }, [searchString, sortBy, sortType]);
+
+  const handleDelete = async () => {
+    const { res, err } = await EcommerceApi.deleteSingleAdmin(deleteModalSlug);
+    if (res) {
+      setDeleteModalSlug("");
+      fetchAllCategoriesAdminData();
+    }
+  };
 
   const tableHeaders = {
     sn: "sn",
@@ -192,7 +190,9 @@ const AdminList: React.FC<Props> = (props) => {
                               <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                 <span
                                   onClick={() =>
-                                    setDeleteModalSlug(userData.slug)
+                                    setDeleteModalSlug(
+                                      `${userData.slug}+${userData.email}`
+                                    )
                                   }
                                   // onClick={() => openModal()}
                                   style={{
