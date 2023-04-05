@@ -1193,6 +1193,23 @@ export class EcommerceApi {
     );
   }
 
+  // add admin
+
+  static async addAdmin(data: Partial<IUser>): Promise<IGetSingleUserResponse> {
+    console.log(data);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+
+    return await callFetch(`${API_ENDPOINT}/users/add_admin`, requestOptions);
+  }
+
   // get all admins
   static async getAllAdmins(query: string): Promise<IGetAllUsersResponse> {
     const myHeaders = new Headers();
@@ -1587,6 +1604,18 @@ export class EcommerceApi {
       `${API_ENDPOINT}/users/${seller_email}`,
       requestOptions
     );
+  }
+
+  // get single user by email
+  static async getUserByEmail(
+    email: string | undefined | null
+  ): Promise<IGetSingleUserResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(`${API_ENDPOINT}/users/${email}`, requestOptions);
   }
 
   // add blogs

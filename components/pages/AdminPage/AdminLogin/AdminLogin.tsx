@@ -37,6 +37,15 @@ const AdminLogin: React.FC<Props> = (props) => {
     e.preventDefault();
     const loginPassword = e.target.password.value;
     const loginEmail = e.target.email.value;
+
+    const { res, err } = await EcommerceApi.getUserByEmail(loginEmail);
+    if (!res?.email) {
+      toast.error("You are Not A Admin");
+      return;
+    } else if (res.status === "inactive") {
+      toast.error("You are Inactive");
+      return;
+    }
     if (loginPassword.length > 15) {
       setErrorLogin(true);
       // setErrorTextLogin("Password can not be more than 15 characters");
