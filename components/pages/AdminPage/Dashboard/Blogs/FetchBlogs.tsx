@@ -38,13 +38,11 @@ const FetchBlogs: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchAllBlogs = async () => {
-      const { res, err } = await EcommerceApi.getAllBlogs(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
+      const { res, err } = await EcommerceApi.getAllBlogs();
       if (err) {
         console.log(err);
       } else {
-        setBlogsData(res.allBlogs);
+        setBlogsData(res);
       }
     };
 

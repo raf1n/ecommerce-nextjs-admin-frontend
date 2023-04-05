@@ -24,13 +24,15 @@ const EditBlog: React.FC<Props> = (props) => {
   const { asPath } = useRouter();
   const blogSlug = asPath.split("/")[3];
 
+  const router = useRouter();
+
   useEffect(() => {
     const getSingleBlog = async () => {
       if (blogSlug !== "[id]") {
         const { res, err } = await EcommerceApi.getSingleBlog(blogSlug);
         if (res) {
           setBlogData(res);
-          editor?.commands.setContent(res.long_description)
+          editor?.commands.setContent(res.long_description);
         } else {
           console.log(err);
         }
@@ -42,7 +44,7 @@ const EditBlog: React.FC<Props> = (props) => {
   console.log(blogData);
 
   const FetchBlogCat = async () => {
-    const { res, err } = await EcommerceApi.getAllBlogCategories();
+    const { res, err } = await EcommerceApi.getAllBlogCategoriesForBlog();
     if (res) {
       setCategories(res);
     } else {
@@ -98,6 +100,7 @@ const EditBlog: React.FC<Props> = (props) => {
       //@ts-ignore
       // editor.destroy();
       setSelectedImage(null);
+      router.push("http://localhost:3010/admin/blogs");
     }
   };
 

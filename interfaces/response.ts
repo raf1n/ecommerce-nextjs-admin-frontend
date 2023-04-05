@@ -100,14 +100,20 @@ export interface ISingleOrderResponse extends MyFetchInterface {
 export interface ISingleProductResponse extends MyFetchInterface {
   res: IProduct;
 }
+// export interface IBlogResponse extends MyFetchInterface {
+//   res: {
+//     allBlogs: Array<IBlog>;
+//     latestBlogs: Array<IBlog>;
+//   };
+// }
 export interface IBlogResponse extends MyFetchInterface {
-  res: {
-    allBlogs: Array<IBlog>;
-    latestBlogs: Array<IBlog>;
-  };
+  res: Array<IBlog>;
 }
 export interface ISingleBlogResponse extends MyFetchInterface {
   res: IBlog;
+}
+export interface ISingleBlogCategoryResponse extends MyFetchInterface {
+  res: IBlogCategory;
 }
 
 export interface ICouponResponse extends MyFetchInterface {

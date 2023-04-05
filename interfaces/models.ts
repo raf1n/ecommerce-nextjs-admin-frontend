@@ -261,9 +261,9 @@ export interface ISeo {
 }
 
 export interface IBlogCategory extends MyFetchInterface {
-  name: string;
+  name?: string;
   slug?: string;
-  status: string;
+  status?: string;
 }
 
 export interface IFlashSale {
