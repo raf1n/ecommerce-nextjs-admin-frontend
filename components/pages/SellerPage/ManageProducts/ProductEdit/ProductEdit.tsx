@@ -14,6 +14,7 @@ import {
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -146,6 +147,7 @@ const ProductEdit: React.FC<Props> = (props) => {
         // isPopular: isCheckedPopular,
       };
       EcommerceApi.editProducts(newProductData, productSlug);
+      toast.success("Product Updated Successfully");
     }
   };
   console.log(selectedValue);

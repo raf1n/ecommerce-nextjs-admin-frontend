@@ -9,6 +9,7 @@ import {
   ISubCategories,
 } from "../../../../../../interfaces/models";
 import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -63,6 +64,7 @@ const EditSubCategories: React.FC<Props> = (props) => {
     };
     EcommerceApi.editSubCategories(subCategories, subCatSlug);
     e.target.reset();
+    toast.success("SubCategories updated");
   };
   return (
     <div className="w-full ">

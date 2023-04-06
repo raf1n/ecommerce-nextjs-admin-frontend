@@ -7,6 +7,7 @@ import style from "./MyProfile.module.css";
 import { EcommerceApi } from "../../../../src/API/EcommerceApi";
 import Link from "next/link";
 import { SocialLogin } from "../../../helpers/SocialLogin";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -64,7 +65,7 @@ const MyProfile: React.FC<Props> = (props) => {
         if (dbRes) {
           controller.setCurrentUser(dbRes);
           // setSeller(dbRes);
-          alert("Updated Successfully ");
+          toast.success("Profile Updated Successfully");
           // e.target.reset();
         }
       }
@@ -122,7 +123,8 @@ const MyProfile: React.FC<Props> = (props) => {
                 <div className="flex flex-row bg-white shadow-sm rounded p-2 justify-center items-center">
                   <div
                     className={`flex items-center justify-center flex-shrink-0 h-20 w-20 p-6 rounded  border`}
-                    style={{ backgroundColor: data.bgColor }}>
+                    style={{ backgroundColor: data.bgColor }}
+                  >
                     <data.icons className="w-[25px] h-[22px] text-white"></data.icons>
                   </div>
                   <div className="flex flex-col flex-grow ml-4">
@@ -175,7 +177,8 @@ const MyProfile: React.FC<Props> = (props) => {
                       <tr className="bg-white ">
                         <th
                           scope="row"
-                          className="px-6 py-5 font-medium text-gray-900 whitespace-nowrap ">
+                          className="px-6 py-5 font-medium text-gray-900 whitespace-nowrap "
+                        >
                           Email
                         </th>
                         <td className="px-6 py-5">{seller.email}</td>
@@ -183,7 +186,8 @@ const MyProfile: React.FC<Props> = (props) => {
                       <tr className=" bg-gray-50">
                         <th
                           scope="row"
-                          className="px-6 py-5 font-medium text-gray-900 whitespace-nowrap ">
+                          className="px-6 py-5 font-medium text-gray-900 whitespace-nowrap "
+                        >
                           Phone
                         </th>
                         <td className="px-6 py-5">{seller.phone}</td>
@@ -192,7 +196,8 @@ const MyProfile: React.FC<Props> = (props) => {
                       <tr className="bg-white ">
                         <th
                           scope="row"
-                          className="px-6 py-5 font-medium text-gray-900 whitespace-nowrap ">
+                          className="px-6 py-5 font-medium text-gray-900 whitespace-nowrap "
+                        >
                           User Status
                         </th>
                         <td className="px-6 py-5 ">
@@ -204,7 +209,8 @@ const MyProfile: React.FC<Props> = (props) => {
                       <tr className=" bg-gray-50 ">
                         <th
                           scope="row"
-                          className="px-6 py-5 font-medium text-gray-900 whitespace-nowrap ">
+                          className="px-6 py-5 font-medium text-gray-900 whitespace-nowrap "
+                        >
                           Shop Status
                         </th>
                         <td className="px-6 py-5 ">
@@ -266,7 +272,8 @@ const MyProfile: React.FC<Props> = (props) => {
                 <div className="mb-6 mt-8">
                   <label
                     htmlFor="file"
-                    className="block mb-2 text-sm font-medium text-gray-900">
+                    className="block mb-2 text-sm font-medium text-gray-900"
+                  >
                     New Image
                   </label>
                   <input
@@ -281,7 +288,8 @@ const MyProfile: React.FC<Props> = (props) => {
                   <div className="mb-6 ">
                     <label
                       htmlFor="name"
-                      className="block mb-2 text-sm font-medium text-gray-900">
+                      className="block mb-2 text-sm font-medium text-gray-900"
+                    >
                       Name <span className="text-red-500"> *</span>
                     </label>
                     <input
@@ -297,7 +305,8 @@ const MyProfile: React.FC<Props> = (props) => {
                   <div className="mb-6  ">
                     <label
                       htmlFor="email"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
                       Email <span className="text-red-500"> *</span>
                     </label>
                     <input
@@ -314,7 +323,8 @@ const MyProfile: React.FC<Props> = (props) => {
                   <div className="mb-6">
                     <label
                       htmlFor="phone"
-                      className="block mb-2 text-sm font-medium text-gray-900 ">
+                      className="block mb-2 text-sm font-medium text-gray-900 "
+                    >
                       Phone <span className="text-red-500"> *</span>
                     </label>
                     <input
@@ -330,7 +340,8 @@ const MyProfile: React.FC<Props> = (props) => {
                   <div className="mb-6 ">
                     <label
                       htmlFor="address"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
                       Address <span className="text-red-500"> *</span>
                     </label>
                     <input
@@ -346,7 +357,8 @@ const MyProfile: React.FC<Props> = (props) => {
 
                 <button
                   type="submit"
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded text-sm w-full sm:w-auto px-5 py-2 text-center shadow shadow-blue-500">
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded text-sm w-full sm:w-auto px-5 py-2 text-center shadow shadow-blue-500"
+                >
                   Update
                 </button>
               </form>

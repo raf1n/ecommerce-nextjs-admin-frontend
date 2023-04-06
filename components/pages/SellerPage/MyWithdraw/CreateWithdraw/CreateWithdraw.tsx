@@ -5,6 +5,7 @@ import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -28,6 +29,7 @@ const CreateWithdraw: React.FC<Props> = (props) => {
     const { res, err } = await EcommerceApi.postWithdraw(formData);
 
     if (res) {
+      toast.success("Withdraw added Successfully");
       e.target.reset();
     }
   };

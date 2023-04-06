@@ -4,6 +4,7 @@ import { HiOutlineX } from "react-icons/hi";
 import { controller } from "../../../../../../../src/state/StateController";
 import { EcommerceApi } from "../../../../../../../src/API/EcommerceApi";
 import { ICoupon } from "../../../../../../../interfaces/models";
+import { toast } from "react-hot-toast";
 
 interface Props {
   title: string;
@@ -47,6 +48,7 @@ const UpdateCoupon: React.FC<Props> = (props) => {
     );
     if (res) {
       setUpdateModalSlug("");
+      toast.success("Coupon updated Successfully");
     } else console.log(err);
     e.target.reset();
   };
@@ -71,7 +73,8 @@ const UpdateCoupon: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Name
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -88,7 +91,8 @@ const UpdateCoupon: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Code
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -105,7 +109,8 @@ const UpdateCoupon: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Number of times
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -122,7 +127,8 @@ const UpdateCoupon: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Expired Date
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -139,7 +145,8 @@ const UpdateCoupon: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Minimum Purchase Price
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -157,7 +164,8 @@ const UpdateCoupon: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Discount
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -174,7 +182,8 @@ const UpdateCoupon: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Status
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -183,7 +192,8 @@ const UpdateCoupon: React.FC<Props> = (props) => {
                       className="w-full border rounded p-2 border-gray-200 bg-[#fdfdff] focus:outline-none"
                       name="status"
                       id=""
-                      defaultValue={singleCouponData?.status}>
+                      defaultValue={singleCouponData?.status}
+                    >
                       <option value="active">Active</option>
                       <option value="inactive">InActive</option>
                     </select>
@@ -192,12 +202,14 @@ const UpdateCoupon: React.FC<Props> = (props) => {
                     <button
                       type="submit"
                       // onClick={() => setShowModal(false)}
-                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
+                    >
                       Save
                     </button>
                     <button
                       onClick={() => setUpdateModalSlug("")}
-                      className="ml-2 bg-red-500 hover:bg-red-600 text-white text-sm py-2 px-4 rounded">
+                      className="ml-2 bg-red-500 hover:bg-red-600 text-white text-sm py-2 px-4 rounded"
+                    >
                       Close
                     </button>
                   </div>

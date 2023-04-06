@@ -4,6 +4,7 @@ import { controller } from "../../../../../src/state/StateController";
 import Select from "react-select";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { IAd, ICategories } from "../../../../../interfaces/models";
+import { toast } from "react-hot-toast";
 interface Props {
   adName: string;
   allCategories: ICategories[];
@@ -77,6 +78,7 @@ const SliderSidebarBannerTwo: React.FC<Props> = (props) => {
       );
       if (adRes) {
         console.log(adRes);
+        toast.success("Ad Updated");
         setRefresh(!refresh);
       }
     }

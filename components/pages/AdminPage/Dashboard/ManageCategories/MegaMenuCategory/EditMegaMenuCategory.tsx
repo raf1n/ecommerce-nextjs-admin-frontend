@@ -12,6 +12,7 @@ import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -80,12 +81,9 @@ const EditMegaMenuCategory: React.FC<Props> = (props) => {
             (subCat) => subCat?.cat_slug === res.cat_slug
           );
           setSelectedCategory(
-            categories.find(
-              (cat) => cat.cat_slug === res.cat_slug
-            )
+            categories.find((cat) => cat.cat_slug === res.cat_slug)
           );
           setFilteredSubCat(filteredSubCat);
-
         } else {
           console.log(err);
         }
@@ -116,6 +114,7 @@ const EditMegaMenuCategory: React.FC<Props> = (props) => {
         megaCategory
       );
       if (res) {
+        toast.success("MegaMenu Updated");
         e.target.reset();
       }
     }
@@ -204,7 +203,7 @@ const EditMegaMenuCategory: React.FC<Props> = (props) => {
                     <label className="inline-block text-sm tracking-wide mb-2">
                       Sub Category
                     </label>
-                    {megaCatData && categories.length !== 0  && (
+                    {megaCatData && categories.length !== 0 && (
                       <Select
                         isMulti
                         name="sub_cat_list"
@@ -223,7 +222,7 @@ const EditMegaMenuCategory: React.FC<Props> = (props) => {
                         }}
                         onChange={handleMultiSelect}
                       />
-                    )} 
+                    )}
                   </div>
 
                   <div className="mt-4">

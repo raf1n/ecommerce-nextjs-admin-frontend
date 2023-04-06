@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { controller } from "../../../../src/state/StateController";
 import { SocialLogin } from "../../../helpers/SocialLogin";
 import DashboardBreadcrumb from "../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -34,7 +35,7 @@ const ChangePassword: React.FC<Props> = (props) => {
         setErrorText(err);
       } else {
         e.target.reset();
-        alert(res);
+        toast.success(res);
         setErrorText("");
       }
     }
@@ -45,7 +46,8 @@ const ChangePassword: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Change Password"
         link="/seller/change_password"
-        slug="Change Password"></DashboardBreadcrumb>
+        slug="Change Password"
+      ></DashboardBreadcrumb>
 
       <div className="px-[25px] mt-6 w-full relative">
         <form className="p-5 bg-white" onSubmit={handlePassChange}>

@@ -4,6 +4,7 @@ import { HiOutlineX } from "react-icons/hi";
 import { controller } from "../../../../../../../src/state/StateController";
 import { EcommerceApi } from "../../../../../../../src/API/EcommerceApi";
 import { DayPicker } from "react-day-picker";
+import { toast } from "react-hot-toast";
 
 interface Props {
   title: string;
@@ -34,6 +35,7 @@ const AddNewCoupon: React.FC<Props> = (props) => {
     const { res, err } = await EcommerceApi.createCoupon(couponInfo);
     if (res) {
       setShowModal(false);
+      toast.success("Coupon added Successfully");
     } else
       (err: any) => {
         console.log(err);

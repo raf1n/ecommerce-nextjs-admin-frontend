@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { EcommerceApi } from "../../../../src/API/EcommerceApi";
 import { controller } from "../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import { toast } from "react-hot-toast";
 interface Props {}
 
 const ShopProfile: React.FC<Props> = (props) => {
@@ -94,7 +95,7 @@ const ShopProfile: React.FC<Props> = (props) => {
         EcommerceApi.editShop(newShopData, states?.currentUser?.email);
         console.log("newShopData-", newShopData);
         e.target.reset();
-        alert("Successfully Updated !");
+        toast.success("Successfully Updated !");
       }
     }
   };
@@ -136,7 +137,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                   <div className="form-group grid text-sm">
                     <label
                       className="text-sm tracking-[.5px] text-[#34395e] font-semibold"
-                      htmlFor="">
+                      htmlFor=""
+                    >
                       New Logo
                     </label>
 
@@ -177,7 +179,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                   <div className="form-group grid text-sm">
                     <label
                       className="text-sm tracking-[.5px] text-[#34395e] font-semibold"
-                      htmlFor="coverUrl">
+                      htmlFor="coverUrl"
+                    >
                       New Banner Image
                     </label>
 
@@ -195,7 +198,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Shop Name
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -213,7 +217,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Email
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -231,7 +236,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Phone
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -249,7 +255,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Opens at
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -267,7 +274,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Closed at
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -285,7 +293,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Address
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -303,7 +312,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Greetings Message for Chatbox
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -314,9 +324,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                       rows={3}
                       cols={90}
                       className="w-full p-2 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      defaultValue={
-                        shopData?.shop?.geetings_message
-                      }></textarea>
+                      defaultValue={shopData?.shop?.geetings_message}
+                    ></textarea>
 
                     {/* <input
                       className="w-full p-7 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
@@ -332,7 +341,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                       <div className="my-2 ">
                         <label
                           className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                          htmlFor="">
+                          htmlFor=""
+                        >
                           Social Icon
                         </label>
                       </div>
@@ -348,7 +358,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                       <div className="my-2">
                         <label
                           className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                          htmlFor="">
+                          htmlFor=""
+                        >
                           Social Link
                         </label>
                       </div>
@@ -366,7 +377,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Seo Title
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -384,7 +396,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="seo_des">
+                        htmlFor="seo_des"
+                      >
                         Seo Description
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -395,7 +408,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                       rows={4}
                       cols={90}
                       className="w-full p-2 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      defaultValue={shopData?.shop.seo_des}></textarea>
+                      defaultValue={shopData?.shop.seo_des}
+                    ></textarea>
 
                     {/* <input
                       className="w-full p-5 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
@@ -409,7 +423,8 @@ const ShopProfile: React.FC<Props> = (props) => {
                   <div className="mt-4">
                     <button
                       type="submit"
-                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
+                    >
                       Save Changes
                     </button>
                   </div>

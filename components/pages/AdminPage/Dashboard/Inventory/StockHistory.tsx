@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { IInventoryProduct } from "../../../../../interfaces/models";
 import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -65,6 +66,7 @@ const StockHistory: React.FC<Props> = (props) => {
     const { res, err } = await EcommerceApi.addSingleProductStock(data);
 
     if (res) {
+      toast.success("Stock added");
       fetchSingleInventory();
       e.target.reset();
     }
@@ -215,7 +217,10 @@ const StockHistory: React.FC<Props> = (props) => {
                   <tbody>
                     {productData?.stockInData.map((stockData, index) => (
                       // <div>
-                      <tr key={stockData.slug} className="even:bg-gray-50 odd:bg-white">
+                      <tr
+                        key={stockData.slug}
+                        className="even:bg-gray-50 odd:bg-white"
+                      >
                         <td className="px-3 py-3    text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {index + 1}

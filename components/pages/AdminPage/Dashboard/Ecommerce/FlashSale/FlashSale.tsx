@@ -4,6 +4,7 @@ import { IFlashSale } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -74,6 +75,7 @@ const FlashSale: React.FC<Props> = (props) => {
         EcommerceApi.editFlashSale(flashSaleData);
         e.target.reset();
         setSelectedImage(null);
+        toast.success("FlashSale Content Updated");
       }
     }
   };

@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { IInventoryProduct } from "../../../../../interfaces/models";
 import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -39,7 +40,8 @@ const StockHistory: React.FC<Props> = (props) => {
   const fetchSingleInventory = async () => {
     if (productSlug) {
       const { res, err } = await EcommerceApi.getSingleProductInventory(
-        productSlug as string
+        productSlug as string,
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
 
       console.log(res);
@@ -66,6 +68,7 @@ const StockHistory: React.FC<Props> = (props) => {
     if (res) {
       fetchSingleInventory();
       e.target.reset();
+      toast.success("Stock added");
     }
   };
 

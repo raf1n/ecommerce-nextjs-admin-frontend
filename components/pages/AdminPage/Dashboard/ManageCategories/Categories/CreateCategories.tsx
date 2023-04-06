@@ -4,6 +4,7 @@ import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -31,6 +32,7 @@ const CreateCategories: React.FC<Props> = (props) => {
         cat_name: e.target.name.value,
         cat_status: e.target.status.value,
       };
+      toast.success("Categories added Successfully");
       EcommerceApi.createCategories(categories);
       e.target.reset();
     }
@@ -60,7 +62,8 @@ const CreateCategories: React.FC<Props> = (props) => {
                   <div className="form-group grid text-sm">
                     <label
                       className="text-sm tracking-[.5px] text-[#34395e] font-semibold"
-                      htmlFor="">
+                      htmlFor=""
+                    >
                       Image
                       <span className=" text-red-500 ml-2">*</span>
                     </label>
@@ -77,7 +80,8 @@ const CreateCategories: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Name
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -93,7 +97,8 @@ const CreateCategories: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Slug
                       </label>
                       {/* <span className='text-red-500 ml-2'>*</span> */}
@@ -109,7 +114,8 @@ const CreateCategories: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Status
                       </label>
                       {/* <span className='text-red-500 ml-2'>*</span> */}
@@ -117,7 +123,8 @@ const CreateCategories: React.FC<Props> = (props) => {
                     <select
                       className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                       name="status"
-                      id="">
+                      id=""
+                    >
                       <option value="active">Active</option>
                       <option value="inactive">In Active</option>
                     </select>
@@ -125,7 +132,8 @@ const CreateCategories: React.FC<Props> = (props) => {
                   <div className="mt-4">
                     <button
                       type="submit"
-                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
+                    >
                       Update
                     </button>
                   </div>

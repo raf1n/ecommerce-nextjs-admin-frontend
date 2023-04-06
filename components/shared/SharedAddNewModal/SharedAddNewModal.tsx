@@ -4,6 +4,7 @@ import { controller } from "../../../src/state/StateController";
 import { HiOutlineX } from "react-icons/hi";
 import { ICategories } from "../../../interfaces/models";
 import { EcommerceApi } from "../../../src/API/EcommerceApi";
+import { toast } from "react-hot-toast";
 
 interface Props {
   title: string;
@@ -33,6 +34,7 @@ const SharedAddNewModal: React.FC<Props> = (props) => {
       popularCategories
     );
     if (res) {
+      toast.success("Added");
       setShowModal(false);
     } else
       (err: any) => {

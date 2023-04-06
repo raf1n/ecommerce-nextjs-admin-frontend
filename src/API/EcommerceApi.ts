@@ -1094,7 +1094,7 @@ export class EcommerceApi {
   //Create Mega Menu Category
 
   static async postMegaMenuCategory(
-    data: IMegaCategory
+    data: Partial<IMegaCategory>
   ): Promise<ISingleMegaCategoryResponse> {
     console.log(data);
     const myHeaders = new Headers();
@@ -1117,7 +1117,7 @@ export class EcommerceApi {
 
   static async updateMegaMenuCategory(
     slug: string,
-    data: IMegaCategory
+    data: Partial<IMegaCategory>
   ): Promise<ISingleMegaCategoryResponse> {
     console.log(data);
     const myHeaders = new Headers();

@@ -4,6 +4,7 @@ import { controller } from "../../../../../../src/state/StateController";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { HiOutlineX } from "react-icons/hi";
 import { ICategories } from "../../../../../../interfaces/models";
+import { toast } from "react-hot-toast";
 
 interface Props {
   title: string;
@@ -28,6 +29,7 @@ const AddNewFeaturedCategoryModal: React.FC<Props> = (props) => {
       featuredCategories
     );
     if (res) {
+      toast.success("Featured Categories Added");
       setShowModal(false);
     } else
       (err: any) => {
