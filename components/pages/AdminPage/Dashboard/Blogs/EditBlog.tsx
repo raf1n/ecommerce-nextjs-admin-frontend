@@ -30,7 +30,7 @@ const EditBlog: React.FC<Props> = (props) => {
         const { res, err } = await EcommerceApi.getSingleBlog(blogSlug);
         if (res) {
           setBlogData(res);
-          editor?.commands.setContent(res.long_description)
+          editor?.commands.setContent(res.long_description);
         } else {
           console.log(err);
         }
@@ -66,9 +66,12 @@ const EditBlog: React.FC<Props> = (props) => {
 
   const handleBlogUpdate = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
     formData.append("image", image);
+
     const { res, err } = await EcommerceApi.uploadImage(formData);
     if (res?.data?.url || !res?.data?.url) {
       let imageUrl;
@@ -91,14 +94,16 @@ const EditBlog: React.FC<Props> = (props) => {
         // postBy: "admin",
       };
 
-      EcommerceApi.editBlogs(updatedBlogData, blogSlug);
-      toast.success("Successfully Updated !");
-      e.target.reset();
-      // !need to figure out better method than destroy to reset tiptap
-      //@ts-ignore
-      // editor.destroy();
-      setSelectedImage(null);
+      const { res: editRes, err: editErr } = await EcommerceApi.editBlogs(
+        updatedBlogData,
+        blogSlug
+      );
+      if (editRes) {
+        toast.success("Successfully Updated !");
+      }
     }
+
+    controller.setApiLoading(false);
   };
 
   const editor = useEditor({
@@ -203,14 +208,16 @@ const EditBlog: React.FC<Props> = (props) => {
                     required
                     name="category"
                     id="category"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
+                  >
                     <option value="">Select Category</option>
                     {categories.map((cat: IBlogCategory, indx) => (
                       <>
                         <option
                           selected={blogData?.category === cat.name}
                           key={indx}
-                          value={cat.name}>
+                          value={cat.name}
+                        >
                           {cat.name}
                         </option>
                       </>
@@ -247,15 +254,18 @@ const EditBlog: React.FC<Props> = (props) => {
                     className="w-full border rounded p-2 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="show_homepage"
                     id="show_homepage"
-                    required>
+                    required
+                  >
                     <option
                       selected={blogData?.isShowHomepage === "yes"}
-                      value="yes">
+                      value="yes"
+                    >
                       Yes
                     </option>
                     <option
                       selected={blogData?.isShowHomepage === "no"}
-                      value="no">
+                      value="no"
+                    >
                       No
                     </option>
                   </select>
@@ -269,15 +279,18 @@ const EditBlog: React.FC<Props> = (props) => {
                     className="w-full border rounded p-2 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="status"
                     id="status"
-                    required>
+                    required
+                  >
                     <option
                       selected={blogData?.status === "active"}
-                      value="active">
+                      value="active"
+                    >
                       Active
                     </option>
                     <option
                       selected={blogData?.status === "inactive"}
-                      value="inactive">
+                      value="inactive"
+                    >
                       In Active
                     </option>
                   </select>
@@ -311,7 +324,8 @@ const EditBlog: React.FC<Props> = (props) => {
                 <div className="col-12">
                   <button
                     type="submit"
-                    className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]">
+                    className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]"
+                  >
                     Update
                   </button>
                 </div>

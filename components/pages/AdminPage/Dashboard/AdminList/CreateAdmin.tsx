@@ -18,6 +18,8 @@ const CreateAdmin: React.FC<Props> = (props) => {
 
   const handleSave = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const fullName = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -35,7 +37,7 @@ const CreateAdmin: React.FC<Props> = (props) => {
       tokenType,
       avatar,
     };
-    console.log(data);
+    
     if (e.target.password.value.length < 6) {
       toast.error("Password Should be atleast 6 Characters Long");
     } else {
@@ -56,6 +58,8 @@ const CreateAdmin: React.FC<Props> = (props) => {
         }
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

@@ -50,22 +50,11 @@ const ProductReport: React.FC<Props> = (props) => {
       console.log(err);
     }
   };
+  
   useEffect(() => {
     getAllReports();
   }, [searchString, sortBy, sortType]);
 
-  // useEffect(() => {
-  //   const fetchReports = async () => {
-  //     const { res, err } = await EcommerceApi.getAllSellerReports(
-  //       `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-  //     );
-
-  //     setProductReportsData(res);
-  //     console.log(res);
-  //   };
-
-  //   fetchReports();
-  // }, [searchString, sortBy, sortType]);
 
   return (
     <div className="w-full">

@@ -46,6 +46,8 @@ const ProductReport: React.FC<Props> = (props) => {
   const [searchString, setSearchString] = useState("");
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteReportedItems(
       deleteModalSlug
     );
@@ -56,6 +58,8 @@ const ProductReport: React.FC<Props> = (props) => {
       );
       setProductReportsData(remainingBrands);
     }
+    
+    controller.setApiLoading(false);
   };
 
   useEffect(() => {
@@ -70,20 +74,6 @@ const ProductReport: React.FC<Props> = (props) => {
 
     fetchReports();
   }, [searchString, sortBy, sortType]);
-
-  // useEffect(() => {
-  //   const fetchReports = async () => {
-  //     const { res, err } = await EcommerceApi.allReportedItems();
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       setProductReportsData(res);
-
-  //       // console.log(res);
-  //     }
-  //   };
-  //   fetchReports();
-  // }, []);
 
   return (
     <div className="w-full">

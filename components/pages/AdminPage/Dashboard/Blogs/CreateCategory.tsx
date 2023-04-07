@@ -13,15 +13,22 @@ const CreateCategory: React.FC<Props> = (props) => {
 
   const handleSave = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const category = {
       name: e.target.name.value,
       // slug: e.target.slug.value,
       status: e.target.status.value,
     };
-    EcommerceApi.createCategory(category);
-    // console.log(category);
-    e.target.reset();
-    toast.success("Successfully added category !");
+
+    const { res, err } = await EcommerceApi.createCategory(category);
+
+    if (res) {
+      e.target.reset();
+      toast.success("Successfully added category !");
+    }
+
+    controller.setApiLoading(false);
   };
 
   return (
@@ -46,7 +53,8 @@ const CreateCategory: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Name
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -78,7 +86,8 @@ const CreateCategory: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Status
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -86,7 +95,8 @@ const CreateCategory: React.FC<Props> = (props) => {
                     <select
                       className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                       name="status"
-                      id="">
+                      id=""
+                    >
                       <option value="active">Active</option>
                       <option value="inactive">In Active</option>
                     </select>
@@ -94,7 +104,8 @@ const CreateCategory: React.FC<Props> = (props) => {
                   <div className="mt-4">
                     <button
                       type="submit"
-                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
+                    >
                       Save
                     </button>
                   </div>

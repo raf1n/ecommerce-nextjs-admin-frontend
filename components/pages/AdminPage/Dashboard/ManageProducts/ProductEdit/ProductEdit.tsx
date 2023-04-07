@@ -16,6 +16,29 @@ import { toast } from "react-hot-toast";
 
 interface Props {}
 
+const reactSelectStyle = {
+  control: (base: any) => ({
+    ...base,
+    height: "42px",
+    width: "100%",
+    margin: "0",
+    fontColor: "#495057",
+    paddingLeft: "5px",
+    paddingRight: "5px",
+    fontSize: "14px",
+    borderRadius: 5,
+    borderColor: "#e4e6fc",
+    backgroundColor: "#fdfdff",
+    // This line disable the blue border
+    cursor: "pointer",
+    // h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]
+  }),
+  menuList: (styles: any) => ({
+    ...styles,
+    fontSize: "13px",
+  }),
+};
+
 const ProductEdit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [productData, setProductData] = useState<IProduct>();
@@ -24,27 +47,9 @@ const ProductEdit: React.FC<Props> = (props) => {
   const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
   const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
   const [brands, setBrands] = useState<IBrandDetail[]>([]);
-  // const [isCheckedTop, setIsCheckedTop] = useState<boolean | undefined>(
-  //   productData?.isTopProduct
-  // );
-  // const [isCheckedNew, setIsCheckedNew] = useState<boolean | undefined>(
-  //   productData?.isNewArrival
-  // );
-  // const [isCheckedBest, setIsCheckedBest] = useState<boolean | undefined>(
-  //   productData?.isNewArrival
-  // );
-  // const [isCheckedFeatured, setIsCheckedFeatured] = useState<
-  //   boolean | undefined
-  // >(productData?.isFeatured);
-  // const [isCheckedPopular, setIsCheckedPopular] = useState<boolean | undefined>(
-  //   productData?.isPopular
-  // );
-  // const [selectValue, setSelectValue] = useState({});
 
   const { asPath } = useRouter();
-  console.log(asPath);
   const productSlug = asPath.split("/")[3];
-  console.log(productSlug);
 
   useEffect(() => {
     const getSingleProduct = async () => {
@@ -86,29 +91,8 @@ const ProductEdit: React.FC<Props> = (props) => {
     fetchAllCategoriesSubCatBrand();
   }, []);
 
-  const reactSelectStyle = {
-    control: (base: any) => ({
-      ...base,
-      height: "42px",
-      width: "100%",
-      margin: "0",
-      fontColor: "#495057",
-      paddingLeft: "5px",
-      paddingRight: "5px",
-      fontSize: "14px",
-      borderRadius: 5,
-      borderColor: "#e4e6fc",
-      backgroundColor: "#fdfdff",
-      // This line disable the blue border
-      cursor: "pointer",
-      // h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]
-    }),
-    menuList: (styles: any) => ({
-      ...styles,
-      fontSize: "13px",
-    }),
-  };
   let selectedValue;
+
   const handleChange = (e: any) => {
     selectedValue = {
       label: e.label,
@@ -116,13 +100,14 @@ const ProductEdit: React.FC<Props> = (props) => {
     };
     console.log(selectedValue);
   };
+
   const handleProductUpdate = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
     formData.append("image", image);
-    console.log(formData);
 
     const { res, err } = await EcommerceApi.uploadImage(formData);
     if (res?.data?.url || !res?.data?.url || res.error.code === 120) {
@@ -153,10 +138,17 @@ const ProductEdit: React.FC<Props> = (props) => {
         isPopular: e.target.is_popular.checked,
       };
 
-      console.log(newProductData);
-      EcommerceApi.editProducts(newProductData, productSlug);
-      toast.success("Product Updated Successfully");
+      const { res: postRes, err: postErr } = await EcommerceApi.editProducts(
+        newProductData,
+        productSlug
+      );
+
+      if (postRes) {
+        toast.success("Product Updated Successfully");
+      }
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

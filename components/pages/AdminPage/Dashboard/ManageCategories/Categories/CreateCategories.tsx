@@ -13,13 +13,13 @@ const CreateCategories: React.FC<Props> = (props) => {
 
   const handleSave = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const image = e.target.imageURL.files[0];
-    console.log("image", image);
     const formData = new FormData();
-    console.log("form", formData);
     formData.append("image", image);
     const { res, err } = await EcommerceApi.uploadCategoryImage(formData);
-    console.log("response", res);
+
     if (res?.data?.url || !res?.data?.url) {
       let imageUrl;
       imageUrl = res?.data?.url;
@@ -27,15 +27,23 @@ const CreateCategories: React.FC<Props> = (props) => {
       if (res?.data?.url === undefined || null) {
         imageUrl = "";
       }
+
       const categories = {
         cat_image: imageUrl,
         cat_name: e.target.name.value,
         cat_status: e.target.status.value,
       };
-      toast.success("Categories added Successfully");
-      EcommerceApi.createCategories(categories);
-      e.target.reset();
+
+      const { res: postRes, err: postErr } =
+        await EcommerceApi.createCategories(categories);
+
+      if (postRes) {
+        toast.success("Categories added Successfully");
+        e.target.reset();
+      }
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

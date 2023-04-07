@@ -35,25 +35,34 @@ const AdminLogin: React.FC<Props> = (props) => {
 
   const handleEmailPasswordLogin = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const loginPassword = e.target.password.value;
     const loginEmail = e.target.email.value;
+
+    if (loginPassword.length > 15) {
+      setErrorLogin(true);
+      toast.error("Password can not be more than 15 characters");
+      controller.setApiLoading(false);
+      return;
+    } else if (loginEmail.length > 50) {
+      setErrorLogin(true);
+      toast.error("Email can not be more than 50 characters");
+      controller.setApiLoading(false);
+      return;
+    }
 
     const { res, err } = await EcommerceApi.getUserByEmail(loginEmail);
     if (!res?.email) {
       toast.error(
         "Sorry, we could not find you in our database. If you think there is an error please contact service."
       );
+      controller.setApiLoading(false);
       return;
     } else if (res.status === "inactive") {
       toast.error("Your account is currently inactive.");
+      controller.setApiLoading(false);
       return;
-    }
-    if (loginPassword.length > 15) {
-      setErrorLogin(true);
-      toast.error("Password can not be more than 15 characters");
-    } else if (loginEmail.length > 50) {
-      setErrorLogin(true);
-      toast.error("Email can not be more than 50 characters");
     } else {
       const { res, err } = await SocialLogin.loginWithEmailPassword(
         loginEmail,
@@ -65,7 +74,6 @@ const AdminLogin: React.FC<Props> = (props) => {
         setSuccessLogin(false);
         setErrorTextLogin(err);
       } else {
-        console.log("resss", res);
         setErrorLogin(false);
 
         if (!res.user.emailVerified) {
@@ -117,6 +125,8 @@ const AdminLogin: React.FC<Props> = (props) => {
         }
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

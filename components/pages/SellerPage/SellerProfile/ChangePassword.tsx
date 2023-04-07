@@ -16,11 +16,13 @@ const ChangePassword: React.FC<Props> = (props) => {
 
   const handlePassChange = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const email = states.currentUser?.email;
 
     if (newPass != confirmPass) {
       setErrorText("New passwords did not match.");
+      controller.setApiLoading(false);
       return;
     }
 
@@ -30,7 +32,7 @@ const ChangePassword: React.FC<Props> = (props) => {
         oldPass,
         newPass
       );
-      console.log({ res, err });
+
       if (err) {
         setErrorText(err);
       } else {
@@ -39,6 +41,8 @@ const ChangePassword: React.FC<Props> = (props) => {
         setErrorText("");
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

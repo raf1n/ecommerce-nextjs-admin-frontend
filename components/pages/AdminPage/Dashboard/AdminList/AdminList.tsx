@@ -38,11 +38,16 @@ const AdminList: React.FC<Props> = (props) => {
   }, [searchString, sortBy, sortType]);
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteSingleAdmin(deleteModalSlug);
+
     if (res) {
       setDeleteModalSlug("");
       fetchAllCategoriesAdminData();
     }
+
+    controller.setApiLoading(false);
   };
 
   const tableHeaders = {

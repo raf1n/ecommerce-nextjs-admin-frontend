@@ -18,6 +18,8 @@ const DeliveredOrders: React.FC<Props> = (props) => {
   const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteByModal(
       deleteModalSlug,
       "orders"
@@ -32,6 +34,8 @@ const DeliveredOrders: React.FC<Props> = (props) => {
 
       setDeliveredOrdersData(remainingOrders);
     }
+
+    controller.setApiLoading(false);
   };
 
   useEffect(() => {

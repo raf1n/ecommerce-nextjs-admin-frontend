@@ -14,12 +14,11 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const form = e.target;
-
     const name = form.name.value;
     const status = form.status.value;
-
     const logoFile = e.target.logo.files[0];
     const formData = new FormData();
     formData.append("image", logoFile);
@@ -28,8 +27,6 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
     // if (res?.data?.url) {
     let imageUrl;
     imageUrl = res?.data?.url;
-
-    // console.error(err.stack);
 
     if (res?.data?.url === undefined || err) {
       imageUrl = "";
@@ -51,7 +48,8 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
     } else {
       console.log(brandErr);
     }
-    // }
+
+    controller.setApiLoading(false);
   };
 
   return (

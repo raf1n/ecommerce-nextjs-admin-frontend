@@ -1665,7 +1665,6 @@ export class EcommerceApi {
   static async createCategory(
     data: Partial<IBlogCategory>
   ): Promise<IBlogCategoryResponse> {
-    console.log("blog category api-", data);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     const requestOptions = {

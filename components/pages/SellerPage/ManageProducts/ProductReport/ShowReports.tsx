@@ -12,11 +12,10 @@ interface Props {}
 const ShowReports: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [reportData, setReportData] = useState<IReportedItem | null>(null);
+  
   const { asPath } = useRouter();
-  console.log(asPath);
   const slug = asPath.split("/")[3];
 
-  console.log(slug);
 
   useEffect(() => {
     const getSingleCategory = async () => {

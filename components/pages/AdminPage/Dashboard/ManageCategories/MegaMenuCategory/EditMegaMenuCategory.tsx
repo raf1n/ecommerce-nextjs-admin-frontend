@@ -98,14 +98,14 @@ const EditMegaMenuCategory: React.FC<Props> = (props) => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log(e);
+    controller.setApiLoading(true);
+
     const cat_name = selectedCategory?.cat_name;
     const cat_slug = selectedCategory?.cat_slug;
     const serial = parseInt(e.target.serial.value);
     const sub_cat_list = selectedOptions;
     const status = e.target.status.value;
 
-    console.log({ cat_name, cat_slug, serial, sub_cat_list, status });
     const megaCategory = { cat_name, cat_slug, serial, sub_cat_list, status };
 
     if (megaCatData?.slug) {
@@ -118,6 +118,8 @@ const EditMegaMenuCategory: React.FC<Props> = (props) => {
         e.target.reset();
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

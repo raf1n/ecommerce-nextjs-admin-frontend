@@ -17,10 +17,10 @@ const AddNewCoupon: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const { setShowModal, showModal } = props;
   const [selected, setSelected] = React.useState<Date>();
-  console.log(showModal);
+
   const handleAdd = async (e: any) => {
     e.preventDefault();
-    console.log("eeee");
+    controller.setApiLoading(true);
 
     const couponInfo = {
       name: e.target.name.value,
@@ -31,17 +31,19 @@ const AddNewCoupon: React.FC<Props> = (props) => {
       discount: e.target.discount.value,
       status: e.target.status.value,
     };
-    console.log(couponInfo);
+
     const { res, err } = await EcommerceApi.createCoupon(couponInfo);
+
     if (res) {
       setShowModal(false);
       toast.success("Coupon added Successfully");
+      e.target.reset();
     } else
       (err: any) => {
         console.log(err);
       };
 
-    e.target.reset();
+    controller.setApiLoading(false);
   };
 
   return (

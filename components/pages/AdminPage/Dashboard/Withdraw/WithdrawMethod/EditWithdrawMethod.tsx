@@ -20,7 +20,6 @@ const EditWithdrawMethod: React.FC<Props> = (props) => {
     useState<IWithdrawMethod | null>(null);
 
   useEffect(() => {
-    console.log(withdrawMethodSlug);
     const getSingleCategory = async () => {
       if (withdrawMethodSlug !== "[slug]") {
         const { res, err } = await EcommerceApi.getSingleWithdrawMethod(
@@ -38,6 +37,7 @@ const EditWithdrawMethod: React.FC<Props> = (props) => {
 
   const handleUpdate = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const formData = {
       name: e.target.name.value,
@@ -57,6 +57,8 @@ const EditWithdrawMethod: React.FC<Props> = (props) => {
       toast.success("Withdraw method updated");
       e.target.reset();
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

@@ -24,18 +24,24 @@ const SEOForm: React.FC<Props> = (props) => {
   useEffect(() => {
     getSingleSeo();
   }, [topic]);
+
   const handleUpdate = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const formData = {
       seo_title: e.target.title.value,
       seo_description: e.target.description.value,
     };
+
     const { res, err } = await EcommerceApi.updateSeoInfo(topic, formData);
+
     if (res) {
       toast.success("SEO Updated");
       getSingleSeo();
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

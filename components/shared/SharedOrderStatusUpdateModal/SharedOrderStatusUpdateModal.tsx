@@ -15,9 +15,10 @@ const SharedOrderStatusUpdateModal: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const { showUpdateModal, setShowUpdateModal } = props;
   const [singleOrderData, setSingleOrderData] = useState<IOrder | undefined>();
+
   const handleUpdate = async (e: any) => {
     e.preventDefault();
-    console.log("eeee");
+    controller.setApiLoading(true);
 
     const orderStatus = {
       payment_status: e.target.payment.value,
@@ -35,13 +36,16 @@ const SharedOrderStatusUpdateModal: React.FC<Props> = (props) => {
     }
 
     e.target.reset();
+    controller.setApiLoading(false);
   };
+
   useEffect(() => {
     const orderData = props?.ordersData?.find(
       (data) => data.slug === showUpdateModal
     );
     setSingleOrderData(orderData);
   }, [showUpdateModal]);
+  
   return (
     <>
       {showUpdateModal ? (
@@ -62,22 +66,26 @@ const SharedOrderStatusUpdateModal: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Payment
                       </label>
                     </div>
                     <select
                       className="w-full border rounded p-2 border-gray-200 bg-[#fdfdff] focus:outline-none"
                       name="payment"
-                      id="">
+                      id=""
+                    >
                       <option
                         selected={singleOrderData?.payment_status === "success"}
-                        value="success">
+                        value="success"
+                      >
                         Success
                       </option>
                       <option
                         selected={singleOrderData?.payment_status === "pending"}
-                        value="pending">
+                        value="pending"
+                      >
                         Pending
                       </option>
                     </select>
@@ -86,39 +94,46 @@ const SharedOrderStatusUpdateModal: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Order
                       </label>
                     </div>
                     <select
                       className="w-full border rounded p-2 border-gray-200 bg-[#fdfdff] focus:outline-none"
                       name="order"
-                      id="">
+                      id=""
+                    >
                       <option
                         selected={singleOrderData?.order_status === "pending"}
-                        value="pending">
+                        value="pending"
+                      >
                         Pending
                       </option>
                       <option
                         selected={
                           singleOrderData?.order_status === "in_progress"
                         }
-                        value="in_progress">
+                        value="in_progress"
+                      >
                         In Progress
                       </option>
                       <option
                         selected={singleOrderData?.order_status === "delivered"}
-                        value="delivered">
+                        value="delivered"
+                      >
                         Delivered
                       </option>
                       <option
                         selected={singleOrderData?.order_status === "completed"}
-                        value="completed">
+                        value="completed"
+                      >
                         Completed
                       </option>
                       <option
                         selected={singleOrderData?.order_status === "declined"}
-                        value="declined">
+                        value="declined"
+                      >
                         Declined
                       </option>
                     </select>
@@ -127,12 +142,14 @@ const SharedOrderStatusUpdateModal: React.FC<Props> = (props) => {
                     <button
                       type="submit"
                       onClick={() => setShowUpdateModal("")}
-                      className="bg-red-600 hover:bg-red-600 text-white text-sm py-2 px-4 rounded">
+                      className="bg-red-600 hover:bg-red-600 text-white text-sm py-2 px-4 rounded"
+                    >
                       Close
                     </button>
                     <button
                       type="submit"
-                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
+                    >
                       Update Status
                     </button>
                   </div>

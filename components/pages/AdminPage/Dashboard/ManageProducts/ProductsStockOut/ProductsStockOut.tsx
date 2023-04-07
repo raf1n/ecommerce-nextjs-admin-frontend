@@ -35,7 +35,10 @@ const ProductsStockOut: React.FC<Props> = (props) => {
     };
     getStockoutProducts();
   }, [searchString, sortBy, sortType]);
+
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteProduct(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
@@ -44,8 +47,10 @@ const ProductsStockOut: React.FC<Props> = (props) => {
       );
       setStockoutProducts(remainingProducts);
     }
+
+    controller.setApiLoading(false);
   };
-  console.log({ searchString, sortBy, sortType });
+
   const tableHeaders = {
     sn: "sn",
     name: "productName",
@@ -53,6 +58,7 @@ const ProductsStockOut: React.FC<Props> = (props) => {
     photo: "imageURL",
     action: "action",
   };
+  
   return (
     <div className="w-full">
       <DashboardBreadcrumb

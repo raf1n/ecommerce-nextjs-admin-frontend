@@ -35,9 +35,12 @@ const EditCategories: React.FC<Props> = (props) => {
 
   const handleEdit = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const image = e.target.image.files[0];
     const formData = new FormData();
     formData.append("image", image);
+
     const { res, err } = await EcommerceApi.uploadCategoryImage(formData);
     if (res?.data?.url || !res?.data?.url) {
       let imageUrl;
@@ -63,6 +66,8 @@ const EditCategories: React.FC<Props> = (props) => {
         e.target.reset();
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

@@ -36,6 +36,8 @@ const PendingSellerWithdraw: React.FC<Props> = (props) => {
   const router = useRouter();
   const { asPath } = router;
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteWithdrawMethod(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
@@ -44,6 +46,8 @@ const PendingSellerWithdraw: React.FC<Props> = (props) => {
       );
       setWithdrawMethods(remainingWithdrawMethods);
     }
+
+    controller.setApiLoading(false);
   };
 
   useEffect(() => {

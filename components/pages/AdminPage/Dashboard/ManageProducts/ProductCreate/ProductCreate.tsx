@@ -79,6 +79,8 @@ const ProductCreate: React.FC<Props> = (props) => {
 
   const handleProductAdd = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
     formData.append("image", image);
@@ -91,6 +93,7 @@ const ProductCreate: React.FC<Props> = (props) => {
       if (res?.data?.url === undefined || null) {
         imageUrl = [""];
       }
+
       const productData = {
         productName: e.target.productName.value,
         price: parseFloat(e.target.productPrice.value),
@@ -112,12 +115,19 @@ const ProductCreate: React.FC<Props> = (props) => {
         isPopular: isCheckedPopular,
         addedBy: "admin",
       };
-      console.log(productData);
-      EcommerceApi.addProducts(productData);
-      e.target.reset();
-      setSelectedImage(null);
-      toast.success("Product Created Successfully");
+
+      const { res: postRes, err: postErr } = await EcommerceApi.addProducts(
+        productData
+      );
+
+      if (postRes) {
+        e.target.reset();
+        setSelectedImage(null);
+        toast.success("Product Created Successfully");
+      }
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

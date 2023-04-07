@@ -27,37 +27,10 @@ const PopularCategoryAdmin: React.FC<Props> = (props) => {
   const [popularCategoriesData, setPopularCategoriesData] = useState<
     IPopularCategories[]
   >([]);
-
-  // const handleSave = async (e: any) => {
-  //   e.preventDefault();
-  //   const image = e.target.imageURL.files[0];
-  //   console.log("image", image);
-  //   const formData = new FormData();
-  //   console.log("form", formData);
-  //   formData.append("image", image);
-  //   const { res, err } = await EcommerceApi.uploadCategoryImage(formData);
-  //   console.log("response", res);
-  //   if (res?.data?.url || !res?.data?.url) {
-  //     let imageUrl;
-  //     imageUrl = res?.data?.url;
-  //     // setImageLink(data?.data?.url);
-  //     if (res?.data?.url === undefined || null) {
-  //       imageUrl = "";
-  //     }
-  //     const Popularcategories = {
-  //       // cat_image: e.target.image.value,
-
-  //       cat_image: imageUrl,
-  //       // cat_icon: e.target.icon.value,
-  //       // cat_name: e.target.name.value,
-  //       // // cat_slug: e.target.slug.value,
-  //       // cat_status: e.target.status.value,
-  //     };
-  //     // EcommerceApi.editPopularCategories(Popularcategories);
-  //     e.target.reset();
-  //   }
-  // };
+  
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deletePopularCategories(
       deleteModalSlug
     );
@@ -68,6 +41,8 @@ const PopularCategoryAdmin: React.FC<Props> = (props) => {
       );
       setPopularCategoriesData(remainingBrands);
     }
+
+    controller.setApiLoading(false);
   };
   useEffect(() => {
     const fetchAllCategoriesData = async () => {
