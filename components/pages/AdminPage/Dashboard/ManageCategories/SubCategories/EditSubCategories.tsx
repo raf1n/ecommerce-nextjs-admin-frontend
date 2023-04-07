@@ -52,24 +52,25 @@ const EditSubCategories: React.FC<Props> = (props) => {
 
   const handleEdit = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const subCategories = {
-      // cat_imag
-
       cat_slug: e.target.categories.value,
       subcat_name: e.target.name.value,
-      // cat_slug: e.target.slug.value,
-      slug: e.target.slug.value,
       subcat_status: e.target.status.value,
     };
-    const { res: editRes, err } = await EcommerceApi.editSubCategories(
+
+    const { res, err } = await EcommerceApi.editSubCategories(
       subCategories,
       subCatSlug
     );
-    if (editRes) {
+
+    if (res) {
       e.target.reset();
       toast.success("SubCategories updated");
     }
+
+    controller.setApiLoading(false);
   };
   return (
     <div className="w-full ">

@@ -17,6 +17,7 @@ export interface IStates {
   couponData: Array<ICoupon>;
   sliderData: Array<ISlider>;
   currentUser: IUser | undefined;
+  apiLoading: boolean;
 }
 
 export class Controller {
@@ -27,6 +28,7 @@ export class Controller {
     couponData: [],
     sliderData: [],
     currentUser: undefined,
+    apiLoading: false,
   };
 
   @action
@@ -57,15 +59,10 @@ export class Controller {
     this.states.sliderData = sliderData;
   }
 
-  // @action
-  // increase() {
-  //     this.states.counter += 1;
-  // }
-
-  // @action
-  // decrease() {
-  //     this.states.counter -= 1;
-  // }
+  @action
+  setApiLoading(loading: boolean) {
+    this.states.apiLoading = loading;
+  }
 }
 
 export const controller = new Controller();

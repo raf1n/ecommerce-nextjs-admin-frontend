@@ -15,22 +15,23 @@ const CreateSlider: React.FC<Props> = (props) => {
 
   const handleSave = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const image = e.target.imageURL.files[0];
-    console.log("image", image);
     const formData = new FormData();
-    console.log("form", formData);
     formData.append("image", image);
+
     const { res, err } = await EcommerceApi.uploadSliderImage(formData);
-    console.log("response", res);
+
     if (res?.data?.url || !res?.data?.url) {
       let imageUrl;
       imageUrl = res?.data?.url;
-      // setImageLink(data?.data?.url);
+
       if (res?.data?.url === undefined || null) {
         imageUrl = "";
       }
+
       const sliders = {
-        // cat_image: e.target.image.value,
         image: imageUrl,
         badge: e.target.badge.value,
         titleOne: e.target.titleOne.value,
@@ -39,12 +40,18 @@ const CreateSlider: React.FC<Props> = (props) => {
         serial: e.target.serial.value,
         status: e.target.status.value,
       };
-      const { res: addRes, err } = await EcommerceApi.createSlider(sliders);
-      if (addRes) {
+
+      const { res: postRes, err: postErr } = await EcommerceApi.createSlider(
+        sliders
+      );
+
+      if (postRes) {
         e.target.reset();
         toast.success("Slider Created");
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   useEffect(() => {

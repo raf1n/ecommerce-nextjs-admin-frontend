@@ -86,25 +86,34 @@ const FlashSaleProducts: React.FC<Props> = (props) => {
 
   const handleFlashProduct = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const flashSale = {
       product_slug: e.target.product.value,
       status: e.target.status.value,
     };
-    console.log(e.target.product.value, e.target.status.value);
+
     const { res, err } = await EcommerceApi.addFlashSaleProducts(flashSale);
+
     if (res) {
       toast.success("FlashSale Products Added");
       getAllFlashSaleProductsData();
     }
+
+    controller.setApiLoading(false);
   };
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteFlashSale(deleteModalSlug);
+
     if (res) {
-      console.log(res);
       setDeleteModalSlug("");
       getAllFlashSaleProductsData();
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

@@ -38,6 +38,8 @@ const FlashSale: React.FC<Props> = (props) => {
 
   const handleUpdate = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const image = e.target.imageHome.files[0];
     const image2 = e.target.imageFlash.files[0];
     const formData1 = new FormData();
@@ -45,7 +47,6 @@ const FlashSale: React.FC<Props> = (props) => {
     const formData2 = new FormData();
     formData2.append("image", image2);
     const { res: res1, err } = await EcommerceApi.uploadImage(formData1);
-    // const { res, err } = await EcommerceApi.uploadImage(formData);
 
     if (res1?.data?.url || !res1?.data?.url) {
       let imageHome;
@@ -54,6 +55,7 @@ const FlashSale: React.FC<Props> = (props) => {
       if (res1?.data?.url === undefined || null) {
         imageHome = "";
       }
+
       const { res, err } = await EcommerceApi.uploadImage(formData2);
 
       if (res?.data?.url || !res?.data?.url) {
@@ -82,6 +84,8 @@ const FlashSale: React.FC<Props> = (props) => {
         }
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

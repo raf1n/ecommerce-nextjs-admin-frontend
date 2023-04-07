@@ -19,6 +19,8 @@ const ProgressOrders: React.FC<Props> = (props) => {
   const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteByModal(
       deleteModalSlug,
       "orders"
@@ -30,6 +32,8 @@ const ProgressOrders: React.FC<Props> = (props) => {
       );
       setProgressOrdersData(remainingBrands);
     }
+
+    controller.setApiLoading(false);
   };
 
   useEffect(() => {

@@ -56,6 +56,7 @@ const StockHistory: React.FC<Props> = (props) => {
 
   const handleAddStock = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const data = {
       product_slug: productSlug,
@@ -70,6 +71,8 @@ const StockHistory: React.FC<Props> = (props) => {
       e.target.reset();
       toast.success("Stock added");
     }
+
+    controller.setApiLoading(false);
   };
 
   const handleDelete = async () => {

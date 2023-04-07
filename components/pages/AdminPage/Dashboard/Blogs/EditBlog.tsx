@@ -66,9 +66,12 @@ const EditBlog: React.FC<Props> = (props) => {
 
   const handleBlogUpdate = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
     formData.append("image", image);
+
     const { res, err } = await EcommerceApi.uploadImage(formData);
     if (res?.data?.url || !res?.data?.url) {
       let imageUrl;
@@ -91,19 +94,16 @@ const EditBlog: React.FC<Props> = (props) => {
         // postBy: "admin",
       };
 
-      const { res: editRes, err } = await EcommerceApi.editBlogs(
+      const { res: editRes, err: editErr } = await EcommerceApi.editBlogs(
         updatedBlogData,
         blogSlug
       );
       if (editRes) {
         toast.success("Successfully Updated !");
-        e.target.reset();
-        // !need to figure out better method than destroy to reset tiptap
-        //@ts-ignore
-        // editor.destroy();
-        setSelectedImage(null);
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   const editor = useEditor({

@@ -37,6 +37,8 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
     }, 1500);
   };
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteProduct(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
@@ -45,7 +47,10 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
       );
       setSellerPendingProducts(remainingProducts);
     }
+
+    controller.setApiLoading(false);
   };
+
   useEffect(() => {
     const fetchAllProducts = async () => {
       const { res, err } = await EcommerceApi.allProductsAdmin(

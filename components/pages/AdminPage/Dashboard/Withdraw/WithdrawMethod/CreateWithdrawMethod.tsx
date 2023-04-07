@@ -14,6 +14,7 @@ const CreateWithdrawMethod: React.FC<Props> = (props) => {
 
   const handleSave = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const formData = {
       name: e.target.name.value,
@@ -29,6 +30,8 @@ const CreateWithdrawMethod: React.FC<Props> = (props) => {
       e.target.reset();
       toast.success("Withdraw method added");
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

@@ -39,6 +39,8 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
   //   }, 1500);
   // };
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteProduct(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
@@ -47,6 +49,8 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
       );
       setSellerPendingProducts(remainingProducts);
     }
+
+    controller.setApiLoading(false);
   };
 
   const seller_slug = CookiesHandler.getSlug();
@@ -66,6 +70,7 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
 
     fetchAllProducts();
   }, [searchString, sortBy, sortType, refresh]);
+
   const tableHeaders = {
     sn: "sn",
     name: "productName",
@@ -74,6 +79,7 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
     "Approval status": "approvalStatus",
     action: "action",
   };
+
   return (
     <div className="w-full">
       <DashboardBreadcrumb

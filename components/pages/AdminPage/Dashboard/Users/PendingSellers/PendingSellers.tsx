@@ -52,6 +52,8 @@ const PendingSellers: React.FC<Props> = (props) => {
   }, [searchString, sortBy, sortType]);
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteSingleUser(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
@@ -60,6 +62,8 @@ const PendingSellers: React.FC<Props> = (props) => {
       );
       setSellersData(remainingCustomers);
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

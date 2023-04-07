@@ -28,7 +28,10 @@ const SellerProducts: React.FC<Props> = (props) => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
+
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteProduct(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
@@ -37,7 +40,10 @@ const SellerProducts: React.FC<Props> = (props) => {
       );
       setSellerProducts(remainingBrands);
     }
+
+    controller.setApiLoading(false);
   };
+
   useEffect(() => {
     const fetchAllProducts = async () => {
       const { res, err } = await EcommerceApi.allProductsAdmin(
@@ -52,6 +58,7 @@ const SellerProducts: React.FC<Props> = (props) => {
 
     fetchAllProducts();
   }, [searchString, sortBy, sortType]);
+
   const tableHeaders = {
     sn: "sn",
     name: "productName",
@@ -61,6 +68,7 @@ const SellerProducts: React.FC<Props> = (props) => {
     status: "status",
     action: "action",
   };
+  
   return (
     <div className="w-full">
       <DashboardBreadcrumb

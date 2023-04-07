@@ -43,6 +43,8 @@ const ProductBrands: React.FC<Props> = (props) => {
   }, [searchString, sortBy, sortType]);
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteByModal(
       deleteModalSlug,
       "brands"
@@ -55,6 +57,8 @@ const ProductBrands: React.FC<Props> = (props) => {
       );
       setProductBrandsData(remainingBrands);
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

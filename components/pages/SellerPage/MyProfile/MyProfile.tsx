@@ -29,25 +29,33 @@ const MyProfile: React.FC<Props> = (props) => {
 
   const handleUpdateProfile = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const image = e.target.profilePicUrl.files[0];
     const formData = new FormData();
     formData.append("image", image);
+
     const { res, err } = await EcommerceApi.uploadImage(formData);
+
     if (res?.data?.url || !res?.data?.url) {
       let imageURL;
       imageURL = res?.data?.url;
+      
       if (res?.data?.url === undefined || null) {
         imageURL = states.currentUser?.avatar;
       }
+
       const newProfileDataForFirebase = {
         fullName: e.target.name.value,
         avatar: imageURL,
       };
+
       const { res: socialRes, err } =
         await SocialLogin.updateLoggedInAdminProfile(
           states.currentUser?.slug,
           newProfileDataForFirebase
         );
+
       const newProfileData = {
         fullName: newProfileDataForFirebase.fullName,
         avatar: newProfileDataForFirebase.avatar,
@@ -56,6 +64,7 @@ const MyProfile: React.FC<Props> = (props) => {
           shop_address: e.target.address.value,
         },
       };
+
       if (socialRes === "Profile updated") {
         const { res: dbRes, err } = await EcommerceApi.editProfile(
           newProfileData,
@@ -70,6 +79,8 @@ const MyProfile: React.FC<Props> = (props) => {
         }
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   const dashboardSummaryData = [

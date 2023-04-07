@@ -112,13 +112,14 @@ const ProductEdit: React.FC<Props> = (props) => {
   };
   const handleProductUpdate = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
-    // console.log(productData);
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
     formData.append("image", image);
-    console.log(formData);
+
     const { res, err } = await EcommerceApi.uploadImage(formData);
+
     if (res?.data?.url || !res?.data?.url || res.error.code === 120) {
       let imageUrl;
       imageUrl = [res?.data?.url];
@@ -126,6 +127,7 @@ const ProductEdit: React.FC<Props> = (props) => {
       if (res?.data?.url === undefined || null) {
         imageUrl = productData?.imageURL;
       }
+
       const newProductData = {
         productName: e.target.productName.value,
         price: parseFloat(e.target.productPrice.value),
@@ -140,20 +142,18 @@ const ProductEdit: React.FC<Props> = (props) => {
         weight: parseFloat(e.target.weight.value),
         seoTitle: e.target.seo_title.value,
         seoDescription: e.target.seo_description.value,
-        // isTopProduct: isCheckedTop,
-        // isNewArrival: isCheckedNew,
-        // isBestProduct: isCheckedBest,
-        // isFeatured: isCheckedFeatured,
-        // isPopular: isCheckedPopular,
       };
-      const { res: editRes, err } = await EcommerceApi.editProducts(
+      const { res: postRes, err: postErr } = await EcommerceApi.editProducts(
         newProductData,
         productSlug
       );
-      if (editRes) {
+
+      if (postRes) {
         toast.success("Product Updated Successfully");
       }
     }
+
+    controller.setApiLoading(false);
   };
   console.log(selectedValue);
   return (

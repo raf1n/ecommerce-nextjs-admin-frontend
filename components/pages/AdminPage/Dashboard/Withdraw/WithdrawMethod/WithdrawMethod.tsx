@@ -31,7 +31,10 @@ const WithdrawMethod: React.FC<Props> = (props) => {
   // const { adminProductsData } = Jsondata;
   const router = useRouter();
   const { asPath } = router;
+  
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteWithdrawMethod(
       deleteModalSlug
     );
@@ -42,6 +45,8 @@ const WithdrawMethod: React.FC<Props> = (props) => {
       );
       setWithdrawMethods(remainingWithdrawMethods);
     }
+
+    controller.setApiLoading(false);
   };
 
   useEffect(() => {

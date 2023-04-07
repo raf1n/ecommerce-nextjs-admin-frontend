@@ -57,9 +57,12 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
   }, [searchString, sortBy, sortType]);
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteMegaMenuCategory(
       deleteModalSlug
     );
+
     if (res) {
       setDeleteModalSlug("");
       const remainingCategories = categoriesData.filter(
@@ -67,6 +70,8 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
       );
       setCategoriesData(remainingCategories);
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

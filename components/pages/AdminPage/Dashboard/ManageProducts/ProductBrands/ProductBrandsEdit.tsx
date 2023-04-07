@@ -31,6 +31,7 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
 
   const handleEdit = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const logo = e.target.logo.files[0];
     const formData = new FormData();
@@ -59,14 +60,14 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
       brandSlug
     );
 
-    console.log(brandRes, brandErr);
-
     if (brandRes) {
       toast.success("Brand Edited");
       setBrandData(brandRes);
     } else {
       console.log(brandErr);
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

@@ -213,6 +213,8 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
   ];
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteByModal(
       deleteModalSlug,
       "orders"
@@ -224,6 +226,8 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
       );
       setTodayOrdersData(remaining);
     }
+
+    controller.setApiLoading(false);
   };
 
   const tableHeaders = {

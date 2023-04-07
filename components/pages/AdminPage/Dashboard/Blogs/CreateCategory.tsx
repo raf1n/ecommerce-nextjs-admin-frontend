@@ -13,15 +13,22 @@ const CreateCategory: React.FC<Props> = (props) => {
 
   const handleSave = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const category = {
       name: e.target.name.value,
       // slug: e.target.slug.value,
       status: e.target.status.value,
     };
-    EcommerceApi.createCategory(category);
-    // console.log(category);
-    e.target.reset();
-    toast.success("Successfully added category !");
+
+    const { res, err } = await EcommerceApi.createCategory(category);
+
+    if (res) {
+      e.target.reset();
+      toast.success("Successfully added category !");
+    }
+
+    controller.setApiLoading(false);
   };
 
   return (

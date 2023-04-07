@@ -45,6 +45,8 @@ const FetchComments: React.FC<Props> = (props) => {
   }, [searchString, sortBy, sortType]);
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteSingleComment(
       deleteModalSlug
     );
@@ -55,6 +57,8 @@ const FetchComments: React.FC<Props> = (props) => {
       );
       setCommentsData(remaining);
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

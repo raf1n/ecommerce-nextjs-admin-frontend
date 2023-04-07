@@ -37,10 +37,13 @@ const EditSlider: React.FC<Props> = (props) => {
 
   const handleEdit = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
     formData.append("image", image);
     const { res, err } = await EcommerceApi.uploadSliderImage(formData);
+
     let imageUrl;
     if (res?.data?.url || !res?.data?.url) {
       imageUrl = res?.data?.url;
@@ -59,12 +62,18 @@ const EditSlider: React.FC<Props> = (props) => {
         status: e.target.status.value,
       };
 
-      const { res: editRes, err } = await EcommerceApi.editSlider(slider, slug);
+      const { res: editRes, err: editErr } = await EcommerceApi.editSlider(
+        slider,
+        slug
+      );
+
       if (editRes) {
         getSingleSlider();
         toast.success("Slider Updated");
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   useEffect(() => {

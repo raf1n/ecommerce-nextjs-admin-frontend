@@ -52,6 +52,8 @@ const FetchBlogs: React.FC<Props> = (props) => {
   }, [searchString, sortBy, sortType]);
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteSingleBlog(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
@@ -60,6 +62,8 @@ const FetchBlogs: React.FC<Props> = (props) => {
       );
       setBlogsData(remaining);
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

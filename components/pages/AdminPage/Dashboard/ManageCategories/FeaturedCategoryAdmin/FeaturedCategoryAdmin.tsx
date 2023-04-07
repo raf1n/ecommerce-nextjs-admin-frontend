@@ -25,6 +25,8 @@ const FeaturedCategoryAdmin: React.FC<Props> = (props) => {
   >([]);
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteFeaturedCategories(
       deleteModalSlug
     );
@@ -35,6 +37,8 @@ const FeaturedCategoryAdmin: React.FC<Props> = (props) => {
       );
       setFeaturedCategoriesData(remainingBrands);
     }
+
+    controller.setApiLoading(false);
   };
   useEffect(() => {
     const fetchAllCategoriesData = async () => {

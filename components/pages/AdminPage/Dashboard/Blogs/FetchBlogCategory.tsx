@@ -47,6 +47,8 @@ const FetchBlogCategory: React.FC<Props> = (props) => {
   }, []);
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteSingleCategory(
       deleteModalSlug
     );
@@ -57,6 +59,8 @@ const FetchBlogCategory: React.FC<Props> = (props) => {
       );
       setCategories(remaining);
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

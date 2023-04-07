@@ -30,7 +30,7 @@ const UpdateCoupon: React.FC<Props> = (props) => {
 
   const handleUpdate = async (e: any) => {
     e.preventDefault();
-    // console.log("eeee");
+    controller.setApiLoading(true);
 
     const couponInfo = {
       name: e.target.name.value,
@@ -41,16 +41,21 @@ const UpdateCoupon: React.FC<Props> = (props) => {
       discount: e.target.discount.value,
       status: e.target.status.value,
     };
-    console.log(couponInfo);
+
     const { res, err } = await EcommerceApi.updateCoupon(
       updateModalSlug,
       couponInfo
     );
+
     if (res) {
       setUpdateModalSlug("");
       toast.success("Coupon updated Successfully");
-    } else console.log(err);
-    e.target.reset();
+      e.target.reset();
+    } else {
+      console.log(err);
+    }
+
+    controller.setApiLoading(false);
   };
 
   return (

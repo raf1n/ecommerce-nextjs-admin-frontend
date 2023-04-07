@@ -50,12 +50,15 @@ const ShopProfile: React.FC<Props> = (props) => {
 
   const handleUpdateShop = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const logo = e.target.logoUrl.files[0];
     const cover = e.target.coverUrl.files[0];
     const formData1 = new FormData();
     formData1.append("image", logo);
     const formData2 = new FormData();
     formData2.append("image", cover);
+
     const { res: res1, err } = await EcommerceApi.uploadImage(formData1);
     if (res1?.data?.url || !res1?.data?.url) {
       let logoUrl;
@@ -63,6 +66,7 @@ const ShopProfile: React.FC<Props> = (props) => {
       if (res1?.data?.url === undefined || null) {
         logoUrl = shopData.shop.shop_logo;
       }
+
       const { res, err } = await EcommerceApi.uploadImage(formData2);
 
       if (res?.data?.url || !res?.data?.url) {
@@ -71,6 +75,7 @@ const ShopProfile: React.FC<Props> = (props) => {
         if (res?.data?.url === undefined || null) {
           coverUrl = shopData.shop.shop_cover;
         }
+
         const newShopData = {
           email: e.target.email.value,
           phone: e.target.phone.value,
@@ -103,6 +108,8 @@ const ShopProfile: React.FC<Props> = (props) => {
         }
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   return (
