@@ -534,7 +534,7 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/users/login`, requestOptions);
+    return await callFetch(`${API_ENDPOINT}/users/seller/login`, requestOptions);
   }
 
   //get user data for private route
