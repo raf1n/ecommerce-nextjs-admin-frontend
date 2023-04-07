@@ -59,9 +59,11 @@ const EditSlider: React.FC<Props> = (props) => {
         status: e.target.status.value,
       };
 
-      EcommerceApi.editSlider(slider, slug);
-      getSingleSlider();
-      toast.success("Slider Updated");
+      const { res: editRes, err } = await EcommerceApi.editSlider(slider, slug);
+      if (editRes) {
+        getSingleSlider();
+        toast.success("Slider Updated");
+      }
     }
   };
 

@@ -39,9 +39,11 @@ const CreateSlider: React.FC<Props> = (props) => {
         serial: e.target.serial.value,
         status: e.target.status.value,
       };
-      EcommerceApi.createSlider(sliders);
-      e.target.reset();
-      toast.success("Slider Created");
+      const { res: addRes, err } = await EcommerceApi.createSlider(sliders);
+      if (addRes) {
+        e.target.reset();
+        toast.success("Slider Created");
+      }
     }
   };
 

@@ -92,10 +92,15 @@ const ShopProfile: React.FC<Props> = (props) => {
           user_email: shopData.user_email,
         };
 
-        EcommerceApi.editShop(newShopData, states?.currentUser?.email);
-        console.log("newShopData-", newShopData);
-        e.target.reset();
-        toast.success("Successfully Updated !");
+        const { res: editRes, err } = await EcommerceApi.editShop(
+          newShopData,
+          states?.currentUser?.email
+        );
+        if (editRes) {
+          console.log("newShopData-", newShopData);
+          e.target.reset();
+          toast.success("Successfully Updated !");
+        }
       }
     }
   };

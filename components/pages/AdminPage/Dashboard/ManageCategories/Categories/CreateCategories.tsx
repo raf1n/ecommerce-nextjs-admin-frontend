@@ -32,9 +32,13 @@ const CreateCategories: React.FC<Props> = (props) => {
         cat_name: e.target.name.value,
         cat_status: e.target.status.value,
       };
-      toast.success("Categories added Successfully");
-      EcommerceApi.createCategories(categories);
-      e.target.reset();
+      const { res: addRes, err } = await EcommerceApi.createCategories(
+        categories
+      );
+      if (addRes) {
+        e.target.reset();
+        toast.success("Categories added Successfully");
+      }
     }
   };
 

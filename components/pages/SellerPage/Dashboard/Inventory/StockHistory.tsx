@@ -82,9 +82,14 @@ const StockHistory: React.FC<Props> = (props) => {
         stock: productData?.stock - stockData.quantity,
       };
 
-      EcommerceApi.editProducts(data, productData?.slug);
+      const { res: editRes, err } = await EcommerceApi.editProducts(
+        data,
+        productData?.slug
+      );
       console.log(res);
-      setDeleteModalSlug("");
+      if (editRes) {
+        setDeleteModalSlug("");
+      }
     }
   };
 

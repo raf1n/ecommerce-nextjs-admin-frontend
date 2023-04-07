@@ -72,10 +72,14 @@ const FlashSale: React.FC<Props> = (props) => {
           imageFlash: imageFlash,
         };
         console.log(flashSaleData);
-        EcommerceApi.editFlashSale(flashSaleData);
-        e.target.reset();
-        setSelectedImage(null);
-        toast.success("FlashSale Content Updated");
+        const { res: editRes, err } = await EcommerceApi.editFlashSale(
+          flashSaleData
+        );
+        if (editRes) {
+          e.target.reset();
+          setSelectedImage(null);
+          toast.success("FlashSale Content Updated");
+        }
       }
     }
   };

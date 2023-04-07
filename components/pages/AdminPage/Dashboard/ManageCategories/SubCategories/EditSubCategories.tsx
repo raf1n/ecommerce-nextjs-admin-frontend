@@ -62,9 +62,14 @@ const EditSubCategories: React.FC<Props> = (props) => {
       slug: e.target.slug.value,
       subcat_status: e.target.status.value,
     };
-    EcommerceApi.editSubCategories(subCategories, subCatSlug);
-    e.target.reset();
-    toast.success("SubCategories updated");
+    const { res: editRes, err } = await EcommerceApi.editSubCategories(
+      subCategories,
+      subCatSlug
+    );
+    if (editRes) {
+      e.target.reset();
+      toast.success("SubCategories updated");
+    }
   };
   return (
     <div className="w-full ">

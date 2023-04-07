@@ -6,6 +6,7 @@ import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import { toast } from "react-hot-toast";
+import { add } from "date-fns";
 
 interface Props {}
 
@@ -25,9 +26,13 @@ const CreateSubCategories: React.FC<Props> = (props) => {
       slug: e.target.slug.value,
       subcat_status: e.target.status.value,
     };
-    EcommerceApi.createSubCategories(subCategories);
-    e.target.reset();
-    toast.success("SubCategories added");
+    const { res: addRes, err } = await EcommerceApi.createSubCategories(
+      subCategories
+    );
+    if (addRes) {
+      e.target.reset();
+      toast.success("SubCategories added");
+    }
   };
 
   useEffect(() => {

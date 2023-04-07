@@ -146,8 +146,13 @@ const ProductEdit: React.FC<Props> = (props) => {
         // isFeatured: isCheckedFeatured,
         // isPopular: isCheckedPopular,
       };
-      EcommerceApi.editProducts(newProductData, productSlug);
-      toast.success("Product Updated Successfully");
+      const { res: editRes, err } = await EcommerceApi.editProducts(
+        newProductData,
+        productSlug
+      );
+      if (editRes) {
+        toast.success("Product Updated Successfully");
+      }
     }
   };
   console.log(selectedValue);

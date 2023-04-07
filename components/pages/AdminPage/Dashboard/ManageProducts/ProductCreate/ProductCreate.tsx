@@ -113,10 +113,12 @@ const ProductCreate: React.FC<Props> = (props) => {
         addedBy: "admin",
       };
       console.log(productData);
-      EcommerceApi.addProducts(productData);
-      e.target.reset();
-      setSelectedImage(null);
-      toast.success("Product Created Successfully");
+      const { res: addRes, err } = await EcommerceApi.addProducts(productData);
+      if (addRes) {
+        e.target.reset();
+        setSelectedImage(null);
+        toast.success("Product Created Successfully");
+      }
     }
   };
 
