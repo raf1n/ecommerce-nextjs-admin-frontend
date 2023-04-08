@@ -23,6 +23,7 @@ import {
   IOrderSellerResponse,
   IFeaturedResponseCategories,
   IflashSaleResponse,
+  ISubscriberResponse,
 } from "./../../interfaces/response";
 import {
   IAd,
@@ -1728,7 +1729,10 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/comments/${slug}`, requestOptions);
+    return await callFetch(
+      `${API_ENDPOINT}/blog-comments/${slug}`,
+      requestOptions
+    );
   }
 
   //flash sale content get
@@ -1874,6 +1878,35 @@ export class EcommerceApi {
     };
     return await callFetch(
       `${API_ENDPOINT}/orders/seller_slug/${sellerSlug}?${query}`,
+      requestOptions
+    );
+  }
+
+  // fetch all subscriber
+  static async fetchAllSubscribers(
+    query: string
+  ): Promise<ISubscriberResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/subscriber?${query}`,
+      requestOptions
+    );
+  }
+
+  // delete subscriber
+  static async deleteSubscriber(slug: string): Promise<ISubscriberResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/subscriber/${slug}`,
       requestOptions
     );
   }

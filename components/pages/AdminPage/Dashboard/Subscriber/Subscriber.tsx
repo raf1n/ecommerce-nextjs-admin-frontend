@@ -1,67 +1,67 @@
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FaLongArrowAltDown, FaLongArrowAltUp, FaTrash } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import { FaLongArrowAltDown, FaLongArrowAltUp, FaTrash } from "react-icons/fa";
 import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
-import ToggleButton from "../ManageCategories/ToggleButton/ToggleButton";
+import Link from "next/link";
+import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
+import { toast } from "react-hot-toast";
 
 interface Props {}
-const tableHeaders = {
-  sn: "sn",
-  name: "name",
-  email: "email",
-  comment: "comment",
-  blog: "blog",
-  status: "status",
-  action: "action",
-};
 
-const FetchComments: React.FC<Props> = (props) => {
+const Subscriber: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-
-  const [commentsData, setCommentsData] = useState<any[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
-  //sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&status=active
+  // ISubscriber
+  const [subscribers, setSubscribers] = useState<any[]>([]);
+  // --------------------------------
   useEffect(() => {
-    const getAllComments = async () => {
-      const { res, err } = await EcommerceApi.getAllComments(
+    const fetchSubscribers = async () => {
+      const { res, err } = await EcommerceApi.fetchAllSubscribers(
         `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
       if (res) {
-        setCommentsData(res);
+        setSubscribers(res);
       } else {
         console.log(err);
       }
     };
 
-    getAllComments();
+    fetchSubscribers();
   }, [searchString, sortBy, sortType]);
 
+  // ----------------------------------------------------------
   const handleDelete = async () => {
-    const { res, err } = await EcommerceApi.deleteSingleComment(
-      deleteModalSlug
-    );
+    const { res, err } = await EcommerceApi.deleteSubscriber(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
-      const remaining = commentsData.filter(
-        (remainingData) => remainingData.slug !== deleteModalSlug
+      const remaining = subscribers.filter(
+        (remiaing) => remiaing.slug !== deleteModalSlug
       );
-      setCommentsData(remaining);
+      setSubscribers(remaining);
+      toast.success("Deleted successfully !");
+    } else {
+      toast.error("Something error");
     }
   };
-
+  // ----------------------------------
+  const tableHeaders = {
+    sn: "sn",
+    Email: "email",
+    Verified: "verified",
+    Action: "action",
+  };
+  // ----------------------------------
   return (
     <div className="w-full">
       <DashboardBreadcrumb
-        headline="Comments"
-        slug="Blogs"
-        link="/admin/comments"
+        headline="Subscriber"
+        slug="Subscriber"
+        link="/admin/subscriber"
       />
 
       <div className="mx-[25px]">
@@ -147,44 +147,26 @@ const FetchComments: React.FC<Props> = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {commentsData.map((data, indx) => (
+                        {subscribers.map((data, index) => (
                           <tr
-                            key={indx}
+                            key={index}
                             className="even:bg-gray-100 odd:bg-white">
                             <td className="px-5 py-5  text-sm">
-                              <p className="text-gray-600 whitespace-no-wrap">
-                                {indx + 1}
+                              <p className="text-gray-900 whitespace-no-wrap">
+                                {index + 1}
                               </p>
                             </td>
                             <td className="px-5 py-5 text-sm text-left">
-                              <p className="text-gray-600 ">{data.name}</p>
+                              <p className="text-gray-900 whitespace-no-wrap">
+                                {data?.email}
+                              </p>
                             </td>
                             <td className="px-5 py-5 text-sm ">
-                              <p className="text-gray-600 ">{data.email}</p>
-                            </td>
-                            <td className="px-5 py-5 text-sm ">
-                              <p className="text-gray-600 ">{data.comment}</p>
-                            </td>
-
-                            <td className="px-5 py-5 text-sm text-center">
-                              <Link
-                                href={`http://localhost:3000/blogs/blog?slug=${data.blogSlug}`}>
-                                <p className="text-gray-600  ">
-                                  <span
-                                    className={`bg-[#47c363] px-2 py-1 text-white rounded shadow-green-500 capitalize`}>
-                                    view
-                                  </span>
-                                </p>
-                              </Link>
+                              <p className="text-gray-900 whitespace-no-wrap">
+                                {data?.user_slug}
+                              </p>
                             </td>
 
-                            <td className="px-3 py-3 text-sm ">
-                              <ToggleButton
-                                slug={data?.slug}
-                                apiUrl="blog-comments/edit-status"
-                                status={data?.status}
-                              />
-                            </td>
                             <td className="px-3 py-3 text-sm">
                               <button>
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
@@ -254,4 +236,4 @@ const FetchComments: React.FC<Props> = (props) => {
   );
 };
 
-export default FetchComments;
+export default Subscriber;

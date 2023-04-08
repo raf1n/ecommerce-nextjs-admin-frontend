@@ -275,3 +275,8 @@ export interface IFlashSale {
   imageHome: Array<string>;
   imageFlash: Array<string>;
 }
+export interface ISubscriber {
+  slug?: string;
+  email?: string;
+  verified?: boolean;
+}
