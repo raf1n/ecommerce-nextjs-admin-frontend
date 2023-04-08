@@ -28,7 +28,11 @@ const AddNewCoupon: React.FC<Props> = (props) => {
       items_number: e.target.items_number.value,
       expired_date: e.target.expired_date.value,
       minimum_purchase: e.target.purchase.value,
-      discount: e.target.discount.value,
+      discount: {
+        value: e.target.price.value,
+        role: e.target.role.value,
+      },
+
       status: e.target.status.value,
     };
 
@@ -126,7 +130,7 @@ const AddNewCoupon: React.FC<Props> = (props) => {
                     </div>
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      type="text"
+                      type="date"
                       name="expired_date"
                       id=""
                     />
@@ -159,13 +163,28 @@ const AddNewCoupon: React.FC<Props> = (props) => {
                       </label>
                       <span className="text-red-500 ml-2">*</span>
                     </div>
-                    <input
-                      min={0}
-                      className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      type="number"
-                      name="discount"
-                      id=""
-                    />
+                    <div className="flex ">
+                      <div className="w-1/4">
+                        <select
+                          className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
+                          name="role"
+                          id=""
+                        >
+                          <option value="percent">Percentage(%)</option>
+                          <option value="amount">Amount($)</option>
+                        </select>
+                      </div>
+                      <div className="w-3/4">
+                        <input
+                          min={0}
+                          className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
+                          type="number"
+                          name="price"
+                          id=""
+                          placeholder="Discount"
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div className="mt-4">
                     <div className="my-2">

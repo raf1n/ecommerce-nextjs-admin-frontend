@@ -38,8 +38,12 @@ const UpdateCoupon: React.FC<Props> = (props) => {
       items_number: e.target.items_number.value,
       expired_date: e.target.expired_date.value,
       minimum_purchase: e.target.purchase.value,
-      discount: e.target.discount.value,
+      discount: {
+        value: e.target.price.value,
+        role: e.target.role.value,
+      },
       status: e.target.status.value,
+      role: e.target.role.value,
     };
 
     const { res, err } = await EcommerceApi.updateCoupon(
@@ -175,13 +179,28 @@ const UpdateCoupon: React.FC<Props> = (props) => {
                       </label>
                       <span className="text-red-500 ml-2">*</span>
                     </div>
-                    <input
-                      defaultValue={singleCouponData?.discount}
-                      className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      type="number"
-                      name="discount"
-                      id=""
-                    />
+                    <div className="flex">
+                      <div className="w-1/4">
+                        <select
+                          className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
+                          name="role"
+                          id=""
+                        >
+                          <option value="percent">Percentage(%)</option>
+                          <option value="amount">Amount($)</option>
+                        </select>
+                      </div>
+                      <div>
+                        <input
+                          min={0}
+                          defaultValue={singleCouponData?.discount.value}
+                          className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
+                          type="number"
+                          name="price"
+                          id=""
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div className="mt-4">
                     <div className="my-2">
