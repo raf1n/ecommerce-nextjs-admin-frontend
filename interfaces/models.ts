@@ -264,9 +264,9 @@ export interface ISeo {
 }
 
 export interface IBlogCategory extends MyFetchInterface {
-  name: string;
+  name?: string;
   slug?: string;
-  status: string;
+  status?: string;
 }
 
 export interface IFlashSale {
@@ -277,4 +277,9 @@ export interface IFlashSale {
   status: string;
   imageHome: Array<string>;
   imageFlash: Array<string>;
+}
+export interface ISubscriber {
+  slug?: string;
+  email?: string;
+  verified?: boolean;
 }

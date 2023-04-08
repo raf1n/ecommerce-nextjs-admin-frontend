@@ -1,79 +1,69 @@
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import {
-  FaEdit,
-  FaLongArrowAltDown,
-  FaLongArrowAltUp,
-  FaTrash,
-} from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { IBlog } from "../../../../../interfaces/models";
-import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../src/state/StateController";
-import SharedAddNewButton from "../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import { FaLongArrowAltDown, FaLongArrowAltUp, FaTrash } from "react-icons/fa";
 import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
-import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
-import ToggleButton from "../ManageCategories/ToggleButton/ToggleButton";
+import Link from "next/link";
+import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
+import { toast } from "react-hot-toast";
 
 interface Props {}
-const tableHeaders = {
-  sn: "sn",
-  Title: "title",
-  Category: "catSlug",
-  image: "imageURL",
-  "Show Homepage": "isShowHomepage",
-  status: "status",
-  action: "action",
-};
 
-const FetchBlogs: React.FC<Props> = (props) => {
+const Subscriber: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-
-  const [blogsData, setBlogsData] = useState<IBlog[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
-
+  // ISubscriber
+  const [subscribers, setSubscribers] = useState<any[]>([]);
+  // --------------------------------
   useEffect(() => {
-    const fetchAllBlogs = async () => {
-      const { res, err } = await EcommerceApi.getAllBlogs();
-      if (err) {
-        console.log(err);
+    const fetchSubscribers = async () => {
+      const { res, err } = await EcommerceApi.fetchAllSubscribers(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
+      if (res) {
+        setSubscribers(res);
       } else {
-        setBlogsData(res);
+        console.log(err);
       }
     };
 
-    fetchAllBlogs();
+    fetchSubscribers();
   }, [searchString, sortBy, sortType]);
 
+  // ----------------------------------------------------------
   const handleDelete = async () => {
-    controller.setApiLoading(true);
-
-    const { res, err } = await EcommerceApi.deleteSingleBlog(deleteModalSlug);
+    const { res, err } = await EcommerceApi.deleteSubscriber(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
-      const remaining = blogsData.filter(
-        (remainingData) => remainingData.slug !== deleteModalSlug
+      const remaining = subscribers.filter(
+        (remiaing) => remiaing.slug !== deleteModalSlug
       );
-      setBlogsData(remaining);
+      setSubscribers(remaining);
+      toast.success("Deleted successfully !");
+    } else {
+      toast.error("Something error");
     }
-
-    controller.setApiLoading(false);
   };
-
+  // ----------------------------------
+  const tableHeaders = {
+    sn: "sn",
+    Email: "email",
+    Verified: "verified",
+    Action: "action",
+  };
+  // ----------------------------------
   return (
     <div className="w-full">
-      <DashboardBreadcrumb headline="Blogs" slug="Blogs" link="/admin/blogs" />
-      <div className="m-6">
-        <div className="section-body">
-          <Link className="inline-block" href="/admin/blogs/post_blog/">
-            <SharedAddNewButton />
-          </Link>
-        </div>
-      </div>
+      <DashboardBreadcrumb
+        headline="Subscriber"
+        slug="Subscriber"
+        link="/admin/subscriber"
+      />
+
       <div className="mx-[25px]">
         <div className="section-body">
           <div className="mt-7">
@@ -157,67 +147,27 @@ const FetchBlogs: React.FC<Props> = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {blogsData?.map((data, indx) => (
+                        {subscribers.map((data, index) => (
                           <tr
-                            key={indx}
+                            key={index}
                             className="even:bg-gray-100 odd:bg-white">
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
-                                {indx + 1}
+                                {index + 1}
                               </p>
                             </td>
                             <td className="px-5 py-5 text-sm text-left">
-                              <Link
-                                href={`http://localhost:3000/blogs/blog?slug=${data?.slug}`}>
-                                <p className="text-blue-500 whitespace-no-wrap">
-                                  {data.title}
-                                </p>
-                              </Link>
+                              <p className="text-gray-900 whitespace-no-wrap">
+                                {data?.email}
+                              </p>
                             </td>
                             <td className="px-5 py-5 text-sm ">
                               <p className="text-gray-900 whitespace-no-wrap">
-                                {data.category}
+                                {data?.user_slug}
                               </p>
-                            </td>
-                            <td className="px-3 py-3 ">
-                              {data && data.imageURL && (
-                                <img
-                                  src={data.imageURL}
-                                  className="w-[100px] h-[100px] object-cover rounded-full"
-                                />
-                              )}
                             </td>
 
-                            <td className="px-5 py-5 text-sm text-center">
-                              <p className="text-gray-900  whitespace-no-wrap">
-                                <span
-                                  className={` ${
-                                    data.isShowHomepage === "yes"
-                                      ? "bg-[#47c363]"
-                                      : "bg-[#fc544b]"
-                                  } px-3 py-1 text-white rounded-3xl capitalize`}>
-                                  {data.isShowHomepage}
-                                </span>
-                              </p>
-                            </td>
-                            <td className="px-3 py-3 text-sm ">
-                              <ToggleButton
-                                slug={data?.slug}
-                                apiUrl="blogs/edit-status"
-                                status={data?.status}
-                              />
-                            </td>
                             <td className="px-3 py-3 text-sm">
-                              <Link href={`/admin/blogs/${data.slug}/edit`}>
-                                <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                                  <span
-                                    style={{ boxShadow: "0 2px 6px #acb5f6" }}
-                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center">
-                                    <FaEdit />
-                                  </span>
-                                </span>
-                              </Link>
-
                               <button>
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
@@ -286,4 +236,4 @@ const FetchBlogs: React.FC<Props> = (props) => {
   );
 };
 
-export default FetchBlogs;
+export default Subscriber;

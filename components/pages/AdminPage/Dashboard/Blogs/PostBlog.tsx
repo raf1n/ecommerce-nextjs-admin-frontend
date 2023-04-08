@@ -12,6 +12,7 @@ import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/Das
 import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import SharedTiptap from "./SharedTiptap";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 interface Props {}
 
@@ -19,9 +20,10 @@ const PostBlog: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const [selectedImage, setSelectedImage] = useState(null);
   const [categories, setCategories] = useState<IBlogCategory[]>([]);
+  const router = useRouter();
 
   const FetchBlogCat = async () => {
-    const { res, err } = await EcommerceApi.getAllBlogCategories();
+    const { res, err } = await EcommerceApi.getAllBlogCategoriesForBlog();
     if (res) {
       setCategories(res);
     } else {

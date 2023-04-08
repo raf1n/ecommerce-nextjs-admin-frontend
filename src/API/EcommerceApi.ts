@@ -23,6 +23,7 @@ import {
   IOrderSellerResponse,
   IFeaturedResponseCategories,
   IflashSaleResponse,
+  ISubscriberResponse,
 } from "./../../interfaces/response";
 import {
   IAd,
@@ -1652,13 +1653,13 @@ export class EcommerceApi {
   }
 
   //Get all blogs
-  static async getAllBlogs(query: string): Promise<IBlogResponse> {
+  static async getAllBlogs(): Promise<IBlogResponse> {
     const myHeaders = new Headers();
     const requestOptions = {
       headers: myHeaders,
       redirect: "follow",
     };
-    return await callFetch(`${API_ENDPOINT}/blogs?${query}`, requestOptions);
+    return await callFetch(`${API_ENDPOINT}/blogs/for-admin`, requestOptions);
   }
 
   //create blog categorie
@@ -1686,6 +1687,19 @@ export class EcommerceApi {
     };
 
     return await callFetch(`${API_ENDPOINT}/blogcategories`, requestOptions);
+  }
+  //get all categories
+  static async getAllBlogCategoriesForBlog(): Promise<IBlogCategoryResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    return await callFetch(
+      `${API_ENDPOINT}/blogcategories/for-blog`,
+      requestOptions
+    );
   }
 
   //  edit shop
@@ -1777,7 +1791,10 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/comments/${slug}`, requestOptions);
+    return await callFetch(
+      `${API_ENDPOINT}/blog-comments/${slug}`,
+      requestOptions
+    );
   }
 
   //flash sale content get
@@ -1844,6 +1861,20 @@ export class EcommerceApi {
     };
     return await callFetch(`${API_ENDPOINT}/blogs/${slug}`, requestOptions);
   }
+  // get single blog category
+  static async getSingleBlogCategory(
+    slug: string
+  ): Promise<ISingleBlogCategoryResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/blogcategories/${slug}`,
+      requestOptions
+    );
+  }
 
   //  edit blogs
   static async editBlogs(
@@ -1860,6 +1891,26 @@ export class EcommerceApi {
       redirect: "follow",
     };
     return await callFetch(`${API_ENDPOINT}/blogs/${slug}`, requestOptions);
+  }
+
+  //  edit blog category
+  static async editBlogCategory(
+    data: Partial<IBlogCategory>,
+    slug: string
+  ): Promise<ISingleBlogCategoryResponse> {
+    console.log("blogcattt edit data-", data, slug);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/blogcategories/${slug}`,
+      requestOptions
+    );
   }
 
   // Get all orders for seller wise
@@ -1889,6 +1940,35 @@ export class EcommerceApi {
     };
     return await callFetch(
       `${API_ENDPOINT}/orders/seller_slug/${sellerSlug}?${query}`,
+      requestOptions
+    );
+  }
+
+  // fetch all subscriber
+  static async fetchAllSubscribers(
+    query: string
+  ): Promise<ISubscriberResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/subscriber?${query}`,
+      requestOptions
+    );
+  }
+
+  // delete subscriber
+  static async deleteSubscriber(slug: string): Promise<ISubscriberResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/subscriber/${slug}`,
       requestOptions
     );
   }
