@@ -32,6 +32,8 @@ const SubCategories: React.FC<Props> = (props) => {
   const [searchString, setSearchString] = useState("");
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteSubCategories(
       deleteModalSlug
     );
@@ -42,21 +44,10 @@ const SubCategories: React.FC<Props> = (props) => {
       );
       setSubCategoriesData(remainingBrands);
     }
+
+    controller.setApiLoading(false);
   };
 
-  // useEffect(() => {
-  //   const fetchAllSubCategoriesData = async () => {
-  //     const { res, err } = await EcommerceApi.allSubCategories();
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       setSubCategoriesData(res);
-  //       console.log(res);
-  //       // console.log(res);
-  //     }
-  //   };
-  //   fetchAllSubCategoriesData();
-  // }, []);
   useEffect(() => {
     const fetchAllSubCategoriesAdminData = async () => {
       const { res, err } = await EcommerceApi.allSubCategoriesAdmin(

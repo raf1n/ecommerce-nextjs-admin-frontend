@@ -13,12 +13,9 @@ const ProductsToggleButton: React.FC<Props> = ({ status, slug }) => {
 
   const [toggleStatus, setToggleStatus] = useState(status);
 
-  console.log({
-    status,
-    toggleStatus,
-  });
-
   const handleClick = async () => {
+    controller.setApiLoading(true);
+
     let patchStatus;
 
     if (toggleStatus === "active") {
@@ -31,6 +28,8 @@ const ProductsToggleButton: React.FC<Props> = ({ status, slug }) => {
     if (res) {
       setToggleStatus(res.status);
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

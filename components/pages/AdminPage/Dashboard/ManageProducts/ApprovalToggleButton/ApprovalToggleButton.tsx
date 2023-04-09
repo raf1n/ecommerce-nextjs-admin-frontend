@@ -19,6 +19,8 @@ const ApprovalToggleButton: React.FC<Props> = ({ status, slug }) => {
   });
 
   const handleClick = async () => {
+    controller.setApiLoading(true);
+    
     let patchStatus;
 
     if (toggleStatus === "approved") {
@@ -34,6 +36,8 @@ const ApprovalToggleButton: React.FC<Props> = ({ status, slug }) => {
     if (res) {
       setToggleStatus(res.approvalStatus);
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

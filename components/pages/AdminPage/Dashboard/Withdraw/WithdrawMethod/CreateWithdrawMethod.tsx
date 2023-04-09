@@ -5,6 +5,7 @@ import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -13,6 +14,7 @@ const CreateWithdrawMethod: React.FC<Props> = (props) => {
 
   const handleSave = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const formData = {
       name: e.target.name.value,
@@ -26,7 +28,10 @@ const CreateWithdrawMethod: React.FC<Props> = (props) => {
 
     if (res) {
       e.target.reset();
+      toast.success("Withdraw method added");
     }
+
+    controller.setApiLoading(false);
   };
 
   return (
@@ -51,7 +56,6 @@ const CreateWithdrawMethod: React.FC<Props> = (props) => {
             <div className="p-5 leading-6">
               <form onSubmit={handleSave} action="">
                 <div>
-
                   <div className="mt-4">
                     <div className="my-2">
                       <label
@@ -79,7 +83,7 @@ const CreateWithdrawMethod: React.FC<Props> = (props) => {
                       >
                         Minimum Amount
                       </label>
-                      <span className='text-red-500 ml-2'>*</span>
+                      <span className="text-red-500 ml-2">*</span>
                     </div>
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
@@ -99,7 +103,7 @@ const CreateWithdrawMethod: React.FC<Props> = (props) => {
                       >
                         Maximum Amount
                       </label>
-                      <span className='text-red-500 ml-2'>*</span>
+                      <span className="text-red-500 ml-2">*</span>
                     </div>
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
@@ -119,7 +123,7 @@ const CreateWithdrawMethod: React.FC<Props> = (props) => {
                       >
                         Withdraw Charge (%)
                       </label>
-                      <span className='text-red-500 ml-2'>*</span>
+                      <span className="text-red-500 ml-2">*</span>
                     </div>
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
@@ -139,7 +143,7 @@ const CreateWithdrawMethod: React.FC<Props> = (props) => {
                       >
                         Description
                       </label>
-                      <span className='text-red-500 ml-2'>*</span>
+                      <span className="text-red-500 ml-2">*</span>
                     </div>
                     <textarea
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
@@ -148,7 +152,7 @@ const CreateWithdrawMethod: React.FC<Props> = (props) => {
                       required
                     />
                   </div>
-                  
+
                   <div className="mt-4">
                     <button
                       type="submit"

@@ -5,6 +5,8 @@ import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { toast } from "react-hot-toast";
+import { add } from "date-fns";
 
 interface Props {}
 
@@ -14,18 +16,22 @@ const CreateSubCategories: React.FC<Props> = (props) => {
 
   const handleUpdate = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const subCategories = {
-      // cat_imag
-
       cat_slug: e.target.catName.value,
       subcat_name: e.target.subCatname.value,
-      // cat_slug: e.target.slug.value,
-      slug: e.target.slug.value,
       subcat_status: e.target.status.value,
     };
-    EcommerceApi.createSubCategories(subCategories);
-    e.target.reset();
+
+    const { res, err } = await EcommerceApi.createSubCategories(subCategories);
+
+    if (res) {
+      e.target.reset();
+      toast.success("SubCategories added");
+    }
+
+    controller.setApiLoading(false);
   };
 
   useEffect(() => {

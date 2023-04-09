@@ -4,6 +4,7 @@ import { HiOutlineX } from "react-icons/hi";
 import { controller } from "../../../../../../../src/state/StateController";
 import { EcommerceApi } from "../../../../../../../src/API/EcommerceApi";
 import { ICoupon } from "../../../../../../../interfaces/models";
+import { toast } from "react-hot-toast";
 
 interface Props {
   title: string;
@@ -29,7 +30,7 @@ const UpdateCoupon: React.FC<Props> = (props) => {
 
   const handleUpdate = async (e: any) => {
     e.preventDefault();
-    // console.log("eeee");
+    controller.setApiLoading(true);
 
     const couponInfo = {
       name: e.target.name.value,
@@ -44,15 +45,21 @@ const UpdateCoupon: React.FC<Props> = (props) => {
       status: e.target.status.value,
       role: e.target.role.value,
     };
-    console.log(couponInfo);
+
     const { res, err } = await EcommerceApi.updateCoupon(
       updateModalSlug,
       couponInfo
     );
+
     if (res) {
       setUpdateModalSlug("");
-    } else console.log(err);
-    e.target.reset();
+      toast.success("Coupon updated Successfully");
+      e.target.reset();
+    } else {
+      console.log(err);
+    }
+
+    controller.setApiLoading(false);
   };
 
   return (

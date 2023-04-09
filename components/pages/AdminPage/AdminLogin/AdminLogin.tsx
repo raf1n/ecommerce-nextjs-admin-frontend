@@ -6,6 +6,7 @@ import { EcommerceApi } from "../../../../src/API/EcommerceApi";
 import { controller } from "../../../../src/state/StateController";
 import { CookiesHandler } from "../../../../src/utils/CookiesHandler";
 import { SocialLogin } from "../../../helpers/SocialLogin";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -29,42 +30,62 @@ const AdminLogin: React.FC<Props> = (props) => {
     setErrorLogin(false);
     setSuccessLogin(false);
     setLoggedinSendVerifyText("Verification sent");
+    toast.success("Verification sent");
   };
 
   const handleEmailPasswordLogin = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const loginPassword = e.target.password.value;
     const loginEmail = e.target.email.value;
+
     if (loginPassword.length > 15) {
       setErrorLogin(true);
-      setErrorTextLogin("Password can not be more than 15 characters");
+      toast.error("Password can not be more than 15 characters");
+      controller.setApiLoading(false);
+      return;
     } else if (loginEmail.length > 50) {
       setErrorLogin(true);
-      setErrorTextLogin("Email can not be more than 50 characters");
+      toast.error("Email can not be more than 50 characters");
+      controller.setApiLoading(false);
+      return;
+    }
+
+    const { res, err } = await EcommerceApi.getUserByEmail(loginEmail);
+    if (!res?.email) {
+      toast.error(
+        "Sorry, we could not find you in our database. If you think there is an error please contact service."
+      );
+      controller.setApiLoading(false);
+      return;
+    } else if (res.status === "inactive") {
+      toast.error("Your account is currently inactive.");
+      controller.setApiLoading(false);
+      return;
     } else {
       const { res, err } = await SocialLogin.loginWithEmailPassword(
         loginEmail,
         loginPassword
       );
-      console.log(res);
+
       if (err) {
         setErrorLogin(true);
         setSuccessLogin(false);
         setErrorTextLogin(err);
       } else {
-        console.log("resss", res);
         setErrorLogin(false);
+
         if (!res.user.emailVerified) {
           console.log("kkk");
           setLoggedinSendVerify(true);
           setLoggedinSendVerifyText("verify first and login again");
         } else {
-          setLoggedinSendVerify(false);
-          console.log("resooooo", res);
           const token = res?.user?.accessToken;
           const user = res.user;
-          console.log("email", user?.email);
-          console.log("name", user?.displayName);
+
+          setLoggedinSendVerify(false);
+
           if (token && user?.email) {
             console.log("enter");
             const { email, displayName } = user;
@@ -74,28 +95,25 @@ const AdminLogin: React.FC<Props> = (props) => {
               email: email,
               avatar: "https://tinyurl.com/382e6w5t",
               fullName: displayName !== null ? displayName : "",
-              // role: "admin",
             };
+
             const { res, err } = await EcommerceApi.login(data);
             if (err) {
               setErrorLogin(true);
               setSuccessLogin(false);
-              setErrorTextLogin("Server Error");
+              toast.error("Server Error");
             } else {
               if (res.role == "buyer") {
+                SocialLogin.logOut();
                 setErrorLogin(true);
-                setErrorTextLogin("Already registered as Buyer");
-                // } else if (res.role == "seller") {
-                //   setErrorLogin(true);
-                //   setErrorTextLogin("Already registered as Seller");
+                toast.success("Already registered as Buyer");
               } else if (res.slug && res.access_token) {
                 controller.setCurrentUser(res);
-                console.log(res);
                 setErrorLogin(false);
                 setSuccessLogin(true);
                 CookiesHandler.setAccessToken(res.access_token);
                 CookiesHandler.setSlug(res.slug as string);
-                setSuccessTextLogin("SignIn Success");
+                toast.success("You have signed In Successfully!");
                 if (res.role == "admin") {
                   router.push("/admin");
                 } else if (res.role == "seller") {
@@ -107,6 +125,8 @@ const AdminLogin: React.FC<Props> = (props) => {
         }
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   return (
@@ -203,23 +223,25 @@ const AdminLogin: React.FC<Props> = (props) => {
               {successLogin && (
                 <div style={{ color: "black" }}>{successTextLogin}</div>
               )}
-              {loggedinSendVerify && (
-                <button
-                  type="submit"
-                  style={{
-                    backgroundColor: "blue",
-                    borderRadius: "10px",
-                    margin: "10px 0",
-                    width: "300px",
-                    color: "white",
-                  }}
-                  onClick={() => {
-                    sendEmailVerify();
-                  }}
-                >
-                  {loggedinSendVerifyText}
-                </button>
-              )}
+              <div className="flex justify-center">
+                {loggedinSendVerify && (
+                  <button
+                    type="submit"
+                    style={{
+                      backgroundColor: "grey",
+                      borderRadius: "15px",
+                      margin: "10px 0",
+                      width: "260px",
+                      color: "white",
+                    }}
+                    onClick={() => {
+                      sendEmailVerify();
+                    }}
+                  >
+                    {loggedinSendVerifyText}
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>

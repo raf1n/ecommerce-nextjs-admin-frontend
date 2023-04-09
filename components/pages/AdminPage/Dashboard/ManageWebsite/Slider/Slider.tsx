@@ -34,17 +34,13 @@ const Slider: React.FC<Props> = (props) => {
   const tableHeaders = {
     Image: "image",
     Serial: "serial",
-    // Discount: "discount",
-    // icon: "cat_icon",
-    // type: "type",
-    // "Number of times": "items_number",
-    // "Apply Qty": "apply_qty",
-    // "Expired Date": "expired_date",
     Status: "status",
     Action: "action",
   };
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteSlider(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
@@ -53,6 +49,8 @@ const Slider: React.FC<Props> = (props) => {
       );
       setSliderData(remainingSlider);
     }
+
+    controller.setApiLoading(false);
   };
 
   useEffect(() => {

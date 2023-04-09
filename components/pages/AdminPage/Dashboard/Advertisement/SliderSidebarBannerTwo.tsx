@@ -4,6 +4,7 @@ import { controller } from "../../../../../src/state/StateController";
 import Select from "react-select";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { IAd, ICategories } from "../../../../../interfaces/models";
+import { toast } from "react-hot-toast";
 interface Props {
   adName: string;
   allCategories: ICategories[];
@@ -51,10 +52,14 @@ const SliderSidebarBannerTwo: React.FC<Props> = (props) => {
 
   const handleAdUpdate = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
     formData.append("image", image);
+
     const { res, err } = await EcommerceApi.uploadImage(formData);
+
     if (res?.data?.url || !res?.data?.url) {
       let imageUrl;
       imageUrl = res?.data?.url;
@@ -62,6 +67,7 @@ const SliderSidebarBannerTwo: React.FC<Props> = (props) => {
       if (res?.data?.url === undefined || err) {
         imageUrl = "" || ad?.adImage;
       }
+
       const adData = {
         title_one: e.target.titleOne.value,
         title_two: e.target.titleTwo.value,
@@ -70,16 +76,20 @@ const SliderSidebarBannerTwo: React.FC<Props> = (props) => {
         category_link: e.target.category.value,
         status: e.target.status.value,
       };
-      console.log(adData);
+      
       const { res: adRes, err: adErr } = await EcommerceApi.updateAd(
         ad?.slug,
         adData
       );
+
       if (adRes) {
         console.log(adRes);
+        toast.success("Ad Updated");
         setRefresh(!refresh);
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

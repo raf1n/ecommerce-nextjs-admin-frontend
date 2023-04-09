@@ -16,6 +16,7 @@ import {
   updatePassword,
   reauthenticateWithCredential,
   EmailAuthProvider,
+  deleteUser,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { MyFetchInterface } from "../../interfaces/models";
@@ -58,6 +59,62 @@ export class SocialLogin {
       .catch((error) => {
         console.log("error", error);
       });
+  }
+
+  static async signUpWithEmailPassword(
+    displayName: any,
+    email: any,
+    password: any
+  ): Promise<MyFetchInterface> {
+    return new Promise((resolve) => {
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((authUser) => {
+          if (!auth.currentUser) {
+            return;
+          }
+          updateProfile(auth.currentUser, {
+            displayName: displayName,
+          })
+            .then(() => {})
+            .catch((error) => {});
+          resolve({
+            res: authUser,
+            err: null,
+          });
+        })
+
+        .catch((error) => {
+          console.log("repoo", error);
+          if (
+            error.message === "Firebase: Error (auth/email-already-in-use)."
+          ) {
+            resolve({
+              res: null,
+              err: "Email already exists",
+            });
+          } else if (
+            error.message === "Firebase: Error (auth/invalid-email)."
+          ) {
+            resolve({
+              res: null,
+              err: "Invalid Email",
+            });
+          } else if (
+            error.message === "Firebase: Error (auth/network-request-failed)."
+          ) {
+            resolve({
+              res: null,
+              err: "Internet not available",
+            });
+          } else {
+            resolve({
+              res: null,
+              err: error.message,
+            });
+          }
+        });
+    });
   }
 
   static async loginWithEmailPassword(
@@ -109,6 +166,32 @@ export class SocialLogin {
               err: error.message,
             });
           }
+        });
+    });
+  }
+
+  static async DeleteUser(): Promise<MyFetchInterface> {
+    return new Promise((resolve) => {
+      const auth = getAuth();
+
+      if (!auth.currentUser) {
+        resolve({
+          res: null,
+          err: "User not signed in",
+        });
+        return;
+      }
+      deleteUser(auth.currentUser)
+        .then(() => {
+          resolve({
+            res: "User Deleted",
+            err: null,
+          });
+          // User deleted.
+        })
+        .catch((error) => {
+          // An error ocurred
+          // ...
         });
     });
   }

@@ -44,6 +44,8 @@ const ReviewTable: React.FC<Props> = (props) => {
   const [reviewData, setReviewData] = useState<IReview[]>([]);
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteReview(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
@@ -52,6 +54,8 @@ const ReviewTable: React.FC<Props> = (props) => {
       );
       setReviewData(remainingReviews);
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

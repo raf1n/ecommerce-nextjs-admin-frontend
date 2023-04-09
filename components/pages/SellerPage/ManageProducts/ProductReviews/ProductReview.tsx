@@ -24,9 +24,10 @@ const ProductReview: React.FC<Props> = (props) => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
-
   const [reviewDatas, setReviewDatas] = useState<IReview[]>([]);
+
   const seller_slug = states.currentUser?.slug;
+
   const getAllReviews = async () => {
     const { res, err } = await EcommerceApi.getAllSellerReviews(
       seller_slug,
@@ -39,11 +40,12 @@ const ProductReview: React.FC<Props> = (props) => {
       console.log(err);
     }
   };
+
   useEffect(() => {
     getAllReviews();
   }, [searchString, sortBy, sortType]);
 
-  console.log("reviewDatas--", reviewDatas);
+  
   return (
     <div className="w-full">
       <DashboardBreadcrumb

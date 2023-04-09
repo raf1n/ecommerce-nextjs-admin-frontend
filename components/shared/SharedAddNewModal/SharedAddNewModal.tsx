@@ -4,6 +4,7 @@ import { controller } from "../../../src/state/StateController";
 import { HiOutlineX } from "react-icons/hi";
 import { ICategories } from "../../../interfaces/models";
 import { EcommerceApi } from "../../../src/API/EcommerceApi";
+import { toast } from "react-hot-toast";
 
 interface Props {
   title: string;
@@ -18,28 +19,26 @@ const SharedAddNewModal: React.FC<Props> = (props) => {
 
   const handleUpdate = async (e: any) => {
     e.preventDefault();
-    console.log("eeee");
+    controller.setApiLoading(true);
 
     const popularCategories = {
-      // cat_imag
-
-      // cat_slug: e.target.cat_slug.value,
       cat_name: e.target.catName.value.split("+")[0],
       cat_slug: e.target.catName.value.split("+")[1],
-      // slug: e.target.slug.value,
-      // subcat_status: e.target.status.value,
     };
+
     const { res, err } = await EcommerceApi.createPopularCategories(
       popularCategories
     );
+
     if (res) {
+      toast.success("Added");
       setShowModal(false);
     } else
       (err: any) => {
         console.log(err);
       };
 
-    // e.target.reset();
+    controller.setApiLoading(false);
   };
 
   return (
@@ -66,7 +65,6 @@ const SharedAddNewModal: React.FC<Props> = (props) => {
                       >
                         Category
                       </label>
-                      {/* <span className='text-red-500 ml-2'>*</span> */}
                     </div>
 
                     <select
@@ -81,16 +79,10 @@ const SharedAddNewModal: React.FC<Props> = (props) => {
                           {category.cat_name}
                         </option>
                       ))}
-                      {/* <option value="electronics">Electronics</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="electronics">Electronics</option> */}
                     </select>
                   </div>
                   <button
                     type="submit"
-                    // onClick={() => setShowModal(false)}
                     className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
                   >
                     Save

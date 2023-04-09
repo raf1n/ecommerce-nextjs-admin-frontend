@@ -11,6 +11,7 @@ import {
   ISubCategories,
 } from "../../../../../../interfaces/models";
 import Select from "react-select";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -78,6 +79,8 @@ const ProductCreate: React.FC<Props> = (props) => {
 
   const handleProductAdd = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
     formData.append("image", image);
@@ -90,6 +93,7 @@ const ProductCreate: React.FC<Props> = (props) => {
       if (res?.data?.url === undefined || null) {
         imageUrl = [""];
       }
+
       const productData = {
         productName: e.target.productName.value,
         price: parseFloat(e.target.productPrice.value),
@@ -111,11 +115,19 @@ const ProductCreate: React.FC<Props> = (props) => {
         isPopular: isCheckedPopular,
         addedBy: "admin",
       };
-      console.log(productData);
-      EcommerceApi.addProducts(productData);
-      e.target.reset();
-      setSelectedImage(null);
+
+      const { res: postRes, err: postErr } = await EcommerceApi.addProducts(
+        productData
+      );
+
+      if (postRes) {
+        e.target.reset();
+        setSelectedImage(null);
+        toast.success("Product Created Successfully");
+      }
     }
+
+    controller.setApiLoading(false);
   };
 
   return (
@@ -203,7 +215,8 @@ const ProductCreate: React.FC<Props> = (props) => {
                     required
                     name="category"
                     id="category"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
+                  >
                     <option value="">Select Category</option>
                     {categories.map((cat: ICategories, indx) => (
                       <>
@@ -222,7 +235,8 @@ const ProductCreate: React.FC<Props> = (props) => {
                   <select
                     name="sub_category"
                     id="sub_category"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
+                  >
                     <option value="">Select Sub Category</option>
                     {filteredSubCat.map((subCat, indx) => (
                       <>
@@ -384,7 +398,8 @@ const ProductCreate: React.FC<Props> = (props) => {
                     className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="productStatus"
                     id=""
-                    required>
+                    required
+                  >
                     <option value="active">Active</option>
                     <option value="inactive">InActive</option>
                   </select>

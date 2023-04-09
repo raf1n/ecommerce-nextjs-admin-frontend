@@ -4,6 +4,7 @@ import { IFlashSale } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -37,6 +38,8 @@ const FlashSale: React.FC<Props> = (props) => {
 
   const handleUpdate = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const image = e.target.imageHome.files[0];
     const image2 = e.target.imageFlash.files[0];
     const formData1 = new FormData();
@@ -44,7 +47,6 @@ const FlashSale: React.FC<Props> = (props) => {
     const formData2 = new FormData();
     formData2.append("image", image2);
     const { res: res1, err } = await EcommerceApi.uploadImage(formData1);
-    // const { res, err } = await EcommerceApi.uploadImage(formData);
 
     if (res1?.data?.url || !res1?.data?.url) {
       let imageHome;
@@ -53,6 +55,7 @@ const FlashSale: React.FC<Props> = (props) => {
       if (res1?.data?.url === undefined || null) {
         imageHome = "";
       }
+
       const { res, err } = await EcommerceApi.uploadImage(formData2);
 
       if (res?.data?.url || !res?.data?.url) {
@@ -71,11 +74,18 @@ const FlashSale: React.FC<Props> = (props) => {
           imageFlash: imageFlash,
         };
         console.log(flashSaleData);
-        EcommerceApi.editFlashSale(flashSaleData);
-        e.target.reset();
-        setSelectedImage(null);
+        const { res: editRes, err } = await EcommerceApi.editFlashSale(
+          flashSaleData
+        );
+        if (editRes) {
+          e.target.reset();
+          setSelectedImage(null);
+          toast.success("FlashSale Content Updated");
+        }
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

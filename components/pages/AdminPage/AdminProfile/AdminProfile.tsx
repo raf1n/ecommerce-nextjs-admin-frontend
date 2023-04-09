@@ -22,6 +22,8 @@ const AdminProfile: React.FC<Props> = (props) => {
 
   const handleUpdateProfile = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const image = e.target.imageURL.files[0];
     const formData = new FormData();
     formData.append("image", image);
@@ -54,15 +56,19 @@ const AdminProfile: React.FC<Props> = (props) => {
         }
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   const handlePassChange = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const email = states.currentUser?.email as string;
 
     if (newPass != confirmPass) {
       setErrorText("New passwords did not match.");
+      controller.setApiLoading(false);
       return;
     }
 
@@ -80,6 +86,8 @@ const AdminProfile: React.FC<Props> = (props) => {
       e.target.reset();
       setErrorText("");
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

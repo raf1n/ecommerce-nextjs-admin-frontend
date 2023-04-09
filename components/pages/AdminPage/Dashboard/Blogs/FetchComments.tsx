@@ -27,17 +27,16 @@ const FetchComments: React.FC<Props> = (props) => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
-
+  //sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&status=active
   useEffect(() => {
     const getAllComments = async () => {
       const { res, err } = await EcommerceApi.getAllComments(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&status=active`
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
-      if (err) {
-        console.log(err);
-      } else {
+      if (res) {
         setCommentsData(res);
-        console.log("comments fetch", res);
+      } else {
+        console.log(err);
       }
     };
 
@@ -45,6 +44,8 @@ const FetchComments: React.FC<Props> = (props) => {
   }, [searchString, sortBy, sortType]);
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteSingleComment(
       deleteModalSlug
     );
@@ -55,6 +56,8 @@ const FetchComments: React.FC<Props> = (props) => {
       );
       setCommentsData(remaining);
     }
+
+    controller.setApiLoading(false);
   };
 
   return (
@@ -182,7 +185,7 @@ const FetchComments: React.FC<Props> = (props) => {
                             <td className="px-3 py-3 text-sm ">
                               <ToggleButton
                                 slug={data?.slug}
-                                apiUrl="users/edit-status"
+                                apiUrl="blog-comments/edit-status"
                                 status={data?.status}
                               />
                             </td>

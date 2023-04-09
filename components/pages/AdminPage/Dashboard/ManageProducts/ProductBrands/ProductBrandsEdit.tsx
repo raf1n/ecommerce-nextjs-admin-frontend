@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { IBrand, IBrandDetail } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -30,6 +31,7 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
 
   const handleEdit = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const logo = e.target.logo.files[0];
     const formData = new FormData();
@@ -58,13 +60,14 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
       brandSlug
     );
 
-    console.log(brandRes, brandErr);
-
     if (brandRes) {
+      toast.success("Brand Edited");
       setBrandData(brandRes);
     } else {
       console.log(brandErr);
     }
+
+    controller.setApiLoading(false);
   };
 
   return (
@@ -107,7 +110,8 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                   <div className="form-group grid text-sm mt-4">
                     <label
                       className="text-sm tracking-[.5px] text-[#34395e] font-semibold"
-                      htmlFor="">
+                      htmlFor=""
+                    >
                       Logo
                     </label>
 
@@ -123,7 +127,8 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Name
                       </label>
                     </div>
@@ -142,7 +147,8 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Status
                       </label>
                     </div>
@@ -162,7 +168,8 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                   <div className="mt-4">
                     <button
                       type="submit"
-                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
+                    >
                       Save
                     </button>
                   </div>

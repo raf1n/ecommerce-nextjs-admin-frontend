@@ -4,6 +4,7 @@ import { HiOutlineX } from "react-icons/hi";
 import { controller } from "../../../../../../../src/state/StateController";
 import { EcommerceApi } from "../../../../../../../src/API/EcommerceApi";
 import { DayPicker } from "react-day-picker";
+import { toast } from "react-hot-toast";
 
 interface Props {
   title: string;
@@ -16,10 +17,10 @@ const AddNewCoupon: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
   const { setShowModal, showModal } = props;
   const [selected, setSelected] = React.useState<Date>();
-  console.log(showModal);
+
   const handleAdd = async (e: any) => {
     e.preventDefault();
-    console.log("eeee");
+    controller.setApiLoading(true);
 
     const couponInfo = {
       name: e.target.name.value,
@@ -34,16 +35,19 @@ const AddNewCoupon: React.FC<Props> = (props) => {
 
       status: e.target.status.value,
     };
-    console.log(couponInfo);
+
     const { res, err } = await EcommerceApi.createCoupon(couponInfo);
+
     if (res) {
       setShowModal(false);
+      toast.success("Coupon added Successfully");
+      e.target.reset();
     } else
       (err: any) => {
         console.log(err);
       };
 
-    e.target.reset();
+    controller.setApiLoading(false);
   };
 
   return (

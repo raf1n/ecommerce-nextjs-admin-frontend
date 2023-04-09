@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 import { ISeo } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import { toast } from "react-hot-toast";
 
 interface Props {
   allSeo: ISeo[] | undefined;
@@ -23,17 +24,24 @@ const SEOForm: React.FC<Props> = (props) => {
   useEffect(() => {
     getSingleSeo();
   }, [topic]);
+
   const handleUpdate = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const formData = {
       seo_title: e.target.title.value,
       seo_description: e.target.description.value,
     };
+
     const { res, err } = await EcommerceApi.updateSeoInfo(topic, formData);
+
     if (res) {
+      toast.success("SEO Updated");
       getSingleSeo();
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

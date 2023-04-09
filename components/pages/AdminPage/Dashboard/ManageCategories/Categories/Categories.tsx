@@ -31,7 +31,10 @@ const Categories: React.FC<Props> = (props) => {
   const [searchString, setSearchString] = useState("");
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteCategories(deleteModalSlug);
+
     if (res) {
       setDeleteModalSlug("");
       const remainingBrands = categoriesData.filter(
@@ -39,6 +42,8 @@ const Categories: React.FC<Props> = (props) => {
       );
       setCategoriesData(remainingBrands);
     }
+
+    controller.setApiLoading(false);
   };
 
   useEffect(() => {
@@ -71,7 +76,8 @@ const Categories: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Product Category"
         slug="Product Categories"
-        link="/product_categories"></DashboardBreadcrumb>
+        link="/product_categories"
+      ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <Link className="inline-block" href="product_categories/create">
@@ -86,7 +92,8 @@ const Categories: React.FC<Props> = (props) => {
                 <select
                   name="dataTable_length"
                   aria-controls="dataTable"
-                  className="custom-select custom-select-sm form-control form-control-sm bg-gray-50  border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center">
+                  className="custom-select custom-select-sm form-control form-control-sm bg-gray-50  border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center"
+                >
                   <option value="10">10</option>
                   <option value="25">25</option>
                   <option value="50">50</option>
@@ -173,7 +180,8 @@ const Categories: React.FC<Props> = (props) => {
                               <img
                                 width="150px"
                                 src={categoryTableData?.cat_image}
-                                className=""></img>
+                                className=""
+                              ></img>
                             </td>
 
                             <td className="px-3 py-3 text-sm">
@@ -190,13 +198,15 @@ const Categories: React.FC<Props> = (props) => {
                                   router.push(
                                     `${asPath}/${categoryTableData.cat_slug}/edit`
                                   )
-                                }>
+                                }
+                              >
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     style={{
                                       boxShadow: "0 2px 6px #acb5f6",
                                     }}
-                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center">
+                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
+                                  >
                                     <FaEdit />
                                   </span>
                                 </span>
@@ -213,7 +223,8 @@ const Categories: React.FC<Props> = (props) => {
                                     style={{
                                       boxShadow: "0 2px 6px #fd9b96",
                                     }}
-                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center">
+                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                                  >
                                     <FaTrash />
                                   </span>
                                 </span>
@@ -222,9 +233,8 @@ const Categories: React.FC<Props> = (props) => {
                             <SharedDeleteModal
                               deleteModalSlug={deleteModalSlug}
                               handleDelete={handleDelete}
-                              setDeleteModalSlug={
-                                setDeleteModalSlug
-                              }></SharedDeleteModal>
+                              setDeleteModalSlug={setDeleteModalSlug}
+                            ></SharedDeleteModal>
                           </tr>
                           // </div>
                         )
@@ -247,17 +257,20 @@ const Categories: React.FC<Props> = (props) => {
                       <a
                         href="#"
                         aria-current="page"
-                        className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white ">
+                        className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white "
+                      >
                         1
                       </a>
                       <a
                         href="#"
-                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20">
+                        className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20"
+                      >
                         2
                       </a>
                       <a
                         href="#"
-                        className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20 md:inline-flex">
+                        className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20 md:inline-flex"
+                      >
                         3
                       </a>
                       <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-r">

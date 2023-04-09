@@ -8,30 +8,31 @@ import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
-import Select from 'react-select';
+import Select from "react-select";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
 const reactSelectStyle = {
-    control: (base: any) => ({
-      ...base,
-      height: "42px",
-      width: "100%",
-      margin: "0",
-      fontColor: "#495057",
-      paddingLeft: "5px",
-      paddingRight: "5px",
-      fontSize: "14px",
-      borderRadius: 5,
-      borderColor: "#e4e6fc",
-      backgroundColor: "#fdfdff",
-      cursor: "pointer",
-    }),
-    menuList: (styles: any) => ({
-      ...styles,
-      fontSize: "13px",
-    }),
-  };
+  control: (base: any) => ({
+    ...base,
+    height: "42px",
+    width: "100%",
+    margin: "0",
+    fontColor: "#495057",
+    paddingLeft: "5px",
+    paddingRight: "5px",
+    fontSize: "14px",
+    borderRadius: 5,
+    borderColor: "#e4e6fc",
+    backgroundColor: "#fdfdff",
+    cursor: "pointer",
+  }),
+  menuList: (styles: any) => ({
+    ...styles,
+    fontSize: "13px",
+  }),
+};
 
 const CreateMegaMenuCategory: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
@@ -39,7 +40,9 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
   const selectRef = useRef(null);
 
   const [categories, setCategories] = useState<ICategories[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<ICategories | undefined>(undefined)
+  const [selectedCategory, setSelectedCategory] = useState<
+    ICategories | undefined
+  >(undefined);
   const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
   const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
@@ -62,26 +65,28 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
     fetchAllCategoriesSubCatBrand();
   }, []);
 
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log(e)
+    controller.setApiLoading(true);
+
     const cat_name = selectedCategory?.cat_name;
     const cat_slug = selectedCategory?.cat_slug;
     const serial = parseInt(e.target.serial.value);
     const sub_cat_list = selectedOptions;
     const status = e.target.status.value;
 
-    console.log({cat_name, cat_slug, serial, sub_cat_list, status});
-    const megaCategory = {cat_name, cat_slug, serial, sub_cat_list, status};
+    const megaCategory = { cat_name, cat_slug, serial, sub_cat_list, status };
 
     const { res, err } = await EcommerceApi.postMegaMenuCategory(megaCategory);
     if (res) {
+      toast.success("MegaMenu Categories Added");
       e.target.reset();
       //@ts-ignore
       selectRef.current.clearValue();
     }
-  }
+
+    controller.setApiLoading(false);
+  };
 
   return (
     <div className="w-full">
@@ -119,7 +124,11 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
                         const filteredSubCat = subCategories?.filter(
                           (subCat) => subCat?.cat_slug === e.target.value
                         );
-                        setSelectedCategory(categories.find(cat => cat.cat_slug === e.target.value));
+                        setSelectedCategory(
+                          categories.find(
+                            (cat) => cat.cat_slug === e.target.value
+                          )
+                        );
                         setFilteredSubCat(filteredSubCat);
                         //@ts-ignore
                         selectRef.current.clearValue();
@@ -166,11 +175,11 @@ const CreateMegaMenuCategory: React.FC<Props> = (props) => {
                       name="sub_cat_list"
                       id="sub_cat_list"
                       ref={selectRef}
-                      options={filteredSubCat.map(subCat => {
+                      options={filteredSubCat.map((subCat) => {
                         return {
                           value: subCat.slug,
-                        label: subCat.subcat_name
-                        }
+                          label: subCat.subcat_name,
+                        };
                       })}
                       styles={reactSelectStyle}
                       components={{

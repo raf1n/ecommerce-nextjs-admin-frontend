@@ -13,7 +13,6 @@ import { controller } from "../../../../../src/state/StateController";
 import SharedAddNewButton from "../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
-import SharedGoBackButton from "../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import ToggleButton from "../ManageCategories/ToggleButton/ToggleButton";
 
 interface Props {}
@@ -47,6 +46,8 @@ const FetchBlogCategory: React.FC<Props> = (props) => {
   }, []);
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteSingleCategory(
       deleteModalSlug
     );
@@ -57,6 +58,8 @@ const FetchBlogCategory: React.FC<Props> = (props) => {
       );
       setCategories(remaining);
     }
+
+    controller.setApiLoading(false);
   };
 
   return (
@@ -183,12 +186,14 @@ const FetchBlogCategory: React.FC<Props> = (props) => {
                             <td className="px-3 py-3 text-sm ">
                               <ToggleButton
                                 slug={data?.slug}
-                                apiUrl="users/edit-status"
+                                apiUrl="blogcategories/edit-status" //backend api url
                                 status={data?.status}
                               />
                             </td>
+
                             <td className="px-3 py-3 text-sm">
-                              <Link href={`/admin/customer_show/${data.slug}`}>
+                              <Link
+                                href={`/admin/blogs/category/${data.slug}/edit`}>
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     style={{ boxShadow: "0 2px 6px #acb5f6" }}

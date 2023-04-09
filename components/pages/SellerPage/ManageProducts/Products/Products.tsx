@@ -33,6 +33,8 @@ const Products: React.FC<Props> = (props) => {
   const router = useRouter();
   const { asPath } = router;
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteProduct(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
@@ -41,6 +43,8 @@ const Products: React.FC<Props> = (props) => {
       );
       setProductsData(remainingProducts);
     }
+
+    controller.setApiLoading(false);
   };
   const seller_slug = states.currentUser?.slug;
 

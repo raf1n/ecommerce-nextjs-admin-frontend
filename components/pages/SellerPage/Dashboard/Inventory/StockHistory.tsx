@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { IInventoryProduct } from "../../../../../interfaces/models";
 import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -39,7 +40,8 @@ const StockHistory: React.FC<Props> = (props) => {
   const fetchSingleInventory = async () => {
     if (productSlug) {
       const { res, err } = await EcommerceApi.getSingleProductInventory(
-        productSlug as string
+        productSlug as string,
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
       );
 
       console.log(res);
@@ -54,6 +56,7 @@ const StockHistory: React.FC<Props> = (props) => {
 
   const handleAddStock = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const data = {
       product_slug: productSlug,
@@ -66,7 +69,10 @@ const StockHistory: React.FC<Props> = (props) => {
     if (res) {
       fetchSingleInventory();
       e.target.reset();
+      toast.success("Stock added");
     }
+
+    controller.setApiLoading(false);
   };
 
   const handleDelete = async () => {
@@ -79,9 +85,14 @@ const StockHistory: React.FC<Props> = (props) => {
         stock: productData?.stock - stockData.quantity,
       };
 
-      EcommerceApi.editProducts(data, productData?.slug);
+      const { res: editRes, err } = await EcommerceApi.editProducts(
+        data,
+        productData?.slug
+      );
       console.log(res);
-      setDeleteModalSlug("");
+      if (editRes) {
+        setDeleteModalSlug("");
+      }
     }
   };
 

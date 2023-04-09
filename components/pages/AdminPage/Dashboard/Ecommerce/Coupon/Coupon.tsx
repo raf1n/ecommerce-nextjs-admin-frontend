@@ -48,6 +48,8 @@ const Coupon: React.FC<Props> = (props) => {
   };
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteCoupon(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
@@ -56,6 +58,8 @@ const Coupon: React.FC<Props> = (props) => {
       );
       setCouponData(remainingCoupons);
     }
+
+    controller.setApiLoading(false);
   };
 
   useEffect(() => {

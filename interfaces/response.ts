@@ -20,6 +20,7 @@ import {
   IWithdraw,
   IWithdrawMethod,
   IFlashSale,
+  ISubscriber,
 } from "./models";
 //here we will declare our response interfaces or in easy way type of our all response in our website
 
@@ -100,14 +101,20 @@ export interface ISingleOrderResponse extends MyFetchInterface {
 export interface ISingleProductResponse extends MyFetchInterface {
   res: IProduct;
 }
+// export interface IBlogResponse extends MyFetchInterface {
+//   res: {
+//     allBlogs: Array<IBlog>;
+//     latestBlogs: Array<IBlog>;
+//   };
+// }
 export interface IBlogResponse extends MyFetchInterface {
-  res: {
-    allBlogs: Array<IBlog>;
-    latestBlogs: Array<IBlog>;
-  };
+  res: Array<IBlog>;
 }
 export interface ISingleBlogResponse extends MyFetchInterface {
   res: IBlog;
+}
+export interface ISingleBlogCategoryResponse extends MyFetchInterface {
+  res: IBlogCategory;
 }
 
 export interface ICouponResponse extends MyFetchInterface {
@@ -215,4 +222,8 @@ export interface ISingleCommentResponse extends MyFetchInterface {
 }
 export interface IflashSaleResponse extends MyFetchInterface {
   res: IFlashSale;
+}
+
+export interface ISubscriberResponse extends MyFetchInterface {
+  res: ISubscriber[];
 }

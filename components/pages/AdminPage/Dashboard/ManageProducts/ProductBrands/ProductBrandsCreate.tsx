@@ -5,6 +5,7 @@ import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -13,12 +14,11 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
 
     const form = e.target;
-
     const name = form.name.value;
     const status = form.status.value;
-
     const logoFile = e.target.logo.files[0];
     const formData = new FormData();
     formData.append("image", logoFile);
@@ -27,8 +27,6 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
     // if (res?.data?.url) {
     let imageUrl;
     imageUrl = res?.data?.url;
-
-    // console.error(err.stack);
 
     if (res?.data?.url === undefined || err) {
       imageUrl = "";
@@ -45,11 +43,13 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
     );
 
     if (brandRes) {
+      toast.success("Brand Created");
       e.target.reset();
     } else {
       console.log(brandErr);
     }
-    // }
+
+    controller.setApiLoading(false);
   };
 
   return (
@@ -57,12 +57,14 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Create Product Brand"
         link="/product_brands/create"
-        slug="Create Product Brand"></DashboardBreadcrumb>
+        slug="Create Product Brand"
+      ></DashboardBreadcrumb>
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Product Brands"
-            link="/admin/product_brands"></SharedGoBackButton>
+            link="/admin/product_brands"
+          ></SharedGoBackButton>
         </div>
       </div>
       <div className="px-[25px] w-full relative">
@@ -74,7 +76,8 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
                   <div className="form-group grid text-sm">
                     <label
                       className="text-sm tracking-[.5px] text-[#34395e] font-semibold"
-                      htmlFor="">
+                      htmlFor=""
+                    >
                       Logo
                       <span className=" text-red-500 ml-2">*</span>
                     </label>
@@ -91,7 +94,8 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4 text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Name
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -110,7 +114,8 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4 text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Status
                       </label>
                     </div>
@@ -118,7 +123,8 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
                       className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                       name="status"
                       id=""
-                      required>
+                      required
+                    >
                       <option value="active">Active</option>
                       <option value="inactive">InActive</option>
                     </select>
@@ -126,7 +132,8 @@ const ProductBrandsCreate: React.FC<Props> = (props) => {
                   <div className="mt-4">
                     <button
                       type="submit"
-                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
+                    >
                       Save
                     </button>
                   </div>

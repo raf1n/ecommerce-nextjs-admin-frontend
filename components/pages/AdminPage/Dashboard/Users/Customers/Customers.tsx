@@ -55,6 +55,8 @@ const Customers: React.FC<Props> = (props) => {
   }, [searchString, sortBy, sortType]);
 
   const handleDelete = async () => {
+    controller.setApiLoading(true);
+
     const { res, err } = await EcommerceApi.deleteSingleUser(deleteModalSlug);
     if (res) {
       setDeleteModalSlug("");
@@ -63,6 +65,8 @@ const Customers: React.FC<Props> = (props) => {
       );
       setCustomersData(remainingCustomers);
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

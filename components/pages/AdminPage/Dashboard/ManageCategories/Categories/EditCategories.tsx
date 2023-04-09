@@ -6,6 +6,7 @@ import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -34,9 +35,12 @@ const EditCategories: React.FC<Props> = (props) => {
 
   const handleEdit = async (e: any) => {
     e.preventDefault();
+    controller.setApiLoading(true);
+
     const image = e.target.image.files[0];
     const formData = new FormData();
     formData.append("image", image);
+
     const { res, err } = await EcommerceApi.uploadCategoryImage(formData);
     if (res?.data?.url || !res?.data?.url) {
       let imageUrl;
@@ -57,10 +61,13 @@ const EditCategories: React.FC<Props> = (props) => {
         catSlug
       );
       if (editRes) {
+        toast.success("Categories Updated");
         getSingleCategory();
         e.target.reset();
       }
     }
+
+    controller.setApiLoading(false);
   };
 
   return (

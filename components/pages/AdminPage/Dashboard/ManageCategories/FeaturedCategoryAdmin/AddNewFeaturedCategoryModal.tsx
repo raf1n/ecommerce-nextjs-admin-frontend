@@ -4,6 +4,7 @@ import { controller } from "../../../../../../src/state/StateController";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { HiOutlineX } from "react-icons/hi";
 import { ICategories } from "../../../../../../interfaces/models";
+import { toast } from "react-hot-toast";
 
 interface Props {
   title: string;
@@ -18,23 +19,26 @@ const AddNewFeaturedCategoryModal: React.FC<Props> = (props) => {
 
   const handleUpdate = async (e: any) => {
     e.preventDefault();
-    console.log("eeee");
+    controller.setApiLoading(true);
 
     const featuredCategories = {
       cat_name: e.target.catName.value.split("+")[0],
       cat_slug: e.target.catName.value.split("+")[1],
     };
+
     const { res, err } = await EcommerceApi.createFeaturedCategories(
       featuredCategories
     );
+
     if (res) {
+      toast.success("Featured Categories Added");
       setShowModal(false);
     } else
       (err: any) => {
         console.log(err);
       };
 
-    // e.target.reset();
+    controller.setApiLoading(false);
   };
 
   return (
