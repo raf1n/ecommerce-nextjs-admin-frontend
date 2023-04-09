@@ -1082,10 +1082,10 @@ export class Jsondata {
           title: "Blogs",
           link: "/admin/blogs",
         },
-        {
-          title: "Popular Blogs",
-          link: "/admin/blogs/popular_blogs",
-        },
+        // {
+        //   title: "Popular Blogs",
+        //   link: "/admin/blogs/popular_blogs",
+        // },
         {
           title: "Comments",
           link: "/admin/blogs/comments",
