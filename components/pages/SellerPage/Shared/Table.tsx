@@ -5,6 +5,7 @@ import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import Link from "next/link";
 import { ICartProduct, IOrder } from "../../../../interfaces/models";
 import { controller } from "../../../../src/state/StateController";
+import { CookiesHandler } from "../../../../src/utils/CookiesHandler";
 
 interface Props {
   ordersData: IOrder[];
@@ -36,6 +37,14 @@ const Table: React.FC<Props> = (props) => {
 
     return quantity;
   };
+  const user_slug = CookiesHandler.getSlug();
+
+  // const handlePrice = (product_list: ICartProduct[]) => {
+  //   const price = product_list.filter((p) => p.seller_slug === user_slug);
+  //   console.log("sp-", product_list, price);
+  //   return price;
+  // };
+
   const orderStatus = [
     {
       value: "in_progress",
@@ -178,7 +187,9 @@ const Table: React.FC<Props> = (props) => {
                         </p>
                       </td>
                       <td className="px-3 py-3  text-sm">
-                        <p className="text-gray-900 ">${tabledata.total}</p>
+                        <p className="text-gray-900 ">
+                          {/* ${handlePrice(tabledata.product_list)} */}
+                        </p>
                       </td>
 
                       <td className="px-3 py-3   text-sm ">

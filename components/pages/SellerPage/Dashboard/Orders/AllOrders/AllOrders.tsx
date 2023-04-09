@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
-import { IOrder } from "../../../../../../interfaces/models";
+import { ICartProduct, IOrder } from "../../../../../../interfaces/models";
 import Table from "../../../Shared/Table";
 import { CookiesHandler } from "../../../../../../src/utils/CookiesHandler";
 
@@ -38,7 +38,8 @@ const AllOrders: React.FC<Props> = (props) => {
     getAllOrderForSeller();
   }, [searchString, sortBy, sortType]);
 
-  console.log(allOrdersData);
+  console.log("allOrdersData for seller only-", allOrdersData);
+  const user_slug = CookiesHandler.getSlug();
 
   const tableHeaders = {
     SN: "sn",
