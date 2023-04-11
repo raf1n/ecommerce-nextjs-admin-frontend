@@ -7,9 +7,7 @@ const index = () => {
   const states = useSelector(() => controller.states);
 
   return (
-    <>
-      <AdminDetailsSummary></AdminDetailsSummary>
-    </>
+      <AdminDetailsSummary />
   );
 };
 

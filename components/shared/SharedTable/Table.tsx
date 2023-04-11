@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ICartProduct, IOrder } from "../../../interfaces/models";
 import SharedDeleteModal from "../SharedDeleteModal/SharedDeleteModal";
 import SharedOrderStatusUpdateModal from "../SharedOrderStatusUpdateModal/SharedOrderStatusUpdateModal";
+import SharedPagination from "../SharedPagination/SharedPagination";
 
 interface Props {
   setShowUpdateModal: Dispatch<SetStateAction<string | any>>;
@@ -18,9 +19,14 @@ interface Props {
   tableHeaders: any;
   sortType: string;
   sortBy: string;
+  count: number;
+  limit: number;
+  page: number;
   setSortBy: Dispatch<SetStateAction<string>>;
   setSortType: Dispatch<SetStateAction<string>>;
   setSearchString: Dispatch<SetStateAction<string>>;
+  setLimit: Dispatch<SetStateAction<number>>;
+  setPage: Dispatch<SetStateAction<number>>;
 }
 
 const Table: React.FC<Props> = (props) => {
@@ -34,6 +40,11 @@ const Table: React.FC<Props> = (props) => {
     sortType,
     ordersData,
     setDeleteModalSlug,
+    count,
+    limit,
+    page,
+    setLimit,
+    setPage,
   } = props;
 
   const handleQuantity = (product_list: ICartProduct[]) => {
@@ -44,6 +55,7 @@ const Table: React.FC<Props> = (props) => {
 
     return quantity;
   };
+
   const orderStatus = [
     {
       value: "in_progress",
@@ -77,6 +89,9 @@ const Table: React.FC<Props> = (props) => {
     return order?.name;
   };
 
+  const pageCount =
+    count % limit === 1 ? Math.ceil(count / limit) : count / limit;
+
   return (
     <div className="m-[25px] bg-white">
       <div className="p-5 rounded w-full">
@@ -84,14 +99,15 @@ const Table: React.FC<Props> = (props) => {
           <div>
             <span className="text-xs text-gray-500 px-1">Show </span>
             <select
+              onChange={(e) => setLimit(parseInt(e.target.value))}
               name="dataTable_length"
               aria-controls="dataTable"
               className="border bg-gray-50  hover:border-blue-600 text-gray-500 h-[42px] w-[56px]  text-sm text-center rounded"
             >
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
             </select>
             <span className="text-xs text-gray-500  px-1">entries</span>
           </div>
@@ -231,7 +247,9 @@ const Table: React.FC<Props> = (props) => {
                               style={{ boxShadow: "0 2px 6px #acb5f6" }}
                               className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
                             >
-                              <Link href={`/show_order/${tabledata.slug}`}>
+                              <Link
+                                href={`/${states.currentUser?.role}/show_order/${tabledata.slug}`}
+                              >
                                 <FaEye />
                               </Link>
                             </span>
@@ -277,41 +295,12 @@ const Table: React.FC<Props> = (props) => {
                 </tbody>
               </table>
               {/* ---------- table footer  ------------------------------- */}
-              <div className="px-5 py-5  border-t flex justify-between">
-                <div>
-                  <span className="text-xs xs:text-sm text-gray-900">
-                    Showing 1 to 10 of 50 Entries
-                  </span>
-                </div>
-                <div className="inline-flex  xs:mt-0">
-                  <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-l">
-                    Prev
-                  </button>
-                  &nbsp; &nbsp;
-                  <a
-                    href="#"
-                    aria-current="page"
-                    className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white "
-                  >
-                    1
-                  </a>
-                  <a
-                    href="#"
-                    className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20"
-                  >
-                    2
-                  </a>
-                  <a
-                    href="#"
-                    className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20 md:inline-flex"
-                  >
-                    3
-                  </a>
-                  <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-r">
-                    Next
-                  </button>
-                </div>
-              </div>
+              <SharedPagination
+                count={count}
+                limit={limit}
+                page={page}
+                setPage={setPage}
+              />
               <SharedDeleteModal
                 deleteModalSlug={props.deleteModalSlug}
                 handleDelete={props.handleDelete}

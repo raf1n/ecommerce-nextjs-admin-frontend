@@ -16,6 +16,9 @@ const DeclinedOrders: React.FC<Props> = (props) => {
   const [searchString, setSearchString] = useState("");
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
+  const [limit, setLimit] = useState<number>(10);
+  const [page, setPage] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
 
   const handleDelete = async () => {
     controller.setApiLoading(true);
@@ -38,12 +41,13 @@ const DeclinedOrders: React.FC<Props> = (props) => {
   useEffect(() => {
     const findAllOrdersAdmin = async () => {
       const { res, err } = await EcommerceApi.allOrdersAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&order_status=declined`
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}&order_status=declined`
       );
       if (err) {
         console.log(err);
       } else {
         setDeclinedOrdersData(res.filteredOrdersData);
+        setCount(res.filteredOrdersCount)
         console.log(res);
       }
     };
@@ -86,6 +90,11 @@ const DeclinedOrders: React.FC<Props> = (props) => {
         setSortType={setSortBy}
         tableHeaders={tableHeaders}
         ordersData={declinedOrdersData}
+        count={count}
+        limit={limit}
+        setLimit={setLimit}
+        page={page}
+        setPage={setPage}
       />
     </div>
   );

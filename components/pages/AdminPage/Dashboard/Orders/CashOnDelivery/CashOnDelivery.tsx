@@ -14,6 +14,9 @@ const CashOnDelivery: React.FC<Props> = (props) => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
+  const [limit, setLimit] = useState<number>(10);
+  const [page, setPage] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
 
@@ -39,20 +42,20 @@ const CashOnDelivery: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    const findProgressOrdersAdmin = async () => {
+    const findCodOrdersAdmin = async () => {
       const { res, err } = await EcommerceApi.allOrdersAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&order_status=completed`
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}&order_status=completed`
       );
 
       if (err) {
         console.log(err);
       } else {
         setCompletedOrdersData(res.filteredOrdersData);
-        console.log(res);
+        setCount(res.filteredOrdersCount);
       }
     };
 
-    findProgressOrdersAdmin();
+    findCodOrdersAdmin();
   }, [searchString, sortBy, sortType, showUpdateModal]);
 
   const tableHeaders = {
@@ -87,6 +90,11 @@ const CashOnDelivery: React.FC<Props> = (props) => {
         setSearchString={setSearchString}
         ordersData={completedOrdersData}
         tableHeaders={tableHeaders}
+        count={count}
+        limit={limit}
+        setLimit={setLimit}
+        page={page}
+        setPage={setPage}
       />
     </div>
   );

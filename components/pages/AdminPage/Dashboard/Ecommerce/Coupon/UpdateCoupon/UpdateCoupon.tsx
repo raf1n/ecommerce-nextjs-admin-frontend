@@ -193,7 +193,7 @@ const UpdateCoupon: React.FC<Props> = (props) => {
                       <div>
                         <input
                           min={0}
-                          defaultValue={singleCouponData?.discount.value}
+                          defaultValue={singleCouponData?.discount?.value}
                           className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                           type="number"
                           name="price"

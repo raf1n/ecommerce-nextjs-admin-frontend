@@ -11,15 +11,15 @@ const login = "/login?redirected=true"; // Define your login route address.
  * @returns {{auth: null}}
  */
 const checkUserAuthentication = async (context: any) => {
-  console.log("contextCU", context);
-  console.log("contextC", context.req?.cookies?.USER_SLUG);
+  // console.log("contextCU", context);
+  // console.log("contextC", context.req?.cookies?.USER_SLUG);
 
   const userCookie = context.req?.cookies?.USER_SLUG ?? CookiesHandler.getSlug() ?? "";
-  console.log({ userCookie });
+  // console.log({ userCookie });
 
   const { res, err } = await EcommerceApi.getUserAuth(userCookie);
 
-  console.log(res); // console.log(CookiesHandler.getSlug());
+  // console.log(res); // console.log(CookiesHandler.getSlug());
 
   if (res && res.role === "seller") {
     return {

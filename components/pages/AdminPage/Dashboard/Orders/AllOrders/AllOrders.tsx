@@ -15,6 +15,9 @@ const AllOrders: React.FC<Props> = (props) => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
+  const [limit, setLimit] = useState<number>(1);
+  const [page, setPage] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
 
@@ -25,6 +28,7 @@ const AllOrders: React.FC<Props> = (props) => {
       deleteModalSlug,
       "orders"
     );
+
     if (res) {
       setDeleteModalSlug("");
       const remaining = allOrdersData.filter(
@@ -39,18 +43,20 @@ const AllOrders: React.FC<Props> = (props) => {
   useEffect(() => {
     const findAllOrdersAdmin = async () => {
       const { res, err } = await EcommerceApi.allOrdersAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}`
       );
+
       if (err) {
-        console.log(err);
+        console.log({ err });
       } else {
         setAllOrdersData(res.allOrdersData);
-        console.log(res);
+        setCount(res.allOrdersCount);
+        // console.log({ res });
       }
     };
 
     findAllOrdersAdmin();
-  }, [searchString, sortBy, sortType, showUpdateModal]);
+  }, [searchString, sortBy, sortType, showUpdateModal, page, limit]);
 
   const tableHeaders = {
     SN: "sn",
@@ -69,7 +75,8 @@ const AllOrders: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="All Orders"
         slug="All Orders"
-        link="/all-orders"></DashboardBreadcrumb>
+        link="/all-orders"
+      ></DashboardBreadcrumb>
 
       <Table
         showUpdateModal={showUpdateModal}
@@ -81,6 +88,11 @@ const AllOrders: React.FC<Props> = (props) => {
         sortType={sortType}
         setSortBy={setSortBy}
         setSortType={setSortType}
+        count={count}
+        limit={limit}
+        setLimit={setLimit}
+        page={page}
+        setPage={setPage}
         setSearchString={setSearchString}
         ordersData={allOrdersData}
         tableHeaders={tableHeaders}

@@ -25,10 +25,14 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
   const [count, setCount] = useState<any>({});
   const [todayOrdersData, setTodayOrdersData] = useState<IOrder[]>([]);
 
+  const [limit, setLimit] = useState<number>(5);
+  const [page, setPage] = useState<number>(0);
+  const [ordersCount, setOrdersCount] = useState<number>(0);
+
   useEffect(() => {
     const allDashboardCount = async () => {
       const { res, err } = await EcommerceApi.allDashboardCount(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}`
       );
       if (res) {
         setCount(res);
@@ -292,6 +296,11 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
             setSearchString={setSearchString}
             ordersData={todayOrdersData}
             tableHeaders={tableHeaders}
+            count={ordersCount}
+            limit={limit}
+            setLimit={setLimit}
+            page={page}
+            setPage={setPage}
           />
         </div>
       </div>

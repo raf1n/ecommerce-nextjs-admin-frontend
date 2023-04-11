@@ -16,6 +16,9 @@ const DeliveredOrders: React.FC<Props> = (props) => {
   const [searchString, setSearchString] = useState("");
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
+  const [limit, setLimit] = useState<number>(10);
+  const [page, setPage] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
 
   const handleDelete = async () => {
     controller.setApiLoading(true);
@@ -40,21 +43,20 @@ const DeliveredOrders: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const findProgressOrdersAdmin = async () => {
-
       const { res, err } = await EcommerceApi.allOrdersAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&order_status=delivered`
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}&order_status=delivered`
       );
 
       if (err) {
         console.log(err);
       } else {
         setDeliveredOrdersData(res.filteredOrdersData);
+        setCount(res.filteredOrdersCount)
         console.log(res);
       }
     };
 
     findProgressOrdersAdmin();
-    
   }, [searchString, sortBy, sortType, showUpdateModal]);
 
   console.log({ searchString, sortBy, sortType });
@@ -79,7 +81,7 @@ const DeliveredOrders: React.FC<Props> = (props) => {
         link="/delivered-orders"
       ></DashboardBreadcrumb>
 
-       <Table
+      <Table
         showUpdateModal={showUpdateModal}
         setShowUpdateModal={setShowUpdateModal}
         handleDelete={handleDelete}
@@ -92,8 +94,12 @@ const DeliveredOrders: React.FC<Props> = (props) => {
         setSearchString={setSearchString}
         ordersData={deliveredOrdersData}
         tableHeaders={tableHeaders}
+        count={count}
+        limit={limit}
+        setLimit={setLimit}
+        page={page}
+        setPage={setPage}
       />
-
     </div>
   );
 };
