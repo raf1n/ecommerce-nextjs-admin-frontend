@@ -15,7 +15,7 @@ const AllOrders: React.FC<Props> = (props) => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
-  const [limit, setLimit] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
   const [count, setCount] = useState<number>(0);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
