@@ -75,7 +75,7 @@ const CashOnDelivery: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Cash On Delivery Orders"
         slug="Cash On Delivery Orders"
-        link="/CashOnDelivery-orders"></DashboardBreadcrumb>
+        link="/cash_on_delivery"></DashboardBreadcrumb>
 
       <Table
         showUpdateModal={showUpdateModal}

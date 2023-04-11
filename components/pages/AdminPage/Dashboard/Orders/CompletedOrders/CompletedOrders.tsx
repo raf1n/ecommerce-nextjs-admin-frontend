@@ -75,9 +75,9 @@ const CompletedOrders: React.FC<Props> = (props) => {
   return (
     <div>
       <DashboardBreadcrumb
-        headline="Delivered Orders"
-        slug="Delivered Orders"
-        link="/delivered-orders"></DashboardBreadcrumb>
+        headline="Completed Orders"
+        slug="Completed Orders"
+        link="/completed-orders"></DashboardBreadcrumb>
 
       <Table
         showUpdateModal={showUpdateModal}

@@ -54,7 +54,7 @@ const SharedPagination: React.FC<Props> = ({ count, limit, page, setPage }) => {
             <button
               disabled={page <= 0}
               onClick={() => {
-                if (page >= 0) {
+                if (page > 0) {
                   setPage((p) => p - 1);
                 }
               }}
@@ -78,11 +78,11 @@ const SharedPagination: React.FC<Props> = ({ count, limit, page, setPage }) => {
             </button>
           ))}
           &nbsp; &nbsp;
-          {page !== pageCount - 1 ? (
+          {page < pageCount - 1 ? (
             <button
               disabled={page >= Math.floor(count / limit)}
               onClick={() => {
-                if (page !== pageCount - 1) {
+                if (page < pageCount - 1) {
                   setPage((p) => p + 1);
                 }
               }}

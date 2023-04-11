@@ -75,7 +75,7 @@ const AllOrders: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="All Orders"
         slug="All Orders"
-        link="/all-orders"
+        link="/all_orders"
       ></DashboardBreadcrumb>
 
       <Table
