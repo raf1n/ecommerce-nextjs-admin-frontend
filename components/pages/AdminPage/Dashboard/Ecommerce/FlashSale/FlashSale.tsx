@@ -74,6 +74,7 @@ const FlashSale: React.FC<Props> = (props) => {
           imageFlash: imageFlash,
         };
         console.log(flashSaleData);
+        console.log(flashSaleData.time);
         const { res: editRes, err } = await EcommerceApi.editFlashSale(
           flashSaleData
         );
