@@ -18,6 +18,9 @@ const PendingOrders: React.FC<Props> = (props) => {
   const [searchString, setSearchString] = useState("");
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
+  const [limit, setLimit] = useState<number>(10);
+  const [page, setPage] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
 
   const handleDelete = async () => {
     controller.setApiLoading(true);
@@ -40,12 +43,13 @@ const PendingOrders: React.FC<Props> = (props) => {
   useEffect(() => {
     const findPendingOrdersAdmin = async () => {
       const { res, err } = await EcommerceApi.allOrdersAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&order_status=pending`
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}&order_status=pending`
       );
       if (err) {
         console.log(err);
       } else {
         setPendingOrdersData(res.filteredOrdersData);
+        setCount(res.filteredOrdersCount);
         console.log(res);
       }
     };
@@ -72,7 +76,7 @@ const PendingOrders: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Pending Orders"
         slug="Pending Orders"
-        link="/pending-orders"
+        link="/pending_orders"
       />
 
       <Table
@@ -88,6 +92,11 @@ const PendingOrders: React.FC<Props> = (props) => {
         setSearchString={setSearchString}
         ordersData={pendingOrdersData}
         tableHeaders={tableHeaders}
+        count={count}
+        limit={limit}
+        setLimit={setLimit}
+        page={page}
+        setPage={setPage}
       />
     </div>
   );

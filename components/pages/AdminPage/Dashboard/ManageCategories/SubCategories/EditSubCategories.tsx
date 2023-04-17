@@ -57,6 +57,8 @@ const EditSubCategories: React.FC<Props> = (props) => {
     const subCategories = {
       cat_slug: e.target.categories.value,
       subcat_name: e.target.name.value,
+      // cat_slug: e.target.slug.value,
+      // slug: e.target.slug.value,
       subcat_status: e.target.status.value,
     };
 
@@ -140,7 +142,7 @@ const EditSubCategories: React.FC<Props> = (props) => {
                       id=""
                     />
                   </div>
-                  <div className="mt-4">
+                  {/* <div className="mt-4">
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
@@ -148,7 +150,7 @@ const EditSubCategories: React.FC<Props> = (props) => {
                       >
                         Slug
                       </label>
-                      {/* <span className='text-red-500 ml-2'>*</span> */}
+                      <span className='text-red-500 ml-2'>*</span>
                     </div>
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
@@ -156,7 +158,7 @@ const EditSubCategories: React.FC<Props> = (props) => {
                       name="slug"
                       id=""
                     />
-                  </div>
+                  </div> */}
                   <div className="mt-4">
                     <div className="my-2">
                       <label

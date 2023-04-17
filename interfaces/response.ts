@@ -89,7 +89,12 @@ export interface IProductResponse extends MyFetchInterface {
 }
 
 export interface IOrderResponse extends MyFetchInterface {
-  res: { allOrdersData: Array<IOrder>; filteredOrdersData: Array<IOrder> };
+  res: {
+    allOrdersData: Array<IOrder>;
+    allOrdersCount: number;
+    filteredOrdersData: Array<IOrder>;
+    filteredOrdersCount: number;
+  };
 }
 export interface IOrderSellerResponse extends MyFetchInterface {
   res: any;
