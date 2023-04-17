@@ -79,10 +79,16 @@ const PostBlog: React.FC<Props> = (props) => {
         imageUrl = "https://i.ibb.co/hFzX2M1/16211.jpg";
       }
 
+      const singleCat = categories.filter(
+        (cat) => cat.slug === e.target.category.value
+      );
+      const catName = singleCat[0].name;
+
       const blogData: IBlog = {
         imageURL: imageUrl,
         title: e.target.title.value,
-        category: e.target.category.value,
+        category_slug: e.target.category.value,
+        category: catName,
         description: e.target.short_desc.value,
         long_description: editor?.getHTML() || "",
         isShowHomepage: e.target.show_homepage.value,
@@ -91,6 +97,7 @@ const PostBlog: React.FC<Props> = (props) => {
         seo_description: e.target.seo_description.value,
         postBy: states.currentUser?.slug,
       };
+      console.log("---", blogData);
 
       const { res: postRes, err: postErr } = await EcommerceApi.addBlog(
         blogData
@@ -188,15 +195,12 @@ const PostBlog: React.FC<Props> = (props) => {
                     required
                     name="category"
                     id="category"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
-                  >
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
                     <option value="">Select Category</option>
                     {categories.map((cat, indx) => (
-                      <>
-                        <option key={indx} value={cat.name}>
-                          {cat.name}
-                        </option>
-                      </>
+                      <option key={indx} value={cat.slug}>
+                        {cat.name}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -228,8 +232,7 @@ const PostBlog: React.FC<Props> = (props) => {
                     className="w-full border rounded p-2 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="show_homepage"
                     id="show_homepage"
-                    required
-                  >
+                    required>
                     <option value="yes">Yes</option>
                     <option value="no">No</option>
                   </select>
@@ -243,8 +246,7 @@ const PostBlog: React.FC<Props> = (props) => {
                     className="w-full border rounded p-2 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="status"
                     id="status"
-                    required
-                  >
+                    required>
                     <option value="active">Active</option>
                     <option value="inactive">InActive</option>
                   </select>
@@ -276,8 +278,7 @@ const PostBlog: React.FC<Props> = (props) => {
                 <div className="col-12">
                   <button
                     type="submit"
-                    className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]"
-                  >
+                    className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]">
                     Save
                   </button>
                 </div>

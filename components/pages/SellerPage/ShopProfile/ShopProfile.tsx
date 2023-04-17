@@ -4,6 +4,8 @@ import { EcommerceApi } from "../../../../src/API/EcommerceApi";
 import { controller } from "../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import { toast } from "react-hot-toast";
+import { FaPlus, FaTrash } from "react-icons/fa";
+import Social from "./Social";
 interface Props {}
 
 const ShopProfile: React.FC<Props> = (props) => {
@@ -12,6 +14,10 @@ const ShopProfile: React.FC<Props> = (props) => {
 
   const [selectedLogo, setSelectedLogo] = useState(null);
   const [selectedCover, setSelectedCover] = useState(null);
+
+  const [inputlists, setInputlists] = useState<any>([
+    { social_icon: "", social_link: "" },
+  ]);
 
   const logoChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -24,12 +30,12 @@ const ShopProfile: React.FC<Props> = (props) => {
     }
   };
 
-  const imageChange = (e: any) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setSelectedLogo(e.target.files[0]);
-      console.log(selectedLogo);
-    }
-  };
+  // const imageChange = (e: any) => {
+  //   if (e.target.files && e.target.files.length > 0) {
+  //     setSelectedLogo(e.target.files[0]);
+  //     console.log(selectedLogo);
+  //   }
+  // };
 
   useEffect(() => {
     const getSingleSeller = async () => {
@@ -37,16 +43,20 @@ const ShopProfile: React.FC<Props> = (props) => {
         states?.currentUser?.email
       );
       if (res) {
-        console.log(res);
         setShopData(res);
-        console.log("shoopp data-", shopData);
+        // console.log(res);
+        setInputlists(res?.shop?.social);
       } else {
         console.log(err);
       }
     };
     getSingleSeller();
   }, []);
-  console.log("seller email-", states?.currentUser?.email);
+
+  // useEffect(() => {
+  //   console.log("hello", inputlists);
+  // }, [inputlists]);
+  // console.log("seller email-", states?.currentUser?.email, shopData);
 
   const handleUpdateShop = async (e: any) => {
     e.preventDefault();
@@ -64,7 +74,7 @@ const ShopProfile: React.FC<Props> = (props) => {
       let logoUrl;
       logoUrl = res1?.data?.url;
       if (res1?.data?.url === undefined || null) {
-        logoUrl = shopData.shop.shop_logo;
+        logoUrl = shopData?.shop?.shop_logo;
       }
 
       const { res, err } = await EcommerceApi.uploadImage(formData2);
@@ -73,7 +83,7 @@ const ShopProfile: React.FC<Props> = (props) => {
         let coverUrl;
         coverUrl = res?.data?.url;
         if (res?.data?.url === undefined || null) {
-          coverUrl = shopData.shop.shop_cover;
+          coverUrl = shopData?.shop?.shop_cover;
         }
 
         const newShopData = {
@@ -87,11 +97,15 @@ const ShopProfile: React.FC<Props> = (props) => {
             opens_at: e.target.opens_at.value,
             close_at: e.target.close_at.value,
             geetings_message: e.target.geetings_message.value,
-            social_icon: e.target.social_icon.value,
-            social_link: e.target.social_link.value,
+            // social_icon: e.target.social_icon.value,
+            // social_link: e.target.social_link.value,
+
+            social: inputlists,
+
             seo_title: e.target.seo_title.value,
             seo_des: e.target.seo_des.value,
           },
+
           status: shopData.status,
           role: shopData.role,
           user_email: shopData.user_email,
@@ -102,7 +116,7 @@ const ShopProfile: React.FC<Props> = (props) => {
           states?.currentUser?.email
         );
         if (editRes) {
-          console.log("newShopData-", newShopData);
+          // console.log("newShopData-", newShopData);
           e.target.reset();
           toast.success("Successfully Updated !");
         }
@@ -149,8 +163,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                   <div className="form-group grid text-sm">
                     <label
                       className="text-sm tracking-[.5px] text-[#34395e] font-semibold"
-                      htmlFor=""
-                    >
+                      htmlFor="logoUrl">
                       New Logo
                     </label>
 
@@ -191,8 +204,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                   <div className="form-group grid text-sm">
                     <label
                       className="text-sm tracking-[.5px] text-[#34395e] font-semibold"
-                      htmlFor="coverUrl"
-                    >
+                      htmlFor="coverUrl">
                       New Banner Image
                     </label>
 
@@ -210,8 +222,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="shop_name">
                         Shop Name
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -229,15 +240,14 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="email">
                         Email
                       </label>
                       <span className="text-red-500 ml-2">*</span>
                     </div>
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      type="text"
+                      type="email"
                       name="email"
                       id=""
                       defaultValue={shopData?.email}
@@ -248,8 +258,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="phone">
                         Phone
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -267,8 +276,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Opens at
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -286,8 +294,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Closed at
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -305,8 +312,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Address
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -324,8 +330,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Greetings Message for Chatbox
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -336,61 +341,24 @@ const ShopProfile: React.FC<Props> = (props) => {
                       rows={3}
                       cols={90}
                       className="w-full p-2 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      defaultValue={shopData?.shop?.geetings_message}
-                    ></textarea>
-
-                    {/* <input
-                      className="w-full p-7 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      type="text"
-                      name="geetings_message"
-                      id=""
-                      defaultValue={shopData?.shop?.geetings_message}
-                    /> */}
+                      defaultValue={
+                        shopData?.shop?.geetings_message
+                      }></textarea>
                   </div>
 
-                  <div className="mt-4 flex gap-5">
-                    <div className="w-full">
-                      <div className="my-2 ">
-                        <label
-                          className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                          htmlFor=""
-                        >
-                          Social Icon
-                        </label>
-                      </div>
-                      <input
-                        className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                        type="text"
-                        name="social_icon"
-                        id=""
-                        defaultValue={shopData?.shop.social_icon}
-                      />
-                    </div>
-                    <div className="w-full">
-                      <div className="my-2">
-                        <label
-                          className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                          htmlFor=""
-                        >
-                          Social Link
-                        </label>
-                      </div>
-                      <input
-                        className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                        type="text"
-                        name="social_link"
-                        id=""
-                        defaultValue={shopData?.shop.social_link}
-                      />
-                    </div>
-                  </div>
+                  {/***************  social div start ***************/}
+                  <Social
+                    inputlists={inputlists}
+                    setInputlists={setInputlists}
+                  />
+
+                  {/***************  social div end ***************/}
 
                   <div className="mt-4">
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
+                        htmlFor="">
                         Seo Title
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -408,8 +376,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="seo_des"
-                      >
+                        htmlFor="seo_des">
                         Seo Description
                       </label>
                       <span className="text-red-500 ml-2">*</span>
@@ -420,8 +387,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                       rows={4}
                       cols={90}
                       className="w-full p-2 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      defaultValue={shopData?.shop.seo_des}
-                    ></textarea>
+                      defaultValue={shopData?.shop.seo_des}></textarea>
 
                     {/* <input
                       className="w-full p-5 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
@@ -435,8 +401,7 @@ const ShopProfile: React.FC<Props> = (props) => {
                   <div className="mt-4">
                     <button
                       type="submit"
-                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
-                    >
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
                       Save Changes
                     </button>
                   </div>

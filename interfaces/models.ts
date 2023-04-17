@@ -32,6 +32,7 @@ export interface ISeller extends IUser {
     shop_address: string;
     shop_logo: string;
     shop_cover: string;
+    social: any;
   };
   user_email: string;
 }
@@ -243,7 +244,10 @@ export interface IBlog {
   slug?: string;
 
   title: string;
-  category: string;
+
+  category_slug: string;
+  category?: string;
+
   description: string | undefined;
   long_description: string;
 

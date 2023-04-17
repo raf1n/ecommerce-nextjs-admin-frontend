@@ -59,10 +59,59 @@ const Subscriber: React.FC<Props> = (props) => {
   return (
     <div className="w-full">
       <DashboardBreadcrumb
-        headline="Subscriber"
+        headline="Subscribers"
         slug="Subscriber"
         link="/admin/subscriber"
       />
+      <div className="px-[25px] w-full relative">
+        <div className="mt-4">
+          <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
+            <div className="p-5 leading-6">
+              <form action="">
+                <div>
+                  <h2 className="text-2xl font-bold">
+                    Send Email to All Subscriber
+                  </h2>
+                  <div className="mt-4">
+                    <div className="my-2  ">
+                      <label
+                        className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
+                        htmlFor="">
+                        Subject
+                      </label>
+                    </div>
+                    <input
+                      className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
+                      type="text"
+                      name="subject"
+                      id="subject"
+                    />
+                  </div>
+                  <div className="form-group col-12 flex flex-col mt-5 mb-[25px]">
+                    <label className="inline-block text-sm tracking-wide mb-2">
+                      Message
+                    </label>
+                    <textarea
+                      required
+                      id="message"
+                      name="message"
+                      className="form-control h-[100px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
+                    />
+                  </div>
+
+                  <div className="mt-4">
+                    <button
+                      type="submit"
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
+                      Send Email
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="mx-[25px]">
         <div className="section-body">
