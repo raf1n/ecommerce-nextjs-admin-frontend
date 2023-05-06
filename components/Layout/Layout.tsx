@@ -59,7 +59,7 @@ const Layout: React.FC<Props> = ({ children }) => {
   }
 
   return (
-    <div className="font-nunito flex h-screen overflow-y-hidden bg-[#f4f6f9]">
+    <div className="font-nunito flex overflow-y-hidden bg-[#f4f6f9]">
       {/* left side bar */}
       {asPath.includes("/login") || (
         <Sidebar
