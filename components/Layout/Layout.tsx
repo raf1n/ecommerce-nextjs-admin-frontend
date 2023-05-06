@@ -11,6 +11,7 @@ import Router, { useRouter } from "next/router";
 import { SocialLogin } from "../helpers/SocialLogin";
 import { CookiesHandler } from "../../src/utils/CookiesHandler";
 import { EcommerceApi } from "../../src/API/EcommerceApi";
+import AdminLogin from "../pages/AdminPage/AdminLogin/AdminLogin";
 interface Props {
   children: any;
 }
@@ -25,10 +26,6 @@ const Layout: React.FC<Props> = ({ children }) => {
 
   const { asPath } = router;
 
-  if (typeof window !== "undefined" && asPath === "/") {
-    Router.push("/login");
-  }
-
   const handleMenuClick = (menuOpen: number, idx: number) => {
     if (menuOpen === idx) {
       setMenuOpen(null);
@@ -36,9 +33,6 @@ const Layout: React.FC<Props> = ({ children }) => {
       setMenuOpen(idx);
     }
   };
-  // if (asPath.includes("/login")) {
-  //   return <></>;
-  // }
 
   const role = states?.currentUser?.role;
 
@@ -58,6 +52,10 @@ const Layout: React.FC<Props> = ({ children }) => {
   const signOutUser = async () => {
     await SocialLogin.logOut();
     controller.setCurrentUser(null);
+  };
+
+  if (asPath === "/") {
+    return <AdminLogin />;
   }
 
   return (
@@ -118,11 +116,6 @@ const Layout: React.FC<Props> = ({ children }) => {
                 }}
               >
                 <div className={`flex text-white  pl-6`}>
-                  {/* <img
-                    src={`https://api.websolutionus.com/shopo/uploads/website-images/ibrahim-khalil-2022-01-30-02-48-50-5743.jpg`}
-                    alt="pic"
-                    className={`${styles["img-style"]}`}
-                  /> */}
                   {states.currentUser?.avatar ? (
                     <img
                       className={`${styles["img-style"]}`}

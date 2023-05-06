@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/globals.css";
 import { AppProps } from "next/app";
 import { Provider } from "react-redux";
@@ -11,6 +11,7 @@ import SharedLoadingModal from "../components/shared/SharedLoadingModal/SharedLo
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
+  const [isMounted, setMounted] = useState(false);
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -20,6 +21,21 @@ export default function MyApp(props: AppProps) {
     }
     SocialLogin.initFirebase();
   }, []);
+
+  useEffect(() => {
+    if (isMounted) {
+      // console.log("hash", window.location.hash);
+    } else {
+      setMounted(true);
+    }
+  }, [isMounted]);
+
+  if (!isMounted)
+    return (
+      <Provider store={store}>
+        <SharedLoadingModal />{" "}
+      </Provider>
+    );
 
   return (
     <Provider store={store}>
