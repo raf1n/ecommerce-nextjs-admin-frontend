@@ -29,15 +29,21 @@ const Sidebar: React.FC<Props> = (props) => {
     <div
       className={` ${open ? "w-[250px]" : "w-[65px] "} ${
         responsiveOpen ? "left-0" : "left-[-250px]"
-      } h-screen fixed z-50 lg:left-0 lg:relative bg-white duration-500`}
+      }   z-50 lg:left-0 lg:relative bg-white duration-500`}
     >
       <div className="text-center h-[60px] leading-[60px]">
         <Link href={link} className="font-bold text-sm tracking-widest">
           {open ? "SHOPO" : "SP"}
         </Link>
       </div>
+      {/* h-[calc(100vh-60px)] h-screen fixed*/}
+      {/* ${
+          open ? "overflow-y-scroll overflow-x-hidden" : ""
+        } */}
       <ul
-        className={`${styles["scrollbar"]} h-[calc(100vh-60px)] text-[#78828a] overflow-y-scroll overflow-x-hidden`}
+        className={`${styles["scrollbar"]}  text-[#78828a]  ${
+          open ? "overflow-x-hidden" : ""
+        }`}
       >
         {menus.map((menu, index) => (
           <MenuItem
