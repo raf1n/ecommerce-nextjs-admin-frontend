@@ -535,7 +535,10 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(`${API_ENDPOINT}/users/seller/login`, requestOptions);
+    return await callFetch(
+      `${API_ENDPOINT}/users/seller/login`,
+      requestOptions
+    );
   }
 
   //get user data for private route
@@ -1969,6 +1972,23 @@ export class EcommerceApi {
     };
     return await callFetch(
       `${API_ENDPOINT}/subscriber/${slug}`,
+      requestOptions
+    );
+  }
+
+  // send email
+  static async sendEmail(emailData: any): Promise<any> {
+    console.log("emailData from api-", emailData);
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(emailData),
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/subscriber/send-email`,
       requestOptions
     );
   }
