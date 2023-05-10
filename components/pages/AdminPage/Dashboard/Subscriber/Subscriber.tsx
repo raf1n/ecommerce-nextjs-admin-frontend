@@ -55,6 +55,20 @@ const Subscriber: React.FC<Props> = (props) => {
     Verified: "verified",
     Action: "action",
   };
+  const handleSendEmail = async (e: any) => {
+    e.preventDefault();
+    // controller.setApiLoading(true);
+    const subject = e.target.subject.value;
+    const message = e.target.message.value;
+    const emailData = { subject, message };
+
+    const { res, err } = await EcommerceApi.sendEmail(emailData);
+    if (res) {
+      console.log(res);
+    } else {
+      console.log(err);
+    }
+  };
   // ----------------------------------
   return (
     <div className="w-full">
@@ -67,7 +81,7 @@ const Subscriber: React.FC<Props> = (props) => {
         <div className="mt-4">
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6">
-              <form action="">
+              <form onSubmit={handleSendEmail}>
                 <div>
                   <h2 className="text-2xl font-bold">
                     Send Email to All Subscriber
