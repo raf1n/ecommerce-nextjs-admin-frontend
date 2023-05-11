@@ -6,17 +6,26 @@ import { controller } from "../../../../../../src/state/StateController";
 import { Jsondata } from "../../../../../../src/utils/Jsondata";
 import DynamicTable from "../../../../../shared/SharedTable/DynamicTable";
 import OrderInvoiceTable from "./OrderInvoiceTable";
+import { IOrder } from "../../../../../../interfaces/models";
 
-interface Props {}
+interface Props {
+  order: IOrder;
+}
 
-const OrderInformation: React.FC<Props> = (props) => {
+const OrderInformation: React.FC<Props> = ({ order }) => {
   const states = useSelector(() => controller.states);
+  let m;
 
+  if (order?.createdAt) {
+    let date = new Date(order.createdAt);
+    m = date.toDateString();
+  }
   return (
     <div>
       <div
         className="section-body bg-white my-12  rounded-[3px] "
-        style={{ margin: "25px", padding: "40px" }}>
+        style={{ margin: "25px", padding: "40px" }}
+      >
         <div className="invoice ">
           <div className="invoice-print">
             <div className="row ">
@@ -29,7 +38,7 @@ const OrderInformation: React.FC<Props> = (props) => {
                   />
 
                   <h1 className="font-bold text-xl opacity-60">
-                    Order #344024836
+                    Order {order?.slug}
                   </h1>
 
                   {/* -------------- Only hr  ------------------- */}
@@ -39,25 +48,21 @@ const OrderInformation: React.FC<Props> = (props) => {
                 <div className="my-10  text-sm text-[#6c757d] text-[13px] ">
                   <div className="flex flex-col md:flex-row  justify-between bg-white mt-4">
                     <div>
-                      <strong>Billing Information:</strong>
-                      <br /> Sed et error eligend Minim aut molestiae
-                      <br /> Et labore exercitati
-                      <br /> Deserunt beatae ulla
-                      <br /> Aliquip accusantium, Gandhinagar, Gujarat, India
+                      <strong>Shipping Information :</strong>
+                      <br /> {order?.address?.address}
+                      <br /> {order?.address?.state}
+                      <br /> {order?.address?.city}
+                      <br /> {order?.address?.country}
                       <br />
                     </div>
 
                     <div className="lg:text-right ">
                       <div>
                         <strong>Shipping Information :</strong>
-                        <br />
-                        fd wqe
-                        <br />
-                        dfshg@gmail.com
-                        <br />
-                        000000000000
-                        <br />
-                        England, United Kindom
+                        <br /> {order?.address?.address}
+                        <br /> {order?.address?.state}
+                        <br /> {order?.address?.city}
+                        <br /> {order?.address?.country}
                         <br />
                       </div>
                     </div>
@@ -67,29 +72,29 @@ const OrderInformation: React.FC<Props> = (props) => {
                     <div className="text-left">
                       <strong>Payment Information:</strong>
                       <br />
-                      Method: Razorpay
+                      Method: {order?.payment_method}
                       <br />
                       Status :
                       <span className="bg-[#47c363] rounded-full px-2 py-1 text-white text-xs">
-                        Success
+                        {order?.payment_status}
                       </span>
                       <br />
                       Transaction:
                       <br />
-                      pay_L5CX9iZAjdEqbw
+                      {order?.transaction_id}
                       <br />
                     </div>
 
                     <div className="lg:text-right mt-3">
                       <strong>Order Information:</strong>
                       <br />
-                      Date: 17 January, 2023
+                      {m}
                       <br />
-                      Shipping: free shipping
+                      Shipping: {order?.shippingCost}
                       <br />
                       Status :
                       <span className="bg-[#fc544b] rounded-full px-2 py-1 text-white text-xs">
-                        Pending
+                        {order?.order_status}
                       </span>
                       <br />
                     </div>
@@ -103,7 +108,7 @@ const OrderInformation: React.FC<Props> = (props) => {
               <h2 className="font-semibold">Order Summary</h2>
             </div>
             <div className="overflow-x-auto">
-              <OrderInvoiceTable />
+              <OrderInvoiceTable orderData={order} />
             </div>
 
             {/* ---------------  Order Status ----------------- */}
@@ -118,7 +123,8 @@ const OrderInformation: React.FC<Props> = (props) => {
                   <select
                     name=""
                     id=""
-                    className="border w-full h-[42px] bg-[#fdfdff] py-15 px-4 text-sm rounded focus:border-blue-500 ">
+                    className="border w-full h-[42px] bg-[#fdfdff] py-15 px-4 text-sm rounded focus:border-blue-500 "
+                  >
                     <option value="">Success</option>
                     <option value="">Pending</option>
                   </select>
@@ -128,7 +134,8 @@ const OrderInformation: React.FC<Props> = (props) => {
                   <select
                     name=""
                     id=""
-                    className="border w-full h-[42px] py-15 px-4 text-sm">
+                    className="border w-full h-[42px] py-15 px-4 text-sm"
+                  >
                     <option value="">Pending</option>
                     <option value="">In success</option>
                     <option value="">Delivered</option>
@@ -138,7 +145,8 @@ const OrderInformation: React.FC<Props> = (props) => {
                 </div>
                 <button
                   type="submit"
-                  className="bg-blue-700 shadow-[0_4px_6px_#acb5f6] px-[14px] py-[8px] text-white text-sm rounded mt-1">
+                  className="bg-blue-700 shadow-[0_4px_6px_#acb5f6] px-[14px] py-[8px] text-white text-sm rounded mt-1"
+                >
                   Update Status
                 </button>
               </div>

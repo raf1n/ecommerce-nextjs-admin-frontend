@@ -916,10 +916,7 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(
-      `${API_ENDPOINT}/orders/admin?${slug}`,
-      requestOptions
-    );
+    return await callFetch(`${API_ENDPOINT}/orders/${slug}`, requestOptions);
   }
 
   //create Coupon
