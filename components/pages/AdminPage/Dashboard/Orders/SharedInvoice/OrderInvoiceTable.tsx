@@ -12,7 +12,6 @@ interface Props {
 
 const OrderInvoiceTable: React.FC<Props> = ({ orderData }) => {
   const states = useSelector(() => controller.states);
-  console.log(orderData.product_list);
 
   return (
     <table className="leading-normal opacity-90 w-full">
@@ -57,7 +56,7 @@ const OrderInvoiceTable: React.FC<Props> = ({ orderData }) => {
       </thead>
       {/* -----------Plz Attention ,Table body/Row start here -------------- */}
       <tbody>
-        {orderData.product_list.map(
+        {orderData?.product_list.map(
           (orderSummaryData: ICartProduct, index: number) => (
             <tr
               key={index}

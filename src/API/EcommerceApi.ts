@@ -887,7 +887,7 @@ export class EcommerceApi {
 
   // Update Order Status
   static async orderStatusUpdate(
-    slug: string,
+    slug: string | undefined,
     order: { payment_status: string; order_status: string }
   ): Promise<IOrderResponse> {
     const myHeaders = new Headers();
