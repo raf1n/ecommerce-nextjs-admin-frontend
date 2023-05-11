@@ -69,7 +69,7 @@ const LayoutForSeller: React.FC<Props> = ({ children }) => {
               }}
             />
           </div>
-          <div className="flex items-center px-8 text-white">
+          <div className="flex items-center px-8 text-white print:hidden">
             <button className="flex text-[#f2f2f2]">
               <span className="text-xl">
                 <FaHome />

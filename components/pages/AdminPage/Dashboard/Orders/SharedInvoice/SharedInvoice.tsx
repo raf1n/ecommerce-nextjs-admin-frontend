@@ -14,7 +14,13 @@ const SharedInvoice: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <DashboardBreadcrumb headline="Invoice " slug="Invoice" link="invoice" />
+      <div>
+        <DashboardBreadcrumb
+          headline="Invoice "
+          slug="Invoice"
+          link="invoice"
+        />
+      </div>
       <OrderInformation order={props.order} />
     </div>
   );

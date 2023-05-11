@@ -27,7 +27,7 @@ const Sidebar: React.FC<Props> = (props) => {
 
   return (
     <div
-      className={` ${open ? "w-[250px]" : "w-[65px] "} ${
+      className={` print:hidden ${open ? "w-[250px]" : "w-[65px] "} ${
         responsiveOpen ? "left-0" : "left-[-250px]"
       }   z-50 lg:left-0 lg:relative bg-white duration-500`}
     >
