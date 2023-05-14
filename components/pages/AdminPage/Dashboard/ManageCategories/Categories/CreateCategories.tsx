@@ -1,14 +1,50 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
-
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
 const CreateCategories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+
+  const handleSave = async (e: any) => {
+    e.preventDefault();
+    controller.setApiLoading(true);
+
+    const image = e.target.imageURL.files[0];
+    const formData = new FormData();
+    formData.append("image", image);
+    const { res, err } = await EcommerceApi.uploadCategoryImage(formData);
+
+    if (res?.data?.url || !res?.data?.url) {
+      let imageUrl;
+      imageUrl = res?.data?.url;
+
+      if (res?.data?.url === undefined || null) {
+        imageUrl = "";
+      }
+
+      const categories = {
+        cat_image: imageUrl,
+        cat_name: e.target.name.value,
+        cat_status: e.target.status.value,
+      };
+
+      const { res: postRes, err: postErr } =
+        await EcommerceApi.createCategories(categories);
+
+      if (postRes) {
+        toast.success("Categories added Successfully");
+        e.target.reset();
+      }
+    }
+
+    controller.setApiLoading(false);
+  };
 
   return (
     <div className="w-full">
@@ -16,20 +52,20 @@ const CreateCategories: React.FC<Props> = (props) => {
         headline="Create Product Category"
         link="create"
         slug="Create Product Category"
-      ></DashboardBreadcrumb>
+      />
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Product Category"
-            link="/product_categories"
-          ></SharedGoBackButton>
+            link="/admin/product_categories"
+          />
         </div>
       </div>
       <div className="px-[25px] w-full relative">
         <div className="mt-4">
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6">
-              <form action="">
+              <form onSubmit={handleSave} action="">
                 <div>
                   <div className="form-group grid text-sm">
                     <label
@@ -43,28 +79,11 @@ const CreateCategories: React.FC<Props> = (props) => {
                     <input
                       className="w-full mt-4 p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="file"
-                      name="image"
+                      name="imageURL"
                       id=""
                     />
                   </div>
 
-                  <div className="mt-4">
-                    <div className="my-2">
-                      <label
-                        className="text-[#34395e] tracking-[.5px] font-semibold mt-4 text-sm"
-                        htmlFor=""
-                      >
-                        Icon
-                      </label>
-                      <span className="text-red-500 ml-2">*</span>
-                    </div>
-                    <input
-                      className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      type="text"
-                      name="icon"
-                      id=""
-                    />
-                  </div>
                   <div className="mt-4">
                     <div className="my-2">
                       <label
@@ -111,7 +130,7 @@ const CreateCategories: React.FC<Props> = (props) => {
                     </div>
                     <select
                       className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name=""
+                      name="status"
                       id=""
                     >
                       <option value="active">Active</option>

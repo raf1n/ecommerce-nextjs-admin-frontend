@@ -1,13 +1,74 @@
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { ICategories } from "../../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
 const EditCategories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+
+  const { asPath } = useRouter();
+  const catSlug = asPath.split("/")[3];
+  const [catData, setCatData] = useState<ICategories | null>(null);
+
+  const getSingleCategory = async () => {
+    if (catSlug !== "[id]") {
+      const { res, err } = await EcommerceApi.getSingleCategory(catSlug);
+      if (res) {
+        setCatData(res);
+      } else {
+        console.log(err);
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log(catSlug);
+    getSingleCategory();
+  }, [catSlug]);
+
+  const handleEdit = async (e: any) => {
+    e.preventDefault();
+    controller.setApiLoading(true);
+
+    const image = e.target.image.files[0];
+    const formData = new FormData();
+    formData.append("image", image);
+
+    const { res, err } = await EcommerceApi.uploadCategoryImage(formData);
+    if (res?.data?.url || !res?.data?.url) {
+      let imageUrl;
+      imageUrl = res?.data?.url;
+      // setImageLink(data?.data?.url);
+      if (res?.data?.url === undefined || null) {
+        imageUrl = catData?.cat_image;
+      }
+
+      const categories = {
+        cat_image: imageUrl,
+        cat_name: e.target.name.value,
+        cat_status: e.target.status.value,
+      };
+
+      const { res: editRes, err } = await EcommerceApi.editCategories(
+        categories,
+        catSlug
+      );
+      if (editRes) {
+        toast.success("Categories Updated");
+        getSingleCategory();
+        e.target.reset();
+      }
+    }
+
+    controller.setApiLoading(false);
+  };
 
   return (
     <div className="w-full ">
@@ -20,7 +81,7 @@ const EditCategories: React.FC<Props> = (props) => {
         <div className="section-body">
           <SharedGoBackButton
             title="Product Categories"
-            link="/product_categories"
+            link="/admin/product_categories"
           ></SharedGoBackButton>
         </div>
       </div>
@@ -36,13 +97,13 @@ const EditCategories: React.FC<Props> = (props) => {
                   <img
                     style={{ width: "200px" }}
                     className="mt-4 "
-                    src="https://api.websolutionus.com/shopo/uploads/custom-images/electronics-2022-11-19-02-48-28-5548.png"
+                    src={catData?.cat_image}
                     alt=""
                   />
                 </picture>
               </div>
 
-              <form action="">
+              <form onSubmit={handleEdit} action="">
                 <div>
                   <div className="form-group grid text-sm mt-4">
                     <label
@@ -58,25 +119,7 @@ const EditCategories: React.FC<Props> = (props) => {
                       type="file"
                       name="image"
                       id=""
-                      required
-                    />
-                  </div>
-                  <div className="mt-4">
-                    <div className="my-2">
-                      <label
-                        className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
-                        Icon
-                      </label>
-                      <span className="text-red-500 ml-2">*</span>
-                    </div>
-                    <input
-                      className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      type="text"
-                      name="icon"
-                      id=""
-                      required
+                      // required
                     />
                   </div>
                   <div className="mt-4">
@@ -93,26 +136,9 @@ const EditCategories: React.FC<Props> = (props) => {
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
                       name="name"
-                      defaultValue="Mircrosoft"
+                      defaultValue={catData?.cat_name}
                       id=""
                       required
-                    />
-                  </div>
-                  <div className="mt-4">
-                    <div className="my-2">
-                      <label
-                        className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
-                        Slug
-                      </label>
-                    </div>
-                    <input
-                      className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      type="text"
-                      name="slug"
-                      defaultValue="mircrosoft"
-                      id=""
                     />
                   </div>
                   <div className="mt-4">

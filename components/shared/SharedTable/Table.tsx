@@ -1,158 +1,208 @@
-import React from "react";
+import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { FaEye, FaTrash, FaTruck } from "react-icons/fa";
-import Styles from "./Table.module.css";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
-import { Jsondata } from "../../../src/utils/Jsondata";
 import { controller } from "../../../src/state/StateController";
 import Link from "next/link";
-interface Props {}
+import { ICartProduct, IOrder } from "../../../interfaces/models";
+import SharedDeleteModal from "../SharedDeleteModal/SharedDeleteModal";
+import SharedOrderStatusUpdateModal from "../SharedOrderStatusUpdateModal/SharedOrderStatusUpdateModal";
+import SharedPagination from "../SharedPagination/SharedPagination";
+
+interface Props {
+  setShowUpdateModal: Dispatch<SetStateAction<string | any>>;
+  showUpdateModal: string;
+  setDeleteModalSlug: Dispatch<SetStateAction<string | any>>;
+  deleteModalSlug: string;
+  handleDelete: () => void;
+  ordersData: IOrder[];
+  tableHeaders: any;
+  sortType: string;
+  sortBy: string;
+  count: number;
+  limit: number;
+  page: number;
+  setSortBy: Dispatch<SetStateAction<string>>;
+  setSortType: Dispatch<SetStateAction<string>>;
+  setSearchString: Dispatch<SetStateAction<string>>;
+  setLimit: Dispatch<SetStateAction<number>>;
+  setPage: Dispatch<SetStateAction<number>>;
+}
 
 const Table: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const {
+    tableHeaders,
+    setSortBy,
+    setSearchString,
+    setSortType,
+    sortBy,
+    sortType,
+    ordersData,
+    setDeleteModalSlug,
+    count,
+    limit,
+    page,
+    setLimit,
+    setPage,
+  } = props;
+
+  const handleQuantity = (product_list: ICartProduct[]) => {
+    const quantity = product_list.reduce(
+      (acc: number, item: ICartProduct) => acc + item.quantity,
+      0
+    );
+
+    return quantity;
+  };
+
+  const orderStatus = [
+    {
+      value: "in_progress",
+      name: "In Progress",
+    },
+    {
+      value: "pending",
+      name: "Pending",
+    },
+    {
+      value: "delivered",
+      name: "Delivered",
+    },
+    {
+      value: "completed",
+      name: "Completed",
+    },
+    {
+      value: "declined",
+      name: "Declined",
+    },
+  ];
+
+  const handleOrder = (order_status: string) => {
+    const order = orderStatus.find((order) => {
+      if (order.value === order_status) {
+        return order;
+      }
+    });
+
+    return order?.name;
+  };
+
+  const pageCount =
+    count % limit === 1 ? Math.ceil(count / limit) : count / limit;
 
   return (
-    <div style={{ margin: "25px", backgroundColor: "white" }}>
-      <div className="p-4 rounded w-full">
-        <div className="flex items-center justify-between pb-6">
+    <div className="m-[25px] bg-white">
+      <div className="p-5 rounded w-full">
+        <div className="flex items-center justify-between pb-4">
           <div>
             <span className="text-xs text-gray-500 px-1">Show </span>
             <select
+              onChange={(e) => setLimit(parseInt(e.target.value))}
               name="dataTable_length"
               aria-controls="dataTable"
-              className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center">
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
+              className="border bg-gray-50  hover:border-blue-600 text-gray-500 h-[42px] w-[56px]  text-sm text-center rounded"
+            >
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
             </select>
-            <span className="text-xs text-gray-500  px-1">Entries</span>
+            <span className="text-xs text-gray-500  px-1">entries</span>
           </div>
+          {/*********************************************/}
           <div className="flex items-center justify-between">
             <label htmlFor="" className="text-xs text-gray-500">
               Search
             </label>
-            <div
-              className={`${Styles[" "]}  flex bg-gray-50 items-center ml-3 rounded h-[34px]  `}>
+            <div className={`flex items-center ml-3`}>
               <input
-                className={`${Styles["form-control-sm"]} bg-gray-50 outline-none  border border-blue-200 `}
+                maxLength={200}
+                onChange={(e) => setSearchString(e.target.value)}
+                className={`rounded outline-none  border hover:border-blue-400 h-[31px] w-[181px] py-[2px] px-[6px]`}
                 type="text"
                 name=""
                 id=""
               />
             </div>
           </div>
+          {/*******************************************/}
         </div>
         <div>
           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-1 overflow-x-auto">
             <div className="inline-block min-w-full shadow  overflow-hidden">
               <table className="min-w-full leading-normal">
                 <thead>
-                  <tr className="h-16">
-                    <th
-                      className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
-                      <span className="flex  space-x-0 space-y-0 ">
-                        SL
-                        <span className="opacity-50 flex">
-                          <FaLongArrowAltUp /> <FaLongArrowAltDown />
+                  <tr className="h-[70px]">
+                    {Object.keys(tableHeaders).map((header: any) => (
+                      <th className="px-3 pt-6  border-b-[1px] border-[#ddd] bg-[rgba(0,0,0,0.04)] text-left text-[15px] font-bold  text-[#666] capitalize ">
+                        <span className="flex">
+                          <span className="flex-1">{header}</span>
+                          <FaLongArrowAltUp
+                            onClick={() => {
+                              setSortType("asc");
+                              //@ts-ignore
+                              setSortBy(tableHeaders[header]);
+                            }}
+                            className={`${
+                              //@ts-ignore
+                              sortBy === tableHeaders[header] &&
+                              sortType === "asc"
+                                ? "fill-gray-700"
+                                : "fill-gray-300"
+                            } w-2 ml-2 cursor-pointer`}
+                          />
+                          <FaLongArrowAltDown
+                            onClick={() => {
+                              setSortType("desc");
+                              //@ts-ignore
+                              setSortBy(tableHeaders[header]);
+                            }}
+                            className={`${
+                              //@ts-ignore
+                              sortBy === tableHeaders[header] &&
+                              sortType === "desc"
+                                ? "fill-gray-700"
+                                : "fill-gray-300"
+                            } w-2 ml-1 cursor-pointer`}
+                          />
                         </span>
-                      </span>
-                    </th>
-                    <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
-                      <span className="flex  space-x-0 space-y-0  ">
-                        Customer
-                        <span className="opacity-50 flex">
-                          <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                        </span>
-                      </span>
-                    </th>
-                    <th
-                      className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
-                      <span className="flex  space-x-0 space-y-0 ">
-                        Order Id
-                        <span className="opacity-50 flex">
-                          <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                        </span>
-                      </span>
-                    </th>
-                    <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase  `}>
-                      <span className="flex  space-x-0 space-y-0 ">
-                        Date
-                        <span className="opacity-50 flex">
-                          <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                        </span>
-                      </span>
-                    </th>
-                    <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
-                      <span className="flex  space-x-0 space-y-0 ">
-                        Quantity
-                        <span className="opacity-50 flex">
-                          <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                        </span>
-                      </span>
-                    </th>
-                    <th
-                      className={` px-1 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
-                      <span className="flex  space-x-0 space-y-0">
-                        Amount
-                        <span className="opacity-50 flex">
-                          <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                        </span>
-                      </span>
-                    </th>
-                    <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
-                      <span className="flex  space-x-0 space-y-0 ">
-                        Order Status
-                        <span className="opacity-50 flex">
-                          <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                        </span>
-                      </span>
-                    </th>
-                    <th
-                      className={`px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
-                      <span className="flex  space-x-0 space-y-0">
-                        Payment
-                        <span className="opacity-50 flex">
-                          <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                        </span>
-                      </span>
-                    </th>
-                    <th
-                      className={` px-3 py-3  bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase `}>
-                      <span className="flex  space-x-0 space-y-0">
-                        Action
-                        <span className="opacity-50 flex">
-                          <FaLongArrowAltUp /> <FaLongArrowAltDown />
-                        </span>
-                      </span>
-                    </th>
+                      </th>
+                    ))}
                   </tr>
                 </thead>
                 {/* -----------Plz Attention ,Table body/Row start here -------------- */}
                 <tbody>
-                  {Jsondata.tableDatas.map((tabledata, index) => (
-                    <tr className="even:bg-gray-50 odd:bg-white">
+                  {ordersData.map((tabledata: IOrder, index: number) => (
+                    <tr key={index} className="even:bg-gray-50 odd:bg-white">
                       <td className="px-3 py-3 text-sm">
                         <p className="text-gray-900 ">{index + 1}</p>
                       </td>
-                      <td className="px-3 py-3  text-sm">
-                        <p className="text-gray-900 ">{tabledata.Customer}</p>
+                      <td className="px-3 py-3  text-sm capitalize">
+                        {tabledata && tabledata.userData && (
+                          <p className="text-gray-900 ">
+                            {tabledata?.userData.fullName}
+                          </p>
+                        )}
                       </td>
                       <td className="px-3 py-3    text-sm">
-                        <p className="text-gray-900 ">{tabledata.OrderId}</p>
+                        <p className="text-gray-900 ">
+                          {tabledata.slug?.split("_")[4]}
+                        </p>
                       </td>
                       <td className="px-0 py-3  text-sm">
-                        <p className="text-gray-900 ">{tabledata.Date}</p>
+                        <p className="text-gray-900 ">
+                          {tabledata.createdAt?.split("T")[0]}
+                        </p>
+                      </td>
+                      <td className="px-5 py-3  text-sm">
+                        <p className="text-gray-900">
+                          {handleQuantity(tabledata.product_list)}
+                        </p>
                       </td>
                       <td className="px-3 py-3  text-sm">
-                        <p className="text-gray-900">{tabledata.Quantity}</p>
-                      </td>
-                      <td className="px-3 py-3  text-sm">
-                        <p className="text-gray-900 ">${tabledata.Amount}</p>
+                        <p className="text-gray-900 ">${tabledata.total}</p>
                       </td>
 
                       <td className="px-3 py-3   text-sm ">
@@ -160,12 +210,13 @@ const Table: React.FC<Props> = (props) => {
                           <span
                             aria-hidden
                             className={`absolute inset-0 ${
-                              tabledata.OrderStatus == "pending"
+                              tabledata.order_status === "pending"
                                 ? "bg-red-500"
                                 : "bg-green-500"
-                            }  rounded-full`}></span>
+                            }  rounded-full`}
+                          ></span>
                           <span className="relative text-white text-xs capitalize break-words">
-                            {tabledata.OrderStatus}
+                            {handleOrder(tabledata.order_status)}
                           </span>
                         </span>
                       </td>
@@ -176,12 +227,15 @@ const Table: React.FC<Props> = (props) => {
                             aria-hidden
                             className={`absolute inset-0  rounded-full
                             ${
-                              tabledata.Payment == "success"
+                              tabledata.payment_status === "success"
                                 ? " bg-green-500 "
                                 : "bg-red-500 "
-                            }`}></span>
+                            }`}
+                          ></span>
                           <span className="relative text-white text-xs capitalize">
-                            {tabledata.Payment}
+                            {tabledata.payment_status === "pending"
+                              ? "Pending"
+                              : "Success"}
                           </span>
                         </span>
                       </td>
@@ -191,8 +245,11 @@ const Table: React.FC<Props> = (props) => {
                           <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                             <span
                               style={{ boxShadow: "0 2px 6px #acb5f6" }}
-                              className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center">
-                              <Link href={`/show_order/${tabledata.id}`}>
+                              className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
+                            >
+                              <Link
+                                href={`/${states.currentUser?.role}/show_order/${tabledata.slug}`}
+                              >
                                 <FaEye />
                               </Link>
                             </span>
@@ -200,18 +257,29 @@ const Table: React.FC<Props> = (props) => {
                         </button>
                         <button>
                           <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                            <span
-                              style={{ boxShadow: "0 2px 6px #fd9b96" }}
-                              className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center">
-                              <FaTrash />
-                            </span>
+                            {tabledata && tabledata.slug && (
+                              <span
+                                onClick={() =>
+                                  setDeleteModalSlug(tabledata.slug)
+                                }
+                                style={{ boxShadow: "0 2px 6px #fd9b96" }}
+                                className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                              >
+                                <FaTrash />
+                              </span>
+                            )}
                           </span>
                         </button>
                         <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
-                          <button>
+                          <button
+                            onClick={() =>
+                              props.setShowUpdateModal(tabledata.slug)
+                            }
+                          >
                             <span
                               style={{ boxShadow: "0 2px 6px #ffc473" }}
-                              className="h-8 w-8  inset-0 bg-orange-400   rounded  relative text-white flex justify-center items-center">
+                              className="h-8 w-8  inset-0 bg-orange-400   rounded  relative text-white flex justify-center items-center"
+                            >
                               <FaTruck />
                             </span>
                           </button>
@@ -219,53 +287,25 @@ const Table: React.FC<Props> = (props) => {
                       </td>
                     </tr>
                   ))}
+                  <SharedOrderStatusUpdateModal
+                    ordersData={ordersData}
+                    showUpdateModal={props.showUpdateModal}
+                    setShowUpdateModal={props.setShowUpdateModal}
+                  ></SharedOrderStatusUpdateModal>
                 </tbody>
               </table>
-              {/* ----------------------------------------- */}
-              <div className="px-5 py-5  border-t flex justify-end">
-                <div className="inline-flex mt-2 xs:mt-0">
-                  <button className="text-sm text-indigo-500 transition duration-150    font-semibold py-2 px-4 rounded-l">
-                    Prev
-                  </button>
-                  &nbsp; &nbsp;
-                  <a
-                    href="#"
-                    aria-current="page"
-                    className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20">
-                    1
-                  </a>
-                  <a
-                    href="#"
-                    className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
-                    2
-                  </a>
-                  <a
-                    href="#"
-                    className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex">
-                    3
-                  </a>
-                  <a
-                    href="#"
-                    className="relative hidden items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex">
-                    4
-                  </a>
-                  <a
-                    href="#"
-                    className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
-                    5
-                  </a>
-                  <a
-                    href="#"
-                    className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
-                    6
-                  </a>
-                  <button className="ml-3 text-sm text-indigo-500 transition duration-150  font-semibold py-2 px-4 rounded-r">
-                    Next
-                  </button>
-                </div>
-              </div>
-
-              {/* ----------------- */}
+              {/* ---------- table footer  ------------------------------- */}
+              <SharedPagination
+                count={count}
+                limit={limit}
+                page={page}
+                setPage={setPage}
+              />
+              <SharedDeleteModal
+                deleteModalSlug={props.deleteModalSlug}
+                handleDelete={props.handleDelete}
+                setDeleteModalSlug={props.setDeleteModalSlug}
+              ></SharedDeleteModal>
             </div>
           </div>
         </div>

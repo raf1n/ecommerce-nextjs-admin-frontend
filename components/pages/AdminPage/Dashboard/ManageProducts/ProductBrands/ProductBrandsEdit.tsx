@@ -1,28 +1,88 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DashboardBreadcrumb from "./../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "./../../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import { controller } from "../../../../../../src/state/StateController";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { IBrand, IBrandDetail } from "../../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
 const ProductBrandsEdit: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [brandData, setBrandData] = useState<IBrandDetail | null>(null);
+
+  const { asPath } = useRouter();
+  const brandSlug = asPath.split("/")[3];
+
+  useEffect(() => {
+    if (brandSlug !== "[id]") {
+      fetch(`http://localhost:8000/brands/${brandSlug}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setBrandData(data);
+        });
+    }
+  }, [brandSlug]);
+
+  const handleEdit = async (e: any) => {
+    e.preventDefault();
+    controller.setApiLoading(true);
+
+    const logo = e.target.logo.files[0];
+    const formData = new FormData();
+    formData.append("image", logo);
+
+    const { res, err } = await EcommerceApi.uploadImage(formData);
+    console.log({ res, err });
+    // if (res?.data?.url) {
+    let imageUrl;
+    imageUrl = res?.data?.url;
+
+    console.log({ res, err });
+
+    if (res?.data?.url === undefined || err) {
+      imageUrl = "" || brandData?.logo;
+    }
+
+    const editBrandData: IBrand = {
+      logo: imageUrl,
+      name: e.target.name.value,
+      status: e.target.status.value,
+    };
+
+    const { res: brandRes, err: brandErr } = await EcommerceApi.editBrand(
+      editBrandData,
+      brandSlug
+    );
+
+    if (brandRes) {
+      toast.success("Brand Edited");
+      setBrandData(brandRes);
+    } else {
+      console.log(brandErr);
+    }
+
+    controller.setApiLoading(false);
+  };
 
   return (
     <div className="w-full ">
       <DashboardBreadcrumb
         headline="Edit Product Brand"
-        link="/product_brands/edit"
+        link={`/product_brands/${brandSlug}/edit`}
         slug="Edit Product Brand"
-      ></DashboardBreadcrumb>
+      />
       <div className="m-6">
         <div className="section-body">
           <SharedGoBackButton
             title="Product Brands"
-            link="/product_brands"
-          ></SharedGoBackButton>
+            link="/admin/product_brands"
+          />
         </div>
       </div>
       <div className="px-[25px] w-full relative">
@@ -34,19 +94,18 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                   Existing Logo
                 </label>
                 <div>
-                  <Image
-                    className="mt-4"
-                    loader={() =>
-                      "https://api.websolutionus.com/shopo/uploads/custom-images/mircrosoft-2022-09-25-04-16-10-7094.png"
-                    }
-                    src="https://api.websolutionus.com/shopo/uploads/custom-images/mircrosoft-2022-09-25-04-16-10-7094.png"
-                    width={100}
-                    height={100}
-                    alt=""
-                  />
+                  <picture>
+                    <img
+                      className="mt-4"
+                      src={brandData?.logo}
+                      width={100}
+                      height={100}
+                      alt=""
+                    />
+                  </picture>
                 </div>
               </div>
-              <form action="">
+              <form onSubmit={handleEdit}>
                 <div>
                   <div className="form-group grid text-sm mt-4">
                     <label
@@ -54,7 +113,6 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                       htmlFor=""
                     >
                       Logo
-                      <span className=" text-red-500 ml-2">*</span>
                     </label>
 
                     <input
@@ -62,7 +120,7 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                       type="file"
                       name="logo"
                       id=""
-                      required
+                      // required
                     />
                   </div>
                   <div className="mt-4">
@@ -73,34 +131,18 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                       >
                         Name
                       </label>
-                      <span className="text-red-500 ml-2">*</span>
                     </div>
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
                       name="name"
-                      defaultValue="Mircrosoft"
+                      defaultValue={brandData?.name}
                       id=""
-                      required
+                      // required
                     />
                   </div>
-                  <div className="mt-4">
-                    <div className="my-2">
-                      <label
-                        className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor=""
-                      >
-                        Slug
-                      </label>
-                    </div>
-                    <input
-                      className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
-                      type="text"
-                      name="slug"
-                      defaultValue="mircrosoft"
-                      id=""
-                    />
-                  </div>
+
+                  {/* Brand status */}
                   <div className="mt-4">
                     <div className="my-2">
                       <label
@@ -110,17 +152,18 @@ const ProductBrandsEdit: React.FC<Props> = (props) => {
                         Status
                       </label>
                     </div>
-                    <select
-                      className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name="status"
-                      id=""
-                      required
-                    >
-                      <option value="active" selected>
-                        Active
-                      </option>
-                      <option value="inactive">InActive</option>
-                    </select>
+                    {brandData?.status && (
+                      <select
+                        className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
+                        name="status"
+                        id=""
+                        defaultValue={brandData?.status}
+                        // required
+                      >
+                        <option value="active">Active</option>
+                        <option value="inactive">InActive</option>
+                      </select>
+                    )}
                   </div>
                   <div className="mt-4">
                     <button

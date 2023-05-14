@@ -2,29 +2,56 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 import Styles from "./ToggleButton.module.css";
-interface Props {}
+interface Props {
+  status: string;
+  slug: string;
+}
 
-const ToggleButton: React.FC<Props> = (props) => {
+const ToggleButton: React.FC<Props> = ({ status, slug }) => {
   const states = useSelector(() => controller.states);
 
-  const [active, setActive] = useState(true);
+  const [toggleStatus, setToggleStatus] = useState(status);
+
+  const handleClick = () => {
+    let patchStatus;
+
+    if (toggleStatus === "active") {
+      patchStatus = "inactive";
+    } else {
+      patchStatus = "active";
+    }
+    console.log(slug);
+    fetch(`http://localhost:8000/sub-categories/${slug}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ subcat_status: patchStatus }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setToggleStatus(data.subcat_status);
+      });
+  };
 
   return (
     <div
-      className={`w-[80px] overflow-hidden border h-8 relative rounded ${
-        active ? Styles["shadow-active"] : Styles["shadow-inactive"]
+      className={`w-[80px] overflow-hidden border h-8 relative rounded cursor-pointer ${
+        toggleStatus === "active"
+          ? Styles["shadow-active"]
+          : Styles["shadow-inactive"]
       }`}
     >
       <div
-        onClick={() => setActive(!active)}
+        onClick={() => handleClick()}
         className={`grid grid-cols-[65px,15px,65px] relative transition-all delay-100 duration-200 ease-in ${
-          active ? "left-[0px]" : "left-[-65px]"
+          toggleStatus === "active" ? "left-[0px]" : "left-[-65px]"
         }`}
       >
         <span className="bg-green-500 text-xs text-white grid place-items-center">
           Active
         </span>
-        <span className=" border-blue-500 inline-block w-[15px] h-8 rounded bg-white"></span>
+        <span className="w-[15px] h-8 bg-white hover:bg-slate-200"></span>
         <span className="bg-red-500  text-white grid place-items-center text-xs">
           Inactive
         </span>

@@ -1,14 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { ICategories } from "../../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
+import { toast } from "react-hot-toast";
+import { add } from "date-fns";
 
 interface Props {}
 
 const CreateSubCategories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [categoriesData, setCategoriesData] = useState<ICategories[]>([]);
 
+  const handleUpdate = async (e: any) => {
+    e.preventDefault();
+    controller.setApiLoading(true);
+
+    const subCategories = {
+      cat_slug: e.target.catName.value,
+      subcat_name: e.target.subCatname.value,
+      subcat_status: e.target.status.value,
+    };
+
+    const { res, err } = await EcommerceApi.createSubCategories(subCategories);
+
+    if (res) {
+      e.target.reset();
+      toast.success("SubCategories added");
+    }
+
+    controller.setApiLoading(false);
+  };
+
+  useEffect(() => {
+    const fetchAllCategoriesData = async () => {
+      const { res, err } = await EcommerceApi.allCategories();
+      if (err) {
+        console.log(err);
+      } else {
+        setCategoriesData(res);
+
+        // console.log(res);
+      }
+    };
+    fetchAllCategoriesData();
+  }, []);
   return (
     <div className="w-full">
       <DashboardBreadcrumb
@@ -20,7 +58,7 @@ const CreateSubCategories: React.FC<Props> = (props) => {
         <div className="section-body">
           <SharedGoBackButton
             title="Product Sub Category"
-            link="/product_sub_categories"
+            link="/admin/product_sub_categories"
           ></SharedGoBackButton>
         </div>
       </div>
@@ -28,7 +66,7 @@ const CreateSubCategories: React.FC<Props> = (props) => {
         <div className="mt-4">
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6">
-              <form action="">
+              <form onSubmit={handleUpdate} action="">
                 <div>
                   <div>
                     <div className="mt-4">
@@ -43,14 +81,19 @@ const CreateSubCategories: React.FC<Props> = (props) => {
                       </div>
                       <select
                         className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                        name=""
+                        name="catName"
                         id=""
                       >
                         <option value="">Select Category</option>
-                        <option value="active">Electronics</option>
+                        {categoriesData.map((category: ICategories) => (
+                          <option value={category.cat_slug}>
+                            {category.cat_name}
+                          </option>
+                        ))}
+                        {/* <option value="active">Electronics</option>
                         <option value="inactive">Game</option>
                         <option value="inactive">Mobile</option>
-                        <option value="inactive">Lifestyles</option>
+                        <option value="inactive">Lifestyles</option> */}
                       </select>
                     </div>
                   </div>
@@ -67,7 +110,7 @@ const CreateSubCategories: React.FC<Props> = (props) => {
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
-                      name="name"
+                      name="subCatname"
                       id=""
                     />
                   </div>
@@ -100,7 +143,7 @@ const CreateSubCategories: React.FC<Props> = (props) => {
                     </div>
                     <select
                       className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name=""
+                      name="status"
                       id=""
                     >
                       <option value="active">Active</option>

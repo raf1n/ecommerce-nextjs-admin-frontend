@@ -1,14 +1,79 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedGoBackButton from "../../../../../shared/SharedGoBackButton/SharedGoBackButton";
 import { controller } from "../../../../../../src/state/StateController";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import {
+  ICategories,
+  ISubCategories,
+} from "../../../../../../interfaces/models";
+import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
 const EditSubCategories: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const [categoriesData, setCategoriesData] = useState<ICategories[]>([]);
+  const { asPath } = useRouter();
+  const subCatSlug = asPath.split("/")[3];
+  const [subCatData, setSubCatData] = useState<ISubCategories | null>(null);
+  useEffect(() => {
+    console.log(subCatSlug);
+    const getSingleCategory = async () => {
+      if (subCatSlug !== "[id]") {
+        const { res, err } = await EcommerceApi.getSingleSubCategory(
+          subCatSlug
+        );
+        if (res) {
+          setSubCatData(res);
+        } else {
+          console.log(err);
+        }
+      }
+    };
+    getSingleCategory();
+  }, [subCatSlug]);
 
+  useEffect(() => {
+    const fetchAllCategoriesData = async () => {
+      const { res, err } = await EcommerceApi.allCategories();
+      if (err) {
+        console.log(err);
+      } else {
+        setCategoriesData(res);
+
+        // console.log(res);
+      }
+    };
+    fetchAllCategoriesData();
+  }, []);
+
+  const handleEdit = async (e: any) => {
+    e.preventDefault();
+    controller.setApiLoading(true);
+
+    const subCategories = {
+      cat_slug: e.target.categories.value,
+      subcat_name: e.target.name.value,
+      // cat_slug: e.target.slug.value,
+      // slug: e.target.slug.value,
+      subcat_status: e.target.status.value,
+    };
+
+    const { res, err } = await EcommerceApi.editSubCategories(
+      subCategories,
+      subCatSlug
+    );
+
+    if (res) {
+      e.target.reset();
+      toast.success("SubCategories updated");
+    }
+
+    controller.setApiLoading(false);
+  };
   return (
     <div className="w-full ">
       <DashboardBreadcrumb
@@ -20,7 +85,7 @@ const EditSubCategories: React.FC<Props> = (props) => {
         <div className="section-body">
           <SharedGoBackButton
             title="Product Sub Categories"
-            link="/product_sub_categories"
+            link="/admin/product_sub_categories"
           ></SharedGoBackButton>
         </div>
       </div>
@@ -28,7 +93,7 @@ const EditSubCategories: React.FC<Props> = (props) => {
         <div className="mt-4">
           <div className="mt-6 shadow-md bg-white rounded relative mb-7 border-0">
             <div className="p-5 leading-6">
-              <form action="">
+              <form onSubmit={handleEdit} action="">
                 <div>
                   <div>
                     <div className="mt-4">
@@ -43,14 +108,19 @@ const EditSubCategories: React.FC<Props> = (props) => {
                       </div>
                       <select
                         className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                        name=""
+                        name="categories"
                         id=""
                       >
                         <option value="">Select Category</option>
-                        <option value="active">Electronics</option>
+                        {categoriesData.map((category: ICategories) => (
+                          <option value={category.cat_slug}>
+                            {category.cat_name}
+                          </option>
+                        ))}
+                        {/* <option value="active">Electronics</option>
                         <option value="inactive">Game</option>
                         <option value="inactive">Mobile</option>
-                        <option value="inactive">Lifestyles</option>
+                        <option value="inactive">Lifestyles</option> */}
                       </select>
                     </div>
                   </div>
@@ -68,10 +138,11 @@ const EditSubCategories: React.FC<Props> = (props) => {
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
                       type="text"
                       name="name"
+                      defaultValue={subCatData?.subcat_name}
                       id=""
                     />
                   </div>
-                  <div className="mt-4">
+                  {/* <div className="mt-4">
                     <div className="my-2">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
@@ -79,7 +150,7 @@ const EditSubCategories: React.FC<Props> = (props) => {
                       >
                         Slug
                       </label>
-                      {/* <span className='text-red-500 ml-2'>*</span> */}
+                      <span className='text-red-500 ml-2'>*</span>
                     </div>
                     <input
                       className="w-full p-3 border border-gray-200 bg-[#fdfdff] rounded-md text-sm"
@@ -87,7 +158,7 @@ const EditSubCategories: React.FC<Props> = (props) => {
                       name="slug"
                       id=""
                     />
-                  </div>
+                  </div> */}
                   <div className="mt-4">
                     <div className="my-2">
                       <label
@@ -100,7 +171,7 @@ const EditSubCategories: React.FC<Props> = (props) => {
                     </div>
                     <select
                       className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
-                      name=""
+                      name="status"
                       id=""
                     >
                       <option value="active">Active</option>

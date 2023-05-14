@@ -6,6 +6,7 @@ import MenuItem from "./MenuItem";
 import styles from "./Scrollbar.module.css";
 import { controller } from "../../../../src/state/StateController";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface Props {
   open: boolean;
@@ -17,23 +18,34 @@ interface Props {
 const Sidebar: React.FC<Props> = (props) => {
   const { open, responsiveOpen, menuOpen, handleMenuClick } = props;
   const states = useSelector(() => controller.states);
+  const { asPath } = useRouter();
+  const menus = asPath.includes("/admin")
+    ? Jsondata.menus
+    : Jsondata.menusForSeller;
 
-  // const [menuOpen, setMenuOpen] = useState(0);
+  const link = asPath.includes("/admin") ? "/admin" : "/seller";
 
   return (
     <div
-      className={` ${open ? "w-[250px]" : "w-[65px] "} ${responsiveOpen ? "left-0" : "left-[-250px]"
-        } h-screen fixed z-50 lg:left-0 lg:relative bg-white duration-500`}
+      className={` ${open ? "w-[250px]" : "w-[65px] "} ${
+        responsiveOpen ? "left-0" : "left-[-250px]"
+      }   z-50 lg:left-0 lg:relative bg-white duration-500`}
     >
       <div className="text-center h-[60px] leading-[60px]">
-        <Link href="/" className="font-bold text-sm tracking-widest">
+        <Link href={link} className="font-bold text-sm tracking-widest">
           {open ? "SHOPO" : "SP"}
         </Link>
       </div>
+      {/* h-[calc(100vh-60px)] h-screen fixed*/}
+      {/* ${
+          open ? "overflow-y-scroll overflow-x-hidden" : ""
+        } */}
       <ul
-        className={`${styles["scrollbar"]} h-[calc(100vh-60px)] text-[#78828a] overflow-y-scroll overflow-x-hidden`}
+        className={`${styles["scrollbar"]}  text-[#78828a]  ${
+          open ? "overflow-x-hidden" : ""
+        }`}
       >
-        {Jsondata.menus.map((menu, index) => (
+        {menus.map((menu, index) => (
           <MenuItem
             key={index}
             menu={menu}
