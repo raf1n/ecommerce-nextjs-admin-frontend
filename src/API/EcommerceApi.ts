@@ -887,7 +887,7 @@ export class EcommerceApi {
 
   // Update Order Status
   static async orderStatusUpdate(
-    slug: string,
+    slug: string | undefined,
     order: { payment_status: string; order_status: string }
   ): Promise<IOrderResponse> {
     const myHeaders = new Headers();
@@ -916,10 +916,7 @@ export class EcommerceApi {
       redirect: "follow",
     };
 
-    return await callFetch(
-      `${API_ENDPOINT}/orders/admin?${slug}`,
-      requestOptions
-    );
+    return await callFetch(`${API_ENDPOINT}/orders/${slug}`, requestOptions);
   }
 
   //create Coupon

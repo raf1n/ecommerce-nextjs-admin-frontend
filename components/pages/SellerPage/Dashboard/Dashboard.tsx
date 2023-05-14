@@ -71,7 +71,7 @@ const Dashboard: React.FC<Props> = (props) => {
             }}
           />
         </div>
-        <div className="flex items-center px-8 text-white">
+        <div className="flex items-center px-8 text-white print:hidden">
           <button className="flex text-[#f2f2f2]">
             <span className="text-xl">
               <FaHome />
@@ -81,7 +81,8 @@ const Dashboard: React.FC<Props> = (props) => {
           <button
             onClick={() => {
               setShow(!show);
-            }}>
+            }}
+          >
             <div className={`flex text-white  pl-6`}>
               <img
                 src={`https://api.websolutionus.com/shopo/uploads/custom-images/kelsey-conrad-2022-12-28-04-55-51-8312.jpg`}
