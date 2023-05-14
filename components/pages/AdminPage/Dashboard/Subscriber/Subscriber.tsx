@@ -226,7 +226,7 @@ const Subscriber: React.FC<Props> = (props) => {
                             </td>
                             <td className="px-5 py-5 text-sm ">
                               <p className="text-gray-900 whitespace-no-wrap">
-                                {data?.user_slug}
+                                Yes
                               </p>
                             </td>
 
