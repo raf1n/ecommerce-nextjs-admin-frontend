@@ -23,7 +23,9 @@ const OrderDetailsPage: NextPage<any> = (props) => {
 OrderDetailsPage.getInitialProps = async (context: any) => {
   const { id } = context.query;
 
-  const seller_slug = context?.req?.cookies?.USER_SLUG;
+  const seller_slug = CookiesHandler.getSlug()
+    ? CookiesHandler.getSlug()
+    : context?.req?.cookies?.USER_SLUG;
 
   if (seller_slug) {
     const { res, err } = await EcommerceApi.getSingleOrderOfSeller(
