@@ -5,6 +5,7 @@ import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/
 import { IOrder } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import Table from "../../../Shared/Table";
+import { CookiesHandler } from "../../../../../../src/utils/CookiesHandler";
 
 interface Props {}
 
@@ -15,7 +16,7 @@ const DeclinedOrders: React.FC<Props> = (props) => {
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
-  const seller_slug = states.currentUser?.slug;
+  const seller_slug = CookiesHandler.getSlug();
   useEffect(() => {
     const getAllOrderForSeller = async () => {
       const { res, err } = await EcommerceApi.getAllOrderForSeller(

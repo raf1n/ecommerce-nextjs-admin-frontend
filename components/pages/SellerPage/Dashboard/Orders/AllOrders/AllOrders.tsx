@@ -17,10 +17,9 @@ const AllOrders: React.FC<Props> = (props) => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
-  const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
-  const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
 
-  const seller_slug = states.currentUser?.slug;
+  // const seller_slug = states.currentUser?.slug;
+  const seller_slug = CookiesHandler.getSlug();
 
   useEffect(() => {
     const getAllOrderForSeller = async () => {
@@ -39,7 +38,6 @@ const AllOrders: React.FC<Props> = (props) => {
   }, [searchString, sortBy, sortType]);
 
   console.log("allOrdersData for seller only-", allOrdersData);
-  const user_slug = CookiesHandler.getSlug();
 
   const tableHeaders = {
     SN: "sn",

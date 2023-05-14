@@ -72,7 +72,7 @@ const OrderInvoiceTable: React.FC<Props> = ({ orderData }) => {
               >
                 <td className="px-3 py-3  text-sm">
                   <p className=" text-blue-700 ">
-                    {orderSummaryData.productName}
+                    {orderSummaryData?.productName}
                   </p>
                 </td>
               </Link>
@@ -83,20 +83,20 @@ const OrderInvoiceTable: React.FC<Props> = ({ orderData }) => {
               <td className="px-3 py-3  text-sm">
                 <p className="text-gray-900">
                   $
-                  {orderSummaryData.offerPrice
-                    ? orderSummaryData.offerPrice
-                    : orderSummaryData.price}
+                  {orderSummaryData?.offerPrice
+                    ? orderSummaryData?.offerPrice
+                    : orderSummaryData?.price}
                 </p>
               </td>
               <td className="px-3 py-3  text-sm">
-                <p className="text-gray-900 ">{orderSummaryData.quantity}</p>
+                <p className="text-gray-900 ">{orderSummaryData?.quantity}</p>
               </td>
               <td className="px-3 py-3  text-sm">
                 $
-                {orderSummaryData.offerPrice ||
-                  (orderSummaryData.price && (
+                {orderSummaryData?.offerPrice ||
+                  (orderSummaryData?.price && (
                     <p className="text-gray-900 text-center">
-                      {orderSummaryData.offerPrice
+                      {orderSummaryData?.offerPrice
                         ? orderSummaryData?.quantity *
                           orderSummaryData?.offerPrice
                         : orderSummaryData?.quantity * orderSummaryData?.price}
