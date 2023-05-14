@@ -23,7 +23,7 @@ const OrderInformation: React.FC<Props> = ({ order }) => {
   let m;
 
   if (order?.createdAt) {
-    let date = new Date(order.createdAt);
+    let date = new Date(order?.createdAt);
     m = date.toDateString();
   }
 
@@ -71,7 +71,7 @@ const OrderInformation: React.FC<Props> = ({ order }) => {
           <div className="invoice-print">
             <div className="row ">
               <div className="">
-                <div className="invoice-title flex print:justify-between">
+                <div className="invoice-title flex justify-between print:justify-between">
                   <img
                     className="mr-2 w-[120px] h-[31px]"
                     src="https://api.websolutionus.com/shopo/uploads/website-images/logo-2022-11-22-11-19-02-4634.png"
@@ -113,10 +113,12 @@ const OrderInformation: React.FC<Props> = ({ order }) => {
                     <div className="text-left">
                       <strong>Payment Information:</strong>
                       <br />
-                      Method: {order?.payment_method}
+                      <span className="uppercase">
+                        Method: {order?.payment_method}
+                      </span>
                       <br />
                       Status :
-                      <span className="bg-[#47c363] rounded-full px-2 py-1 text-white text-xs">
+                      <span className="bg-[#47c363] rounded-full px-2 py-1 text-white text-xs uppercase">
                         {order?.payment_status}
                       </span>
                       <br />
@@ -134,7 +136,7 @@ const OrderInformation: React.FC<Props> = ({ order }) => {
                       Shipping: {order?.shippingCost}
                       <br />
                       Status :
-                      <span className="bg-[#fc544b] rounded-full px-2 py-1 text-white text-xs">
+                      <span className="bg-[#fc544b] rounded-full px-2 py-1 text-white text-xs uppercase">
                         {order?.order_status}
                       </span>
                       <br />

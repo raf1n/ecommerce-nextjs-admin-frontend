@@ -5,6 +5,7 @@ import Table from "../../../Shared/Table";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { IOrder } from "../../../../../../interfaces/models";
+import { CookiesHandler } from "../../../../../../src/utils/CookiesHandler";
 
 interface Props {}
 
@@ -16,7 +17,7 @@ const CashOnDelivery: React.FC<Props> = (props) => {
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
-  const seller_slug = states.currentUser?.slug;
+  const seller_slug = CookiesHandler.getSlug();
   useEffect(() => {
     const getAllOrderForSeller = async () => {
       const { res, err } = await EcommerceApi.getAllOrderForSeller(

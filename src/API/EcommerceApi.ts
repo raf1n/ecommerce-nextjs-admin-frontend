@@ -1944,6 +1944,21 @@ export class EcommerceApi {
     );
   }
 
+  static async getSingleOrderOfSeller(
+    seller_slug: string,
+    order_slug: string
+  ): Promise<IOrderSellerResponse> {
+    const myHeaders = new Headers();
+    const requestOptions = {
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    return await callFetch(
+      `${API_ENDPOINT}/orders/seller_order?seller_slug=${seller_slug}&order_slug=${order_slug}`,
+      requestOptions
+    );
+  }
+
   // fetch all subscriber
   static async fetchAllSubscribers(
     query: string
