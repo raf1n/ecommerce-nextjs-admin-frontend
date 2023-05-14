@@ -169,6 +169,10 @@ export interface IOrder {
   };
 }
 
+export interface ISellerOrder extends IOrder {
+  sellerData: ISeller;
+}
+
 export interface ICoupon {
   slug: string;
   name: string;

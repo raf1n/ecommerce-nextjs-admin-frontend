@@ -3,8 +3,11 @@ import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import OrderInformation from "./OrderInformation";
+import { ISellerOrder } from "../../../../../../interfaces/models";
 
-interface Props {}
+interface Props {
+  order: ISellerOrder;
+}
 
 const SharedInvoice: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
@@ -12,7 +15,7 @@ const SharedInvoice: React.FC<Props> = (props) => {
   return (
     <div>
       <DashboardBreadcrumb headline="Invoice " slug="Invoice" link="invoice" />
-      <OrderInformation />
+      <OrderInformation order={props.order} />
     </div>
   );
 };

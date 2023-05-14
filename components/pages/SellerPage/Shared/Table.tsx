@@ -85,7 +85,8 @@ const Table: React.FC<Props> = (props) => {
             <select
               name="dataTable_length"
               aria-controls="dataTable"
-              className="border bg-gray-50  hover:border-blue-600 text-gray-500 h-[42px] w-[56px]  text-sm text-center rounded">
+              className="border bg-gray-50  hover:border-blue-600 text-gray-500 h-[42px] w-[56px]  text-sm text-center rounded"
+            >
               <option value="10">10</option>
               <option value="25">25</option>
               <option value="50">50</option>
@@ -200,7 +201,8 @@ const Table: React.FC<Props> = (props) => {
                               tabledata.order_status === "pending"
                                 ? "bg-red-500"
                                 : "bg-green-500"
-                            }  rounded-full`}></span>
+                            }  rounded-full`}
+                          ></span>
                           <span className="relative text-white text-xs capitalize break-words">
                             {tabledata.order_status}
                           </span>
@@ -216,7 +218,8 @@ const Table: React.FC<Props> = (props) => {
                               tabledata.payment_status === "Success"
                                 ? " bg-green-500 "
                                 : "bg-red-500 "
-                            }`}></span>
+                            }`}
+                          ></span>
                           <span className="relative text-white text-xs capitalize">
                             {tabledata.payment_status === "pending"
                               ? "Pending"
@@ -230,8 +233,11 @@ const Table: React.FC<Props> = (props) => {
                           <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                             <span
                               style={{ boxShadow: "0 2px 6px #acb5f6" }}
-                              className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center">
-                              <Link href={`/show_order/${tabledata.slug}`}>
+                              className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
+                            >
+                              <Link
+                                href={`/${states.currentUser?.role}/show_order/${tabledata.slug}`}
+                              >
                                 <FaEye />
                               </Link>
                             </span>
@@ -257,12 +263,14 @@ const Table: React.FC<Props> = (props) => {
                   <a
                     href="#"
                     aria-current="page"
-                    className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white ">
+                    className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 hover:bg-indigo-500 hover:text-white "
+                  >
                     1
                   </a>
                   <a
                     href="#"
-                    className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20">
+                    className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-500 hover:text-white  focus:z-20"
+                  >
                     2
                   </a>
                   <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-r">

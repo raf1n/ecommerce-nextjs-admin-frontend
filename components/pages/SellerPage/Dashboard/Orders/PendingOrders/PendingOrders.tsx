@@ -5,6 +5,7 @@ import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/
 import { IOrder } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import Table from "../../../Shared/Table";
+import { CookiesHandler } from "../../../../../../src/utils/CookiesHandler";
 
 interface Props {}
 
@@ -19,7 +20,7 @@ const PendingOrders: React.FC<Props> = (props) => {
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
 
-  const seller_slug = states.currentUser?.slug;
+  const seller_slug = CookiesHandler.getSlug();
 
   useEffect(() => {
     const getAllOrderForSeller = async () => {

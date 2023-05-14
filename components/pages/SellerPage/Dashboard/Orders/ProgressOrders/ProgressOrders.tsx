@@ -5,6 +5,7 @@ import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { IOrder } from "../../../../../../interfaces/models";
 import Table from "../../../Shared/Table";
+import { CookiesHandler } from "../../../../../../src/utils/CookiesHandler";
 
 interface Props {}
 
@@ -18,7 +19,7 @@ const ProgressOrders: React.FC<Props> = (props) => {
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
 
-  const seller_slug = states.currentUser?.slug;
+  const seller_slug = CookiesHandler.getSlug();
 
   useEffect(() => {
     const getAllOrderForSeller = async () => {
@@ -53,7 +54,8 @@ const ProgressOrders: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Progress Orders  : Seller"
         slug="Progress Orders"
-        link="/progress-orders"></DashboardBreadcrumb>
+        link="/progress-orders"
+      ></DashboardBreadcrumb>
 
       <Table
         sortBy={sortBy}

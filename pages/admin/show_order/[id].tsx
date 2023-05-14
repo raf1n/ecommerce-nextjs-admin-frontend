@@ -22,10 +22,10 @@ const OrderDetailsPage: NextPage<any> = (props) => {
 
 OrderDetailsPage.getInitialProps = async ({ query }) => {
   const { id } = query;
-  console.log(id);
+  // console.log(id);
 
   const { res, err } = await EcommerceApi.getSingleOrderData(id as string);
-  console.log({ res, err });
+  // console.log({ res, err });
 
   return { props: { order: res } };
 };
