@@ -90,10 +90,6 @@ const CreateSubCategories: React.FC<Props> = (props) => {
                             {category.cat_name}
                           </option>
                         ))}
-                        {/* <option value="active">Electronics</option>
-                        <option value="inactive">Game</option>
-                        <option value="inactive">Mobile</option>
-                        <option value="inactive">Lifestyles</option> */}
                       </select>
                     </div>
                   </div>
@@ -114,8 +110,7 @@ const CreateSubCategories: React.FC<Props> = (props) => {
                       id=""
                     />
                   </div>
-                  
-                  
+
                   <div className="mt-4">
                     <div className="my-2">
                       <label
