@@ -138,7 +138,7 @@ const ProductEdit: React.FC<Props> = (props) => {
         description: e.target.short_description.value,
         status: e.target.productStatus.value,
         imageURL: imageUrl,
-        stock: parseFloat(e.target.stock_quantity.value),
+        // stock: parseFloat(e.target.stock_quantity.value),
         weight: parseFloat(e.target.weight.value),
         seoTitle: e.target.seo_title.value,
         seoDescription: e.target.seo_description.value,
@@ -155,7 +155,7 @@ const ProductEdit: React.FC<Props> = (props) => {
 
     controller.setApiLoading(false);
   };
-  console.log(selectedValue);
+  
   return (
     <div className="w-full ">
       <DashboardBreadcrumb
@@ -292,15 +292,6 @@ const ProductEdit: React.FC<Props> = (props) => {
                               {subCat.subcat_name}
                             </option>
                           ))
-                      // filteredSubCat.map((subCat, indx) => (
-                      //   <option
-                      //     selected={productData.subCatSlug === subCat.slug}
-                      //     key={indx}
-                      //     value={subCat.slug}
-                      //   >
-                      //     {subCat.subcat_name}
-                      //   </option>
-                      // ))}
                     }
                   </select>
                 </div>
@@ -375,6 +366,8 @@ const ProductEdit: React.FC<Props> = (props) => {
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="stock_quantity"
                     defaultValue={productData?.stock}
+                    disabled
+                    readOnly
                   />
                 </div>
 
