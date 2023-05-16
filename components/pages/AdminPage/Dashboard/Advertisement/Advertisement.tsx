@@ -13,30 +13,33 @@ import HomepageSingleBannerOne from "./HomepageSingleBannerOne";
 import HomepageSingleBannerTwo from "./HomepageSingleBannerTwo";
 const Advertisement: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const [adName, setAdName] = useState<string | undefined>("Slider Banner One");
   const [allCategories, setAllCategories] = useState<ICategories[]>([]);
   const [allAd, setAllAd] = useState<IAd[] | undefined>([]);
 
-  console.log(adName);
-
-  useEffect(() => {
-    const getAllCategory = async () => {
+  const getAllCategory = async () => {
+    if (user_slug) {
       const { res, err } = await EcommerceApi.allCategories();
       if (res) {
         setAllCategories(res);
       }
-    };
+    }
+  };
 
-    const getAllAd = async () => {
+  const getAllAd = async () => {
+    if (user_slug) {
       const { res, err } = await EcommerceApi.getAllAds();
       if (res) {
         setAllAd(res);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     getAllAd();
     getAllCategory();
-  }, [adName]);
+  }, [adName, user_slug]);
 
   return (
     <div className="w-full">
