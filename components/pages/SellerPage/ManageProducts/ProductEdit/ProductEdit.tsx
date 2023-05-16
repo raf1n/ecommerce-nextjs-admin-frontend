@@ -467,6 +467,7 @@ const ProductEdit: React.FC<Props> = (props) => {
                     Status <span className="text-red-500">*</span>
                   </label>
                   <select
+                    disabled={productData?.approvalStatus === "pending"}
                     className="w-full border rounded p-3 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="productStatus"
                     id=""

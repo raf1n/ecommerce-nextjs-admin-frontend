@@ -21,7 +21,6 @@ const actions = {
 
 const ProductReview: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
-  const { productReviews } = Jsondata;
 
   const [deleteModalSlug, setDeleteModalSlug] = useState("");
   const [sortBy, setSortBy] = useState("createdAt");
@@ -50,7 +49,8 @@ const ProductReview: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Product Reviews"
         slug="Product Reviews"
-        link="/product_reviews"></DashboardBreadcrumb>
+        link="/product_reviews"
+      ></DashboardBreadcrumb>
       <div className="mx-[25px]">
         <div className="section-body">
           <div className="mt-7">

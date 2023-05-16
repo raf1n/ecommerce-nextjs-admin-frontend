@@ -1,22 +1,14 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import {
-  FaEdit,
-  FaLongArrowAltDown,
-  FaLongArrowAltUp,
-  FaTrash,
-} from "react-icons/fa";
+import { FaLongArrowAltDown, FaLongArrowAltUp, FaTrash } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { IReportedItem } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
-import { Jsondata } from "../../../../../../src/utils/Jsondata";
-import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
+
 import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
-import DynamicTable from "../../../../../shared/SharedTable/DynamicTable";
-import CatToggleButton from "../../ManageCategories/Categories/CatToggleButton";
 
 interface Props {}
 const tableHeaders = {
@@ -58,7 +50,7 @@ const ProductReport: React.FC<Props> = (props) => {
       );
       setProductReportsData(remainingBrands);
     }
-    
+
     controller.setApiLoading(false);
   };
 

@@ -114,6 +114,7 @@ const ProductCreate: React.FC<Props> = (props) => {
         isFeatured: isCheckedFeatured,
         isPopular: isCheckedPopular,
         addedBy: "admin",
+        approvalStatus: "approved",
       };
 
       const { res: postRes, err: postErr } = await EcommerceApi.addProducts(
