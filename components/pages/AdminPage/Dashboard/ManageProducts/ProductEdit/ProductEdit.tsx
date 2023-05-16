@@ -29,9 +29,7 @@ const reactSelectStyle = {
     borderRadius: 5,
     borderColor: "#e4e6fc",
     backgroundColor: "#fdfdff",
-    // This line disable the blue border
     cursor: "pointer",
-    // h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]
   }),
   menuList: (styles: any) => ({
     ...styles,

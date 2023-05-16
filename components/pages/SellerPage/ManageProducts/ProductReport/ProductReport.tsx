@@ -50,11 +50,10 @@ const ProductReport: React.FC<Props> = (props) => {
       console.log(err);
     }
   };
-  
+
   useEffect(() => {
     getAllReports();
   }, [searchString, sortBy, sortType]);
-
 
   return (
     <div className="w-full">
@@ -144,7 +143,10 @@ const ProductReport: React.FC<Props> = (props) => {
                     {productReportsData.map(
                       (categoryTableData: IReportedItem, index) => (
                         // <div>
-                        <tr className="even:bg-gray-50 odd:bg-white">
+                        <tr
+                          key={categoryTableData.slug}
+                          className="even:bg-gray-50 odd:bg-white"
+                        >
                           <td className="px-3 py-3    text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {index + 1}

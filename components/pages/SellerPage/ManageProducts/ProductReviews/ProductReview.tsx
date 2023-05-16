@@ -29,15 +29,17 @@ const ProductReview: React.FC<Props> = (props) => {
   const seller_slug = states.currentUser?.slug;
 
   const getAllReviews = async () => {
-    const { res, err } = await EcommerceApi.getAllSellerReviews(
-      seller_slug,
-      `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-    );
-    if (res) {
-      console.log(res);
-      setReviewDatas(res);
-    } else {
-      console.log(err);
+    if (seller_slug) {
+      const { res, err } = await EcommerceApi.getAllSellerReviews(
+        seller_slug,
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
+      if (res) {
+        console.log(res);
+        setReviewDatas(res);
+      } else {
+        console.log(err);
+      }
     }
   };
 
@@ -45,7 +47,6 @@ const ProductReview: React.FC<Props> = (props) => {
     getAllReviews();
   }, [searchString, sortBy, sortType]);
 
-  
   return (
     <div className="w-full">
       <DashboardBreadcrumb

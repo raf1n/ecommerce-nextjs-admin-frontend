@@ -104,7 +104,7 @@ const ProductCreate: React.FC<Props> = (props) => {
         subCatSlug: e.target.sub_category.value,
         brandSlug: e.target.brand.value,
         description: e.target.short_description.value,
-        status: e.target.productStatus.value,
+        // status: e.target.productStatus.value,
         imageURL: imageUrl,
         stock: parseFloat(e.target.stock_quantity.value),
         weight: parseFloat(e.target.weight.value),
@@ -337,7 +337,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                   />
                 </div>
 
-                <div className="form-group col-12 flex flex-col mb-[25px]">
+                {/* <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Status <span className="text-red-500">*</span>
                   </label>
@@ -350,7 +350,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     <option value="active">Active</option>
                     <option value="inactive">InActive</option>
                   </select>
-                </div>
+                </div> */}
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">

@@ -41,7 +41,7 @@ const ProductsStockOut: React.FC<Props> = (props) => {
       }
     };
     getStockoutProducts();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, seller_slug]);
 
   const handleDelete = async () => {
     controller.setApiLoading(true);
@@ -56,7 +56,7 @@ const ProductsStockOut: React.FC<Props> = (props) => {
 
     controller.setApiLoading(false);
   };
-  
+
   const tableHeaders = {
     sn: "sn",
     name: "productName",
@@ -154,7 +154,10 @@ const ProductsStockOut: React.FC<Props> = (props) => {
                         </thead>
                         <tbody>
                           {stockoutProducts.map((product: IProduct, indx) => (
-                            <tr className="border-b border-gray-200">
+                            <tr
+                              key={product.slug}
+                              className="border-b border-gray-200"
+                            >
                               <td className="px-5 py-5 bg-white text-sm">
                                 <p className="text-gray-900 whitespace-no-wrap">
                                   {indx + 1}
