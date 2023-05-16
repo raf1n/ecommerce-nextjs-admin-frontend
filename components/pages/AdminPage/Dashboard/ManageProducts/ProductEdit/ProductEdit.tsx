@@ -222,6 +222,8 @@ const ProductEdit: React.FC<Props> = (props) => {
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="slug"
                     defaultValue={productData?.slug}
+                    disabled
+                    readOnly
                   />
                 </div>
 
