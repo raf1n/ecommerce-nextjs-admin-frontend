@@ -163,7 +163,10 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
                       </thead>
                       <tbody>
                         {sellerPendingProducts.map((data: IProduct, indx) => (
-                          <tr className="even:bg-gray-100 odd:bg-white">
+                          <tr
+                            key={data?.slug}
+                            className="even:bg-gray-100 odd:bg-white"
+                          >
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
                                 {/* {data?.slug?.split("_")[2]} */}

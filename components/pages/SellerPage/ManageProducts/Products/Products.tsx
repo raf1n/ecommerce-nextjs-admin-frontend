@@ -17,6 +17,7 @@ import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/Das
 import SharedAddNewButton from "../../../../shared/SharedAddNewButton/SharedAddNewButton";
 import ProductsToggleButton from "../../../AdminPage/Dashboard/ManageProducts/ProductsToggleButton/ProductsToggleButton";
 import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import { toast } from "react-hot-toast";
 
 interface Props {}
 
@@ -62,7 +63,7 @@ const Products: React.FC<Props> = (props) => {
     };
 
     fetchAllProducts();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, seller_slug]);
 
   console.log({ searchString, sortBy, sortType });
 
@@ -226,10 +227,18 @@ const Products: React.FC<Props> = (props) => {
                               </span>
                             </td> */}
                             <td className="px-3 py-3 text-sm ">
-                              <ProductsToggleButton
-                                slug={data?.slug}
-                                status={data?.status}
-                              />
+                              {data.approvalStatus === "pending" ? (
+                                <span className="bg-red-500 rounded-xl py-1 px-2 text-white">
+                                  Approval Pending
+                                </span>
+                              ) : (
+                                data.approvalStatus === "approved" && (
+                                  <ProductsToggleButton
+                                    slug={data?.slug}
+                                    status={data?.status}
+                                  />
+                                )
+                              )}
                             </td>
                             <td className="px-2 py-3  text-sm">
                               <button
