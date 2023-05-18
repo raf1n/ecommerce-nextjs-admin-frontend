@@ -27,7 +27,7 @@ const getStockSold = (arr: any): number => {
 };
 
 const Inventory: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const [inventoriesData, setInventoriesData] = useState<IInventoryProduct[]>(
     []
   );
@@ -38,19 +38,21 @@ const Inventory: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchInventories = async () => {
-      const { res, err } = await EcommerceApi.getProductInventories(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.getProductInventories(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
 
-      console.log(res);
+        console.log(res);
 
-      if (res) {
-        setInventoriesData(res);
+        if (res) {
+          setInventoriesData(res);
+        }
       }
     };
 
     fetchInventories();
-  }, [sortBy, sortType, searchString]);
+  }, [sortBy, sortType, searchString, user_slug]);
 
   return (
     <div className="w-full">

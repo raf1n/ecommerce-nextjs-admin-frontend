@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 interface Props {}
 
 const ProductsStockOut: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const [stockoutProducts, setStockoutProducts] = useState<IProduct[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
@@ -24,17 +24,21 @@ const ProductsStockOut: React.FC<Props> = (props) => {
   const [searchString, setSearchString] = useState("");
 
   const router = useRouter();
+
   useEffect(() => {
     const getStockoutProducts = async () => {
-      const { res, err } = await EcommerceApi.allProductsAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
-      if (res) {
-        setStockoutProducts(res.stockOutProducts);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.allProductsAdmin(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
+        if (res) {
+          setStockoutProducts(res.stockOutProducts);
+        }
       }
     };
+    
     getStockoutProducts();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, user_slug]);
 
   const handleDelete = async () => {
     controller.setApiLoading(true);

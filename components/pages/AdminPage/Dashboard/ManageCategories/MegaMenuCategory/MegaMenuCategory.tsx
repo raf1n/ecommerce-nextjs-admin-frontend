@@ -30,7 +30,7 @@ const tableHeaders = {
 };
 
 const MegaMenuCategory: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
 
   const [categoriesData, setCategoriesData] = useState<IMegaCategory[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
@@ -43,18 +43,20 @@ const MegaMenuCategory: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchAllCategoriesAdminData = async () => {
-      const { res, err } = await EcommerceApi.getMegaMenuCategories(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
-      if (err) {
-        console.log(err);
-      } else {
-        setCategoriesData(res);
-        console.log(res);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.getMegaMenuCategories(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
+        if (err) {
+          console.log(err);
+        } else {
+          setCategoriesData(res);
+          console.log(res);
+        }
       }
     };
     fetchAllCategoriesAdminData();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, user_slug]);
 
   const handleDelete = async () => {
     controller.setApiLoading(true);

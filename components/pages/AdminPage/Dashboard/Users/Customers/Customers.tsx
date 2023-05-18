@@ -28,7 +28,7 @@ const tableHeaders = {
 };
 
 const Customers: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
 
   const [customersData, setCustomersData] = useState<IUser[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
@@ -41,18 +41,20 @@ const Customers: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchAllCustomers = async () => {
-      const { res, err } = await EcommerceApi.getAllUsers(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
-      if (err) {
-        console.log(err);
-      } else {
-        setCustomersData(res);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.getAllUsers(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
+        if (err) {
+          console.log(err);
+        } else {
+          setCustomersData(res);
+        }
       }
     };
 
     fetchAllCustomers();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, user_slug]);
 
   const handleDelete = async () => {
     controller.setApiLoading(true);
@@ -81,7 +83,8 @@ const Customers: React.FC<Props> = (props) => {
         <div className="section-body">
           <Link
             className="inline-block"
-            href="/admin/customer_list/send_email_to_all_customer">
+            href="/admin/customer_list/send_email_to_all_customer"
+          >
             <button className=" flex items-center justify-center bg-blue-700 hover:bg-blue-600 text-white text-sm tracking-[.5px] shadow-[0_2px_6px_#acb5f6] py-2 px-3 rounded">
               <span>Send email to all users</span>
             </button>
@@ -95,7 +98,8 @@ const Customers: React.FC<Props> = (props) => {
                   <select
                     name="dataTable_length"
                     aria-controls="dataTable"
-                    className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center">
+                    className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center"
+                  >
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -130,7 +134,8 @@ const Customers: React.FC<Props> = (props) => {
                             (header: any, idx: number) => (
                               <th
                                 key={idx}
-                                className="px-3 pt-6  border-b-[1px] border-[#ddd] bg-[rgba(0,0,0,0.04)] text-left text-[15px] font-bold  text-[#666] capitalize">
+                                className="px-3 pt-6  border-b-[1px] border-[#ddd] bg-[rgba(0,0,0,0.04)] text-left text-[15px] font-bold  text-[#666] capitalize"
+                              >
                                 <span className="flex">
                                   <span className="flex-1">{header}</span>
                                   <FaLongArrowAltUp
@@ -171,7 +176,8 @@ const Customers: React.FC<Props> = (props) => {
                         {customersData.map((data, indx) => (
                           <tr
                             key={data.slug}
-                            className="even:bg-gray-100 odd:bg-white">
+                            className="even:bg-gray-100 odd:bg-white"
+                          >
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
                                 {indx + 1}
@@ -208,7 +214,8 @@ const Customers: React.FC<Props> = (props) => {
                                 <span className="relative inline-block px-1 py-1 font-semibold text-green-900 leading-tight">
                                   <span
                                     style={{ boxShadow: "0 2px 6px #acb5f6" }}
-                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center">
+                                    className="h-8 w-8  inset-0 bg-blue-700   rounded  relative text-white flex justify-center items-center"
+                                  >
                                     <FaEye />
                                   </span>
                                 </span>
@@ -223,7 +230,8 @@ const Customers: React.FC<Props> = (props) => {
                                     style={{
                                       boxShadow: "0 2px 6px #81d694",
                                     }}
-                                    className="h-8 w-8  inset-0 bg-green-500   rounded  relative text-white flex justify-center items-center">
+                                    className="h-8 w-8  inset-0 bg-green-500   rounded  relative text-white flex justify-center items-center"
+                                  >
                                     <FaEnvelope />
                                   </span>
                                 </span>
@@ -237,7 +245,8 @@ const Customers: React.FC<Props> = (props) => {
                                     style={{
                                       boxShadow: "0 2px 6px #fd9b96",
                                     }}
-                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center">
+                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                                  >
                                     <FaTrash />
                                   </span>
                                 </span>
@@ -270,17 +279,20 @@ const Customers: React.FC<Props> = (props) => {
                         <a
                           href="#"
                           aria-current="page"
-                          className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20">
+                          className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
+                        >
                           1
                         </a>
                         <a
                           href="#"
-                          className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
+                          className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20"
+                        >
                           2
                         </a>
                         <a
                           href="#"
-                          className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex">
+                          className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex"
+                        >
                           3
                         </a>
                         <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-r">

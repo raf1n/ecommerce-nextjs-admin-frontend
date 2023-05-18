@@ -28,7 +28,7 @@ const tableHeaders = {
 };
 
 const SellerWithdraw: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
 
   const [withdrawMethods, setWithdrawMethods] = useState<IWithdrawMethod[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
@@ -57,18 +57,20 @@ const SellerWithdraw: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchAllWithdrawMethods = async () => {
-      const { res, err } = await EcommerceApi.getAllWithdrawMethods(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
-      if (err) {
-        console.log(err);
-      } else {
-        setWithdrawMethods(res);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.getAllWithdrawMethods(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
+        if (err) {
+          console.log(err);
+        } else {
+          setWithdrawMethods(res);
+        }
       }
     };
 
     fetchAllWithdrawMethods();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, user_slug]);
 
   return (
     <div className="w-full">

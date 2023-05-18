@@ -19,7 +19,7 @@ import CatToggleButton from "./CatToggleButton";
 interface Props {}
 
 const Categories: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const current_user = useSelector(() => controller.states.currentUser?.slug);
   const router = useRouter();
   const { asPath } = router;
   const [categoriesData, setCategoriesData] = useState<ICategories[]>([]);
@@ -48,18 +48,20 @@ const Categories: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchAllCategoriesAdminData = async () => {
-      const { res, err } = await EcommerceApi.allCategoriesAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
-      if (err) {
-        console.log(err);
-      } else {
-        setCategoriesData(res);
-        console.log(res);
+      if (current_user) {
+        const { res, err } = await EcommerceApi.allCategoriesAdmin(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
+        if (err) {
+          console.log(err);
+        } else {
+          setCategoriesData(res);
+          console.log(res);
+        }
       }
     };
     fetchAllCategoriesAdminData();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, current_user]);
 
   const tableHeaders = {
     sn: "sn",

@@ -79,7 +79,14 @@ const Coupon: React.FC<Props> = (props) => {
       }
     };
     fetchAllCouponAdminData();
-  }, [searchString, sortBy, sortType, showAddModal, updateModalSlug]);
+  }, [
+    searchString,
+    sortBy,
+    sortType,
+    showAddModal,
+    updateModalSlug,
+    user_slug,
+  ]);
 
   return (
     <div className="w-full">

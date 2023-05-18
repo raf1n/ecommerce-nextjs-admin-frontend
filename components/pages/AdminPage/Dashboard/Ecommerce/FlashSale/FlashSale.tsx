@@ -9,32 +9,25 @@ import { toast } from "react-hot-toast";
 interface Props {}
 
 const FlashSale: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const [selectedImage, setSelectedImage] = useState(null);
   const [saleData, setSaleData] = useState<IFlashSale>();
 
   useEffect(() => {
-    const fetchAllflashData = async () => {
-      const { res, err } = await EcommerceApi.getFlashSaleContent(
-        "flashcontnet"
-      );
-      if (err) {
-        console.log(err);
-      } else {
-        setSaleData(res);
-
-        // console.log(res);
+    const fetchAllFlashData = async () => {
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.getFlashSaleContent(
+          "flashcontnet"
+        );
+        if (err) {
+          console.log(err);
+        } else {
+          setSaleData(res);
+        }
       }
     };
-    fetchAllflashData();
+    fetchAllFlashData();
   }, []);
-
-  // const imageChange = (e: any) => {
-  //   if (e.target.files && e.target.files.length > 0) {
-  //     setSelectedImage(e.target.files[0]);
-  //     console.log(selectedImage);
-  //   }
-  // };
 
   const handleUpdate = async (e: any) => {
     e.preventDefault();
