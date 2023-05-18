@@ -15,7 +15,7 @@ import { IOrder } from "../../../../../interfaces/models";
 interface Props {}
 
 const AdminDetailsSummary: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
 
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
@@ -31,19 +31,21 @@ const AdminDetailsSummary: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const allDashboardCount = async () => {
-      const { res, err } = await EcommerceApi.allDashboardCount(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}`
-      );
-      if (res) {
-        setCount(res);
-        console.log(res);
-        setTodayOrdersData(res.todayNewOrders);
-      } else {
-        console.log(err);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.allDashboardCount(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}`
+        );
+        if (res) {
+          setCount(res);
+          console.log(res);
+          setTodayOrdersData(res.todayNewOrders);
+        } else {
+          console.log(err);
+        }
       }
     };
     allDashboardCount();
-  }, [searchString, sortBy, sortType, showUpdateModal]);
+  }, [searchString, sortBy, sortType, showUpdateModal, user_slug]);
 
   const dashboardSummaryData = [
     {

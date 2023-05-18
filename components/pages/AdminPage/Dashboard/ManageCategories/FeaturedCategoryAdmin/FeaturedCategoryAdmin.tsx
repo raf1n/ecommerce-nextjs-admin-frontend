@@ -15,7 +15,7 @@ import { FaTrash } from "react-icons/fa";
 interface Props {}
 
 const FeaturedCategoryAdmin: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [categoriesData, setCategoriesData] = useState<ICategories[]>([]);
@@ -40,20 +40,21 @@ const FeaturedCategoryAdmin: React.FC<Props> = (props) => {
 
     controller.setApiLoading(false);
   };
+
   useEffect(() => {
     const fetchAllCategoriesData = async () => {
-      const { res, err } = await EcommerceApi.allCategories();
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(res);
-        setCategoriesData(res);
-
-        // console.log(res);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.allCategories();
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(res);
+          setCategoriesData(res);
+        }
       }
     };
     fetchAllCategoriesData();
-  }, []);
+  }, [user_slug]);
 
   useEffect(() => {
     const fetchAllPopularCategoriesData = async () => {

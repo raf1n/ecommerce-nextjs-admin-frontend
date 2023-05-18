@@ -18,21 +18,24 @@ interface Props {}
 
 const PostBlog: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const [selectedImage, setSelectedImage] = useState(null);
   const [categories, setCategories] = useState<IBlogCategory[]>([]);
-  const router = useRouter();
 
   const FetchBlogCat = async () => {
-    const { res, err } = await EcommerceApi.getAllBlogCategoriesForBlog();
-    if (res) {
-      setCategories(res);
-    } else {
-      console.log(err);
+    if (user_slug) {
+      const { res, err } = await EcommerceApi.getAllBlogCategoriesForBlog();
+      if (res) {
+        setCategories(res);
+      } else {
+        console.log(err);
+      }
     }
   };
+
   useEffect(() => {
     FetchBlogCat();
-  }, []);
+  }, [user_slug]);
 
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -195,7 +198,8 @@ const PostBlog: React.FC<Props> = (props) => {
                     required
                     name="category"
                     id="category"
-                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]">
+                    className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
+                  >
                     <option value="">Select Category</option>
                     {categories.map((cat, indx) => (
                       <option key={indx} value={cat.slug}>
@@ -232,7 +236,8 @@ const PostBlog: React.FC<Props> = (props) => {
                     className="w-full border rounded p-2 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="show_homepage"
                     id="show_homepage"
-                    required>
+                    required
+                  >
                     <option value="yes">Yes</option>
                     <option value="no">No</option>
                   </select>
@@ -246,7 +251,8 @@ const PostBlog: React.FC<Props> = (props) => {
                     className="w-full border rounded p-2 border-gray-200 bg-[#fdfdff] focus:outline-none"
                     name="status"
                     id="status"
-                    required>
+                    required
+                  >
                     <option value="active">Active</option>
                     <option value="inactive">InActive</option>
                   </select>
@@ -278,7 +284,8 @@ const PostBlog: React.FC<Props> = (props) => {
                 <div className="col-12">
                   <button
                     type="submit"
-                    className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]">
+                    className="text-white rounded py-[.3rem] px-[.8rem] shadow-[0_2px_6px_#acb5f6] border border-[#6777ef] bg-[#2046DA]"
+                  >
                     Save
                   </button>
                 </div>

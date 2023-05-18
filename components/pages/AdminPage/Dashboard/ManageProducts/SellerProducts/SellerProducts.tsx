@@ -1,26 +1,26 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { controller } from "../../../../../../src/state/StateController";
-import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
-import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
-
 import {
   FaEdit,
   FaLongArrowAltDown,
   FaLongArrowAltUp,
   FaTrash,
 } from "react-icons/fa";
+
+import { controller } from "../../../../../../src/state/StateController";
+import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
+import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { IProduct } from "../../../../../../interfaces/models";
 import ProductsToggleButton from "../ProductsToggleButton/ProductsToggleButton";
-import { useRouter } from "next/router";
 import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
 
 interface Props {}
 
 const SellerProducts: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const router = useRouter();
   const { asPath } = router;
   const [sellerProducts, setSellerProducts] = useState<IProduct[]>([]);
@@ -46,18 +46,20 @@ const SellerProducts: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchAllProducts = async () => {
-      const { res, err } = await EcommerceApi.allProductsAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
-      if (err) {
-        console.log(err);
-      } else {
-        setSellerProducts(res.sellerProducts);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.allProductsAdmin(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
+        if (err) {
+          console.log(err);
+        } else {
+          setSellerProducts(res.sellerProducts);
+        }
       }
     };
 
     fetchAllProducts();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, user_slug]);
 
   const tableHeaders = {
     sn: "sn",

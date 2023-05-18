@@ -8,8 +8,7 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { IProduct, IWithdrawMethod } from "../../../../../../interfaces/models";
-import { ISingleWithdrawMethodResponse } from "../../../../../../interfaces/response";
+import { IWithdrawMethod } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { controller } from "../../../../../../src/state/StateController";
 import SharedAddNewButton from "../../../../../shared/SharedAddNewButton/SharedAddNewButton";
@@ -20,18 +19,16 @@ import ToggleButton from "../../ManageCategories/ToggleButton/ToggleButton";
 interface Props {}
 
 const WithdrawMethod: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const [withdrawMethods, setWithdrawMethods] = useState<IWithdrawMethod[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
-  // const [showModal, setShowModal] = useState(false);
-  // const { adminProductsData } = Jsondata;
   const router = useRouter();
   const { asPath } = router;
-  
+
   const handleDelete = async () => {
     controller.setApiLoading(true);
 
@@ -51,18 +48,20 @@ const WithdrawMethod: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchAllWithdrawMethods = async () => {
-      const { res, err } = await EcommerceApi.getAllWithdrawMethods(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
-      if (err) {
-        console.log(err);
-      } else {
-        setWithdrawMethods(res);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.getAllWithdrawMethods(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
+        if (err) {
+          console.log(err);
+        } else {
+          setWithdrawMethods(res);
+        }
       }
     };
 
     fetchAllWithdrawMethods();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, user_slug]);
 
   const tableHeaders = {
     sn: "sn",

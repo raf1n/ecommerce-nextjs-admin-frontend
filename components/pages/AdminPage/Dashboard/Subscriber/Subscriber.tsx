@@ -4,35 +4,35 @@ import { controller } from "../../../../../src/state/StateController";
 import DashboardBreadcrumb from "../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
 import { FaLongArrowAltDown, FaLongArrowAltUp, FaTrash } from "react-icons/fa";
 import SharedDeleteModal from "../../../../shared/SharedDeleteModal/SharedDeleteModal";
-import Link from "next/link";
 import { EcommerceApi } from "../../../../../src/API/EcommerceApi";
 import { toast } from "react-hot-toast";
 
 interface Props {}
 
 const Subscriber: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
-  // ISubscriber
   const [subscribers, setSubscribers] = useState<any[]>([]);
   // --------------------------------
   useEffect(() => {
     const fetchSubscribers = async () => {
-      const { res, err } = await EcommerceApi.fetchAllSubscribers(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
-      if (res) {
-        setSubscribers(res);
-      } else {
-        console.log(err);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.fetchAllSubscribers(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
+        if (res) {
+          setSubscribers(res);
+        } else {
+          console.log(err);
+        }
       }
     };
 
     fetchSubscribers();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, user_slug]);
 
   // ----------------------------------------------------------
   const handleDelete = async () => {
@@ -90,7 +90,8 @@ const Subscriber: React.FC<Props> = (props) => {
                     <div className="my-2  ">
                       <label
                         className="text-[#34395e] tracking-[.5px] font-semibold mt-4	text-sm"
-                        htmlFor="">
+                        htmlFor=""
+                      >
                         Subject
                       </label>
                     </div>
@@ -116,7 +117,8 @@ const Subscriber: React.FC<Props> = (props) => {
                   <div className="mt-4">
                     <button
                       type="submit"
-                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded">
+                      className="bg-blue-700 hover:bg-blue-600 text-white text-sm py-2 px-4 rounded"
+                    >
                       Send Email
                     </button>
                   </div>
@@ -137,7 +139,8 @@ const Subscriber: React.FC<Props> = (props) => {
                   <select
                     name="dataTable_length"
                     aria-controls="dataTable"
-                    className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center">
+                    className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center"
+                  >
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -172,7 +175,8 @@ const Subscriber: React.FC<Props> = (props) => {
                             (header: any, idx: number) => (
                               <th
                                 key={idx}
-                                className="px-3 pt-6  border-b-[1px] border-[#ddd] bg-[rgba(0,0,0,0.04)] text-left text-[15px] font-bold  text-[#666] capitalize">
+                                className="px-3 pt-6  border-b-[1px] border-[#ddd] bg-[rgba(0,0,0,0.04)] text-left text-[15px] font-bold  text-[#666] capitalize"
+                              >
                                 <span className="flex">
                                   <span className="flex-1">{header}</span>
                                   <FaLongArrowAltUp
@@ -213,7 +217,8 @@ const Subscriber: React.FC<Props> = (props) => {
                         {subscribers.map((data, index) => (
                           <tr
                             key={index}
-                            className="even:bg-gray-100 odd:bg-white">
+                            className="even:bg-gray-100 odd:bg-white"
+                          >
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-900 whitespace-no-wrap">
                                 {index + 1}
@@ -240,7 +245,8 @@ const Subscriber: React.FC<Props> = (props) => {
                                     style={{
                                       boxShadow: "0 2px 6px #fd9b96",
                                     }}
-                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center">
+                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                                  >
                                     <FaTrash />
                                   </span>
                                 </span>
@@ -270,17 +276,20 @@ const Subscriber: React.FC<Props> = (props) => {
                         <a
                           href="#"
                           aria-current="page"
-                          className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20">
+                          className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
+                        >
                           1
                         </a>
                         <a
                           href="#"
-                          className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
+                          className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20"
+                        >
                           2
                         </a>
                         <a
                           href="#"
-                          className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex">
+                          className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex"
+                        >
                           3
                         </a>
                         <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-r">

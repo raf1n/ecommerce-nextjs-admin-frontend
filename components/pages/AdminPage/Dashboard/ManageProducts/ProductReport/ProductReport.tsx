@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { FaLongArrowAltDown, FaLongArrowAltUp, FaTrash } from "react-icons/fa";
@@ -18,6 +17,7 @@ const tableHeaders = {
   subject: "Subject",
   action: "Action",
 };
+
 const actions = {
   isEditable: true,
   isDeletable: true,
@@ -25,10 +25,8 @@ const actions = {
 };
 
 const ProductReport: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
-  const router = useRouter();
-  const { asPath } = router;
-  // const { adminProductsData } = Jsondata;
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
+
   const [deleteModalSlug, setDeleteModalSlug] = useState<String | any>("");
   const [productReportsData, setProductReportsData] = useState<IReportedItem[]>(
     []
@@ -56,16 +54,17 @@ const ProductReport: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchReports = async () => {
-      const { res, err } = await EcommerceApi.allReportedItemsAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.allReportedItemsAdmin(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
 
-      setProductReportsData(res);
-      console.log(res);
+        setProductReportsData(res);
+      }
     };
 
     fetchReports();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, user_slug]);
 
   return (
     <div className="w-full">

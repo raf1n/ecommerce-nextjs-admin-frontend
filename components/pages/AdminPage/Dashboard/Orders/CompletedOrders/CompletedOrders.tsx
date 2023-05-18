@@ -9,7 +9,7 @@ import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 interface Props {}
 
 const CompletedOrders: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const [completedOrdersData, setCompletedOrdersData] = useState<IOrder[]>([]);
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
@@ -43,22 +43,22 @@ const CompletedOrders: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const findProgressOrdersAdmin = async () => {
-      const { res, err } = await EcommerceApi.allOrdersAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}&order_status=completed`
-      );
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.allOrdersAdmin(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}&order_status=completed`
+        );
 
-      if (err) {
-        console.log(err);
-      } else {
-        setCompletedOrdersData(res.filteredOrdersData);
-        setCount(res.filteredOrdersCount);
+        if (err) {
+          console.log(err);
+        } else {
+          setCompletedOrdersData(res.filteredOrdersData);
+          setCount(res.filteredOrdersCount);
+        }
       }
     };
 
     findProgressOrdersAdmin();
-  }, [searchString, sortBy, sortType, showUpdateModal]);
-
-  console.log({ searchString, sortBy, sortType });
+  }, [searchString, sortBy, sortType, showUpdateModal, user_slug]);
 
   const tableHeaders = {
     SN: "sn",
@@ -77,7 +77,8 @@ const CompletedOrders: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="Completed Orders"
         slug="Completed Orders"
-        link="/completed-orders"></DashboardBreadcrumb>
+        link="/completed-orders"
+      ></DashboardBreadcrumb>
 
       <Table
         showUpdateModal={showUpdateModal}

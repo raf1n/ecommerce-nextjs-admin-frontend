@@ -19,7 +19,7 @@ import ToggleButton from "../../ManageCategories/ToggleButton/ToggleButton";
 interface Props {}
 
 const Slider: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [updateModalSlug, setUpdateModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
@@ -55,19 +55,27 @@ const Slider: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchAllSliderAdminData = async () => {
-      const { res, err } = await EcommerceApi.allSlidersAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
-      if (err) {
-        console.log(err);
-      } else {
-        setSliderData(res);
-        controller.setSliderData(res);
-        console.log(res);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.allSlidersAdmin(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
+        if (err) {
+          console.log(err);
+        } else {
+          setSliderData(res);
+          controller.setSliderData(res);
+        }
       }
     };
     fetchAllSliderAdminData();
-  }, [searchString, sortBy, sortType, showAddModal, updateModalSlug]);
+  }, [
+    searchString,
+    sortBy,
+    sortType,
+    showAddModal,
+    updateModalSlug,
+    user_slug,
+  ]);
 
   return (
     <div className="w-full">

@@ -19,10 +19,9 @@ import ApprovalToggleButton from "../ApprovalToggleButton/ApprovalToggleButton";
 interface Props {}
 
 const SellerPendingProduct: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
 
   const router = useRouter();
-  const { asPath } = router;
   const [sellerPendingProducts, setSellerPendingProducts] = useState<
     IProduct[]
   >([]);
@@ -31,11 +30,13 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
+
   const refreshPage = () => {
     setTimeout(() => {
       setRefresh(!refresh);
     }, 1500);
   };
+
   const handleDelete = async () => {
     controller.setApiLoading(true);
 
@@ -53,18 +54,21 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchAllProducts = async () => {
-      const { res, err } = await EcommerceApi.allProductsAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
-      if (err) {
-        console.log(err);
-      } else {
-        setSellerPendingProducts(res.sellerPendingProducts);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.allProductsAdmin(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
+        if (err) {
+          console.log(err);
+        } else {
+          setSellerPendingProducts(res.sellerPendingProducts);
+        }
       }
     };
 
     fetchAllProducts();
-  }, [searchString, sortBy, sortType, refresh]);
+  }, [searchString, sortBy, sortType, refresh, user_slug]);
+
   const tableHeaders = {
     sn: "sn",
     name: "productName",
@@ -74,6 +78,7 @@ const SellerPendingProduct: React.FC<Props> = (props) => {
     "Approval status": "approvalStatus",
     action: "action",
   };
+
   return (
     <div className="w-full">
       <DashboardBreadcrumb

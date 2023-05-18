@@ -9,7 +9,7 @@ import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 interface Props {}
 
 const PendingOrders: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
 
   const [pendingOrdersData, setPendingOrdersData] = useState<IOrder[]>([]);
 
@@ -42,19 +42,20 @@ const PendingOrders: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const findPendingOrdersAdmin = async () => {
-      const { res, err } = await EcommerceApi.allOrdersAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}&order_status=pending`
-      );
-      if (err) {
-        console.log(err);
-      } else {
-        setPendingOrdersData(res.filteredOrdersData);
-        setCount(res.filteredOrdersCount);
-        console.log(res);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.allOrdersAdmin(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}&order_status=pending`
+        );
+        if (err) {
+          console.log(err);
+        } else {
+          setPendingOrdersData(res.filteredOrdersData);
+          setCount(res.filteredOrdersCount);
+        }
       }
     };
     findPendingOrdersAdmin();
-  }, [searchString, sortBy, sortType, showUpdateModal]);
+  }, [searchString, sortBy, sortType, showUpdateModal, page, limit, user_slug]);
 
   // console.log({ searchString, sortBy, sortType });
   // console.log("pendingOrdersData-", pendingOrdersData.length);

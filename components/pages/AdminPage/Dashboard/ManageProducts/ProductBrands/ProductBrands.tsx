@@ -19,7 +19,7 @@ const actions = {
 };
 
 const ProductBrands: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const [deleteModalSlug, setDeleteModalSlug] = useState("");
   const [productBrandsData, setProductBrandsData] = useState<IBrandDetail[]>(
     []
@@ -28,19 +28,19 @@ const ProductBrands: React.FC<Props> = (props) => {
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
-  // console.log({sortBy, sortType});
-
   useEffect(() => {
     const fetchBrands = async () => {
-      const { res, err } = await EcommerceApi.getAllBrandsAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.getAllBrandsAdmin(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
 
-      setProductBrandsData(res);
+        setProductBrandsData(res);
+      }
     };
 
     fetchBrands();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, user_slug]);
 
   const handleDelete = async () => {
     controller.setApiLoading(true);
@@ -91,7 +91,8 @@ const ProductBrands: React.FC<Props> = (props) => {
             <SharedDeleteModal
               handleDelete={handleDelete}
               deleteModalSlug={deleteModalSlug}
-              setDeleteModalSlug={setDeleteModalSlug}></SharedDeleteModal>
+              setDeleteModalSlug={setDeleteModalSlug}
+            ></SharedDeleteModal>
           </div>
         </div>
       </div>

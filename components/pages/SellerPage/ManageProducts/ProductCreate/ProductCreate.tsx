@@ -16,7 +16,7 @@ import { toast } from "react-hot-toast";
 interface Props {}
 
 const ProductCreate: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
 
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
@@ -24,14 +24,13 @@ const ProductCreate: React.FC<Props> = (props) => {
   const [brands, setBrands] = useState<IBrandDetail[]>([]);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const user_slug = CookiesHandler.getSlug();
   // This function will be triggered when the file field change
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
-      console.log(selectedImage);
     }
   };
+
   const reactSelectStyle = {
     control: (base: any) => ({
       ...base,
@@ -58,21 +57,23 @@ const ProductCreate: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchAllCategoriesSubCatBrand = async () => {
-      const allCat = await EcommerceApi.allCategories();
-      if (allCat.res) {
-        setCategories(allCat.res);
-      }
-      const allSubCat = await EcommerceApi.allSubCategories();
-      if (allSubCat.res) {
-        setSubCategories(allSubCat.res);
-      }
-      const brand = await EcommerceApi.getAllBrands();
-      if (brand.res) {
-        setBrands(brand.res);
+      if (user_slug) {
+        const allCat = await EcommerceApi.allCategories();
+        if (allCat.res) {
+          setCategories(allCat.res);
+        }
+        const allSubCat = await EcommerceApi.allSubCategories();
+        if (allSubCat.res) {
+          setSubCategories(allSubCat.res);
+        }
+        const brand = await EcommerceApi.getAllBrands();
+        if (brand.res) {
+          setBrands(brand.res);
+        }
       }
     };
     fetchAllCategoriesSubCatBrand();
-  }, []);
+  }, [user_slug]);
 
   const handleProductAdd = async (e: any) => {
     e.preventDefault();
