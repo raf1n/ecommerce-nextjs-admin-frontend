@@ -58,7 +58,7 @@ const CompletedOrders: React.FC<Props> = (props) => {
     };
 
     findProgressOrdersAdmin();
-  }, [searchString, sortBy, sortType, showUpdateModal, user_slug]);
+  }, [searchString, sortBy, sortType, page, limit, showUpdateModal, user_slug]);
 
   const tableHeaders = {
     SN: "sn",
