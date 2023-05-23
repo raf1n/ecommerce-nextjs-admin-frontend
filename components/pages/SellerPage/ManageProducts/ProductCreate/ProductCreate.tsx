@@ -16,29 +16,21 @@ import { toast } from "react-hot-toast";
 interface Props {}
 
 const ProductCreate: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
 
-  // const user_slug = CookiesHandler.getSlug();
-
-  // const [isCheckedTop, setIsCheckedTop] = useState(false);
-  // const [isCheckedNew, setIsCheckedNew] = useState(false);
-  // const [isCheckedBest, setIsCheckedBest] = useState(false);
-  // const [isCheckedFeatured, setIsCheckedFeatured] = useState(false);
-  // const [isCheckedPopular, setIsCheckedPopular] = useState(false);
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [subCategories, setSubCategories] = useState<ISubCategories[]>([]);
   const [filteredSubCat, setFilteredSubCat] = useState<ISubCategories[]>([]);
   const [brands, setBrands] = useState<IBrandDetail[]>([]);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const user_slug = CookiesHandler.getSlug();
   // This function will be triggered when the file field change
   const imageChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
-      console.log(selectedImage);
     }
   };
+
   const reactSelectStyle = {
     control: (base: any) => ({
       ...base,
@@ -65,21 +57,23 @@ const ProductCreate: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchAllCategoriesSubCatBrand = async () => {
-      const allCat = await EcommerceApi.allCategories();
-      if (allCat.res) {
-        setCategories(allCat.res);
-      }
-      const allSubCat = await EcommerceApi.allSubCategories();
-      if (allSubCat.res) {
-        setSubCategories(allSubCat.res);
-      }
-      const brand = await EcommerceApi.getAllBrands();
-      if (brand.res) {
-        setBrands(brand.res);
+      if (user_slug) {
+        const allCat = await EcommerceApi.allCategories();
+        if (allCat.res) {
+          setCategories(allCat.res);
+        }
+        const allSubCat = await EcommerceApi.allSubCategories();
+        if (allSubCat.res) {
+          setSubCategories(allSubCat.res);
+        }
+        const brand = await EcommerceApi.getAllBrands();
+        if (brand.res) {
+          setBrands(brand.res);
+        }
       }
     };
     fetchAllCategoriesSubCatBrand();
-  }, []);
+  }, [user_slug]);
 
   const handleProductAdd = async (e: any) => {
     e.preventDefault();
@@ -106,7 +100,7 @@ const ProductCreate: React.FC<Props> = (props) => {
         description: e.target.short_description.value,
         // status: e.target.productStatus.value,
         imageURL: imageUrl,
-        stock: parseFloat(e.target.stock_quantity.value),
+        stock: 0,
         weight: parseFloat(e.target.weight.value),
         seoTitle: e.target.seo_title.value,
         seoDescription: e.target.seo_description.value,
@@ -297,7 +291,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                   />
                 </div>
 
-                <div className="form-group col-12 flex flex-col mb-[25px]">
+                {/* <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">
                     Stock Quantity <span className="text-red-500">*</span>
                   </label>
@@ -309,7 +303,7 @@ const ProductCreate: React.FC<Props> = (props) => {
                     className="form-control h-[42px] rounded text-[#495057] text-sm py-[10px] px-[15px] bg-[#fdfdff] focus:outline-none focus:border-[#95a0f4] border border-[#e4e6fc]"
                     name="stock_quantity"
                   />
-                </div>
+                </div> */}
 
                 <div className="form-group col-12 flex flex-col mb-[25px]">
                   <label className="inline-block text-sm tracking-wide mb-2">

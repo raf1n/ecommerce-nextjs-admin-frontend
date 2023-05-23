@@ -9,7 +9,7 @@ import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 interface Props {}
 
 const DeclinedOrders: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const [declinedOrdersData, setDeclinedOrdersData] = useState<IOrder[]>([]);
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
@@ -40,22 +40,21 @@ const DeclinedOrders: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const findAllOrdersAdmin = async () => {
-      const { res, err } = await EcommerceApi.allOrdersAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}&order_status=declined`
-      );
-      if (err) {
-        console.log(err);
-      } else {
-        setDeclinedOrdersData(res.filteredOrdersData);
-        setCount(res.filteredOrdersCount)
-        console.log(res);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.allOrdersAdmin(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}&order_status=declined`
+        );
+        if (err) {
+          console.log(err);
+        } else {
+          setDeclinedOrdersData(res.filteredOrdersData);
+          setCount(res.filteredOrdersCount);
+        }
       }
     };
 
     findAllOrdersAdmin();
-  }, [searchString, sortBy, sortType, showUpdateModal]);
-
-  console.log({ searchString, sortBy, sortType });
+  }, [searchString, sortBy, sortType, showUpdateModal, page, limit, user_slug]);
 
   const tableHeaders = {
     SN: "sn",

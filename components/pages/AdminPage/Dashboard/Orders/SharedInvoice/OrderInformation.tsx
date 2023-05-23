@@ -3,8 +3,6 @@ import { HiPrinter } from "react-icons/hi";
 import { ImCross } from "react-icons/im";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
-import { Jsondata } from "../../../../../../src/utils/Jsondata";
-import DynamicTable from "../../../../../shared/SharedTable/DynamicTable";
 import OrderInvoiceTable from "./OrderInvoiceTable";
 import { IOrder } from "../../../../../../interfaces/models";
 import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
@@ -16,10 +14,11 @@ interface Props {
 }
 
 const OrderInformation: React.FC<Props> = ({ order }) => {
+  const states = useSelector(() => controller.states);
+
   const router = useRouter();
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
 
-  const states = useSelector(() => controller.states);
   let m;
 
   if (order?.createdAt) {
@@ -64,6 +63,7 @@ const OrderInformation: React.FC<Props> = ({ order }) => {
 
     controller.setApiLoading(false);
   };
+
   return (
     <div>
       <div className="section-body bg-white rounded-[3px] m-6 p-8 print:m-0 print:p-0">

@@ -1,16 +1,20 @@
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react'
-import { FaEdit, FaLongArrowAltDown, FaLongArrowAltUp, FaTrash } from 'react-icons/fa';
-import { useSelector } from 'react-redux'
-import { IWithdrawMethod } from '../../../../../../interfaces/models';
-import { EcommerceApi } from '../../../../../../src/API/EcommerceApi';
-import { controller } from '../../../../../../src/state/StateController'
-import DashboardBreadcrumb from '../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb';
-import SharedDeleteModal from '../../../../../shared/SharedDeleteModal/SharedDeleteModal';
-import ToggleButton from '../../ManageCategories/ToggleButton/ToggleButton';
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import {
+  FaEdit,
+  FaLongArrowAltDown,
+  FaLongArrowAltUp,
+  FaTrash,
+} from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { IWithdrawMethod } from "../../../../../../interfaces/models";
+import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
+import { controller } from "../../../../../../src/state/StateController";
+import DashboardBreadcrumb from "../../../../../shared/SharedDashboardBreadcumb/DashboardBreadcrumb";
+import SharedDeleteModal from "../../../../../shared/SharedDeleteModal/SharedDeleteModal";
+import ToggleButton from "../../ManageCategories/ToggleButton/ToggleButton";
 
-interface Props {
-}
+interface Props {}
 
 const tableHeaders = {
   sn: "sn",
@@ -24,8 +28,7 @@ const tableHeaders = {
 };
 
 const PendingSellerWithdraw: React.FC<Props> = (props) => {
-
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
 
   const [withdrawMethods, setWithdrawMethods] = useState<IWithdrawMethod[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
@@ -38,7 +41,9 @@ const PendingSellerWithdraw: React.FC<Props> = (props) => {
   const handleDelete = async () => {
     controller.setApiLoading(true);
 
-    const { res, err } = await EcommerceApi.deleteWithdrawMethod(deleteModalSlug);
+    const { res, err } = await EcommerceApi.deleteWithdrawMethod(
+      deleteModalSlug
+    );
     if (res) {
       setDeleteModalSlug("");
       const remainingWithdrawMethods = withdrawMethods.filter(
@@ -52,19 +57,21 @@ const PendingSellerWithdraw: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchAllWithdrawMethods = async () => {
-      const { res, err } = await EcommerceApi.getAllWithdrawMethods(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
-      if (err) {
-        console.log(err);
-      } else {
-        setWithdrawMethods(res);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.getAllWithdrawMethods(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
+        if (err) {
+          console.log(err);
+        } else {
+          setWithdrawMethods(res);
+        }
       }
     };
 
     fetchAllWithdrawMethods();
-  }, [searchString, sortBy, sortType]);
-  
+  }, [searchString, sortBy, sortType, user_slug]);
+
   return (
     <div className="w-full">
       <DashboardBreadcrumb
@@ -277,7 +284,7 @@ const PendingSellerWithdraw: React.FC<Props> = (props) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PendingSellerWithdraw
+export default PendingSellerWithdraw;

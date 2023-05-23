@@ -21,27 +21,30 @@ const tableHeaders = {
 
 const FetchComments: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
 
   const [commentsData, setCommentsData] = useState<any[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
-  //sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&status=active
+
   useEffect(() => {
     const getAllComments = async () => {
-      const { res, err } = await EcommerceApi.getAllComments(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
-      if (res) {
-        setCommentsData(res);
-      } else {
-        console.log(err);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.getAllComments(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
+        if (res) {
+          setCommentsData(res);
+        } else {
+          console.log(err);
+        }
       }
     };
 
     getAllComments();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, user_slug]);
 
   const handleDelete = async () => {
     controller.setApiLoading(true);
@@ -78,7 +81,8 @@ const FetchComments: React.FC<Props> = (props) => {
                   <select
                     name="dataTable_length"
                     aria-controls="dataTable"
-                    className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center">
+                    className="custom-select custom-select-sm form-control form-control-sm border hover:border-blue-600 text-gray-500 h-[42px] w-[52px] font-light text-sm text-center"
+                  >
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -113,7 +117,8 @@ const FetchComments: React.FC<Props> = (props) => {
                             (header: any, idx: number) => (
                               <th
                                 key={idx}
-                                className="px-3 pt-6  border-b-[1px] border-[#ddd] bg-[rgba(0,0,0,0.04)] text-left text-[15px] font-bold  text-[#666] capitalize">
+                                className="px-3 pt-6  border-b-[1px] border-[#ddd] bg-[rgba(0,0,0,0.04)] text-left text-[15px] font-bold  text-[#666] capitalize"
+                              >
                                 <span className="flex">
                                   <span className="flex-1">{header}</span>
                                   <FaLongArrowAltUp
@@ -154,7 +159,8 @@ const FetchComments: React.FC<Props> = (props) => {
                         {commentsData.map((data, indx) => (
                           <tr
                             key={indx}
-                            className="even:bg-gray-100 odd:bg-white">
+                            className="even:bg-gray-100 odd:bg-white"
+                          >
                             <td className="px-5 py-5  text-sm">
                               <p className="text-gray-600 whitespace-no-wrap">
                                 {indx + 1}
@@ -172,10 +178,12 @@ const FetchComments: React.FC<Props> = (props) => {
 
                             <td className="px-5 py-5 text-sm text-center">
                               <Link
-                                href={`http://localhost:3000/blogs/blog?slug=${data.blogSlug}`}>
+                                href={`http://localhost:3000/blogs/blog?slug=${data.blogSlug}`}
+                              >
                                 <p className="text-gray-600  ">
                                   <span
-                                    className={`bg-[#47c363] px-2 py-1 text-white rounded shadow-green-500 capitalize`}>
+                                    className={`bg-[#47c363] px-2 py-1 text-white rounded shadow-green-500 capitalize`}
+                                  >
                                     view
                                   </span>
                                 </p>
@@ -199,7 +207,8 @@ const FetchComments: React.FC<Props> = (props) => {
                                     style={{
                                       boxShadow: "0 2px 6px #fd9b96",
                                     }}
-                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center">
+                                    className="h-8 w-8  inset-0 bg-red-500   rounded  relative text-white flex justify-center items-center"
+                                  >
                                     <FaTrash />
                                   </span>
                                 </span>
@@ -229,17 +238,20 @@ const FetchComments: React.FC<Props> = (props) => {
                         <a
                           href="#"
                           aria-current="page"
-                          className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20">
+                          className="relative z-10 inline-flex items-center  bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
+                        >
                           1
                         </a>
                         <a
                           href="#"
-                          className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20">
+                          className="relative inline-flex items-center  bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20"
+                        >
                           2
                         </a>
                         <a
                           href="#"
-                          className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex">
+                          className="relative hidden items-center bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-indigo-300 focus:z-20 md:inline-flex"
+                        >
                           3
                         </a>
                         <button className="text-sm text-indigo-400 bg-indigo-50 transition duration-150 hover:bg-indigo-500 hover:text-white   font-semibold py-2 px-4 rounded-r">

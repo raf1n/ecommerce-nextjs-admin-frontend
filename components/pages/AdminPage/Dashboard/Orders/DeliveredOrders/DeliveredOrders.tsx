@@ -9,7 +9,7 @@ import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 interface Props {}
 
 const DeliveredOrders: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const [deliveredOrdersData, setDeliveredOrdersData] = useState<IOrder[]>([]);
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
@@ -43,23 +43,22 @@ const DeliveredOrders: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const findProgressOrdersAdmin = async () => {
-      const { res, err } = await EcommerceApi.allOrdersAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}&order_status=delivered`
-      );
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.allOrdersAdmin(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}&order_status=delivered`
+        );
 
-      if (err) {
-        console.log(err);
-      } else {
-        setDeliveredOrdersData(res.filteredOrdersData);
-        setCount(res.filteredOrdersCount)
-        console.log(res);
+        if (err) {
+          console.log(err);
+        } else {
+          setDeliveredOrdersData(res.filteredOrdersData);
+          setCount(res.filteredOrdersCount);
+        }
       }
     };
 
     findProgressOrdersAdmin();
-  }, [searchString, sortBy, sortType, showUpdateModal]);
-
-  console.log({ searchString, sortBy, sortType });
+  }, [searchString, sortBy, sortType, showUpdateModal, page, limit, user_slug]);
 
   const tableHeaders = {
     SN: "sn",

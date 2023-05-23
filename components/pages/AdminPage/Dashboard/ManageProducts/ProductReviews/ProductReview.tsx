@@ -20,7 +20,7 @@ const actions = {
 };
 
 const ProductReview: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
 
   const [deleteModalSlug, setDeleteModalSlug] = useState("");
   const [sortBy, setSortBy] = useState("createdAt");
@@ -30,18 +30,21 @@ const ProductReview: React.FC<Props> = (props) => {
   const [reviewDatas, setReviewDatas] = useState<IReview[]>([]);
 
   const getAllReviews = async () => {
-    const { res, err } = await EcommerceApi.getAllReviews(
-      `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-    );
-    if (res) {
-      setReviewDatas(res);
-    } else {
-      console.log(err);
+    if (user_slug) {
+      const { res, err } = await EcommerceApi.getAllReviews(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
+      if (res) {
+        setReviewDatas(res);
+      } else {
+        console.log(err);
+      }
     }
   };
+
   useEffect(() => {
     getAllReviews();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, user_slug]);
 
   console.log("reviewDatas--", reviewDatas);
   return (

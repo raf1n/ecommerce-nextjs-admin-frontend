@@ -10,7 +10,8 @@ interface Props {
 }
 
 const DashboardBreadcrumb: React.FC<Props> = (props) => {
-  const user = useSelector(() => controller.states.currentUser);
+  const userRole =
+    useSelector(() => controller.states.currentUser?.role) || "_";
 
   return (
     <div
@@ -22,7 +23,7 @@ const DashboardBreadcrumb: React.FC<Props> = (props) => {
       </div>
       <div className="font-normal text-[13px] text-qblack mb-[23px] content-center ">
         <span>
-          <Link href={`/${user?.role}`}>
+          <Link href={`/${userRole}`}>
             <span className="mx-1 capitalize text-xs text-[#6777EF] ">
               Dashboard
             </span>
@@ -30,7 +31,7 @@ const DashboardBreadcrumb: React.FC<Props> = (props) => {
           <span className="separator">/</span>
         </span>
         <span>
-          <Link href={`/${user?.role}/${props.link}`}>
+          <Link href={`/${userRole}/${props.link}`}>
             <span className="mx-1 capitalize text-xs ">{props.slug}</span>
           </Link>
           {/* <span className="separator">/</span> */}

@@ -26,13 +26,20 @@ export interface IUser {
   avatar: string | null;
   email?: string;
 }
+
 export interface ISeller extends IUser {
   shop: {
     shop_name: string;
     shop_address: string;
     shop_logo: string;
     shop_cover: string;
-    social: any;
+    opens_at?: string;
+    close_at?: string;
+    greetings_message?: string;
+    social?: Array<object>;
+    seo_title?: string;
+    seo_des?: string;
+    rating?: number;
   };
   user_email: string;
 }

@@ -14,6 +14,7 @@ interface Props {}
 
 const AdminList: React.FC<Props> = (props) => {
   const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
 
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
@@ -22,20 +23,22 @@ const AdminList: React.FC<Props> = (props) => {
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
 
   const fetchAllCategoriesAdminData = async () => {
-    const { res, err } = await EcommerceApi.getAllAdmins(
-      `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-    );
-    if (err) {
-      console.log(err);
-    } else {
-      setUsersData(res);
-      console.log(res);
+    if (user_slug) {
+      const { res, err } = await EcommerceApi.getAllAdmins(
+        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+      );
+      if (err) {
+        console.log(err);
+      } else {
+        setUsersData(res);
+        console.log(res);
+      }
     }
   };
 
   useEffect(() => {
     fetchAllCategoriesAdminData();
-  }, [searchString, sortBy, sortType]);
+  }, [searchString, sortBy, sortType, user_slug]);
 
   const handleDelete = async () => {
     controller.setApiLoading(true);

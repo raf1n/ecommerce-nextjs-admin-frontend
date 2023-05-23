@@ -9,7 +9,7 @@ import { IOrder } from "../../../../../../interfaces/models";
 interface Props {}
 
 const AllOrders: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
 
   const [allOrdersData, setAllOrdersData] = useState<IOrder[]>([]);
   const [sortBy, setSortBy] = useState("createdAt");
@@ -42,21 +42,22 @@ const AllOrders: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const findAllOrdersAdmin = async () => {
-      const { res, err } = await EcommerceApi.allOrdersAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}`
-      );
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.allOrdersAdmin(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}&page=${page}&limit=${limit}`
+        );
 
-      if (err) {
-        console.log({ err });
-      } else {
-        setAllOrdersData(res.allOrdersData);
-        setCount(res.allOrdersCount);
-        // console.log({ res });
+        if (err) {
+          console.log({ err });
+        } else {
+          setAllOrdersData(res.allOrdersData);
+          setCount(res.allOrdersCount);
+        }
       }
     };
 
     findAllOrdersAdmin();
-  }, [searchString, sortBy, sortType, showUpdateModal, page, limit]);
+  }, [searchString, sortBy, sortType, showUpdateModal, page, limit, user_slug]);
 
   const tableHeaders = {
     SN: "sn",

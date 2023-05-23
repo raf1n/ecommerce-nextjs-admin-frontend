@@ -9,7 +9,7 @@ import SEOForm from "./SEOForm";
 interface Props {}
 
 const SEO: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const [topicName, setTopicName] = useState<string | undefined>("Home Page");
 
   const [allSeo, setAllSeo] = useState<ISeo[] | undefined>([]);
@@ -18,13 +18,15 @@ const SEO: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const getAllSeoData = async () => {
-      const { res, err } = await EcommerceApi.getAllSeo();
-      if (res) {
-        setAllSeo(res);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.getAllSeo();
+        if (res) {
+          setAllSeo(res);
+        }
       }
     };
     getAllSeoData();
-  }, [topicName]);
+  }, [topicName, user_slug]);
 
   return (
     <div className="w-full">

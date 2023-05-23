@@ -20,17 +20,16 @@ import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 interface Props {}
 
 const Products: React.FC<Props> = (props) => {
-  const states = useSelector(() => controller.states);
+  const user_slug = useSelector(() => controller.states.currentUser?.slug);
   const [productsData, setProductsData] = useState<IProduct[]>([]);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("desc");
   const [searchString, setSearchString] = useState("");
 
-  // const [showModal, setShowModal] = useState(false);
-  // const { adminProductsData } = Jsondata;
   const router = useRouter();
   const { asPath } = router;
+
   const handleDelete = async () => {
     controller.setApiLoading(true);
 
@@ -48,20 +47,20 @@ const Products: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchAllProducts = async () => {
-      const { res, err } = await EcommerceApi.allProductsAdmin(
-        `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
-      );
-      if (err) {
-        console.log(err);
-      } else {
-        setProductsData(res.allProductData);
+      if (user_slug) {
+        const { res, err } = await EcommerceApi.allProductsAdmin(
+          `sortBy=${sortBy}&sortType=${sortType}&search=${searchString}`
+        );
+        if (err) {
+          console.log(err);
+        } else {
+          setProductsData(res.allProductData);
+        }
       }
     };
 
     fetchAllProducts();
-  }, [searchString, sortBy, sortType]);
-
-  console.log({ searchString, sortBy, sortType });
+  }, [searchString, sortBy, sortType, user_slug]);
 
   const tableHeaders = {
     sn: "sn",
