@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useState,
+  useEffect,
+  ChangeEvent,
+} from "react";
 import { useSelector } from "react-redux";
 import { FaEye, FaTrash, FaTruck } from "react-icons/fa";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
@@ -89,8 +95,12 @@ const Table: React.FC<Props> = (props) => {
     return order?.name;
   };
 
-  const pageCount =
-    count % limit === 1 ? Math.ceil(count / limit) : count / limit;
+  // debouncing
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setTimeout(() => {
+      setSearchString(e.target.value);
+    }, 500);
+  };
 
   return (
     <div className="m-[25px] bg-white">
@@ -119,7 +129,7 @@ const Table: React.FC<Props> = (props) => {
             <div className={`flex items-center ml-3`}>
               <input
                 maxLength={200}
-                onChange={(e) => setSearchString(e.target.value)}
+                onChange={(e) => handleSearch(e)}
                 className={`rounded outline-none  border hover:border-blue-400 h-[31px] w-[181px] py-[2px] px-[6px]`}
                 type="text"
                 name=""
@@ -187,9 +197,7 @@ const Table: React.FC<Props> = (props) => {
                         )}
                       </td>
                       <td className="px-3 py-3    text-sm">
-                        <p className="text-gray-900 ">
-                          {tabledata.slug?.split("_")[4]}
-                        </p>
+                        <p className="text-gray-900 ">{tabledata.slug}</p>
                       </td>
                       <td className="px-0 py-3  text-sm">
                         <p className="text-gray-900 ">
