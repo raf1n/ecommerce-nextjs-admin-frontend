@@ -68,6 +68,7 @@ const SharedPagination: React.FC<Props> = ({ count, limit, page, setPage }) => {
           &nbsp; &nbsp;
           {pageArray().map((p) => (
             <button
+              key={p}
               onClick={() => setPage(p)}
               aria-current="page"
               className={`relative z-10 inline-flex items-center  px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20 ${
