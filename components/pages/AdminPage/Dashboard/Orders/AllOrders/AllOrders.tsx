@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { controller } from "../../../../../../src/state/StateController";
 import Table from "../../../../../shared/SharedTable/Table";
@@ -7,6 +7,18 @@ import { EcommerceApi } from "../../../../../../src/API/EcommerceApi";
 import { IOrder } from "../../../../../../interfaces/models";
 
 interface Props {}
+
+const tableHeaders = {
+  SN: "sn",
+  Customer: "userData.fullName",
+  "Order Id": "slug",
+  Date: "createdAt",
+  Quantity: "quantity",
+  Amount: "subTotal",
+  "Order Status": "order_status",
+  Payment: "payment_status",
+  Action: "action",
+};
 
 const AllOrders: React.FC<Props> = (props) => {
   const user_slug = useSelector(() => controller.states.currentUser?.slug);
@@ -20,25 +32,6 @@ const AllOrders: React.FC<Props> = (props) => {
   const [count, setCount] = useState<number>(0);
   const [deleteModalSlug, setDeleteModalSlug] = useState<any | string>("");
   const [showUpdateModal, setShowUpdateModal] = useState<any | string>("");
-
-  const handleDelete = async () => {
-    controller.setApiLoading(true);
-
-    const { res, err } = await EcommerceApi.deleteByModal(
-      deleteModalSlug,
-      "orders"
-    );
-
-    if (res) {
-      setDeleteModalSlug("");
-      const remaining = allOrdersData.filter(
-        (order) => order.slug !== deleteModalSlug
-      );
-      setAllOrdersData(remaining);
-    }
-
-    controller.setApiLoading(false);
-  };
 
   useEffect(() => {
     const findAllOrdersAdmin = async () => {
@@ -59,16 +52,23 @@ const AllOrders: React.FC<Props> = (props) => {
     findAllOrdersAdmin();
   }, [searchString, sortBy, sortType, showUpdateModal, page, limit, user_slug]);
 
-  const tableHeaders = {
-    SN: "sn",
-    Customer: "userData.fullName",
-    "Order Id": "slug",
-    Date: "createdAt",
-    Quantity: "quantity",
-    Amount: "subTotal",
-    "Order Status": "order_status",
-    Payment: "payment_status",
-    Action: "action",
+  const handleDelete = async () => {
+    controller.setApiLoading(true);
+
+    const { res, err } = await EcommerceApi.deleteByModal(
+      deleteModalSlug,
+      "orders"
+    );
+
+    if (res) {
+      setDeleteModalSlug("");
+      const remaining = allOrdersData.filter(
+        (order) => order.slug !== deleteModalSlug
+      );
+      setAllOrdersData(remaining);
+    }
+
+    controller.setApiLoading(false);
   };
 
   return (
@@ -76,7 +76,7 @@ const AllOrders: React.FC<Props> = (props) => {
       <DashboardBreadcrumb
         headline="All Orders"
         slug="All Orders"
-        link="/all_orders"
+        link="all_orders"
       ></DashboardBreadcrumb>
 
       <Table
