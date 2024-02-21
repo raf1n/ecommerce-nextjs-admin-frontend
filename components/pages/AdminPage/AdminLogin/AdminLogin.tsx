@@ -19,6 +19,8 @@ const AdminLogin: React.FC<Props> = (props) => {
   const [loggedinSendVerify, setLoggedinSendVerify] = useState(false);
   const [loggedinSendVerifyText, setLoggedinSendVerifyText] = useState("");
 
+  const [showTestCred, setShowTestCred] = useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -132,7 +134,7 @@ const AdminLogin: React.FC<Props> = (props) => {
   return (
     <div>
       <section className="bg-gray-50">
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0  ">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:h-screen md:h-screen lg:py-0">
           <a
             href="#"
             className="flex items-center mb-6 text-2xl font-semibold text-gray-900"
@@ -142,7 +144,6 @@ const AdminLogin: React.FC<Props> = (props) => {
               src="https://api.websolutionus.com/shopo/uploads/website-images/logo-2022-11-22-11-19-02-4634.png"
               alt="logo"
             />
-            {/* ShopO */}
           </a>
           <div
             className="w-full bg-white rounded shadow  md:mt-0 sm:max-w-md xl:p-0"
@@ -242,8 +243,41 @@ const AdminLogin: React.FC<Props> = (props) => {
                   </button>
                 )}
               </div>
+              <h1
+                onClick={() => setShowTestCred(!showTestCred)}
+                className="text-xs text-red-500 cursor-pointer"
+              >
+                Show Test Credentials
+              </h1>
             </div>
           </div>
+          {/* <div className="w-full bg-white rounded shadow ">
+            <div className="">
+              <h1 className="text-sm text-blue-600   md:text-2xl">
+                Credentials
+              </h1>
+              <hr />
+            </div>
+          </div> */}
+          {showTestCred && (
+            <div className="w-full bg-white  rounded shadow lg:mt-4 lg:p-4 mb-20  md:mt-0 sm:max-w-md">
+              <div className="w-full  ">
+                <h1 className="text-sm text-blue-600   md:text-xl text-center">
+                  Test Credentials
+                </h1>
+                <div>
+                  <h1 className="text-sm text-blue-600   md:text-lg">Admin</h1>
+                  <p>Email: rahim.rafin.1@gmail.com</p>
+                  <p>password: 12345678</p>
+                </div>
+                <div className="mt-2">
+                  <h1 className="text-sm text-blue-600   md:text-lg">Seller</h1>
+                  <p>Email: iamiqbalcse27@gmail.com</p>
+                  <p>password: 12345678</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
     </div>
