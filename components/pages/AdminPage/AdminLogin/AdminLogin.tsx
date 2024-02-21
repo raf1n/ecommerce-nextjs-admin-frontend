@@ -139,11 +139,13 @@ const AdminLogin: React.FC<Props> = (props) => {
             href="#"
             className="flex items-center mb-6 text-2xl font-semibold text-gray-900"
           >
-            <img
-              className="mr-2"
-              src="https://api.websolutionus.com/shopo/uploads/website-images/logo-2022-11-22-11-19-02-4634.png"
-              alt="logo"
-            />
+            <div className="w-36 h-48 ">
+              <img
+                className="mr-2 mt-[40px] object-cover w-full h-full"
+                src="/easeShoppingLogo.png"
+                alt="logo"
+              />
+            </div>
           </a>
           <div
             className="w-full bg-white rounded shadow  md:mt-0 sm:max-w-md xl:p-0"
